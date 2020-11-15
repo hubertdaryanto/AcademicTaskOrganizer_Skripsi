@@ -5,14 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity
-data class tugas(
-    @ColumnInfo(name = "name") val name: String?,
-    @ColumnInfo(name = "fromBinusmayaId") val fromBinusmayaId: Int?
-):Serializable
+@Entity(tableName = "Subject")
+data class Subject(
+    @ColumnInfo(name = "SubjectName") val SubjectName: String?
+): Serializable
 {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var SubjectId: Int = 0
 
     fun isSubjectAlreadyAvailable()
     {

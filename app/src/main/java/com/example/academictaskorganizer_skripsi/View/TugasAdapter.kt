@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.example.academictaskorganizer_skripsi.Database.tugas
+import com.example.academictaskorganizer_skripsi.Database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.R
 import kotlinx.android.synthetic.main.tugas_layout.view.*
 
-class TugasAdapter(val tugas: List<tugas>): RecyclerView.Adapter<TugasAdapter.TugasViewHolder>() {
+class TugasAdapter(val TugasKuliah: List<TugasKuliah>): RecyclerView.Adapter<TugasAdapter.TugasViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TugasViewHolder {
         return TugasViewHolder(
@@ -17,14 +17,14 @@ class TugasAdapter(val tugas: List<tugas>): RecyclerView.Adapter<TugasAdapter.Tu
         )
     }
 
-    override fun getItemCount() = tugas.size
+    override fun getItemCount() = TugasKuliah.size
 
     override fun onBindViewHolder(holder: TugasViewHolder, position: Int) {
-        holder.view.text_view_tugas.text = tugas[position].name
+        holder.view.text_view_tugas.text = TugasKuliah[position].TugasKuliahName
 
         holder.view.setOnClickListener {
             val action = HomeFragmentDirections.actionEditTugas()
-            action.tugas = tugas[position]
+            action.tugasKuliah = TugasKuliah[position]
             Navigation.findNavController(it).navigate(action)
         }
     }

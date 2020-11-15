@@ -4,13 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
-@Database(entities = arrayOf(tugas::class), version = 1, exportSchema = true)
-abstract class TugasDatabase : RoomDatabase() {
+@Database(entities = arrayOf(TugasKuliah::class, ToDoList::class, Subject::class), version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase() {
     abstract fun getTugasDao(): tugasDatabaseDao
+    abstract fun getToDoListDao(): toDoListDao
+    abstract fun getSubjectDao(): subjectDao
 
     companion object{
-        @Volatile private var instance : TugasDatabase ? = null
+        @Volatile private var instance : AppDatabase ? = null
         private val LOCK = Any ()
         operator fun invoke (context: Context) = instance ?: synchronized(LOCK)
         {
@@ -20,8 +24,8 @@ abstract class TugasDatabase : RoomDatabase() {
         }
         private fun buildDatabase (context:Context) = Room.databaseBuilder(
             context.applicationContext,
-            TugasDatabase::class.java,
-             " tugasdatabase " ).build()
+            AppDatabase::class.java,
+             " appDatabase " ).build()
     }
 }
 

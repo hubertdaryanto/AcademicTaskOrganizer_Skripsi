@@ -23,9 +23,9 @@
             android:id="@+id/actionSaveTugas"
             app:destination="@id/homeFragment" />
         <argument
-            android:name="tugas"
+            android:name="TugasKuliah"
             android:defaultValue="@null"
-            app:argType="com.example.academictaskorganizer_skripsi.Database.tugas"
+            app:argType="com.example.academictaskorganizer_skripsi.Database.TugasKuliah"
             app:nullable="true" />
     </fragment>
 </navigation>

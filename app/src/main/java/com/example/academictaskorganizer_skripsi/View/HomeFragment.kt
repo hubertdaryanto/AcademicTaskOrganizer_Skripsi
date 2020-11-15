@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.academictaskorganizer_skripsi.Database.TugasDatabase
+import com.example.academictaskorganizer_skripsi.Database.AppDatabase
 import com.example.academictaskorganizer_skripsi.R
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ class HomeFragment : BaseFragment() {
         recycler_view_tugas.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         launch {
             context?.let {
-                val tugas = TugasDatabase(it).getTugasDao().getAllSortedByName()
+                val tugas = AppDatabase(it).getTugasDao().getAllSortedByDeadline()
                 recycler_view_tugas.adapter = TugasAdapter(tugas)
             }
 

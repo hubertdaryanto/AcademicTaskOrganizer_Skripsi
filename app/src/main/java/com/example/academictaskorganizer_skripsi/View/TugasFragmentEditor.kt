@@ -4,15 +4,15 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.navigation.Navigation
-import com.example.academictaskorganizer_skripsi.Database.TugasDatabase
-import com.example.academictaskorganizer_skripsi.Database.tugas
+import com.example.academictaskorganizer_skripsi.Database.AppDatabase
+import com.example.academictaskorganizer_skripsi.Database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.R
 import kotlinx.android.synthetic.main.fragment_add_tugas.*
 import kotlinx.coroutines.launch
 
 class TugasFragmentEditor : BaseFragment() {
 
-    private var tugas: tugas? = null
+    private var TugasKuliah: TugasKuliah? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,8 +28,8 @@ class TugasFragmentEditor : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         arguments?.let {
-            tugas = TugasFragmentEditorArgs.fromBundle(it).tugas
-            editTextTugas.setText(tugas?.name)
+            TugasKuliah = TugasFragmentEditorArgs.fromBundle(it).tugasKuliah
+            editTextTugas.setText(TugasKuliah?.TugasKuliahName)
         }
 
         button_save.setOnClickListener {view ->
@@ -45,18 +45,18 @@ class TugasFragmentEditor : BaseFragment() {
             launch {
 
                 context?.let {
-                    val mTugas = tugas(tugasTitle, fromBinusmayaId)
+                    val mTugas = TugasKuliah(tugasTitle, fromBinusmayaId)
 
-                    if (tugas == null)
+                    if (TugasKuliah == null)
                     {
-                        TugasDatabase(it).getTugasDao().insertTugas(mTugas)
+                        AppDatabase(it).getTugasDao().insertTugas(mTugas)
                         it.toast("Note Saved")
                     }
                     else
                     {
-                        fromBinusmayaId = tugas!!.fromBinusmayaId!!.toInt()
-                        mTugas.id = tugas!!.id
-                        TugasDatabase(it).getTugasDao().updateTugas(mTugas)
+                        fromBinusmayaId = TugasKuliah!!.fromBinusmayaId!!.toInt()
+                        mTugas.TugasKuliahId = TugasKuliah!!.TugasKuliahId
+                        AppDatabase(it).getTugasDao().updateTugas(mTugas)
                         it.toast("Note Updated")
                     }
 
@@ -80,7 +80,7 @@ class TugasFragmentEditor : BaseFragment() {
             setMessage("You cannot undo this operation")
             setPositiveButton("Yes") { _, _ ->
                 launch {
-                    TugasDatabase(context).getTugasDao().deleteTugas(tugas!!)
+                    AppDatabase(context).getTugasDao().deleteTugas(TugasKuliah!!)
                     val action = TugasFragmentEditorDirections.actionSaveTugas()
                     Navigation.findNavController(requireView()).navigate(action)
                 }
@@ -94,7 +94,7 @@ class TugasFragmentEditor : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId)
         {
-            R.id.delete -> if(tugas != null && tugas!!.fromBinusmayaId!!.toInt() == -1) deleteTugas() else context?.toast("Cannot delete")
+            R.id.delete -> if(TugasKuliah != null && TugasKuliah!!.fromBinusmayaId!!.toInt() == -1) deleteTugas() else context?.toast("Cannot delete")
         }
         return super.onOptionsItemSelected(item)
     }
