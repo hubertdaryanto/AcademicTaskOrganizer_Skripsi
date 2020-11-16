@@ -29,10 +29,10 @@ class AgendaActivity : AppCompatActivity() {
         // Load the placeholder account
 
         setContentView(R.layout.activity_main)
-        ReceiveBtn.setOnClickListener {
-            mAccount = loadSavedLoginInfo()
-
-        }
+//        ReceiveBtn.setOnClickListener {
+//            mAccount = loadSavedLoginInfo()
+//
+//        }
         val navController = Navigation.findNavController(this, R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
     }

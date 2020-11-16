@@ -5,42 +5,143 @@
     android:layout_height="match_parent"
     tools:context=".View.TugasFragmentEditor">
 
-    <EditText
-        android:id="@+id/editTextTugas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="false"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="246dp"
-        android:layout_marginBottom="16dp"
-        android:hint="Nama Tugas"
-        android:inputType="text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_save"
-        android:layout_width="wrap_content"
+        android:layout_width="366dp"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:tint="@android:color/white"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_done" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_done"
+        android:tint="@android:color/white" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="false"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="207dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputTextSubject"
+                android:hint="@string/tugaskuliah_hint_subject"
+                style="@style/input_text_box">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputTextTugas"
+                style="@style/input_text_box"
+                android:hint="@string/tugaskuliah_hint_nama_tugas">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextTugas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputDeadline"
+                style="@style/input_text_box"
+                android:hint="@string/tugaskuliah_hint_deadline">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDeadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputJam"
+                style="@style/input_text_box"
+                android:hint="@string/tugaskuliah_hint_jam">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editJam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="#00FFFFFF"
+                    android:text="To Do List"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+                <ImageButton
+                    android:id="@+id/addToDoListButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:background="#FFFFFF"
+                    android:clickable="true"
+                    android:cropToPadding="false"
+                    android:focusable="true"
+                    android:foregroundTint="#54000000"
+                    android:src="@drawable/ic_add"
+                    android:tint="#8A000000" />
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputCatatan"
+                style="@style/input_text_box"
+                android:hint="@string/tugaskuliah_hint_catatan">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editCatatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="#00FFFFFF"
+                    android:text="Gambar"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+                <ImageButton
+                    android:id="@+id/addGambarButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:background="#FFFFFF"
+                    android:clickable="true"
+                    android:cropToPadding="false"
+                    android:focusable="true"
+                    android:foregroundTint="#54000000"
+                    android:src="@drawable/ic_add"
+                    android:tint="#8A000000" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

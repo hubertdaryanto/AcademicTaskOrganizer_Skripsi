@@ -6,10 +6,10 @@ import java.util.*
 
 @Entity(tableName = "TugasKuliah")
 data class TugasKuliah(
-    @ColumnInfo(name = "TugasKuliahName") val TugasKuliahName: String?,
     @ColumnInfo(name = "SubjectId") val SubjectId: Int?,
-    @ColumnInfo(name = "ToDoListId") val ToDoListId: IntArray?,
+    @ColumnInfo(name = "TugasKuliahName") val TugasKuliahName: String?,
     @ColumnInfo(name = "Deadline") val Deadline: Date?,
+    @ColumnInfo(name = "ToDoListId") val ToDoListId: IntArray?,
     @ColumnInfo(name = "isFinished") val isFinished: Boolean?,
     @ColumnInfo(name = "notes") val notes: String?,
     @ColumnInfo(name = "images") val images: String?,

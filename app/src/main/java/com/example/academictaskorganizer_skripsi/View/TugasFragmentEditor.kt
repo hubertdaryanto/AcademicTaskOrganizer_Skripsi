@@ -9,6 +9,7 @@ import com.example.academictaskorganizer_skripsi.Database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.R
 import kotlinx.android.synthetic.main.fragment_add_tugas.*
 import kotlinx.coroutines.launch
+import java.util.*
 
 class TugasFragmentEditor : BaseFragment() {
 
@@ -34,6 +35,11 @@ class TugasFragmentEditor : BaseFragment() {
 
         button_save.setOnClickListener {view ->
             val tugasTitle = editTextTugas.text.toString().trim()
+            val tugasSubjectId = 0
+            val tugasDeadline = Date(1605837600000)// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
+            val tugasToDoListId: IntArray = IntArray(1){1}
+            val tugasNotes = "test"
+            val tugasGambar = "test"
             var fromBinusmayaId: Int = -1
 
             if (tugasTitle.isEmpty())
@@ -45,7 +51,7 @@ class TugasFragmentEditor : BaseFragment() {
             launch {
 
                 context?.let {
-                    val mTugas = TugasKuliah(tugasTitle, fromBinusmayaId)
+                    val mTugas = TugasKuliah(tugasSubjectId, tugasTitle, tugasDeadline, tugasToDoListId, false,  tugasNotes, tugasGambar, fromBinusmayaId)
 
                     if (TugasKuliah == null)
                     {
