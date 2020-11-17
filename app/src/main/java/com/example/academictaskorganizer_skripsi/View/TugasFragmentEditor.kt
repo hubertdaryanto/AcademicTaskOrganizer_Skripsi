@@ -38,7 +38,7 @@ class TugasFragmentEditor : BaseFragment() {
             val tugasSubjectId = 0
             val tugasDeadline = Date(1605837600000)// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
             val tugasToDoListId: IntArray = IntArray(1){1}
-            val tugasNotes = "test"
+            val tugasNotes = editCatatan.text.toString().trim()
             val tugasGambar = "test"
             var fromBinusmayaId: Int = -1
 

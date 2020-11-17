@@ -12,7 +12,7 @@ data class TugasKuliah(
     @ColumnInfo(name = "ToDoListId") val ToDoListId: IntArray?,
     @ColumnInfo(name = "isFinished") val isFinished: Boolean?,
     @ColumnInfo(name = "notes") val notes: String?,
-    @ColumnInfo(name = "images") val images: String?,
+    @ColumnInfo(name = "images") val images: Array<String>?,
     @ColumnInfo(name = "fromBinusmayaId") val fromBinusmayaId: Int?
 ):Serializable
 {
@@ -68,5 +68,22 @@ class Converters {
         {
             return 0
         }
+    }
+
+    @TypeConverter
+    fun ArrayStringToString(value: Array<String>?): String?
+    {
+        if (value != null) {
+            return value.last()
+        }
+        else
+        {
+            return ""
+        }
+    }
+
+    @TypeConverter
+    fun fromStringToArrayString(value: String?): Array<String>? {
+        return Array(1,{"\(value)"})
     }
 }

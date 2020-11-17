@@ -51,12 +51,28 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputDeadline"
                 style="@style/input_text_box"
-                android:hint="@string/tugaskuliah_hint_deadline">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editDeadline"
+
+                >
+                <GridLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDeadline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/tugaskuliah_hint_deadline"/>
+                    <ImageView
+                        android:id="@+id/imageForDeadlineIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_baseline_today_24"/>
+
+
+
+
+                                </GridLayout>
+
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -100,6 +116,14 @@
                     android:tint="#8A000000" />
             </RelativeLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ToDoListRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="gone"
+                />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputCatatan"
                 style="@style/input_text_box"
@@ -141,6 +165,13 @@
                     android:tint="#8A000000" />
             </RelativeLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/GambarRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="gone"
+                />
         </LinearLayout>
     </ScrollView>
 
