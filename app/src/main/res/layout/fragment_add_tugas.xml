@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,19 +9,27 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_save"
-        android:layout_width="366dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="@dimen/app_layout_margin"
+        android:layout_marginBottom="@dimen/app_layout_margin"
         android:clickable="true"
         android:src="@drawable/ic_done"
-        android:tint="@android:color/white" />
+        android:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,77 +38,97 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputTextSubject"
-                android:hint="@string/tugaskuliah_hint_subject"
-                style="@style/input_text_box">
+                style="@style/input_text_box"
+                android:hint="@string/tugaskuliah_hint_subject">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextSubject"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputTextTugas"
                 style="@style/input_text_box"
-                android:hint="@string/tugaskuliah_hint_nama_tugas">
+                android:hint="@string/tugaskuliah_hint_nama_tugas"
+                app:helperText="@string/tugaskuliah_hint_nama_tugas"
+                >
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextTugas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:fontFamily="@font/roboto"
+                    android:visibility="gone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputDeadline"
-                style="@style/input_text_box"
 
-                >
-                <GridLayout
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editDeadline"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/tugaskuliah_hint_deadline"/>
-                    <ImageView
-                        android:id="@+id/imageForDeadlineIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_baseline_today_24"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inputDeadline"
+                        style="@style/input_text_box"
+                        android:hint="@string/tugaskuliah_hint_deadline"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editDeadline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto" />
+
+                        <ImageView
+                            android:id="@+id/imageForDeadlineIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:contentDescription="@string/deadline_button"
+                            android:src="@drawable/ic_baseline_today_24" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
-
-                                </GridLayout>
-
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputJam"
                 style="@style/input_text_box"
                 android:hint="@string/tugaskuliah_hint_jam">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editJam"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:fontFamily="@font/roboto" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp">
+                android:layout_margin="@dimen/app_layout_margin">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/ToDoListTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
 
+                    android:layout_height="wrap_content"
                     android:background="#00FFFFFF"
-                    android:text="To Do List"
+                    android:text="@string/tugaskuliah_hint_ToDoList"
                     android:textColor="#000000"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/text_body_size"
+                    app:fontFamily="@font/roboto"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
                     android:id="@+id/addToDoListButton"
@@ -109,45 +139,55 @@
                     android:adjustViewBounds="true"
                     android:background="#FFFFFF"
                     android:clickable="true"
+                    android:contentDescription="@string/tugas"
                     android:cropToPadding="false"
                     android:focusable="true"
                     android:foregroundTint="#54000000"
                     android:src="@drawable/ic_add"
-                    android:tint="#8A000000" />
-            </RelativeLayout>
+                    android:tint="#8A000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ToDoListRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:visibility="gone"
-                />
+                android:layout_margin="@dimen/app_layout_margin"
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputCatatan"
                 style="@style/input_text_box"
                 android:hint="@string/tugaskuliah_hint_catatan">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editCatatan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:fontFamily="@font/roboto" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp">
+                android:layout_margin="@dimen/app_layout_margin">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/GambarTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
 
+                    android:layout_height="wrap_content"
                     android:background="#00FFFFFF"
-                    android:text="Gambar"
+                    android:text="@string/gambar"
                     android:textColor="#000000"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/text_body_size"
+                    app:fontFamily="@font/roboto"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
                     android:id="@+id/addGambarButton"
@@ -158,21 +198,24 @@
                     android:adjustViewBounds="true"
                     android:background="#FFFFFF"
                     android:clickable="true"
+                    android:contentDescription="@string/tugas"
                     android:cropToPadding="false"
                     android:focusable="true"
                     android:foregroundTint="#54000000"
                     android:src="@drawable/ic_add"
-                    android:tint="#8A000000" />
-            </RelativeLayout>
+                    android:tint="#8A000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/GambarTextView"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/GambarRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:visibility="gone"
-                />
+                android:layout_margin="@dimen/app_layout_margin"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

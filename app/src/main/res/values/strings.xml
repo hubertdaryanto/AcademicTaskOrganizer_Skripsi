@@ -7,4 +7,8 @@
     <string name="tugaskuliah_hint_deadline">Deadline</string>
     <string name="tugaskuliah_hint_jam">Jam</string>
     <string name="tugaskuliah_hint_catatan">Catatan</string>
+    <string name="tugaskuliah_hint_ToDoList">To Do List</string>
+    <string name="deadline_button">deadline button</string>
+    <string name="tugas">tugas</string>
+    <string name="gambar">Gambar</string>
 </resources>

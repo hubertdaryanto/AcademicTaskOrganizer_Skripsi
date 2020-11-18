@@ -58,5 +58,8 @@
             android:authorities="com.example.academictaskorganizer_skripsi.provider"
             android:exported="false"
             android:syncable="true"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 </manifest>

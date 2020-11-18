@@ -7,9 +7,10 @@ import java.io.Serializable
 
 @Entity(tableName = "Subject")
 data class Subject(
-    @ColumnInfo(name = "SubjectName") val SubjectName: String?
+    @ColumnInfo(name = "SubjectName") var SubjectName: String?
 ): Serializable
 {
+    @ColumnInfo(name = "SubjectId")
     @PrimaryKey(autoGenerate = true)
     var SubjectId: Int = 0
 

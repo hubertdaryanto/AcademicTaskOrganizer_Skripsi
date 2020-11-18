@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = arrayOf(TugasKuliah::class, ToDoList::class, Subject::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(TugasKuliah::class, ToDoList::class, Subject::class, ImageForSubject::class), version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getTugasDao(): tugasDatabaseDao
@@ -25,9 +25,14 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildDatabase (context:Context) = Room.databaseBuilder(
             context.applicationContext,
             AppDatabase::class.java,
-             " appDatabase " ).build()
+             " appDatabase " ).fallbackToDestructiveMigration().build()
+
+//TODO("Nanti destructive nya kalau udah fix dimatiin ya")
+
     }
 }
+
+
 
 //val db = Room.databaseBuilder(
 //    applicationContext,

@@ -33,6 +33,8 @@ class AgendaActivity : AppCompatActivity() {
 //            mAccount = loadSavedLoginInfo()
 //
 //        }
+
+        //to change some view to visible, use this code: "<<xml view id name>>.visibility = View.VISIBLE"
         val navController = Navigation.findNavController(this, R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
     }

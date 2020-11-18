@@ -1,8 +1,12 @@
 package com.example.academictaskorganizer_skripsi.View
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.Navigation
 import com.example.academictaskorganizer_skripsi.Database.AppDatabase
 import com.example.academictaskorganizer_skripsi.Database.TugasKuliah
@@ -33,14 +37,23 @@ class TugasFragmentEditor : BaseFragment() {
             editTextTugas.setText(TugasKuliah?.TugasKuliahName)
         }
 
+
+        inputTextTugas.setOnClickListener { view ->
+            updateTugasKuliahTextBox(view)
+        }
+
+
         button_save.setOnClickListener {view ->
             val tugasTitle = editTextTugas.text.toString().trim()
             val tugasSubjectId = 0
             val tugasDeadline = Date(1605837600000)// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
-            val tugasToDoListId: IntArray = IntArray(1){1}
+            val tugasToDoListId: Int = 0
             val tugasNotes = editCatatan.text.toString().trim()
-            val tugasGambar = "test"
+            val tugasGambar = 0
             var fromBinusmayaId: Int = -1
+
+            val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
             if (tugasTitle.isEmpty())
             {
@@ -81,6 +94,7 @@ class TugasFragmentEditor : BaseFragment() {
 
     private fun deleteTugas()
     {
+
         AlertDialog.Builder(context).apply {
             setTitle("Are you sure?")
             setMessage("You cannot undo this operation")
@@ -95,6 +109,13 @@ class TugasFragmentEditor : BaseFragment() {
 
             }
         }.create().show()
+    }
+
+    private fun updateTugasKuliahTextBox (view: View) {
+        editTextTugas.visibility = View.VISIBLE
+        editTextTugas.requestFocus()
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(editTextTugas, 0)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

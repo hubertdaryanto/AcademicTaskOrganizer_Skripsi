@@ -9,10 +9,11 @@ import java.util.*
 
 @Entity(tableName = "ToDoList")
 data class ToDoList(
-    @ColumnInfo(name = "ToDoListName") val ToDoListName: String?,
-    @ColumnInfo(name = "Deadline") val deadline: Date?
+    @ColumnInfo(name = "ToDoListName") var ToDoListName: String?,
+    @ColumnInfo(name = "Deadline") var deadline: Date?
 ): Serializable
 {
+    @ColumnInfo(name = "ToDoListId")
     @PrimaryKey(autoGenerate = true)
     var ToDoListId: Int = 0
 }
