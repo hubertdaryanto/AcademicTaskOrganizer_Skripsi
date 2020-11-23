@@ -11,4 +11,5 @@
     <string name="deadline_button">deadline button</string>
     <string name="tugas">tugas</string>
     <string name="gambar">Gambar</string>
+    <string name="time_icon">Jam</string>
 </resources>

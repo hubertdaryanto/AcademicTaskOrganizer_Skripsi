@@ -26,16 +26,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.academictaskorganizer_skripsi.View.AgendaActivity">
+        <activity android:name="com.example.academictaskorganizer_skripsi.view.AgendaActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.academictaskorganizer_skripsi.View.BinusmayaLoginActivity"></activity>
+        <activity android:name="com.example.academictaskorganizer_skripsi.view.BinusmayaLoginActivity"></activity>
         <service
-            android:name="com.example.academictaskorganizer_skripsi.Services.SyncService"
+            android:name="com.example.academictaskorganizer_skripsi.services.SyncService"
             android:exported="true"
             android:process=":sync">
             <intent-filter>
@@ -45,7 +45,7 @@
                 android:resource="@xml/syncadapter" />
         </service>
         <service
-            android:name="com.example.academictaskorganizer_skripsi.Services.AuthenticatorService">
+            android:name="com.example.academictaskorganizer_skripsi.services.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -54,7 +54,7 @@
                 android:resource="@xml/authenticator" />
         </service>
         <provider
-            android:name="com.example.academictaskorganizer_skripsi.Components.StubProvider"
+            android:name="com.example.academictaskorganizer_skripsi.components.StubProvider"
             android:authorities="com.example.academictaskorganizer_skripsi.provider"
             android:exported="false"
             android:syncable="true"/>

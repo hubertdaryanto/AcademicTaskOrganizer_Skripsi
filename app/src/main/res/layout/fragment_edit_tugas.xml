@@ -8,15 +8,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="addTugasFragmentViewModel"
-            type="com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        tools:context=".view.AddTugasFragment">
+        tools:context=".view.EditTugasFragment">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:clickable="true"
@@ -69,24 +67,25 @@
                     style="@style/input_text_view"
                     android:hint="@string/tugaskuliah_hint_nama_tugas"
                     android:id="@+id/inputTextTugas"
-                  >
+                    app:helperText="@string/tugaskuliah_hint_nama_tugas">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:fontFamily="@font/roboto"
                         android:id="@+id/editTextTugas"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"/>
+                        android:layout_width="match_parent"
+                        android:visibility="gone" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="72dp">
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/inputDeadline"
                         style="@style/input_text_view"
                         android:hint="@string/tugaskuliah_hint_deadline"
+                        android:id="@+id/inputDeadline"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -94,59 +93,33 @@
 
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:fontFamily="@font/roboto"
                             android:id="@+id/editDeadline"
-                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto" />
+                            android:layout_width="match_parent" />
+
+                        <ImageView
+                            android:contentDescription="@string/deadline_button"
+                            android:id="@+id/imageForDeadlineIcon"
+                            android:layout_height="24dp"
+                            android:layout_width="24dp"
+                            android:src="@drawable/ic_baseline_today_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <ImageView
-                        android:id="@+id/imageForDeadlineIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="@string/deadline_button"
-                        android:src="@drawable/ic_baseline_today_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="72dp">
 
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/input_text_view"
+                    android:hint="@string/tugaskuliah_hint_jam"
+                    android:id="@+id/inputJam">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/inputJam"
-                        style="@style/input_text_view"
-                        android:hint="@string/tugaskuliah_hint_jam"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editJam"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <ImageView
-                        android:id="@+id/imageForTimeIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="16dp"
-                        android:contentDescription="@string/time_icon"
-                        android:src="@drawable/ic_baseline_access_time_24"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:fontFamily="@font/roboto"
+                        android:id="@+id/editJam"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_height="wrap_content"
@@ -193,10 +166,10 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ToDoListRecyclerView"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/app_layout_margin"
                     android:layout_width="match_parent"
-                    android:visibility="gone" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/app_layout_margin"
+                    android:visibility="visible" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/input_text_view"

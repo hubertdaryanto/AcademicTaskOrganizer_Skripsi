@@ -2,4 +2,5 @@
 <resources>
     <dimen name="text_body_size">24sp</dimen>
     <dimen name="app_layout_margin">16dp</dimen>
+    <dimen name="margin_safearea">16dp</dimen>
 </resources>
