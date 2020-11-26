@@ -5,83 +5,71 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
-import androidx.navigation.Navigation
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.R
+import com.example.academictaskorganizer_skripsi.database.AppDatabase
+import com.example.academictaskorganizer_skripsi.database.tugasDatabaseDao
 import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModelFactory
-import com.example.academictaskorganizer_skripsi.viewModel.HomeFragmentViewModel
-import com.example.academictaskorganizer_skripsi.viewModel.HomeFragmentViewModelFactory
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
 import java.util.*
 
 class AddTugasFragment : BaseFragment() {
 
-//    private var TugasKuliah: TugasKuliah? = null
+    //    private var TugasKuliah: TugasKuliah? = null
+
     private lateinit var binding: FragmentAddTugasBinding
-    private lateinit var inputTextSubject: TextInputLayout
-    private lateinit var inputTextTugas: TextInputLayout
-    private lateinit var inputTextDeadline: TextInputLayout
-    private lateinit var inputTextJam: TextInputLayout
-    private lateinit var inputTextCatatan: TextInputLayout
-    private lateinit var editTextSubject: EditText
-    private lateinit var editTextTugas: EditText
-    private lateinit var editTextDeadline: EditText
-    private lateinit var editTextJam: EditText
-    private lateinit var editTextCatatan: EditText
-    private lateinit var buttonSave: FloatingActionButton
-    private lateinit var buttonAddToDoList: ImageButton
-    private lateinit var buttonAddGambar: ImageButton
+//    private lateinit var inputTextSubject: TextInputLayout
+//    private lateinit var inputTextTugas: TextInputLayout
+//    private lateinit var inputTextDeadline: TextInputLayout
+//    private lateinit var inputTextJam: TextInputLayout
+//    private lateinit var inputTextCatatan: TextInputLayout
+//    private lateinit var editTextSubject: EditText
+//    private lateinit var editTextTugas: EditText
+//    private lateinit var editTextDeadline: EditText
+//    private lateinit var editTextJam: EditText
+//    private lateinit var editTextCatatan: EditText
+//    private lateinit var buttonSave: FloatingActionButton
+//    private lateinit var buttonAddToDoList: ImageButton
+//    private lateinit var buttonAddGambar: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        setHasOptionsMenu(true)
         val application = requireNotNull(this.activity).application
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_add_tugas,container,false)
+        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_add_tugas, container, false)
 
-        val viewModelFactory = AddTugasFragmentViewModelFactory(application)
+        val dataSource = AppDatabase.getInstance(application).getTugasDao
+        val viewModelFactory = AddTugasFragmentViewModelFactory(application, dataSource)
 
         val addTugasFragmentViewModel =
             ViewModelProvider(this, viewModelFactory).get(AddTugasFragmentViewModel::class.java)
-        var view = binding.root
-        inputTextSubject = binding.inputTextSubject
-        inputTextTugas = binding.inputTextTugas
-        inputTextDeadline = binding.inputDeadline
-        inputTextJam = binding.inputJam
-        inputTextCatatan = binding.inputCatatan
-        editTextSubject = binding.editTextSubject
-        editTextTugas = binding.editTextTugas
-        editTextDeadline = binding.editDeadline
-        editTextJam = binding.editJam
-        editTextCatatan = binding.editCatatan
 
-        buttonSave = binding.buttonSave
-        buttonAddToDoList = binding.addToDoListButton
-        buttonAddGambar = binding.addGambarButton
 
-        addTugasFragmentViewModel.addTugasKuliah.observe(viewLifecycleOwner, Observer {TugasKuliah ->
-            val tugasTitle = editTextTugas.text.toString().trim()
-            val tugasSubjectId: Int = 0
-            val tugasDeadline = Date(1605837600000)// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
-            val tugasToDoListId: Int = 0
-            val tugasNotes = editTextCatatan.text.toString().trim()
-            val tugasGambar = 0
-            var fromBinusmayaId: Int = -1
+        addTugasFragmentViewModel.addTugasKuliahNavigation.observe(viewLifecycleOwner,
+            Observer {
+                if (it == true)
+                {
+                    val tugasTitle = binding.editTextTugas.text.toString().trim()
+                    val tugasSubjectId: Int = 0
+                    val tugasDeadline =
+                        Date(1605837600000)// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
+                    val tugasToDoListId: Int = 0
+                    val tugasNotes = binding.editCatatan.text.toString().trim()
+                    val tugasGambar = 0
+                    var fromBinusmayaId: Int = -1
 
-            val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                    val inputMethodManager =
+                        activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
 //            if (tugasTitle.isEmpty())
 //            {
@@ -89,32 +77,54 @@ class AddTugasFragment : BaseFragment() {
 //                editTextTugas.requestFocus()
 //                return@setOnClickListener
 //            }
-            launch {
+//                launch {
+////
+//                    context?.let {
+                    val mTugas = TugasKuliah(
+                        0L,
+                        tugasSubjectId,
+                        tugasTitle,
+                        tugasDeadline,
+                        tugasToDoListId,
+                        false,
+                        tugasNotes,
+                        tugasGambar,
+                        fromBinusmayaId
+                    )
+                        addTugasFragmentViewModel.addTugasKuliah(mTugas)
+                        context?.toast("Note Saved")
 
-                context?.let {
-                    val mTugas = TugasKuliah(0L, tugasSubjectId, tugasTitle, tugasDeadline, tugasToDoListId, false,  tugasNotes, tugasGambar, fromBinusmayaId)
 
-                    if (TugasKuliah == null)
-                    {
-//                        AppDatabase(it).getTugasDao().insertTugas(mTugas)
-                        it.toast("Note Saved")
-                    }
-                    else
-                    {
-                        fromBinusmayaId = TugasKuliah!!.fromBinusmayaId!!.toInt()
-                        mTugas.tugasKuliahId = TugasKuliah!!.tugasKuliahId
-//                        AppDatabase(it).getTugasDao().updateTugas(mTugas)
-                        it.toast("Note Updated")
-                    }
+//                        val action = AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment()
+//                        this.find.navigate(action)
 
-
-                    val action = TugasFragmentEditorDirections.actionSaveTugas()
-                    Navigation.findNavController(view).navigate(action)
+//                    }
+//                }
+                    this.findNavController().navigate(AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment())
+                    addTugasFragmentViewModel.doneNavigating()
                 }
 
-        })
 
-        return view
+
+            })
+
+        binding.addTugasFragmentViewModel = addTugasFragmentViewModel
+//        inputTextSubject = binding.inputTextSubject
+//        inputTextTugas = binding.inputTextTugas
+//        inputTextDeadline = binding.inputDeadline
+//        inputTextJam = binding.inputJam
+//        inputTextCatatan = binding.inputCatatan
+//        editTextSubject = binding.editTextSubject
+//        editTextTugas = binding.editTextTugas
+//        editTextDeadline = binding.editDeadline
+//        editTextJam = binding.editJam
+//        editTextCatatan = binding.editCatatan
+//
+//        buttonSave = binding.buttonSave
+//        buttonAddToDoList = binding.addToDoListButton
+//        buttonAddGambar = binding.addGambarButton
+        binding.lifecycleOwner = viewLifecycleOwner
+            return binding.root
     }
 
 //    override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -181,69 +191,12 @@ class AddTugasFragment : BaseFragment() {
 //    }
 
 
-    private fun deleteTugas()
-    {
-
-        AlertDialog.Builder(context).apply {
-            setTitle("Are you sure?")
-            setMessage("You cannot undo this operation")
-            setPositiveButton("Yes") { _, _ ->
-//                launch {
-//                    AppDatabase().getTugasDao.deleteTugas(TugasKuliah!!)
-//                    val action = TugasFragmentEditorDirections.actionSaveTugas()
-//                    Navigation.findNavController(requireView()).navigate(action)
-//                }
-            }
-            setNegativeButton("No") { _, _ ->
-
-            }
-        }.create().show()
+    private fun updateTugasKuliahTextBox(view: View) {
+        binding.editTextTugas.visibility = View.VISIBLE
+        binding.editTextTugas.requestFocus()
+        val imm =
+            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.editTextTugas, 0)
     }
 
-    private fun setDeleteGambarListeners() {
-//        val boxOneText = findViewById<TextView>(R.id.box_one_text)
-//        val boxTwoText = findViewById<TextView>(R.id.box_two_text)
-//        val boxThreeText = findViewById<TextView>(R.id.box_three_text)
-//        val boxFourText = findViewById<TextView>(R.id.box_four_text)
-//        val boxFiveText = findViewById<TextView>(R.id.box_five_text)
-//
-//        val rootConstraintLayout = findViewById<View>(R.id.constraint_layout)
-//
-//        val clickableViews: List<View> =
-//            listOf(
-//                boxOneText, boxTwoText, boxThreeText,
-//                boxFourText, boxFiveText, rootConstraintLayout
-//            )
-//
-//        for (item in clickableViews) {
-//            item.setOnClickListener { deleteIndividualGambar(it) }
-//        }
-
-        //dicomment dulu, baru disesuaikan nanti
-
-    }
-
-    private fun deleteIndividualGambar(view: View){
-        //function buat delete gambar
-    }
-
-    private fun updateTugasKuliahTextBox (view: View) {
-        editTextTugas.visibility = View.VISIBLE
-        editTextTugas.requestFocus()
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(editTextTugas, 0)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId)
-        {
-            R.id.delete -> if(TugasKuliah != null && TugasKuliah!!.fromBinusmayaId!!.toInt() == -1) deleteTugas() else context?.toast("Cannot delete")
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.tugaseditor_menu, menu)
-    }
 }

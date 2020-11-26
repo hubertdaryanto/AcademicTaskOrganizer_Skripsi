@@ -55,7 +55,7 @@ class EditTugasFragment: BaseFragment() {
         editTextJam = binding.editJam
         editTextCatatan = binding.editCatatan
 
-        buttonSave = binding.buttonSave
+        buttonSave = binding.buttonUpdate
         buttonAddToDoList = binding.addToDoListButton
         buttonAddGambar = binding.addGambarButton
         return view

@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.viewModel.HomeFragmentViewModel
@@ -50,7 +51,7 @@ class HomeFragment : BaseFragment() {
 
         homeFragmentViewModel.tugas.observe(viewLifecycleOwner, Observer{
             it?.let {
-                adapter.submitList(it)
+                adapter.addHeaderAndSubmitList(it)
             }
         })
 
@@ -91,6 +92,19 @@ class HomeFragment : BaseFragment() {
 //        floatingActionButton = binding.floatingActionButton
 //        recyclerViewTugas = binding.recyclerViewTugas
 //        viewModel = ViewModelProvider(this).get(TugasKuliahViewModel::class.java)
+
+        val manager = GridLayoutManager(activity, 3)
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+            override fun getSpanSize(position: Int): Int {
+                when (position) {
+                    0 -> return 3
+                    else -> return 1
+                }
+            }
+
+        }
+        binding.tugasList.layoutManager = manager
+
         return binding.root
     }
 
