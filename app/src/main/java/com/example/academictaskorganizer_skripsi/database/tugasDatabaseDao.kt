@@ -5,19 +5,19 @@ import androidx.room.*
 
 @Dao
 interface tugasDatabaseDao{
-    @Query("SELECT * FROM TugasKuliah ORDER BY TugasKuliahName ASC")
+    @Query("SELECT * FROM TugasKuliah ORDER BY tugasKuliahName ASC")
     suspend fun getAllSortedByName(): List<TugasKuliah>
 
-    @Query("SELECT * FROM TugasKuliah ORDER BY Deadline DESC")
+    @Query("SELECT * FROM TugasKuliah ORDER BY deadline DESC")
     suspend fun getAllSortedByDeadline(): List<TugasKuliah>
 
-    @Query("SELECT * FROM TugasKuliah ORDER BY Deadline DESC")
+    @Query("SELECT * FROM TugasKuliah ORDER BY deadline DESC")
     fun getAllSortedByDeadlineForeground(): LiveData<List<TugasKuliah>>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId IN (:userIds)")
     suspend fun loadAllByIds(userIds: IntArray): List<TugasKuliah>
 
-    @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahName LIKE :name")
+    @Query("SELECT * FROM TugasKuliah WHERE tugasKuliahName LIKE :name")
     suspend fun findByName(name: String): TugasKuliah
 
     @Insert
@@ -31,11 +31,11 @@ interface tugasDatabaseDao{
 
     //one to one relationship
     @Transaction
-    @Query("SELECT * FROM TugasKuliah")
-    suspend fun getTugasKuliahAndSubject(): List<TugasKuliahAndSubject>
+    @Query("SELECT * FROM TugasKuliah WHERE subjectId LIKE :id")
+    suspend fun getTugasKuliahAndSubject(id: Long): TugasKuliahAndSubject
 
     //one to many relationship
     @Transaction
-    @Query("SELECT * FROM TugasKuliah")
-    suspend fun getTugasKuliahWithToDoList(): List<TugasKuliahWithToDoList>
+    @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId LIKE :id")
+    suspend fun getTugasKuliahWithToDoList(id: Long): TugasKuliahWithToDoList
 }

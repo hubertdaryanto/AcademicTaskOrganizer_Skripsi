@@ -15,7 +15,7 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     /** Coroutine variables */
 
     /**
-     * viewModelJob allows us to cancel all coroutines started by this ViewModel.
+     * viewModelJob allows us to caancel all coroutines started by this ViewModel.
      */
     private var viewModelJob = Job()
 
@@ -43,15 +43,38 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     val showDatePicker: LiveData<Boolean?>
         get() = _showDatePicker
 
+    private val _showSubjectDialog = MutableLiveData<Boolean?>()
+    val showSubjectDialog: LiveData<Boolean?>
+        get() = _showSubjectDialog
+
+
+    fun onShowSubjectDialogClicked()
+    {
+        _showSubjectDialog.value = true
+    }
+
+    fun doneLoadSubjectDialog()
+    {
+        _showSubjectDialog.value = null
+    }
 
 
     fun onTimePickerClicked() {
         _showTimePicker.value = true
     }
 
+    fun onDatePickerClicked() {
+        _showDatePicker.value = true
+    }
+
     fun doneLoadTimePicker()
     {
         _showTimePicker.value = null
+    }
+
+    fun doneLoadDatePicker()
+    {
+        _showDatePicker.value = null
     }
 
     fun onAddTugasKuliahClicked2()

@@ -8,7 +8,7 @@ import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 fun TextView.setTugasSubjectNameAndDeadline(item: TugasKuliah?)
 {
     item?.let {
-        text = item.SubjectId.toString() + " - " + item.Deadline?.let { it1 ->
+        text = item.subjectId.toString() + " - " + item.deadline?.let { it1 ->
             convertDeadlineToTimeFormatted(
                 it1
             )

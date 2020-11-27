@@ -1,6 +1,7 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Build
@@ -73,17 +74,40 @@ class AddTugasFragment : BaseFragment() {
             }
         })
 
+        addTugasFragmentViewModel.showDatePicker.observe(viewLifecycleOwner, Observer {
+            if (it == true)
+            {
+                val cal = Calendar.getInstance()
+                val dateSetListener = DatePickerDialog.OnDateSetListener { datePicker, year, month, dayOfMonth ->
+                    cal.set(Calendar.YEAR, year)
+                    cal.set(Calendar.MONTH, month)
+                    cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    binding.editDeadline.setText(SimpleDateFormat("dd-MM-yyyy").format(cal.time))
+                }
+                context?.let { it1 -> DatePickerDialog(it1, dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show() }
+                addTugasFragmentViewModel.doneLoadDatePicker()
+            }
+        })
+
+        addTugasFragmentViewModel.showSubjectDialog.observe(viewLifecycleOwner, Observer {
+            if (it == true)
+            {
+
+            }
+        })
+
         addTugasFragmentViewModel.addTugasKuliahNavigation.observe(viewLifecycleOwner,
             Observer {
                 if (it == true)
                 {
                     val tugasTitle = binding.editTextTugas.text.toString().trim()
-                    val tugasSubjectId: Int = 0
-                    val tugasDeadline = 1605837600000L// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
-                    val tugasToDoListId: Int = 0
+                    val tugasSubjectId: Long = 0
+//                    val tugasDeadline = 1605837600000L// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
+                    val tugasDeadline: Long = convertDateAndTimeToLong(binding.editDeadline.text.toString(), binding.editJam.text.toString())
+                    val tugasToDoListId: Long = 0
                     val tugasNotes = binding.editCatatan.text.toString().trim()
-                    val tugasGambar = 0
-                    var fromBinusmayaId: Int = -1
+                    val tugasGambar: Long = 0
+//                    var fromBinusmayaId: Long = -1
 
                     val inputMethodManager =
                         activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -106,8 +130,8 @@ class AddTugasFragment : BaseFragment() {
                         tugasToDoListId,
                         false,
                         tugasNotes,
-                        tugasGambar,
-                        fromBinusmayaId
+                        tugasGambar
+//                        fromBinusmayaId
                     )
                         addTugasFragmentViewModel.addTugasKuliah(mTugas)
                         context?.toast("Note Saved")
@@ -217,4 +241,10 @@ class AddTugasFragment : BaseFragment() {
         imm.showSoftInput(binding.editTextTugas, 0)
     }
 
+
+    private fun convertDateAndTimeToLong(date: String, time: String): Long {
+        val formatter = SimpleDateFormat("dd-MM-yyyy H:mm")
+        val date = formatter.parse(date + " " + time)
+        return date.time
+    }
 }
