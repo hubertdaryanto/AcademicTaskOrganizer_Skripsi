@@ -35,6 +35,24 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     val addTugasKuliahNavigation: LiveData<Boolean?>
         get() = _addTugasKuliahNavigation
 
+    private val _showTimePicker = MutableLiveData<Boolean?>()
+    val showTimePicker: LiveData<Boolean?>
+        get() = _showTimePicker
+
+    private val _showDatePicker = MutableLiveData<Boolean?>()
+    val showDatePicker: LiveData<Boolean?>
+        get() = _showDatePicker
+
+
+
+    fun onTimePickerClicked() {
+        _showTimePicker.value = true
+    }
+
+    fun doneLoadTimePicker()
+    {
+        _showTimePicker.value = null
+    }
 
     fun onAddTugasKuliahClicked2()
     {

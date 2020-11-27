@@ -91,14 +91,16 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        >
 
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editDeadline"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/roboto"
+                            android:enabled="false"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +119,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="72dp">
+                    android:layout_height="72dp"
+                    >
 
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -127,13 +130,16 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editJam"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/roboto"
+                            android:enabled="true"
+                            android:onClick="@{() -> addTugasFragmentViewModel.onTimePickerClicked()}"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <ImageView

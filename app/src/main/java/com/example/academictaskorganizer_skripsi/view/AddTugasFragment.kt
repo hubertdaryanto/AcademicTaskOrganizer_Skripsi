@@ -1,10 +1,13 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.app.AlertDialog
+import android.app.TimePickerDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
@@ -17,6 +20,7 @@ import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBin
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModelFactory
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddTugasFragment : BaseFragment() {
@@ -38,6 +42,7 @@ class AddTugasFragment : BaseFragment() {
 //    private lateinit var buttonAddToDoList: ImageButton
 //    private lateinit var buttonAddGambar: ImageButton
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,14 +59,27 @@ class AddTugasFragment : BaseFragment() {
             ViewModelProvider(this, viewModelFactory).get(AddTugasFragmentViewModel::class.java)
 
 
+        addTugasFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {
+            if (it == true)
+            {
+                val cal = Calendar.getInstance()
+                val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                    cal.set(Calendar.HOUR_OF_DAY, hour)
+                    cal.set(Calendar.MINUTE, minute)
+                    binding.editJam.setText(SimpleDateFormat("H:mm").format(cal.time))
+                }
+                TimePickerDialog(context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
+                addTugasFragmentViewModel.doneLoadTimePicker()
+            }
+        })
+
         addTugasFragmentViewModel.addTugasKuliahNavigation.observe(viewLifecycleOwner,
             Observer {
                 if (it == true)
                 {
                     val tugasTitle = binding.editTextTugas.text.toString().trim()
                     val tugasSubjectId: Int = 0
-                    val tugasDeadline =
-                        Date(1605837600000)// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
+                    val tugasDeadline = 1605837600000L// 20 November 2020, 09:00 WIB . Convert di https://currentmillis.com/
                     val tugasToDoListId: Int = 0
                     val tugasNotes = binding.editCatatan.text.toString().trim()
                     val tugasGambar = 0

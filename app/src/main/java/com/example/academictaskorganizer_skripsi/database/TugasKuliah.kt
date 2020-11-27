@@ -15,7 +15,7 @@ data class TugasKuliah(
     var tugasKuliahId: Long = 0L,
     @ColumnInfo(name = "SubjectId") var SubjectId: Int? = -1,
     @ColumnInfo(name = "TugasKuliahName") var TugasKuliahName: String? = "",
-    @ColumnInfo(name = "Deadline") var Deadline: Date? = Date(0),
+    @ColumnInfo(name = "Deadline") var Deadline: Long? = 0L,
     @ColumnInfo(name = "ToDoListId") var ToDoListId: Int? = -1,
     @ColumnInfo(name = "isFinished") var isFinished: Boolean? = false,
     @ColumnInfo(name = "notes") var notes: String? = "",
