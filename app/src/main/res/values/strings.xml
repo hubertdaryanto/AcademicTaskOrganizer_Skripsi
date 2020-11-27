@@ -13,4 +13,5 @@
     <string name="gambar">Gambar</string>
     <string name="time_icon">Jam</string>
     <string name="header_text">Tanggal Deadline Tugas Kuliah</string>
+    <string name="batal">batal</string>
 </resources>

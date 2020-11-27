@@ -2,14 +2,17 @@ package com.example.academictaskorganizer_skripsi.view
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -20,6 +23,7 @@ import com.example.academictaskorganizer_skripsi.database.tugasDatabaseDao
 import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModelFactory
+import kotlinx.coroutines.NonCancellable.cancel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -92,7 +96,8 @@ class AddTugasFragment : BaseFragment() {
         addTugasFragmentViewModel.showSubjectDialog.observe(viewLifecycleOwner, Observer {
             if (it == true)
             {
-
+                val dialog = SubjectDialogFragment()
+                dialog.show(parentFragmentManager, "SubjectDialogFragment")
             }
         })
 
@@ -246,5 +251,32 @@ class AddTugasFragment : BaseFragment() {
         val formatter = SimpleDateFormat("dd-MM-yyyy H:mm")
         val date = formatter.parse(date + " " + time)
         return date.time
+    }
+}
+
+class SubjectDialogFragment : DialogFragment() {
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return activity?.let {
+            // Use the Builder class for convenient dialog construction
+            val builder = AlertDialog.Builder(it)
+
+            val inflater = requireActivity().layoutInflater;
+
+
+//            builder.setMessage(R.string.dialog_fire_missiles)
+            builder.setView(inflater.inflate(R.layout.subject_dialog, null))
+//                .setPositiveButton(R.string.fire,
+//                    DialogInterface.OnClickListener { dialog, id ->
+//                        // FIRE ZE MISSILES!
+//                    })
+                .setNegativeButton(R.string.batal,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+                        dismiss()
+                    })
+            // Create the AlertDialog object and return it
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
     }
 }
