@@ -107,7 +107,7 @@ class AddTugasFragment : BaseFragment() {
             Observer {
                 if (it == true) {
                     val tugasTitle = binding.editTextTugas.text.toString().trim()
-                    val tugasSubjectId: Long = 0
+                    val tugasSubjectId: Long = subjectId
                     // Convert Long to Date atau sebaliknya di https://currentmillis.com/
                     val tugasDeadline: Long = convertDateAndTimeToLong(
                         binding.editDeadline.text.toString(),
