@@ -17,4 +17,5 @@
     <string name="list_subject_header_text">Pilih Subject</string>
     <string name="tambah_subject">Tambah Subject</string>
     <string name="nama_subject">Nama Subject</string>
+    <string name="to_do_list">To Do List</string>
 </resources>

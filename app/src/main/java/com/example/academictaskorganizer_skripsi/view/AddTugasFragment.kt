@@ -21,8 +21,6 @@ import com.example.academictaskorganizer_skripsi.database.subjectDao
 import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModelFactory
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -32,6 +30,7 @@ class AddTugasFragment : BaseFragment() {
 
     private lateinit var binding: FragmentAddTugasBinding
     private lateinit var SubjectDataSource: subjectDao
+    private lateinit var addTugasFragmentViewModel: AddTugasFragmentViewModel
 
     private var subjectId by Delegates.notNull<Long>()
 
@@ -51,9 +50,7 @@ class AddTugasFragment : BaseFragment() {
         val dataSource = AppDatabase.getInstance(application).getTugasDao
         SubjectDataSource = AppDatabase.getInstance(application).getSubjectDao
         val viewModelFactory = AddTugasFragmentViewModelFactory(application, dataSource)
-
-        val addTugasFragmentViewModel =
-            ViewModelProvider(this, viewModelFactory).get(AddTugasFragmentViewModel::class.java)
+        addTugasFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(AddTugasFragmentViewModel::class.java)
 
 
         addTugasFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {
@@ -158,6 +155,25 @@ class AddTugasFragment : BaseFragment() {
 
             })
 
+        addTugasFragmentViewModel.string.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.editTextSubject.setText(it)
+                addTugasFragmentViewModel.onSubjectNameChanged()
+            }
+        })
+
+        addTugasFragmentViewModel.toDoListId.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                //ini buat nge update to do list ya kalau di click
+                addTugasFragmentViewModel.afterClickToDoList()
+            }
+        })
+
+        val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
+            addTugasFragmentViewModel.onToDoListClicked(toDoListId)
+        })
+        binding.ToDoListRecyclerView.adapter = toDoListAdapter
+
         binding.addTugasFragmentViewModel = addTugasFragmentViewModel
         binding.lifecycleOwner = viewLifecycleOwner
             return binding.root
@@ -187,7 +203,7 @@ class AddTugasFragment : BaseFragment() {
             val greeting = data?.getLongExtra(EXTRA_GREETING_MESSAGE, 0L)
             if (greeting != null) {
                 subjectId = greeting
-                binding.editTextSubject.setText(convertSubjectIdToSubjectName(greeting))
+                addTugasFragmentViewModel.convertSubjectIdToSubjectName(greeting)
             }
 
         }
@@ -201,15 +217,6 @@ class AddTugasFragment : BaseFragment() {
 
     fun getInstance(): AddTugasFragment? {
         return this
-    }
-
-    fun convertSubjectIdToSubjectName(id: Long): String {
-        var string = ""
-        launch {
-             string = SubjectDataSource.loadSubjectNameById(id)
-        }
-        return string
-        //masih gak ke load ya
     }
 
 }

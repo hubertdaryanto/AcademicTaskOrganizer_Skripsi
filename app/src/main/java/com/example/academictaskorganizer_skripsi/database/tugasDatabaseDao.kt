@@ -38,4 +38,7 @@ interface tugasDatabaseDao{
     @Transaction
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId LIKE :id")
     suspend fun getTugasKuliahWithToDoList(id: Long): TugasKuliahWithToDoList
+
+    @Query("SELECT * FROM Subject WHERE subjectId LIKE :id")
+    suspend fun loadSubjectName(id: Long): Subject
 }

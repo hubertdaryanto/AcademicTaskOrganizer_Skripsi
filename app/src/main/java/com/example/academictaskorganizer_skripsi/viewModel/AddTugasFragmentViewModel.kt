@@ -5,19 +5,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.academictaskorganizer_skripsi.database.ToDoList
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
+import com.example.academictaskorganizer_skripsi.database.TugasKuliahWithToDoList
 import com.example.academictaskorganizer_skripsi.database.tugasDatabaseDao
 import kotlinx.coroutines.*
 
 class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel() {
     val database = dataSource
 
+    private var _toDoList = MutableLiveData<List<ToDoList?>>()
+    val toDoList: LiveData<List<ToDoList?>>
+        get() = _toDoList
     /** Coroutine variables */
 
     /**
      * viewModelJob allows us to caancel all coroutines started by this ViewModel.
      */
     private var viewModelJob = Job()
+
+    private val _string = MutableLiveData<String?>()
+    val string: LiveData<String?>
+        get() = _string
 
     /**
      * A [CoroutineScope] keeps track of all coroutines started by this ViewModel.
@@ -48,6 +57,11 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
         get() = _showSubjectDialog
 
 
+    //can be useful when edit tugas
+    private val _toDoListId = MutableLiveData<Long?>()
+    val toDoListId: LiveData<Long?>
+        get() = _toDoListId
+
     fun onShowSubjectDialogClicked()
     {
         _showSubjectDialog.value = true
@@ -56,6 +70,11 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     fun doneLoadSubjectDialog()
     {
         _showSubjectDialog.value = null
+    }
+
+    fun addToDoListItem(name: String)
+    {
+        _toDoList.
     }
 
 
@@ -102,4 +121,26 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     fun doneNavigating() {
         _addTugasKuliahNavigation.value = null
     }
+
+    fun convertSubjectIdToSubjectName(id: Long){
+        viewModelScope.launch {
+            _string.value = database.loadSubjectName(id).subjectName
+        }
+        //ke load tapi telat
+    }
+
+    fun onSubjectNameChanged()
+    {
+        _string.value = null
+    }
+
+    fun onToDoListClicked(toDoListId: Long) {
+        _toDoListId.value = toDoListId
+    }
+
+    fun afterClickToDoList()
+    {
+        _toDoListId.value = null
+    }
+
 }

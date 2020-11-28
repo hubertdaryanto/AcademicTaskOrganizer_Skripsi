@@ -14,5 +14,7 @@ data class ToDoList(
     @ColumnInfo(name = "toDoListName")
     var toDoListName: String,
     @ColumnInfo(name = "deadline")
-    var deadline: Long
+    var deadline: Long,
+    @ColumnInfo(name = "isFinished")
+    var isFinished: Boolean
 )
