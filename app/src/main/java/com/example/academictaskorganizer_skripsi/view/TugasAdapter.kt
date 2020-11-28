@@ -16,10 +16,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.ClassCastException
 
-private val ITEM_VIEW_TYPE_HEADER = 0
-private val ITEM_VIEW_TYPE_ITEM = 1
+val ITEM_VIEW_TYPE_HEADER = 0
+val ITEM_VIEW_TYPE_ITEM = 1
 
-class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(TugasKuliahDiffCallback()) {
+class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKuliahDataItem, RecyclerView.ViewHolder>(TugasKuliahDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -42,7 +42,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<DataItem
         when (holder) {
             is ViewHolder ->
             {
-                val item = getItem(position) as DataItem.TugasKuliahItem
+                val item = getItem(position) as TugasKuliahDataItem.TugasKuliahItem
                 holder.bind(item.tugas, clickListener)
             }
 
@@ -53,9 +53,9 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<DataItem
     fun addHeaderAndSubmitList(list: List<TugasKuliah>?) {
         adapterScope.launch {
             val items = when (list) {
-                null -> listOf(DataItem.Header)
-                else -> listOf(DataItem.Header) + list.map {
-                    DataItem.TugasKuliahItem(it)
+                null -> listOf(TugasKuliahDataItem.Header)
+                else -> listOf(TugasKuliahDataItem.Header) + list.map {
+                    TugasKuliahDataItem.TugasKuliahItem(it)
                 }
             }
             withContext(Dispatchers.Main){
@@ -68,8 +68,8 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<DataItem
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is DataItem.Header -> ITEM_VIEW_TYPE_HEADER
-            is DataItem.TugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
+            is TugasKuliahDataItem.Header -> ITEM_VIEW_TYPE_HEADER
+            is TugasKuliahDataItem.TugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
         }
     }
 
@@ -78,7 +78,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<DataItem
         companion object{
             fun from(parent: ViewGroup): TextViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.header, parent, false)
+                val view = layoutInflater.inflate(R.layout.list_agenda_header, parent, false)
                 return TextViewHolder(view)
             }
         }
@@ -102,12 +102,12 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<DataItem
     }
 }
 
-class TugasKuliahDiffCallback : DiffUtil.ItemCallback<DataItem>() {
-    override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+class TugasKuliahDiffCallback : DiffUtil.ItemCallback<TugasKuliahDataItem>() {
+    override fun areItemsTheSame(oldItem: TugasKuliahDataItem, newItem: TugasKuliahDataItem): Boolean {
         return oldItem.id == newItem.id
     }
     @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+    override fun areContentsTheSame(oldItem: TugasKuliahDataItem, newItem: TugasKuliahDataItem): Boolean {
         return oldItem == newItem
     }
 
@@ -118,13 +118,13 @@ class TugasKuliahListener(val clickListener: (TugasKuliahId: Long) -> Unit)
     fun onClick(tugas: TugasKuliah) = clickListener(tugas.tugasKuliahId)
 }
 
-sealed class DataItem {
+sealed class TugasKuliahDataItem {
     abstract val id: Long
-    data class TugasKuliahItem(val tugas: TugasKuliah): DataItem(){
+    data class TugasKuliahItem(val tugas: TugasKuliah): TugasKuliahDataItem(){
         override val id = tugas.tugasKuliahId
     }
 
-    object Header: DataItem(){
+    object Header: TugasKuliahDataItem(){
         override val id = Long.MIN_VALUE
     }
 

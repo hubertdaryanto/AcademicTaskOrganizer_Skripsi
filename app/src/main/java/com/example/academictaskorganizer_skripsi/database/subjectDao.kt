@@ -1,11 +1,15 @@
 package com.example.academictaskorganizer_skripsi.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface subjectDao{
     @Query("SELECT SubjectName FROM Subject WHERE SubjectId LIKE :id")
     suspend fun loadSubjectNameById(id: Int): String
+
+    @Query("SELECT * FROM Subject ORDER BY SubjectName ASC")
+    fun getSubjectByNameForeground(): LiveData<List<Subject>>
 
     @Insert
     suspend fun insertSubject(vararg subject: Subject)

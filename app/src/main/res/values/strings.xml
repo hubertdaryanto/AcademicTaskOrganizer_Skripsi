@@ -12,6 +12,9 @@
     <string name="tugas">tugas</string>
     <string name="gambar">Gambar</string>
     <string name="time_icon">Jam</string>
-    <string name="header_text">Tanggal Deadline Tugas Kuliah</string>
+    <string name="list_agenda_header_text">Tanggal Deadline Tugas Kuliah</string>
     <string name="batal">batal</string>
+    <string name="list_subject_header_text">Pilih Subject</string>
+    <string name="tambah_subject">Tambah Subject</string>
+    <string name="nama_subject">Nama Subject</string>
 </resources>

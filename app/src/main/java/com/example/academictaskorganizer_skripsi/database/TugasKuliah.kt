@@ -11,7 +11,7 @@ import java.util.*
 )
 data class TugasKuliah(
     @PrimaryKey(autoGenerate = true)
-    var tugasKuliahId: Long,
+    val tugasKuliahId: Long = 0L,
     @ColumnInfo(name = "subjectId")
     var subjectId: Long,
     @ColumnInfo(name = "tugasKuliahName")
@@ -24,7 +24,7 @@ data class TugasKuliah(
     var isFinished: Boolean,
     @ColumnInfo(name = "notes")
     var notes: String,
-
+    @ColumnInfo(name = "imageId")
     var imageId: Long
 //    var fromBinusmayaId: Long = -1
 )
@@ -32,7 +32,7 @@ data class TugasKuliah(
 @Entity(tableName = "Image")
 data class ImageForTugas(
     @PrimaryKey(autoGenerate = true)
-    var imageId: Long,
+    var imageId: Long = 0L,
     @ColumnInfo(name = "imageName")
     val imageName: String
 )

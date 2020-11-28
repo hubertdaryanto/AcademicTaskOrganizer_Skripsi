@@ -5,11 +5,11 @@
 
     <data>
         <variable
-            name="tugas"
-            type="com.example.academictaskorganizer_skripsi.database.TugasKuliah" />
+            name="subject"
+            type="com.example.academictaskorganizer_skripsi.database.Subject" />
         <variable
-            name="clickListener"
-            type="com.example.academictaskorganizer_skripsi.view.TugasKuliahListener" />
+            name="subjectClickListener"
+            type="com.example.academictaskorganizer_skripsi.view.SubjectListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,26 +34,16 @@
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/text_view_tugas"
+                    android:id="@+id/text_view_subjectName_dialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="@{tugas.tugasKuliahName}"
+                    android:text="@{subject.subjectName}"
                     android:textAppearance="@style/Base.CardView"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/text_view_subject_and_deadline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_tugas"
-                    app:tugasSubjectNameAndDeadlineTime="@{tugas}"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

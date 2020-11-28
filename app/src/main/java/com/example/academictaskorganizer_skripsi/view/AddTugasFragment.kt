@@ -47,7 +47,6 @@ class AddTugasFragment : BaseFragment() {
 //    private lateinit var buttonAddToDoList: ImageButton
 //    private lateinit var buttonAddGambar: ImageButton
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -128,14 +127,13 @@ class AddTugasFragment : BaseFragment() {
 ////
 //                    context?.let {
                     val mTugas = TugasKuliah(
-                        0L,
-                        tugasSubjectId,
-                        tugasTitle,
-                        tugasDeadline,
-                        tugasToDoListId,
-                        false,
-                        tugasNotes,
-                        tugasGambar
+                        subjectId = tugasSubjectId,
+                        tugasKuliahName = tugasTitle,
+                        deadline = tugasDeadline,
+                        toDoListId = tugasToDoListId,
+                        isFinished = false,
+                        notes = tugasNotes,
+                        imageId = tugasGambar
 //                        fromBinusmayaId
                     )
                         addTugasFragmentViewModel.addTugasKuliah(mTugas)
@@ -251,32 +249,5 @@ class AddTugasFragment : BaseFragment() {
         val formatter = SimpleDateFormat("dd-MM-yyyy H:mm")
         val date = formatter.parse(date + " " + time)
         return date.time
-    }
-}
-
-class SubjectDialogFragment : DialogFragment() {
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            // Use the Builder class for convenient dialog construction
-            val builder = AlertDialog.Builder(it)
-
-            val inflater = requireActivity().layoutInflater;
-
-
-//            builder.setMessage(R.string.dialog_fire_missiles)
-            builder.setView(inflater.inflate(R.layout.subject_dialog, null))
-//                .setPositiveButton(R.string.fire,
-//                    DialogInterface.OnClickListener { dialog, id ->
-//                        // FIRE ZE MISSILES!
-//                    })
-                .setNegativeButton(R.string.batal,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                        dismiss()
-                    })
-            // Create the AlertDialog object and return it
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
     }
 }
