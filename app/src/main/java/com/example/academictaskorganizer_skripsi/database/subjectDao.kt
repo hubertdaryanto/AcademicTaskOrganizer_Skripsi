@@ -6,7 +6,11 @@ import androidx.room.*
 @Dao
 interface subjectDao{
     @Query("SELECT SubjectName FROM Subject WHERE SubjectId LIKE :id")
-    suspend fun loadSubjectNameById(id: Int): String
+    suspend fun loadSubjectNameById(id: Long): String
+
+
+    @Query("SELECT SubjectName FROM Subject WHERE SubjectId LIKE :id")
+    fun loadSubjectNameByIdForeground(id: Long): String
 
     @Query("SELECT * FROM Subject ORDER BY SubjectName ASC")
     fun getSubjectByNameForeground(): LiveData<List<Subject>>

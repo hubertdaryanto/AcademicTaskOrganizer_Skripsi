@@ -15,7 +15,7 @@ interface tugasDatabaseDao{
     fun getAllSortedByDeadlineForeground(): LiveData<List<TugasKuliah>>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId IN (:userIds)")
-    suspend fun loadAllByIds(userIds: IntArray): List<TugasKuliah>
+    suspend fun loadAllByIds(userIds: LongArray): List<TugasKuliah>
 
     @Query("SELECT * FROM TugasKuliah WHERE tugasKuliahName LIKE :name")
     suspend fun findByName(name: String): TugasKuliah

@@ -1,8 +1,8 @@
 package com.example.academictaskorganizer_skripsi.view
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
+import android.app.Activity
+import android.content.ClipData.newIntent
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +20,7 @@ import com.example.academictaskorganizer_skripsi.viewModel.SubjectDialogFragment
 
 
 class SubjectDialogFragment : DialogFragment() {
+    val TAG: String = this::class.java.simpleName
 
     private lateinit var binding: SubjectDialogBinding
 
@@ -51,6 +52,13 @@ class SubjectDialogFragment : DialogFragment() {
         subjectDialogFragmentViewModel.subject.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.addHeaderAndSubmitList(it)
+            }
+        })
+
+        subjectDialogFragmentViewModel.selectSubject.observe(viewLifecycleOwner, Observer {
+            it?.let{
+                sendSubject(it)
+                subjectDialogFragmentViewModel.afterSubjectClicked()
             }
         })
 
@@ -157,4 +165,20 @@ class SubjectDialogFragment : DialogFragment() {
 //            builder.create()
 //        } ?: throw IllegalStateException("Activity cannot be null")
 //    }
+
+
+    fun sendSubject(subjectName: Long)
+    {
+        sendResult(subjectName)
+    }
+
+    private fun sendResult(message: Long){
+        if (targetFragment == null)
+        {
+            return
+        }
+        val intent = AddTugasFragment().getInstance()?.newIntent(message)
+        targetFragment!!.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+        dismiss()
+    }
 }

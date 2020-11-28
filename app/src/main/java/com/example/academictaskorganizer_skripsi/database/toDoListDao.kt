@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface toDoListDao{
     @Query("SELECT ToDoListName FROM ToDoList WHERE ToDoListId LIKE :id")
-    suspend fun loadToDoListNameById(id: Int): String
+    suspend fun loadToDoListNameById(id: Long): String
 
     @Insert
     suspend fun insertToDoList(vararg toDoList: ToDoList)
