@@ -14,7 +14,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
@@ -35,6 +34,7 @@ class AddTugasFragment : BaseFragment() {
 
     private var subjectId by Delegates.notNull<Long>()
     private lateinit var selectedImageUri: Uri
+    private lateinit var imagePath: String
 
     val TAG: String = this::class.java.getSimpleName()
     private val TARGET_FRAGMENT_REQUEST_CODE = 1
@@ -55,7 +55,9 @@ class AddTugasFragment : BaseFragment() {
         val dataSource = AppDatabase.getInstance(application).getTugasDao
         SubjectDataSource = AppDatabase.getInstance(application).getSubjectDao
         val viewModelFactory = AddTugasFragmentViewModelFactory(application, dataSource)
-        addTugasFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(AddTugasFragmentViewModel::class.java)
+        addTugasFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
+            AddTugasFragmentViewModel::class.java
+        )
 
 
         addTugasFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {
@@ -135,17 +137,17 @@ class AddTugasFragment : BaseFragment() {
 ////
 //                    context?.let {
                     val mTugas = TugasKuliah(
-                        subjectId = tugasSubjectId,
+                        tugasSubjectId = tugasSubjectId,
                         tugasKuliahName = tugasTitle,
                         deadline = tugasDeadline,
-                        toDoListId = tugasToDoListId,
+                        tugasToDoListId = tugasToDoListId,
                         isFinished = false,
                         notes = tugasNotes,
-                        imageId = tugasGambar
+                        tugasImageId = tugasGambar
 //                        fromBinusmayaId
                     )
                     addTugasFragmentViewModel.addTugasKuliah(mTugas)
-                    context?.toast("Note Saved")
+                    context?.toast("Tugas Saved")
 
 
 //                        val action = AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment()
@@ -176,7 +178,7 @@ class AddTugasFragment : BaseFragment() {
         })
 
         addTugasFragmentViewModel.imageId.observe(viewLifecycleOwner, Observer {
-            it?.let{
+            it?.let {
                 //action not defined
 
                 addTugasFragmentViewModel.afterClickGambar()
@@ -184,26 +186,29 @@ class AddTugasFragment : BaseFragment() {
         })
 
         addTugasFragmentViewModel.addToDoList.observe(viewLifecycleOwner, Observer {
-            if (it == true)
-            {
-                val mToDoList = ToDoList(toDoListName = "Test tambah", isFinished = false, deadline = 0L)
+            if (it == true) {
+                val mToDoList = ToDoList(
+                    toDoListName = "Test tambah",
+                    isFinished = false,
+                    deadline = 0L
+                )
                 addTugasFragmentViewModel.addToDoListItem(mToDoList)
                 addTugasFragmentViewModel.afterAddToDoListClicked()
             }
         })
 
         addTugasFragmentViewModel.addImage.observe(viewLifecycleOwner, Observer {
-            if (it == true)
-            {
+            if (it == true) {
                 val intent = Intent()
                 intent.setType("image/*")
                 intent.setAction(Intent.ACTION_GET_CONTENT)
-                startActivityForResult(Intent.createChooser(intent, "Select a picture"), YOUR_IMAGE_CODE)
+                startActivityForResult(
+                    Intent.createChooser(intent, "Select a picture"),
+                    YOUR_IMAGE_CODE
+                )
 
                 //problem with selectedImageURi
-                val mImage = ImageForTugas(imageName = selectedImageUri.toString())
-                addTugasFragmentViewModel.addImageItem(mImage)
-                addTugasFragmentViewModel.afterAddToDoListClicked()
+
             }
         })
 
@@ -290,6 +295,18 @@ class AddTugasFragment : BaseFragment() {
             if (resultCode == RESULT_OK)
                 if (data != null) {
                     selectedImageUri = data.data!!
+
+
+//                    if (selectedImageUri.toString().contains("content:")) {
+//                        imagePath  = getRealPathFromURI(selectedImageUri)
+//                    } else if (selectedImageUri.toString().contains("file:")) {
+//                        imagePath = selectedImageUri.getPath().toString();
+//                    } else {
+//                        imagePath = null.toString();
+//                    }
+                    val mImage = ImageForTugas(imageName = selectedImageUri.toString())
+                    addTugasFragmentViewModel.addImageItem(mImage)
+                    addTugasFragmentViewModel.afterAddToDoListClicked()
                 }
         }
     }
@@ -303,5 +320,26 @@ class AddTugasFragment : BaseFragment() {
     fun getInstance(): AddTugasFragment? {
         return this
     }
+
+//    fun getRealPathFromURI(uri: Uri): String{
+//        var cursor: Cursor? = null
+//        return try {
+//            val proj = arrayOf(MediaStore.Images.Media.DATA)
+//            cursor = context?.getContentResolver()?.query(
+//                selectedImageUri, proj, null, null,
+//                null
+//            )
+//            val column_index: Int? = cursor
+//                ?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//            cursor?.moveToFirst()
+//            if (column_index != null) {
+//                cursor?.getString(column_index).toString()
+//            }
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close()
+//            }
+//        }
+//    }
 
 }

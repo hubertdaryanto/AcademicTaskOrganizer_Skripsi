@@ -32,7 +32,7 @@ interface tugasDatabaseDao{
     //one to one relationship
     @Transaction
     @Query("SELECT * FROM TugasKuliah WHERE subjectId LIKE :id")
-    suspend fun getTugasKuliahAndSubject(id: Long): TugasKuliahAndSubject
+    suspend fun getTugasKuliahAndSubject(id: Long): SubjectAndTugasKuliah
 
     //one to many relationship
     @Transaction

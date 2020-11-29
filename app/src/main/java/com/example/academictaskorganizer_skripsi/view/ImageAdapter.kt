@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.InputStream
 
 
 class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(
@@ -23,6 +24,9 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
 ) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
+
+    private lateinit var picasso: Picasso
+    private lateinit var binding: ListItemImageForTugasBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -33,6 +37,21 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
         {
             is ViewHolder -> {
                 val item = getItem(position) as DataItem.ImageForTugasItem
+                picasso = Picasso.Builder(holder.binding.root.context).build()
+                picasso.isLoggingEnabled = true
+
+//                if (binding.image?.imageName != null)
+//                {
+//                    var string = binding.image.imageName
+//                    val uri = Uri.parse(string)
+//                    picasso.load(File(uri.path)).into(binding.gambarTugas)
+//                }
+
+
+                //binding.image null!!!
+                val string = item.ImageForTugas.imageName
+                val uri = Uri.parse(string)
+                picasso.load(File(uri.path)).resize(96, 96).into(holder.binding.gambarTugas)
                 holder.bind(item.ImageForTugas, clickListener)
             }
         }
@@ -65,11 +84,6 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
             fun from(parent: ViewGroup): ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemImageForTugasBinding.inflate(layoutInflater, parent, false)
-
-                val picasso = Picasso.Builder(parent.context).build()
-
-                val uri = Uri.parse(binding.image!!.imageName)
-                picasso.load(File(uri.path)).into(binding.gambarTugas)
                 return ViewHolder(binding)
             }
         }

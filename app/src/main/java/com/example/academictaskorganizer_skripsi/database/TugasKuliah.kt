@@ -2,30 +2,29 @@ package com.example.academictaskorganizer_skripsi.database
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import java.io.Serializable
-import java.util.*
 
 @Entity(tableName = "TugasKuliah"
 //    ,foreignKeys = arrayOf(ForeignKey(entity = ToDoList::class, parentColumns = arrayOf("ToDoListId"), childColumns = arrayOf("ToDoListId"), onDelete = CASCADE, onUpdate = CASCADE),
 //    ForeignKey(entity = Subject::class, parentColumns = arrayOf("SubjectId"), childColumns = arrayOf("SubjectId"), onDelete = CASCADE, onUpdate = CASCADE), ForeignKey(entity = ImageForSubject::class, parentColumns = arrayOf("ImageId"), childColumns = arrayOf("ImageId")))
 )
+
 data class TugasKuliah(
     @PrimaryKey(autoGenerate = true)
     val tugasKuliahId: Long = 0L,
-    @ColumnInfo(name = "subjectId")
-    var subjectId: Long,
+    @ColumnInfo(name = "tugasSubjectId")
+    var tugasSubjectId: Long,
     @ColumnInfo(name = "tugasKuliahName")
     var tugasKuliahName: String,
     @ColumnInfo(name = "deadline")
     var deadline: Long,
-    @ColumnInfo(name = "toDoListId")
-    var toDoListId: Long,
+    @ColumnInfo(name = "tugasToDoListId")
+    var tugasToDoListId: Long,
     @ColumnInfo(name = "isFinished")
     var isFinished: Boolean,
     @ColumnInfo(name = "notes")
     var notes: String,
-    @ColumnInfo(name = "imageId")
-    var imageId: Long
+    @ColumnInfo(name = "tugasImageId")
+    var tugasImageId: Long
 //    var fromBinusmayaId: Long = -1
 )
 
@@ -37,19 +36,19 @@ data class ImageForTugas(
     val imageName: String
 )
 
-data class TugasKuliahAndSubject(
-    @Embedded val tugasKuliah: TugasKuliah,
+data class SubjectAndTugasKuliah(
+    @Embedded val subject: Subject,
     @Relation(
-        parentColumn = "tugasKuliahId",
-        entityColumn = "subjectId"
+        parentColumn = "subjectId",
+        entityColumn = "tugasSubjectId"
     )
-    val subject: Subject
+    val tugasKuliah: TugasKuliah
 )
 
 data class TugasKuliahWithToDoList(
     @Embedded val tugasKuliah: TugasKuliah,
     @Relation(
-        parentColumn = "tugasKuliahId",
+        parentColumn = "tugasToDoListId",
         entityColumn = "toDoListId"
     )
     val toDoList: List<ToDoList>
@@ -58,7 +57,7 @@ data class TugasKuliahWithToDoList(
 data class TugasKuliahWithImageForTugas(
     @Embedded val tugasKuliah: TugasKuliah,
     @Relation(
-        parentColumn = "tugasKuliahId",
+        parentColumn = "tugasImageId",
         entityColumn = "imageId"
     )
     val imageForTugas: List<ImageForTugas>
