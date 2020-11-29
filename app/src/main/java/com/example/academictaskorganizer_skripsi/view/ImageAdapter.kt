@@ -1,6 +1,8 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
+import android.icu.number.NumberFormatter.with
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,12 +10,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.academictaskorganizer_skripsi.database.ImageForTugas
 import com.example.academictaskorganizer_skripsi.databinding.ListItemImageForTugasBinding
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
-class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(ImageForTugasDiffCallback()) {
+
+class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(
+    ImageForTugasDiffCallback()
+) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -24,8 +31,7 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder)
         {
-            is ViewHolder ->
-            {
+            is ViewHolder -> {
                 val item = getItem(position) as DataItem.ImageForTugasItem
                 holder.bind(item.ImageForTugas, clickListener)
             }
@@ -45,7 +51,9 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
     }
 
 
-    class ViewHolder private constructor(val binding: ListItemImageForTugasBinding): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: ListItemImageForTugasBinding): RecyclerView.ViewHolder(
+        binding.root
+    ) {
         fun bind(item: ImageForTugas, clickListener: ImageForTugasListener)
         {
             binding.image = item
@@ -57,6 +65,11 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
             fun from(parent: ViewGroup): ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemImageForTugasBinding.inflate(layoutInflater, parent, false)
+
+                val picasso = Picasso.Builder(parent.context).build()
+
+                val uri = Uri.parse(binding.image!!.imageName)
+                picasso.load(File(uri.path)).into(binding.gambarTugas)
                 return ViewHolder(binding)
             }
         }

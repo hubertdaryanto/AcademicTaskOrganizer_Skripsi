@@ -1,10 +1,12 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -16,10 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
-import com.example.academictaskorganizer_skripsi.database.AppDatabase
-import com.example.academictaskorganizer_skripsi.database.ToDoList
-import com.example.academictaskorganizer_skripsi.database.TugasKuliah
-import com.example.academictaskorganizer_skripsi.database.subjectDao
+import com.example.academictaskorganizer_skripsi.database.*
 import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModelFactory
@@ -35,9 +34,12 @@ class AddTugasFragment : BaseFragment() {
     private lateinit var addTugasFragmentViewModel: AddTugasFragmentViewModel
 
     private var subjectId by Delegates.notNull<Long>()
+    private lateinit var selectedImageUri: Uri
 
     val TAG: String = this::class.java.getSimpleName()
     private val TARGET_FRAGMENT_REQUEST_CODE = 1
+
+    private val YOUR_IMAGE_CODE = 2
     private val EXTRA_GREETING_MESSAGE: String = "message"
 
     override fun onCreateView(
@@ -100,6 +102,7 @@ class AddTugasFragment : BaseFragment() {
                 val dialog = SubjectDialogFragment()
                 dialog.setTargetFragment(this, TARGET_FRAGMENT_REQUEST_CODE)
                 dialog.show(parentFragmentManager, dialog.TAG)
+                addTugasFragmentViewModel.doneLoadSubjectDialog()
             }
         })
 
@@ -189,6 +192,21 @@ class AddTugasFragment : BaseFragment() {
             }
         })
 
+        addTugasFragmentViewModel.addImage.observe(viewLifecycleOwner, Observer {
+            if (it == true)
+            {
+                val intent = Intent()
+                intent.setType("image/*")
+                intent.setAction(Intent.ACTION_GET_CONTENT)
+                startActivityForResult(Intent.createChooser(intent, "Select a picture"), YOUR_IMAGE_CODE)
+
+                //problem with selectedImageURi
+                val mImage = ImageForTugas(imageName = selectedImageUri.toString())
+                addTugasFragmentViewModel.addImageItem(mImage)
+                addTugasFragmentViewModel.afterAddToDoListClicked()
+            }
+        })
+
         val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
             addTugasFragmentViewModel.onToDoListClicked(toDoListId)
         })
@@ -206,12 +224,19 @@ class AddTugasFragment : BaseFragment() {
             }
         })
 
+        addTugasFragmentViewModel.imageList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                gambarAdapter.updateList(it)
+            }
+        })
+
 
 //        val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         val manager = LinearLayoutManager(activity)
+        val manager2 = LinearLayoutManager(activity)
         binding.ToDoListRecyclerView.addItemDecoration(MyItemDecoration(16))
         binding.ToDoListRecyclerView.layoutManager = manager
-        binding.GambarRecyclerView.layoutManager = manager
+        binding.GambarRecyclerView.layoutManager = manager2
         binding.addTugasFragmentViewModel = addTugasFragmentViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -259,7 +284,13 @@ class AddTugasFragment : BaseFragment() {
                 subjectId = greeting
                 addTugasFragmentViewModel.convertSubjectIdToSubjectName(greeting)
             }
+        }
 
+        if (requestCode == YOUR_IMAGE_CODE){
+            if (resultCode == RESULT_OK)
+                if (data != null) {
+                    selectedImageUri = data.data!!
+                }
         }
     }
 
