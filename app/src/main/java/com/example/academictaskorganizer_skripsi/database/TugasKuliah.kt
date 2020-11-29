@@ -4,11 +4,14 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
 @Entity(tableName = "TugasKuliah"
-//    ,foreignKeys = arrayOf(ForeignKey(entity = ToDoList::class, parentColumns = arrayOf("ToDoListId"), childColumns = arrayOf("ToDoListId"), onDelete = CASCADE, onUpdate = CASCADE),
-//    ForeignKey(entity = Subject::class, parentColumns = arrayOf("SubjectId"), childColumns = arrayOf("SubjectId"), onDelete = CASCADE, onUpdate = CASCADE), ForeignKey(entity = ImageForSubject::class, parentColumns = arrayOf("ImageId"), childColumns = arrayOf("ImageId")))
-)
-
+    ,foreignKeys = [ForeignKey(entity = ToDoList::class, parentColumns = arrayOf("toDoListId"), childColumns = arrayOf("tugasToDoListId"), onDelete = CASCADE, onUpdate = CASCADE),
+        ForeignKey(entity = Subject::class, parentColumns = arrayOf("subjectId"), childColumns = arrayOf("tugasSubjectId"), onDelete = CASCADE, onUpdate = CASCADE),
+        ForeignKey(entity = ImageForTugas::class, parentColumns = arrayOf("imageId"), childColumns = arrayOf("tugasImageId"), onDelete = CASCADE, onUpdate = CASCADE)
+                   ],
+    indices = [Index("tugasKuliahId")]
+ )
 data class TugasKuliah(
+    @ColumnInfo(name = "tugasKuliahId")
     @PrimaryKey(autoGenerate = true)
     val tugasKuliahId: Long = 0L,
     @ColumnInfo(name = "tugasSubjectId")
@@ -30,6 +33,7 @@ data class TugasKuliah(
 
 @Entity(tableName = "Image")
 data class ImageForTugas(
+    @ColumnInfo(name = "imageId")
     @PrimaryKey(autoGenerate = true)
     var imageId: Long = 0L,
     @ColumnInfo(name = "imageName")
@@ -42,7 +46,7 @@ data class SubjectAndTugasKuliah(
         parentColumn = "subjectId",
         entityColumn = "tugasSubjectId"
     )
-    val tugasKuliah: TugasKuliah
+    val tugasKuliah: List<TugasKuliah>
 )
 
 data class TugasKuliahWithToDoList(

@@ -9,6 +9,7 @@ import java.io.Serializable
 
 @Entity(tableName = "Subject")
 data class Subject(
+    @ColumnInfo(name = "subjectId")
     @PrimaryKey(autoGenerate = true)
     var subjectId: Long = 0L,
     @ColumnInfo(name = "subjectName")

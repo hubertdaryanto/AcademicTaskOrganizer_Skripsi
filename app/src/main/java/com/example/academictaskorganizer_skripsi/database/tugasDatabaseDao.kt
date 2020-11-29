@@ -31,13 +31,13 @@ interface tugasDatabaseDao{
 
     //one to one relationship
     @Transaction
-    @Query("SELECT * FROM TugasKuliah WHERE subjectId LIKE :id")
-    suspend fun getTugasKuliahAndSubject(id: Long): SubjectAndTugasKuliah
+    @Query("SELECT * FROM Subject WHERE subjectId  IN (SELECT DISTINCT(tugasSubjectId) FROM TugasKuliah)")
+    fun getTugasKuliahAndSubject(): LiveData<List<SubjectAndTugasKuliah>>
 
     //one to many relationship
     @Transaction
-    @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId LIKE :id")
-    suspend fun getTugasKuliahWithToDoList(id: Long): TugasKuliahWithToDoList
+    @Query("SELECT * FROM TugasKuliah WHERE tugasToDoListId IN (SELECT DISTINCT(toDoListId) FROM ToDoList)")
+    fun getTugasKuliahWithToDoList(): LiveData<List<TugasKuliahWithToDoList>>
 
     @Query("SELECT * FROM Subject WHERE subjectId LIKE :id")
     suspend fun loadSubjectName(id: Long): Subject

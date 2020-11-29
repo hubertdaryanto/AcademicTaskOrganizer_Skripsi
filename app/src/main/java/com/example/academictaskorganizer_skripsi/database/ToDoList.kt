@@ -9,6 +9,7 @@ import java.util.*
 
 @Entity(tableName = "ToDoList")
 data class ToDoList(
+    @ColumnInfo(name = "toDoListId")
     @PrimaryKey(autoGenerate = true)
     var toDoListId: Long = 0L,
     @ColumnInfo(name = "toDoListName")
