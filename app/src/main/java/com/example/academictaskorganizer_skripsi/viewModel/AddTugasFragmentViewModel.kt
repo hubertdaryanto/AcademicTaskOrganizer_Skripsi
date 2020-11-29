@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.academictaskorganizer_skripsi.components.addNewItem
+import com.example.academictaskorganizer_skripsi.components.notifyObserver
 import com.example.academictaskorganizer_skripsi.database.ToDoList
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.database.TugasKuliahWithToDoList
@@ -14,8 +16,8 @@ import kotlinx.coroutines.*
 class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel() {
     val database = dataSource
 
-    private var _toDoList = MutableLiveData<List<ToDoList?>>()
-    val toDoList: LiveData<List<ToDoList?>>
+    val _toDoList = MutableLiveData<MutableList<ToDoList>>()
+    val toDoList: LiveData<MutableList<ToDoList>>
         get() = _toDoList
     /** Coroutine variables */
 
@@ -56,15 +58,35 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     val showSubjectDialog: LiveData<Boolean?>
         get() = _showSubjectDialog
 
+    private val _addToDoList = MutableLiveData<Boolean?>()
+    val addToDoList: LiveData<Boolean?>
+        get() = _addToDoList
+
 
     //can be useful when edit tugas
     private val _toDoListId = MutableLiveData<Long?>()
     val toDoListId: LiveData<Long?>
         get() = _toDoListId
 
+    _imageId
+
+    private val _imageId = MutableLiveData<Long?>()
+    val imageId: LiveData<Long?>
+        get() = _imageId
+
     fun onShowSubjectDialogClicked()
     {
         _showSubjectDialog.value = true
+    }
+
+    fun onAddToDoListClicked()
+    {
+        _addToDoList.value = true
+    }
+
+    fun afterAddToDoListClicked()
+    {
+        _addToDoList.value = null
     }
 
     fun doneLoadSubjectDialog()
@@ -72,9 +94,10 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
         _showSubjectDialog.value = null
     }
 
-    fun addToDoListItem(name: String)
+    fun addToDoListItem(toDoList: ToDoList)
     {
-        _toDoList.
+        _toDoList.addNewItem(toDoList)
+        _toDoList.notifyObserver()
     }
 
 
@@ -138,9 +161,18 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
         _toDoListId.value = toDoListId
     }
 
+    fun onGambarClicked(imageId: Long){
+        _imageId.value = imageId
+    }
+
     fun afterClickToDoList()
     {
         _toDoListId.value = null
+    }
+
+    fun afterClickGambar()
+    {
+        _imageId.value = null
     }
 
 }

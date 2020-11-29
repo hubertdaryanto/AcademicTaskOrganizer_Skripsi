@@ -6,16 +6,18 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.academictaskorganizer_skripsi.R
+import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
+import com.example.academictaskorganizer_skripsi.database.ToDoList
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.database.subjectDao
 import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
@@ -42,6 +44,7 @@ class AddTugasFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
 
         val application = requireNotNull(this.activity).application
         // Inflate the layout for this fragment
@@ -169,14 +172,65 @@ class AddTugasFragment : BaseFragment() {
             }
         })
 
+        addTugasFragmentViewModel.imageId.observe(viewLifecycleOwner, Observer {
+            it?.let{
+                //action not defined
+
+                addTugasFragmentViewModel.afterClickGambar()
+            }
+        })
+
+        addTugasFragmentViewModel.addToDoList.observe(viewLifecycleOwner, Observer {
+            if (it == true)
+            {
+                val mToDoList = ToDoList(toDoListName = "Test tambah", isFinished = false, deadline = 0L)
+                addTugasFragmentViewModel.addToDoListItem(mToDoList)
+                addTugasFragmentViewModel.afterAddToDoListClicked()
+            }
+        })
+
         val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
             addTugasFragmentViewModel.onToDoListClicked(toDoListId)
         })
         binding.ToDoListRecyclerView.adapter = toDoListAdapter
 
+
+        val gambarAdapter = ImageForTugasAdapter(ImageForTugasListener { imageId ->
+            addTugasFragmentViewModel.onGambarClicked(imageId)
+        })
+        binding.GambarRecyclerView.adapter = gambarAdapter
+
+        addTugasFragmentViewModel.toDoList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                toDoListAdapter.updateList(it)
+            }
+        })
+
+
+//        val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
+        val manager = LinearLayoutManager(activity)
+        binding.ToDoListRecyclerView.addItemDecoration(MyItemDecoration(16))
+        binding.ToDoListRecyclerView.layoutManager = manager
+        binding.GambarRecyclerView.layoutManager = manager
         binding.addTugasFragmentViewModel = addTugasFragmentViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-            return binding.root
+
+        return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.addtugas_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId)
+        {
+            R.id.actionSaveTugas -> {
+                addTugasFragmentViewModel.onAddTugasKuliahClicked2()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
 

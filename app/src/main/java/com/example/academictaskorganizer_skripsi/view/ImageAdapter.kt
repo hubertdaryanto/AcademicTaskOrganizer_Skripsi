@@ -7,14 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.academictaskorganizer_skripsi.database.ImageForTugas
-import com.example.academictaskorganizer_skripsi.database.ToDoList
-import com.example.academictaskorganizer_skripsi.databinding.ListItemToDoListBinding
+import com.example.academictaskorganizer_skripsi.databinding.ListItemImageForTugasBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ToDoListAdapter(val clickListener: ToDoListListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
+class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(ImageForTugasDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -23,20 +22,20 @@ class ToDoListAdapter(val clickListener: ToDoListListener): ListAdapter<DataItem
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-       when (holder)
-       {
-           is ViewHolder ->
-           {
-               val item = getItem(position) as DataItem.ToDoListItem
-               holder.bind(item.toDoList, clickListener)
-           }
-       }
+        when (holder)
+        {
+            is ViewHolder ->
+            {
+                val item = getItem(position) as DataItem.ImageForTugasItem
+                holder.bind(item.ImageForTugas, clickListener)
+            }
+        }
     }
 
-    fun updateList(list: List<ToDoList>?) {
+    fun updateList(list: List<ImageForTugas>?) {
         adapterScope.launch {
             val items = list?.map {
-                DataItem.ToDoListItem(it)
+                DataItem.ImageForTugasItem(it)
             }
 
             withContext(Dispatchers.Main){
@@ -46,25 +45,25 @@ class ToDoListAdapter(val clickListener: ToDoListListener): ListAdapter<DataItem
     }
 
 
-    class ViewHolder private constructor(val binding: ListItemToDoListBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ToDoList, clickListener: ToDoListListener)
+    class ViewHolder private constructor(val binding: ListItemImageForTugasBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: ImageForTugas, clickListener: ImageForTugasListener)
         {
-            binding.toDoList = item
-            binding.toDoListClickListener = clickListener
+            binding.image = item
+            binding.imageClickListener = clickListener
             binding.executePendingBindings()
         }
 
         companion object{
             fun from(parent: ViewGroup): ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ListItemToDoListBinding.inflate(layoutInflater, parent, false)
+                val binding = ListItemImageForTugasBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }
     }
 }
 
-class ToDoListDiffCallback : DiffUtil.ItemCallback<DataItem>() {
+class ImageForTugasDiffCallback : DiffUtil.ItemCallback<DataItem>() {
     override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
         return oldItem.id == newItem.id
     }
@@ -75,20 +74,9 @@ class ToDoListDiffCallback : DiffUtil.ItemCallback<DataItem>() {
 
 }
 
-class ToDoListListener(val clickListener: (ToDoListId: Long) -> Unit)
+class ImageForTugasListener(val clickListener: (ImageForTugasId: Long) -> Unit)
 {
-    fun onClick(toDoList: ToDoList) = clickListener(toDoList.toDoListId)
+    fun onClick(ImageForTugas: ImageForTugas) = clickListener(ImageForTugas.imageId)
 }
 
-
-sealed class DataItem {
-    abstract val id: Long
-    data class ToDoListItem(val toDoList: ToDoList): DataItem(){
-        override val id = toDoList.toDoListId
-    }
-
-    data class ImageForTugasItem(val ImageForTugas: ImageForTugas): DataItem(){
-        override val id = ImageForTugas.imageId
-    }
-
-}
+//DataItem class ada di ToDoListAdapter.kt

@@ -136,7 +136,7 @@
                         android:textColor="#000000"
                         android:textSize="@dimen/text_body_size"
                         app:fontFamily="@font/roboto"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/addToDoListButton"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/add_to_do_list_button"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
@@ -152,7 +152,7 @@
                         android:cropToPadding="false"
                         android:focusable="true"
                         android:foregroundTint="#54000000"
-                        android:id="@+id/addToDoListButton"
+                        android:id="@+id/add_to_do_list_button"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
                         android:layout_height="24dp"
@@ -165,7 +165,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/ToDoListRecyclerView"
+                    android:id="@+id/EditToDoListRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/app_layout_margin"
