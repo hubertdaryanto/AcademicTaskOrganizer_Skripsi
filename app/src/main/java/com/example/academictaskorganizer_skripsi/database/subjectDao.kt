@@ -15,7 +15,7 @@ interface subjectDao{
     @Query("SELECT * FROM Subject ORDER BY SubjectName ASC")
     fun getSubjectByNameForeground(): LiveData<List<Subject>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSubject(vararg subject: Subject)
 
     @Delete

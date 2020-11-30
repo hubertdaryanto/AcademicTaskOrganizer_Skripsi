@@ -32,7 +32,7 @@ class AddTugasFragment : BaseFragment() {
     private lateinit var SubjectDataSource: subjectDao
     private lateinit var addTugasFragmentViewModel: AddTugasFragmentViewModel
 
-    private var subjectId by Delegates.notNull<Int>()
+    private var subjectId by Delegates.notNull<Long>()
     private lateinit var selectedImageUri: Uri
     private lateinit var imagePath: String
 
@@ -290,7 +290,7 @@ class AddTugasFragment : BaseFragment() {
             return
         }
         if (requestCode == TARGET_FRAGMENT_REQUEST_CODE) {
-            val greeting = data?.getIntExtra(EXTRA_GREETING_MESSAGE, 0)
+            val greeting = data?.getLongExtra(EXTRA_GREETING_MESSAGE, 0)
             if (greeting != null) {
                 subjectId = greeting
                 addTugasFragmentViewModel.convertSubjectIdToSubjectName(greeting)
@@ -317,7 +317,7 @@ class AddTugasFragment : BaseFragment() {
         }
     }
 
-    fun newIntent(message: Int?): Intent? {
+    fun newIntent(message: Long?): Intent? {
         val intent = Intent()
         intent.putExtra(EXTRA_GREETING_MESSAGE, message)
         return intent

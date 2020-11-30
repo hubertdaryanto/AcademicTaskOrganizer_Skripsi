@@ -113,19 +113,19 @@ class TugasKuliahDiffCallback : DiffUtil.ItemCallback<TugasKuliahDataItem>() {
 
 }
 
-class TugasKuliahListener(val clickListener: (TugasKuliahId: Int) -> Unit)
+class TugasKuliahListener(val clickListener: (TugasKuliahId: Long) -> Unit)
 {
     fun onClick(tugas: TugasKuliah) = clickListener(tugas.tugasKuliahId)
 }
 
 sealed class TugasKuliahDataItem {
-    abstract val id: Int
+    abstract val id: Long
     data class TugasKuliahItem(val tugas: TugasKuliah): TugasKuliahDataItem(){
         override val id = tugas.tugasKuliahId
     }
 
     object Header: TugasKuliahDataItem(){
-        override val id = Int.MIN_VALUE
+        override val id = Long.MIN_VALUE
     }
 
 

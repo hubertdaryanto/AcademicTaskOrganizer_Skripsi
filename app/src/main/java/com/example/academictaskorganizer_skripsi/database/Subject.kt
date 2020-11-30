@@ -6,9 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Subject")
 data class Subject(
-    @ColumnInfo(name = "subjectId")
-    @PrimaryKey(autoGenerate = true)
-    var subjectId: Int = 0,
     @ColumnInfo(name = "subjectName")
     var subjectName: String
 ){
@@ -16,4 +13,7 @@ data class Subject(
 //         this.subjectId = subjectAndTugasKuliah.subject.subjectId
 //         this.subjectName = subjectAndTugasKuliah.subject.subjectName
 //     }
+@PrimaryKey(autoGenerate = true)
+@ColumnInfo(name = "subjectId")
+var subjectId: Long = 0
 }

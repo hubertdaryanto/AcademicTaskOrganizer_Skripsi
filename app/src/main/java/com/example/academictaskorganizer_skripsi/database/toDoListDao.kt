@@ -7,7 +7,7 @@ interface toDoListDao{
     @Query("SELECT ToDoListName FROM ToDoList WHERE ToDoListId LIKE :id")
     suspend fun loadToDoListNameById(id: Long): String
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertToDoList(vararg toDoList: ToDoList)
 
     @Delete

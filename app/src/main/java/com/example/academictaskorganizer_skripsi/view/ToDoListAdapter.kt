@@ -75,14 +75,14 @@ class ToDoListDiffCallback : DiffUtil.ItemCallback<DataItem>() {
 
 }
 
-class ToDoListListener(val clickListener: (ToDoListId: Int) -> Unit)
+class ToDoListListener(val clickListener: (ToDoListId: Long) -> Unit)
 {
     fun onClick(toDoList: ToDoList) = clickListener(toDoList.toDoListId)
 }
 
 
 sealed class DataItem {
-    abstract val id: Int
+    abstract val id: Long
     data class ToDoListItem(val toDoList: ToDoList): DataItem(){
         override val id = toDoList.toDoListId
     }

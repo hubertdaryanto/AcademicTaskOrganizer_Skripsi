@@ -21,14 +21,20 @@ interface tugasDatabaseDao{
     @Query("SELECT * FROM TugasKuliah WHERE tugasKuliahName LIKE :name")
     suspend fun findByName(name: String): TugasKuliah
 
-    @Insert
-    suspend fun insertTugas(vararg TugasKuliah: TugasKuliah)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTugas(TugasKuliah: TugasKuliah): Long
 
-    @Insert
-    suspend fun insertToDoList(vararg toDoList: ToDoList)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertToDoLists(toDoList: List<ToDoList>)
 
-    @Insert
-    suspend fun insertImages(vararg imageForTugas: ImageForTugas)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertImages(imageForTugas: List<ImageForTugas>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertToDoList(toDoList: ToDoList)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertImage(imageForTugas: ImageForTugas)
 
     @Delete
     suspend fun deleteTugas(TugasKuliah: TugasKuliah)
@@ -47,5 +53,5 @@ interface tugasDatabaseDao{
 //    fun getTugasKuliahWithToDoList(): LiveData<List<TugasKuliahWithToDoList>>
 
     @Query("SELECT subjectName FROM Subject WHERE subjectId LIKE :id")
-    suspend fun loadSubjectName(id: Int): String
+    suspend fun loadSubjectName(id: Long): String
 }

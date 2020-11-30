@@ -103,19 +103,19 @@ class SubjectDiffCallback : DiffUtil.ItemCallback<SubjectDataItem>() {
 
 }
 
-class SubjectListener(val clickListener: (subjectId: Int) -> Unit)
+class SubjectListener(val clickListener: (subjectId: Long) -> Unit)
 {
     fun onClick(subject: Subject) = clickListener(subject.subjectId)
 }
 
 sealed class SubjectDataItem {
-    abstract val id: Int
+    abstract val id: Long
     data class SubjectItem(val subject: Subject): SubjectDataItem(){
         override val id = subject.subjectId
     }
 
     object Header: SubjectDataItem(){
-        override val id = Int.MIN_VALUE
+        override val id = Long.MIN_VALUE
     }
 
 

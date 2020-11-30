@@ -14,11 +14,8 @@ import java.util.*
 ]
 )
 data class ToDoList(
-    @ColumnInfo(name = "toDoListId")
-    @PrimaryKey(autoGenerate = true)
-    var toDoListId: Int = 0,
     @ColumnInfo(name = "bindToTugasKuliahId")
-    val bindToTugasKuliahId: Int,
+    var bindToTugasKuliahId: Long,
     @ColumnInfo(name = "toDoListName")
     var toDoListName: String,
     @ColumnInfo(name = "deadline")
@@ -26,3 +23,8 @@ data class ToDoList(
     @ColumnInfo(name = "isFinished")
     var isFinished: Boolean
 )
+{
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "toDoListId")
+    var toDoListId: Long = 0
+}

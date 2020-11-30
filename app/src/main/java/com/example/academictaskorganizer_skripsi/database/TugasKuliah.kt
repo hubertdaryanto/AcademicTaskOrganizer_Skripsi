@@ -14,11 +14,8 @@ import androidx.room.ForeignKey.CASCADE
 //    indices = [Index("tugasKuliahId")]
  )
 data class TugasKuliah(
-    @ColumnInfo(name = "tugasKuliahId")
-    @PrimaryKey(autoGenerate = true)
-    val tugasKuliahId: Int = 0,
     @ColumnInfo(name = "tugasSubjectId")
-    var tugasSubjectId: Int,
+    var tugasSubjectId: Long,
     @ColumnInfo(name = "tugasKuliahName")
     var tugasKuliahName: String,
     @ColumnInfo(name = "deadline")
@@ -34,19 +31,26 @@ data class TugasKuliah(
 //    var tugasImageId: Long
 //    var fromBinusmayaId: Long = -1
 )
+{
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "tugasKuliahId")
+    var tugasKuliahId: Long = 0
+}
 
 @Entity(tableName = "Image", foreignKeys = [
     ForeignKey(entity = TugasKuliah::class, parentColumns = ["tugasKuliahId"], childColumns = ["bindToTugasKuliahId"], onDelete = CASCADE, onUpdate = CASCADE)
 ])
 data class ImageForTugas(
-    @ColumnInfo(name = "imageId")
-    @PrimaryKey(autoGenerate = true)
-    var imageId: Int = 0,
     @ColumnInfo(name = "bindToTugasKuliahId")
-    val bindToTugasKuliahId: Int,
+    var bindToTugasKuliahId: Long,
     @ColumnInfo(name = "imageName")
-    val imageName: String
+    var imageName: String
 )
+{
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "imageId")
+    var imageId: Long = 0
+}
 
 data class SubjectAndTugasKuliah(
     @Embedded val subject: Subject,

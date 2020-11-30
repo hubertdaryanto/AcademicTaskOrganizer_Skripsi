@@ -24,8 +24,8 @@ class SubjectDialogFragmentViewModel(application: Application, dataSource: subje
     val dismiss: LiveData<Boolean?>
         get() = _dismiss
 
-    private val _selectSubject = MutableLiveData<Int?>()
-    val selectSubject: LiveData<Int?>
+    private val _selectSubject = MutableLiveData<Long?>()
+    val selectSubject: LiveData<Long?>
         get() = _selectSubject
 
     fun onShowAddSubjectDialogClicked() {
@@ -37,7 +37,7 @@ class SubjectDialogFragmentViewModel(application: Application, dataSource: subje
         _showAddSubjectDialog.value = null
     }
 
-    fun onSubjectClicked(id: Int) {
+    fun onSubjectClicked(id: Long) {
         _selectSubject.value = id
     }
 

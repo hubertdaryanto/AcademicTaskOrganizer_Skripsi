@@ -101,7 +101,7 @@ class ImageForTugasDiffCallback : DiffUtil.ItemCallback<DataItem>() {
 
 }
 
-class ImageForTugasListener(val clickListener: (ImageForTugasId: Int) -> Unit)
+class ImageForTugasListener(val clickListener: (ImageForTugasId: Long) -> Unit)
 {
     fun onClick(ImageForTugas: ImageForTugas) = clickListener(ImageForTugas.imageId)
 }

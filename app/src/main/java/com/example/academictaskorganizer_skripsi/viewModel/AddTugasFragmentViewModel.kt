@@ -10,6 +10,7 @@ import com.example.academictaskorganizer_skripsi.components.addNewItem
 import com.example.academictaskorganizer_skripsi.components.notifyObserver
 import com.example.academictaskorganizer_skripsi.database.*
 import kotlinx.coroutines.*
+import java.util.*
 
 class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel() {
     val database = dataSource
@@ -74,12 +75,12 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
 
 
     //can be useful when edit tugas
-    private val _toDoListId = MutableLiveData<Int?>()
-    val toDoListId: LiveData<Int?>
+    private val _toDoListId = MutableLiveData<Long?>()
+    val toDoListId: LiveData<Long?>
         get() = _toDoListId
 
-    private val _imageId = MutableLiveData<Int?>()
-    val imageId: LiveData<Int?>
+    private val _imageId = MutableLiveData<Long?>()
+    val imageId: LiveData<Long?>
         get() = _imageId
 
     fun onShowSubjectDialogClicked()
@@ -156,20 +157,24 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     fun addTugasKuliah(tugasKuliah: TugasKuliah)
     {
         viewModelScope.launch {
-            database.insertTugas(tugasKuliah)
+            var tugasKuliaId = database.insertTugas(tugasKuliah)
             //insert to do list and image in here too
 
             //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
             for (i in toDoList.value!!)
             {
+                i.bindToTugasKuliahId = tugasKuliaId
                 database.insertToDoList(i)
             }
 
             for (i in imageList.value!!)
             {
-                database.insertImages(i)
+                i.bindToTugasKuliahId = tugasKuliaId
+                database.insertImage(i)
             }
             //how to insert multiple data to database in one time?
+//            database.insertToDoLists(Collections.unmodifiableList(toDoList.value))
+//            database.insertImages(Collections.unmodifiableList(imageList.value))
 
         }
     }
@@ -184,7 +189,7 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
         _addTugasKuliahNavigation.value = null
     }
 
-    fun convertSubjectIdToSubjectName(id: Int){
+    fun convertSubjectIdToSubjectName(id: Long){
         viewModelScope.launch {
             _string.value = database.loadSubjectName(id)
         }
@@ -196,11 +201,11 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
         _string.value = null
     }
 
-    fun onToDoListClicked(toDoListId: Int) {
+    fun onToDoListClicked(toDoListId: Long) {
         _toDoListId.value = toDoListId
     }
 
-    fun onGambarClicked(imageId: Int){
+    fun onGambarClicked(imageId: Long){
         _imageId.value = imageId
     }
 
