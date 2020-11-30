@@ -1,6 +1,7 @@
 package com.example.academictaskorganizer_skripsi.database
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 @Dao
@@ -23,22 +24,28 @@ interface tugasDatabaseDao{
     @Insert
     suspend fun insertTugas(vararg TugasKuliah: TugasKuliah)
 
+    @Insert
+    suspend fun insertToDoList(vararg toDoList: ToDoList)
+
+    @Insert
+    suspend fun insertImages(vararg imageForTugas: ImageForTugas)
+
     @Delete
     suspend fun deleteTugas(TugasKuliah: TugasKuliah)
 
     @Update
     suspend fun updateTugas(TugasKuliah: TugasKuliah)
 
-    //one to one relationship
-    @Transaction
-    @Query("SELECT * FROM Subject WHERE subjectId  IN (SELECT DISTINCT(tugasSubjectId) FROM TugasKuliah)")
-    fun getTugasKuliahAndSubject(): LiveData<List<SubjectAndTugasKuliah>>
+    //one to many relationship
+//    @Transaction
+//    @Query("SELECT * FROM TugasKuliah WHERE tugasSubjectId  IN (SELECT DISTINCT(subjectId) FROM Subject)")
+//    fun getTugasKuliahAndSubject(): LiveData<List<SubjectAndTugasKuliah>>
 
     //one to many relationship
-    @Transaction
-    @Query("SELECT * FROM TugasKuliah WHERE tugasToDoListId IN (SELECT DISTINCT(toDoListId) FROM ToDoList)")
-    fun getTugasKuliahWithToDoList(): LiveData<List<TugasKuliahWithToDoList>>
+//    @Transaction
+//    @Query("SELECT * FROM ToDoList WHERE bindToTugasKuliahId IN (SELECT DISTINCT(tugasKuliahId) FROM TugasKuliah)")
+//    fun getTugasKuliahWithToDoList(): LiveData<List<TugasKuliahWithToDoList>>
 
-    @Query("SELECT * FROM Subject WHERE subjectId LIKE :id")
-    suspend fun loadSubjectName(id: Long): Subject
+    @Query("SELECT subjectName FROM Subject WHERE subjectId LIKE :id")
+    suspend fun loadSubjectName(id: Int): String
 }

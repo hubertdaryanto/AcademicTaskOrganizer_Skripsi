@@ -4,38 +4,46 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
 @Entity(tableName = "TugasKuliah"
-    ,foreignKeys = [ForeignKey(entity = ToDoList::class, parentColumns = arrayOf("toDoListId"), childColumns = arrayOf("tugasToDoListId"), onDelete = CASCADE, onUpdate = CASCADE),
-        ForeignKey(entity = Subject::class, parentColumns = arrayOf("subjectId"), childColumns = arrayOf("tugasSubjectId"), onDelete = CASCADE, onUpdate = CASCADE),
-        ForeignKey(entity = ImageForTugas::class, parentColumns = arrayOf("imageId"), childColumns = arrayOf("tugasImageId"), onDelete = CASCADE, onUpdate = CASCADE)
-                   ],
-    indices = [Index("tugasKuliahId")]
+    ,foreignKeys = [
+//        ForeignKey(entity = ToDoList::class, parentColumns = arrayOf("toDoListId"), childColumns = arrayOf("tugasToDoListId"), onDelete = CASCADE, onUpdate = CASCADE),
+        ForeignKey(entity = Subject::class, parentColumns = arrayOf("subjectId"), childColumns = arrayOf("tugasSubjectId"), onDelete = CASCADE, onUpdate = CASCADE)
+//        ,
+//        ForeignKey(entity = ImageForTugas::class, parentColumns = arrayOf("imageId"), childColumns = arrayOf("tugasImageId"), onDelete = CASCADE, onUpdate = CASCADE)
+                   ]
+//    ,
+//    indices = [Index("tugasKuliahId")]
  )
 data class TugasKuliah(
     @ColumnInfo(name = "tugasKuliahId")
     @PrimaryKey(autoGenerate = true)
-    val tugasKuliahId: Long = 0L,
+    val tugasKuliahId: Int = 0,
     @ColumnInfo(name = "tugasSubjectId")
-    var tugasSubjectId: Long,
+    var tugasSubjectId: Int,
     @ColumnInfo(name = "tugasKuliahName")
     var tugasKuliahName: String,
     @ColumnInfo(name = "deadline")
     var deadline: Long,
-    @ColumnInfo(name = "tugasToDoListId")
-    var tugasToDoListId: Long,
+//    @ColumnInfo(name = "tugasToDoListId")
+//    var tugasToDoListId: Long,
     @ColumnInfo(name = "isFinished")
     var isFinished: Boolean,
     @ColumnInfo(name = "notes")
-    var notes: String,
-    @ColumnInfo(name = "tugasImageId")
-    var tugasImageId: Long
+    var notes: String
+//    ,
+//    @ColumnInfo(name = "tugasImageId")
+//    var tugasImageId: Long
 //    var fromBinusmayaId: Long = -1
 )
 
-@Entity(tableName = "Image")
+@Entity(tableName = "Image", foreignKeys = [
+    ForeignKey(entity = TugasKuliah::class, parentColumns = ["tugasKuliahId"], childColumns = ["bindToTugasKuliahId"], onDelete = CASCADE, onUpdate = CASCADE)
+])
 data class ImageForTugas(
     @ColumnInfo(name = "imageId")
     @PrimaryKey(autoGenerate = true)
-    var imageId: Long = 0L,
+    var imageId: Int = 0,
+    @ColumnInfo(name = "bindToTugasKuliahId")
+    val bindToTugasKuliahId: Int,
     @ColumnInfo(name = "imageName")
     val imageName: String
 )
@@ -52,8 +60,8 @@ data class SubjectAndTugasKuliah(
 data class TugasKuliahWithToDoList(
     @Embedded val tugasKuliah: TugasKuliah,
     @Relation(
-        parentColumn = "tugasToDoListId",
-        entityColumn = "toDoListId"
+        parentColumn = "tugasKuliahId",
+        entityColumn = "bindToTugasKuliahId"
     )
     val toDoList: List<ToDoList>
 )
@@ -61,8 +69,8 @@ data class TugasKuliahWithToDoList(
 data class TugasKuliahWithImageForTugas(
     @Embedded val tugasKuliah: TugasKuliah,
     @Relation(
-        parentColumn = "tugasImageId",
-        entityColumn = "imageId"
+        parentColumn = "tugasKuliahId",
+        entityColumn = "bindToTugasKuliahId"
     )
     val imageForTugas: List<ImageForTugas>
 )

@@ -15,8 +15,8 @@ class HomeFragmentViewModel(dataSource: tugasDatabaseDao, application: Applicati
 
     var tugas = database.getAllSortedByDeadlineForeground()
 
-    private val _navigateToEditTugasKuliah = MutableLiveData<Long>()
-    val navigateToEditTugasKuliah: LiveData<Long>
+    private val _navigateToEditTugasKuliah = MutableLiveData<Int>()
+    val navigateToEditTugasKuliah: LiveData<Int>
         get() = _navigateToEditTugasKuliah
 
     private val _navigateToAddTugasKuliah = MutableLiveData<Boolean>()
@@ -65,7 +65,7 @@ class HomeFragmentViewModel(dataSource: tugasDatabaseDao, application: Applicati
         _navigateToAddTugasKuliah.value = false
     }
 
-    fun onTugasKuliahClicked(id: Long) {
+    fun onTugasKuliahClicked(id: Int) {
         _navigateToEditTugasKuliah.value = id
     }
 

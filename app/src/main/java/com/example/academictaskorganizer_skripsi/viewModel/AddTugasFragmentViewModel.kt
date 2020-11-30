@@ -14,6 +14,10 @@ import kotlinx.coroutines.*
 class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel() {
     val database = dataSource
 
+    private val _tugasKuliah = MutableLiveData<TugasKuliah>()
+    val tugasKuliah: LiveData<TugasKuliah>
+        get() = _tugasKuliah
+
     private val _toDoList = MutableLiveData<MutableList<ToDoList>>()
     val toDoList: LiveData<MutableList<ToDoList>>
         get() = _toDoList
@@ -28,8 +32,8 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
      */
     private var viewModelJob = Job()
 
-    private val _string = MutableLiveData<String?>()
-    val string: LiveData<String?>
+    private val _string = MutableLiveData<String>()
+    val string: LiveData<String>
         get() = _string
 
     /**
@@ -70,12 +74,12 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
 
 
     //can be useful when edit tugas
-    private val _toDoListId = MutableLiveData<Long?>()
-    val toDoListId: LiveData<Long?>
+    private val _toDoListId = MutableLiveData<Int?>()
+    val toDoListId: LiveData<Int?>
         get() = _toDoListId
 
-    private val _imageId = MutableLiveData<Long?>()
-    val imageId: LiveData<Long?>
+    private val _imageId = MutableLiveData<Int?>()
+    val imageId: LiveData<Int?>
         get() = _imageId
 
     fun onShowSubjectDialogClicked()
@@ -142,8 +146,8 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
 
     fun onAddTugasKuliahClicked2()
     {
-//        uiScope.launch {
-//            insert(tugasKuliah)
+//        viewModelScope.launch {
+
             _addTugasKuliahNavigation.value = true
 //        }
 
@@ -153,6 +157,20 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     {
         viewModelScope.launch {
             database.insertTugas(tugasKuliah)
+            //insert to do list and image in here too
+
+            //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
+            for (i in toDoList.value!!)
+            {
+                database.insertToDoList(i)
+            }
+
+            for (i in imageList.value!!)
+            {
+                database.insertImages(i)
+            }
+            //how to insert multiple data to database in one time?
+
         }
     }
 
@@ -166,9 +184,9 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
         _addTugasKuliahNavigation.value = null
     }
 
-    fun convertSubjectIdToSubjectName(id: Long){
+    fun convertSubjectIdToSubjectName(id: Int){
         viewModelScope.launch {
-            _string.value = database.loadSubjectName(id).subjectName
+            _string.value = database.loadSubjectName(id)
         }
         //ke load tapi telat
     }
@@ -178,11 +196,11 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
         _string.value = null
     }
 
-    fun onToDoListClicked(toDoListId: Long) {
+    fun onToDoListClicked(toDoListId: Int) {
         _toDoListId.value = toDoListId
     }
 
-    fun onGambarClicked(imageId: Long){
+    fun onGambarClicked(imageId: Int){
         _imageId.value = imageId
     }
 

@@ -167,12 +167,12 @@ class SubjectDialogFragment : DialogFragment() {
 //    }
 
 
-    fun sendSubject(subjectName: Long)
+    fun sendSubject(subjectName: Int)
     {
         sendResult(subjectName)
     }
 
-    private fun sendResult(message: Long){
+    private fun sendResult(message: Int){
         if (targetFragment == null)
         {
             return

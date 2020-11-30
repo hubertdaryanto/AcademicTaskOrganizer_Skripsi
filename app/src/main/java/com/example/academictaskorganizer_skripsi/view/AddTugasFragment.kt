@@ -32,9 +32,20 @@ class AddTugasFragment : BaseFragment() {
     private lateinit var SubjectDataSource: subjectDao
     private lateinit var addTugasFragmentViewModel: AddTugasFragmentViewModel
 
-    private var subjectId by Delegates.notNull<Long>()
+    private var subjectId by Delegates.notNull<Int>()
     private lateinit var selectedImageUri: Uri
     private lateinit var imagePath: String
+
+    private var mTugas = TugasKuliah(
+        tugasSubjectId = 0,
+        tugasKuliahName = "",
+        deadline = 0L,
+//                        tugasToDoListId = tugasToDoListId,
+        isFinished = false,
+        notes = ""
+//                        tugasImageId = tugasGambar
+//                        fromBinusmayaId
+    )
 
     val TAG: String = this::class.java.getSimpleName()
     private val TARGET_FRAGMENT_REQUEST_CODE = 1
@@ -111,16 +122,16 @@ class AddTugasFragment : BaseFragment() {
         addTugasFragmentViewModel.addTugasKuliahNavigation.observe(viewLifecycleOwner,
             Observer {
                 if (it == true) {
-                    val tugasTitle = binding.editTextTugas.text.toString().trim()
-                    val tugasSubjectId: Long = subjectId
+                    mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
+                    mTugas.tugasSubjectId = subjectId
                     // Convert Long to Date atau sebaliknya di https://currentmillis.com/
-                    val tugasDeadline: Long = convertDateAndTimeToLong(
+                    mTugas.deadline = convertDateAndTimeToLong(
                         binding.editDeadline.text.toString(),
                         binding.editJam.text.toString()
                     )
-                    val tugasToDoListId: Long = 0
-                    val tugasNotes = binding.editCatatan.text.toString().trim()
-                    val tugasGambar: Long = 0
+//                    val tugasToDoListId: Long = 0
+                    mTugas.notes = binding.editCatatan.text.toString().trim()
+//                    val tugasGambar: Long = 0
 //                    var fromBinusmayaId: Long = -1
 
                     val inputMethodManager =
@@ -136,16 +147,7 @@ class AddTugasFragment : BaseFragment() {
 //                launch {
 ////
 //                    context?.let {
-                    val mTugas = TugasKuliah(
-                        tugasSubjectId = tugasSubjectId,
-                        tugasKuliahName = tugasTitle,
-                        deadline = tugasDeadline,
-                        tugasToDoListId = tugasToDoListId,
-                        isFinished = false,
-                        notes = tugasNotes,
-                        tugasImageId = tugasGambar
-//                        fromBinusmayaId
-                    )
+
                     addTugasFragmentViewModel.addTugasKuliah(mTugas)
                     context?.toast("Tugas Saved")
 
@@ -187,11 +189,15 @@ class AddTugasFragment : BaseFragment() {
 
         addTugasFragmentViewModel.addToDoList.observe(viewLifecycleOwner, Observer {
             if (it == true) {
+
+
                 val mToDoList = ToDoList(
-                    toDoListName = "Test tambah",
+                    toDoListName = "Test Tambah",
+                    bindToTugasKuliahId = mTugas.tugasKuliahId,
                     isFinished = false,
                     deadline = 0L
                 )
+
                 addTugasFragmentViewModel.addToDoListItem(mToDoList)
                 addTugasFragmentViewModel.afterAddToDoListClicked()
             }
@@ -284,7 +290,7 @@ class AddTugasFragment : BaseFragment() {
             return
         }
         if (requestCode == TARGET_FRAGMENT_REQUEST_CODE) {
-            val greeting = data?.getLongExtra(EXTRA_GREETING_MESSAGE, 0L)
+            val greeting = data?.getIntExtra(EXTRA_GREETING_MESSAGE, 0)
             if (greeting != null) {
                 subjectId = greeting
                 addTugasFragmentViewModel.convertSubjectIdToSubjectName(greeting)
@@ -304,14 +310,14 @@ class AddTugasFragment : BaseFragment() {
 //                    } else {
 //                        imagePath = null.toString();
 //                    }
-                    val mImage = ImageForTugas(imageName = selectedImageUri.toString())
+                    val mImage = ImageForTugas(bindToTugasKuliahId = mTugas.tugasKuliahId, imageName = selectedImageUri.toString())
                     addTugasFragmentViewModel.addImageItem(mImage)
                     addTugasFragmentViewModel.afterAddToDoListClicked()
                 }
         }
     }
 
-    fun newIntent(message: Long?): Intent? {
+    fun newIntent(message: Int?): Intent? {
         val intent = Intent()
         intent.putExtra(EXTRA_GREETING_MESSAGE, message)
         return intent
