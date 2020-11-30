@@ -232,6 +232,7 @@ class AddTugasFragment : BaseFragment() {
         addTugasFragmentViewModel.toDoList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 toDoListAdapter.updateList(it)
+                //the question is: how to passing value from toDoListadapte to this fragment?
             }
         })
 
@@ -310,7 +311,10 @@ class AddTugasFragment : BaseFragment() {
 //                    } else {
 //                        imagePath = null.toString();
 //                    }
-                    val mImage = ImageForTugas(bindToTugasKuliahId = mTugas.tugasKuliahId, imageName = selectedImageUri.toString())
+                    val mImage = ImageForTugas(
+                        bindToTugasKuliahId = mTugas.tugasKuliahId,
+                        imageName = selectedImageUri.toString()
+                    )
                     addTugasFragmentViewModel.addImageItem(mImage)
                     addTugasFragmentViewModel.afterAddToDoListClicked()
                 }

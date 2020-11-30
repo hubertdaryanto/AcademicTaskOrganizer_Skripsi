@@ -37,12 +37,12 @@
                     app:layout_constraintEnd_toEndOf="@+id/text_view_subjectName_dialog"
                     app:layout_constraintTop_toBottomOf="@+id/text_view_subjectName_dialog" />
 
-                <TextView
-                    android:id="@+id/text_view_subjectName_dialog"
+                <EditText
+                    android:id="@+id/text_view_toDoListName_dialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="@{toDoList.toDoListName}"
+                    android:text=""
                     android:textAppearance="@style/Base.CardView"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"

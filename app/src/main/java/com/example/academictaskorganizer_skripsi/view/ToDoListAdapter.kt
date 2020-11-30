@@ -1,6 +1,8 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,10 +15,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.w3c.dom.Text
 
-class ToDoListAdapter(val clickListener: ToDoListListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
+class ToDoListAdapter(val clickListener: ToDoListListener
+, toDoListInterface: ToDoListInterface
+): ListAdapter<DataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
 
+
+//    var TDLI: ToDoListInterface? = null
     private val adapterScope = CoroutineScope(Dispatchers.Default)
+
+    var textToSend = ""
+//    private var mAdapterCallback: AdapterCallback()
+
+
+    interface ToDoListInterface{
+        fun onUpdateText(data: String)
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -27,6 +43,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener): ListAdapter<DataItem
        {
            is ViewHolder ->
            {
+
                val item = getItem(position) as DataItem.ToDoListItem
                holder.bind(item.toDoList, clickListener)
            }
@@ -56,8 +73,36 @@ class ToDoListAdapter(val clickListener: ToDoListListener): ListAdapter<DataItem
 
         companion object{
             fun from(parent: ViewGroup): ViewHolder{
+                val TDLR: ToDoListInterface? = null
+                val textWatcher = object : TextWatcher{
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                        if (TDLR != null) {
+                            TDLR.onUpdateText(s.toString())
+                        }
+                    }
+
+                }
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemToDoListBinding.inflate(layoutInflater, parent, false)
+                binding.textViewToDoListNameDialog.addTextChangedListener(textWatcher)
                 return ViewHolder(binding)
             }
         }
