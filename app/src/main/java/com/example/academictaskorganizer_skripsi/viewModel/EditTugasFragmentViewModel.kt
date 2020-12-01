@@ -14,7 +14,7 @@ import kotlinx.coroutines.*
 class EditTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel()  {
     val database = dataSource
 
-    private val _tugasKuliah = MutableLiveData<TugasKuliah>()
+    var _tugasKuliah = MutableLiveData<TugasKuliah>()
     val tugasKuliah: LiveData<TugasKuliah>
         get() = _tugasKuliah
 
@@ -86,6 +86,8 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
     {
         viewModelScope.launch {
             _tugasKuliah.value = database.loadTugasKuliahById(id)
+            _toDoList.value = database.loadToDoListsByTugasKuliahId(id)
+            _imageList.value = database.loadImagesByTugasKuliahId(id)
         }
     }
 
@@ -129,14 +131,26 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
 
     fun removeToDoListItem(id: Long)
     {
+        val realId = _toDoList.value?.get(id.toInt())?.toDoListId
         _toDoList.removeItemAt(id.toInt())
         _toDoList.notifyObserver()
+        viewModelScope.launch {
+            if (realId != null) {
+                database.deleteToDoList(realId.toLong())
+            }
+        }
     }
 
     fun removeImageItem(id: Long)
     {
+        val realId = _imageList.value?.get(id.toInt())?.imageId
         _imageList.removeItemAt(id.toInt())
         _imageList.notifyObserver()
+        viewModelScope.launch {
+            if (realId != null) {
+                database.deleteImage(realId.toLong())
+            }
+        }
     }
 
     fun addImageItem(image: ImageForTugas){
@@ -179,17 +193,24 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
             var tugasKuliahId = database.updateTugas(tugasKuliah)
 
 //
-//            for (i in toDoList.value!!)
-//            {
-//                i.bindToTugasKuliahId = tugasKuliahId
-//                database.insertToDoList(i)
-//            }
-//
-//            for (i in imageList.value!!)
-//            {
-//                i.bindToTugasKuliahId = tugasKuliahId
-//                database.insertImage(i)
-//            }
+
+            if (toDoList.value != null)
+            {
+                for (i in toDoList.value!!)
+                {
+                    i.bindToTugasKuliahId = _tugasKuliah.value?.tugasKuliahId!!
+                    database.insertToDoList(i)
+                }
+//                database.updateListOfToDoList(toDoList.value!!)
+            }
+
+            if (imageList.value != null) {
+                for (i in imageList.value!!) {
+                    i.bindToTugasKuliahId = _tugasKuliah.value?.tugasKuliahId!!
+                    database.insertImage(i)
+                }
+//                database.updateListOfImages(imageList.value!!)
+            }
             //TODO:nanti ganti method jadi update
 
         }

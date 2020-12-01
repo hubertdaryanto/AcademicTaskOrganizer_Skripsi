@@ -24,6 +24,12 @@ interface tugasDatabaseDao{
     @Query("SELECT * FROM TugasKuliah WHERE tugasKuliahName LIKE :name")
     suspend fun findByName(name: String): TugasKuliah
 
+    @Query("SELECT * FROM ToDoList WHERE bindToTugasKuliahId LIKE :id")
+    suspend fun loadToDoListsByTugasKuliahId(id: Long): MutableList<ToDoList>
+
+    @Query("SELECT * FROM Image WHERE bindToTugasKuliahId LIKE :id")
+    suspend fun loadImagesByTugasKuliahId(id: Long): MutableList<ImageForTugas>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTugas(TugasKuliah: TugasKuliah): Long
 
@@ -42,8 +48,20 @@ interface tugasDatabaseDao{
     @Delete
     suspend fun deleteTugas(TugasKuliah: TugasKuliah)
 
+    @Query("DELETE FROM ToDoList WHERE toDoListId LIKE :id")
+    suspend fun deleteToDoList(id: Long)
+
+    @Query("DELETE FROM Image WHERE imageId LIKE :id")
+    suspend fun deleteImage(id: Long)
+
     @Update
     suspend fun updateTugas(TugasKuliah: TugasKuliah)
+
+    @Update
+    suspend fun updateListOfToDoList(toDoList: List<ToDoList>)
+
+    @Update
+    suspend fun updateListOfImages(images: List<ImageForTugas>)
 
     //one to many relationship
 //    @Transaction

@@ -172,17 +172,24 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
             //insert to do list and image in here too
 
             //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
-            for (i in toDoList.value!!)
+            if (toDoList.value != null)
             {
-                i.bindToTugasKuliahId = tugasKuliaId
-                database.insertToDoList(i)
+                for (i in toDoList.value!!)
+                {
+                    i.bindToTugasKuliahId = tugasKuliaId
+                    database.insertToDoList(i)
+                }
             }
 
-            for (i in imageList.value!!)
+            if (imageList.value != null)
             {
-                i.bindToTugasKuliahId = tugasKuliaId
-                database.insertImage(i)
+                for (i in imageList.value!!)
+                {
+                    i.bindToTugasKuliahId = tugasKuliaId
+                    database.insertImage(i)
+                }
             }
+
             //how to insert multiple data to database in one time?
 //            database.insertToDoLists(Collections.unmodifiableList(toDoList.value))
 //            database.insertImages(Collections.unmodifiableList(imageList.value))

@@ -37,7 +37,7 @@ class EditTugasFragment: BaseFragment() {
     private lateinit var SubjectDataSource: subjectDao
     private lateinit var editTugasFragmentViewModel: EditTugasFragmentViewModel
 
-    private var subjectId by Delegates.notNull<Long>()
+    private var subjectId = 0L
     private lateinit var selectedImageUri: Uri
     private lateinit var imagePath: String
 
@@ -136,14 +136,28 @@ class EditTugasFragment: BaseFragment() {
         editTugasFragmentViewModel.editTugasKuliahNavigation.observe(viewLifecycleOwner,
             Observer {
                 if (it == true) {
-//                    mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
-//                    mTugas.tugasSubjectId = subjectId
-//                    // Convert Long to Date atau sebaliknya di https://currentmillis.com/
-//                    mTugas.deadline = convertDateAndTimeToLong(
-//                        binding.editDeadline.text.toString(),
-//                        binding.editJam.text.toString()
-//                    )
-//                    mTugas.notes = binding.editCatatan.text.toString().trim()
+                    editTugasFragmentViewModel._tugasKuliah.value!!.tugasKuliahName = binding.editTextTugas.text.toString().trim()
+                    if (subjectId != 0L)
+                    {
+                        editTugasFragmentViewModel._tugasKuliah.value!!.tugasSubjectId = subjectId
+                    }
+
+                    // Convert Long to Date atau sebaliknya di https://currentmillis.com/
+                    var clock = "9:00"
+                    if (binding.editJam.text.toString() != "")
+                    {
+                        clock = binding.editJam.text.toString()
+                    }
+
+                    if (binding.editDeadline.text.toString() != "")
+                    {
+                        editTugasFragmentViewModel._tugasKuliah.value!!.deadline = convertDateAndTimeToLong(
+                            binding.editDeadline.text.toString(),
+                            clock
+                        )
+                    }
+
+                    editTugasFragmentViewModel._tugasKuliah.value!!.notes = binding.editCatatan.text.toString().trim()
 
                     val inputMethodManager =
                         activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

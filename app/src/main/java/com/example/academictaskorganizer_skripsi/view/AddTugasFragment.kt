@@ -127,10 +127,20 @@ class AddTugasFragment : BaseFragment() {
                     mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
                     mTugas.tugasSubjectId = subjectId
                     // Convert Long to Date atau sebaliknya di https://currentmillis.com/
-                    mTugas.deadline = convertDateAndTimeToLong(
-                        binding.editDeadline.text.toString(),
-                        binding.editJam.text.toString()
-                    )
+                    var clock = "9:00"
+                    if (binding.editJam.text.toString() != "")
+                    {
+                        clock = binding.editJam.text.toString()
+                    }
+
+                    if (binding.editDeadline.text.toString() != "")
+                    {
+                        mTugas.deadline = convertDateAndTimeToLong(
+                            binding.editDeadline.text.toString(),
+                            clock
+                        )
+                    }
+
                     mTugas.notes = binding.editCatatan.text.toString().trim()
 
                     val inputMethodManager =
