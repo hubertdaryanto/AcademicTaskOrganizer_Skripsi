@@ -28,6 +28,9 @@ import kotlin.properties.Delegates
 
 class AddTugasFragment : BaseFragment() {
 
+//    private var updatedToDoListIsFinished: Boolean = false
+//    private var updatedToDoListName: String = ""
+    private var currentUpdatetoDoListId: Long = 0
     private lateinit var binding: FragmentAddTugasBinding
     private lateinit var SubjectDataSource: subjectDao
     private lateinit var addTugasFragmentViewModel: AddTugasFragmentViewModel
@@ -36,6 +39,8 @@ class AddTugasFragment : BaseFragment() {
     private lateinit var selectedImageUri: Uri
     private lateinit var imagePath: String
 
+
+    var TDLI: ToDoListInterface? = null
     private var mTugas = TugasKuliah(
         tugasSubjectId = 0,
         tugasKuliahName = "",
@@ -220,7 +225,28 @@ class AddTugasFragment : BaseFragment() {
 
         val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
             addTugasFragmentViewModel.onToDoListClicked(toDoListId)
-        })
+//            addTugasFragmentViewModel.updateToDoList(toDoListId, updatedToDoListName, updatedToDoListIsFinished)
+            //instead di update pas click to do list nya, mending langsung update setelah salah satu parameter diedit
+        }
+            , object : ToDoListInterface{
+            override fun onUpdateText(data: String) {
+//                updatedToDoListName = data
+//                TODO("Coba implement update To Do List disini")
+                addTugasFragmentViewModel.updateToDoListName(currentUpdatetoDoListId, data)
+            }
+
+                override fun onUpdateId(id: Long) {
+//                    TODO("Not yet implemented")
+                    currentUpdatetoDoListId = id
+                    //problem: semua item yang di click merujuk kepada item 0
+                }
+
+                override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
+//                    updatedToDoListIsFinished = isFinished
+                    addTugasFragmentViewModel.updateToDoListIsFinished(id, isFinished)
+                }
+            }
+        )
         binding.ToDoListRecyclerView.adapter = toDoListAdapter
 
 

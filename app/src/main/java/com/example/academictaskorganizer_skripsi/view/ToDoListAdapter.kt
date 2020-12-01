@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import androidx.core.view.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,25 +20,37 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Text
 
+interface ToDoListInterface{
+    fun onUpdateText(name: String)
+//    fun onUpdateText(id: Long, name: String)
+    fun onUpdateId(id: Long)
+    fun onUpdateCheckbox(id: Long, isFinished: Boolean)
+//    fun onUpdateCheckbox(id: Long, isFinished: Boolean)
+//        : String{
+//            return data
+//        }
+}
+
 class ToDoListAdapter(val clickListener: ToDoListListener
-, toDoListInterface: ToDoListInterface
+, var toDoListInterface: ToDoListInterface
 ): ListAdapter<DataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
 
 
-//    var TDLI: ToDoListInterface? = null
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     var textToSend = ""
 //    private var mAdapterCallback: AdapterCallback()
+//    private var TDLI: ToDoListInterface? = null
 
 
-    interface ToDoListInterface{
-        fun onUpdateText(data: String)
-    }
 
+//    class RecyclerListViewAdapter(mContext: Context, listItem: List<ToDoList>, tdli: ToDoListInterface)
+//    {
+//
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(parent, toDoListInterface)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -45,6 +60,28 @@ class ToDoListAdapter(val clickListener: ToDoListListener
            {
 
                val item = getItem(position) as DataItem.ToDoListItem
+
+               holder.binding.textViewToDoListNameDialog.setOnFocusChangeListener(object : View.OnFocusChangeListener {
+                   override fun onFocusChange(v: View?, hasFocus: Boolean) {
+//                       TODO("Not yet implemented")
+                       if (hasFocus)
+                       {
+                           toDoListInterface.onUpdateId(holder.adapterPosition.toLong())
+                       }
+                   }
+
+               })
+//               holder.binding.toDoListItemCheckBox.setOnClickListener {
+//                   toDoListInterface.onUpdateId(holder.adapterPosition.toLong())
+//               }
+
+               holder.binding.toDoListItemCheckBox.setOnCheckedChangeListener(object :
+                   CompoundButton.OnCheckedChangeListener {
+                   override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                       toDoListInterface.onUpdateCheckbox(holder.adapterPosition.toLong(), isChecked)
+                   }
+
+               })
                holder.bind(item.toDoList, clickListener)
            }
        }
@@ -71,9 +108,14 @@ class ToDoListAdapter(val clickListener: ToDoListListener
             binding.executePendingBindings()
         }
 
+
+
         companion object{
-            fun from(parent: ViewGroup): ViewHolder{
-                val TDLR: ToDoListInterface? = null
+            fun from(parent: ViewGroup
+                     , TDLI: ToDoListInterface
+            ): ViewHolder{
+
+//                val TDLR: ToDoListInterface? = null
                 val textWatcher = object : TextWatcher{
                     override fun beforeTextChanged(
                         s: CharSequence?,
@@ -81,7 +123,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                         count: Int,
                         after: Int
                     ) {
-                        TODO("Not yet implemented")
+
                     }
 
                     override fun onTextChanged(
@@ -90,13 +132,14 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                         before: Int,
                         count: Int
                     ) {
-                        TODO("Not yet implemented")
+                        //bisa implement disini, tapi bikin kinerja device berat banget
+                        TDLI.onUpdateText(s.toString())
                     }
 
                     override fun afterTextChanged(s: Editable?) {
-                        if (TDLR != null) {
-                            TDLR.onUpdateText(s.toString())
-                        }
+//                        if (TDLI != null) {
+//                            TDLI.onUpdateText(s.toString())
+//                        }
                     }
 
                 }

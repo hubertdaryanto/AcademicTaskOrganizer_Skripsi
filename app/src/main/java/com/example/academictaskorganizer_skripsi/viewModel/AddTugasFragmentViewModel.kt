@@ -219,4 +219,22 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
         _imageId.value = null
     }
 
+//    fun updateToDoList(id: Long, data: String, isFinished: Boolean)
+//    {
+//        toDoList.value?.get(id.toInt())?.toDoListName = data
+//        toDoList.value?.get(id.toInt())?.isFinished = isFinished
+//    }
+
+    fun updateToDoListName(id: Long, data: String)
+    {
+        toDoList.value?.get(id.toInt())?.toDoListName = data
+//        toDoList.value?.get(id.toInt())?.isFinished = isFinished
+    }
+
+    fun updateToDoListIsFinished(id: Long, isFinished: Boolean)
+    {
+//        toDoList.value?.get(id.toInt())?.toDoListName = data
+        toDoList.value?.get(id.toInt())?.isFinished = isFinished
+    }
+
 }
