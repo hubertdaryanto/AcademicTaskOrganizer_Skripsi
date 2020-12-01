@@ -18,6 +18,9 @@ interface tugasDatabaseDao{
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId IN (:userIds)")
     suspend fun loadAllByIds(userIds: LongArray): List<TugasKuliah>
 
+    @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId LIKE :id")
+    suspend fun loadTugasKuliahById(id: Long): TugasKuliah
+
     @Query("SELECT * FROM TugasKuliah WHERE tugasKuliahName LIKE :name")
     suspend fun findByName(name: String): TugasKuliah
 

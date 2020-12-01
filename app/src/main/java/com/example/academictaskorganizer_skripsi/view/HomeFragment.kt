@@ -81,7 +81,7 @@ class HomeFragment : BaseFragment() {
             viewLifecycleOwner,
             Observer { tugas ->
                 tugas?.let {
-                    this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToEditTugasFragment(tugas))
+                    this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToEditTugasFragment(it))
                     homeFragmentViewModel.onEditTugasKuliahNavigated()
                 }
             })

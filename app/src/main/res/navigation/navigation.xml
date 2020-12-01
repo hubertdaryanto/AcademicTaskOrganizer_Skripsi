@@ -19,8 +19,9 @@
     </fragment>
     <fragment
         android:id="@+id/editTugasFragment"
-        android:label="editTugasFragment"
-        tools:layout="@layout/fragment_add_tugas">
+        android:name="com.example.academictaskorganizer_skripsi.view.EditTugasFragment"
+        android:label="EditTugasFragment"
+        tools:layout="@layout/fragment_edit_tugas">
         <action
             android:id="@+id/actionSaveTugas"
             app:destination="@id/homeFragment"
@@ -33,7 +34,7 @@
         android:id="@+id/addTugasFragment"
         android:name="com.example.academictaskorganizer_skripsi.view.AddTugasFragment"
         android:label="AddTugasFragment"
-        tools:layout="@layout/fragment_edit_tugas">
+        tools:layout="@layout/fragment_add_tugas">
         <action
             android:id="@+id/action_addTugasFragment_to_homeFragment"
             app:destination="@id/homeFragment"

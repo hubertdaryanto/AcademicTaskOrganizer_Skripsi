@@ -11,7 +11,7 @@ import com.example.academictaskorganizer_skripsi.components.removeItemAt
 import com.example.academictaskorganizer_skripsi.database.*
 import kotlinx.coroutines.*
 
-class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel() {
+class EditTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel()  {
     val database = dataSource
 
     private val _tugasKuliah = MutableLiveData<TugasKuliah>()
@@ -48,9 +48,9 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
      */
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private val _addTugasKuliahNavigation = MutableLiveData<Boolean?>()
-    val addTugasKuliahNavigation: LiveData<Boolean?>
-        get() = _addTugasKuliahNavigation
+    private val _editTugasKuliahNavigation = MutableLiveData<Boolean?>()
+    val editTugasKuliahNavigation: LiveData<Boolean?>
+        get() = _editTugasKuliahNavigation
 
     private val _showTimePicker = MutableLiveData<Boolean?>()
     val showTimePicker: LiveData<Boolean?>
@@ -81,6 +81,13 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     private val _imageId = MutableLiveData<Long?>()
     val imageId: LiveData<Long?>
         get() = _imageId
+
+    fun loadTugasKuliah(id: Long)
+    {
+        viewModelScope.launch {
+            _tugasKuliah.value = database.loadTugasKuliahById(id)
+        }
+    }
 
     fun onShowSubjectDialogClicked()
     {
@@ -160,44 +167,45 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     {
 //        viewModelScope.launch {
 
-            _addTugasKuliahNavigation.value = true
+        _editTugasKuliahNavigation.value = true
 //        }
 
     }
 
-    fun addTugasKuliah(tugasKuliah: TugasKuliah)
+    fun updateTugasKuliah(tugasKuliah: TugasKuliah)
     {
         viewModelScope.launch {
-            var tugasKuliaId = database.insertTugas(tugasKuliah)
-            //insert to do list and image in here too
+//            var tugasKuliaId = database.insertTugas(tugasKuliah)
+            var tugasKuliahId = database.updateTugas(tugasKuliah)
 
-            //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
-            for (i in toDoList.value!!)
-            {
-                i.bindToTugasKuliahId = tugasKuliaId
-                database.insertToDoList(i)
-            }
-
-            for (i in imageList.value!!)
-            {
-                i.bindToTugasKuliahId = tugasKuliaId
-                database.insertImage(i)
-            }
-            //how to insert multiple data to database in one time?
-//            database.insertToDoLists(Collections.unmodifiableList(toDoList.value))
-//            database.insertImages(Collections.unmodifiableList(imageList.value))
+//
+//            for (i in toDoList.value!!)
+//            {
+//                i.bindToTugasKuliahId = tugasKuliahId
+//                database.insertToDoList(i)
+//            }
+//
+//            for (i in imageList.value!!)
+//            {
+//                i.bindToTugasKuliahId = tugasKuliahId
+//                database.insertImage(i)
+//            }
+            //TODO:nanti ganti method jadi update
 
         }
     }
 
-    private suspend fun insert(tugasKuliah: TugasKuliah) {
-        withContext(Dispatchers.IO) {
-            database.insertTugas(tugasKuliah)
+    fun deleteTugasKuliah()
+    {
+        viewModelScope.launch {
+            database.deleteTugas(tugasKuliah.value!!)
+            //to do list sama image yang terkait harus di remove juga
         }
+
     }
 
     fun doneNavigating() {
-        _addTugasKuliahNavigation.value = null
+        _editTugasKuliahNavigation.value = null
     }
 
     fun convertSubjectIdToSubjectName(id: Long){
@@ -246,5 +254,4 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
 //        toDoList.value?.get(id.toInt())?.toDoListName = data
         toDoList.value?.get(id.toInt())?.isFinished = isFinished
     }
-
 }

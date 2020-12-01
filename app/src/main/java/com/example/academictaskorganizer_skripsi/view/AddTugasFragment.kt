@@ -38,8 +38,6 @@ class AddTugasFragment : BaseFragment() {
     private lateinit var selectedImageUri: Uri
     private lateinit var imagePath: String
 
-
-    var TDLI: ToDoListInterface? = null
     private var mTugas = TugasKuliah(
         tugasSubjectId = 0,
         tugasKuliahName = "",
@@ -133,34 +131,15 @@ class AddTugasFragment : BaseFragment() {
                         binding.editDeadline.text.toString(),
                         binding.editJam.text.toString()
                     )
-//                    val tugasToDoListId: Long = 0
                     mTugas.notes = binding.editCatatan.text.toString().trim()
-//                    val tugasGambar: Long = 0
-//                    var fromBinusmayaId: Long = -1
 
                     val inputMethodManager =
                         activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
-//            if (tugasTitle.isEmpty())
-//            {
-//                editTextTugas.error = "tugas required"
-//                editTextTugas.requestFocus()
-//                return@setOnClickListener
-//            }
-//                launch {
-////
-//                    context?.let {
-
                     addTugasFragmentViewModel.addTugasKuliah(mTugas)
                     context?.toast("Tugas Saved")
 
-
-//                        val action = AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment()
-//                        this.find.navigate(action)
-
-//                    }
-//                }
                     this.findNavController()
                         .navigate(AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment())
                     addTugasFragmentViewModel.doneNavigating()
@@ -169,7 +148,7 @@ class AddTugasFragment : BaseFragment() {
 
             })
 
-        addTugasFragmentViewModel.string.observe(viewLifecycleOwner, Observer {
+        addTugasFragmentViewModel.SubjectText.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.editTextSubject.setText(it)
                 addTugasFragmentViewModel.onSubjectNameChanged()
@@ -178,7 +157,7 @@ class AddTugasFragment : BaseFragment() {
 
         addTugasFragmentViewModel.toDoListId.observe(viewLifecycleOwner, Observer {
             it?.let {
-                //ini buat nge update to do list ya kalau di click
+                //ini buat nge update to do list ya kalau di click, gakjadi kyknya wkwkwkkw
                 addTugasFragmentViewModel.afterClickToDoList()
             }
         })
@@ -193,15 +172,12 @@ class AddTugasFragment : BaseFragment() {
 
         addTugasFragmentViewModel.addToDoList.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-
-
                 val mToDoList = ToDoList(
                     toDoListName = "",
                     bindToTugasKuliahId = mTugas.tugasKuliahId,
                     isFinished = false,
                     deadline = 0L
                 )
-
                 addTugasFragmentViewModel.addToDoListItem(mToDoList)
                 addTugasFragmentViewModel.afterAddToDoListClicked()
             }
@@ -235,12 +211,6 @@ class AddTugasFragment : BaseFragment() {
                 addTugasFragmentViewModel.updateToDoListName(id, data)
             }
 
-//                override fun onUpdateId(id: Long) {
-////                    TODO("Not yet implemented")
-//                    currentUpdatetoDoListId = id
-//                    //problem: abis edit item paling bawah, crash
-//                }
-
                 override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
 //                    updatedToDoListIsFinished = isFinished
                     addTugasFragmentViewModel.updateToDoListIsFinished(id, isFinished)
@@ -267,7 +237,6 @@ class AddTugasFragment : BaseFragment() {
         addTugasFragmentViewModel.toDoList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 toDoListAdapter.updateList(it)
-                //the question is: how to passing value from toDoListadapte to this fragment?
             }
         })
 
@@ -277,8 +246,6 @@ class AddTugasFragment : BaseFragment() {
             }
         })
 
-
-//        val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         val manager = LinearLayoutManager(activity)
 //        manager.reverseLayout = true
 //        manager.stackFromEnd = true

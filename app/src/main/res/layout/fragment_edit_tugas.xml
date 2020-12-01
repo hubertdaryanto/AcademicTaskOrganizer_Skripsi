@@ -8,28 +8,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="editTugasFragmentViewModel"
+            type="com.example.academictaskorganizer_skripsi.viewModel.EditTugasFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        tools:context=".view.EditTugasFragment">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/button_update"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/app_layout_margin"
-            android:layout_marginEnd="@dimen/app_layout_margin"
-            android:layout_width="56dp"
-            android:src="@drawable/ic_done"
-            android:tint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
-            app:layout_constraintEnd_toEndOf="parent" />
+        tools:context=".view.editTugasFragment">
 
         <ScrollView
             android:id="@+id/scrollView2"
@@ -60,66 +47,128 @@
                         android:fontFamily="@font/roboto"
                         android:id="@+id/editTextSubject"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent" />
+                        android:layout_width="match_parent"
+                        android:onClick="@{() -> editTugasFragmentViewModel.onShowSubjectDialogClicked()}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/input_text_view"
                     android:hint="@string/tugaskuliah_hint_nama_tugas"
-                    android:id="@+id/inputTextTugas"
-                    app:helperText="@string/tugaskuliah_hint_nama_tugas">
+                    android:id="@+id/inputTextTugas">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:fontFamily="@font/roboto"
                         android:id="@+id/editTextTugas"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:visibility="gone" />
+                        android:layout_width="match_parent" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inputDeadline"
                         style="@style/input_text_view"
                         android:hint="@string/tugaskuliah_hint_deadline"
-                        android:id="@+id/inputDeadline"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        >
 
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:fontFamily="@font/roboto"
                             android:id="@+id/editDeadline"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_width="match_parent" />
-
-                        <ImageView
-                            android:contentDescription="@string/deadline_button"
-                            android:id="@+id/imageForDeadlineIcon"
-                            android:layout_height="24dp"
-                            android:layout_width="24dp"
-                            android:src="@drawable/ic_baseline_today_24" />
+                            android:fontFamily="@font/roboto"
+                            android:enabled="true"
+                            android:onClick="@{() -> editTugasFragmentViewModel.onDatePickerClicked()}"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/imageForDeadlineIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/deadline_button"
+                        android:src="@drawable/ic_baseline_today_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    >
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/input_text_view"
-                    android:hint="@string/tugaskuliah_hint_jam"
-                    android:id="@+id/inputJam">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:fontFamily="@font/roboto"
-                        android:id="@+id/editJam"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inputJam"
+                        style="@style/input_text_view"
+                        android:hint="@string/tugaskuliah_hint_jam"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editJam"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:enabled="true"
+                            android:onClick="@{() -> editTugasFragmentViewModel.onTimePickerClicked()}"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/imageForTimeIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/time_icon"
+                        android:src="@drawable/ic_baseline_access_time_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/app_layout_margin">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/SelesaiTextView"
+                        android:layout_width="match_parent"
+
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:background="#00FFFFFF"
+                        android:text="@string/selesai"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/text_subtitle_size"
+                        app:fontFamily="@font/roboto"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/SelesaiCheckBox"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <CheckBox
+                        android:id="@+id/SelesaiCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/SelesaiTextView"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_height="wrap_content"
@@ -161,15 +210,14 @@
                         android:tint="#8A000000"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:onClick="@{() -> editTugasFragmentViewModel.onAddToDoListClicked()}"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/EditToDoListRecyclerView"
-                    android:layout_width="match_parent"
+                    android:id="@+id/ToDoListRecyclerView"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/app_layout_margin"
-                    android:visibility="visible" />
+                    android:layout_width="match_parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/input_text_view"
@@ -217,7 +265,8 @@
                         android:tint="#8A000000"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/GambarTextView"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:onClick="@{() -> editTugasFragmentViewModel.onAddImageClicked()}"/>
 
                     <!--                untuk memberikan jarak konsisten antar gambar yang diinput, bisa gunakan layout_constraintHorizontal_chainStyle or the layout_constraintVertical_chainStyle-->
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -225,9 +274,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/GambarRecyclerView"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/app_layout_margin"
-                    android:layout_width="match_parent"
-                    android:visibility="gone" />
+                    android:layout_width="match_parent" />
             </LinearLayout>
         </ScrollView>
 

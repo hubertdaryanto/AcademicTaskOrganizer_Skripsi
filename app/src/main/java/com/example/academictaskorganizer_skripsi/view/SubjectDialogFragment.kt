@@ -23,6 +23,7 @@ class SubjectDialogFragment : DialogFragment() {
     val TAG: String = this::class.java.simpleName
 
     private lateinit var binding: SubjectDialogBinding
+    private lateinit var intent: Intent
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -177,7 +178,15 @@ class SubjectDialogFragment : DialogFragment() {
         {
             return
         }
-        val intent = AddTugasFragment().getInstance()?.newIntent(message)
+        if (AddTugasFragment().getInstance() != null)
+        {
+            intent = AddTugasFragment().getInstance()?.newIntent(message)!!
+        }
+
+        if (EditTugasFragment().getInstance() != null)
+        {
+            intent = EditTugasFragment().getInstance()?.newIntent(message)!!
+        }
         targetFragment!!.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
         dismiss()
     }
