@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.academictaskorganizer_skripsi.components.addNewItem
 import com.example.academictaskorganizer_skripsi.components.notifyObserver
+import com.example.academictaskorganizer_skripsi.components.removeItemAt
 import com.example.academictaskorganizer_skripsi.database.*
 import kotlinx.coroutines.*
 import java.util.*
@@ -19,7 +20,7 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     val tugasKuliah: LiveData<TugasKuliah>
         get() = _tugasKuliah
 
-    private val _toDoList = MutableLiveData<MutableList<ToDoList>>()
+    val _toDoList = MutableLiveData<MutableList<ToDoList>>()
     val toDoList: LiveData<MutableList<ToDoList>>
         get() = _toDoList
 
@@ -119,6 +120,18 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     {
         _toDoList.addNewItem(toDoList)
         _toDoList.notifyObserver()
+    }
+
+    fun removeToDoListItem(id: Long)
+    {
+        _toDoList.removeItemAt(id.toInt())
+        _toDoList.notifyObserver()
+    }
+
+    fun removeImageItem(id: Long)
+    {
+        _imageList.removeItemAt(id.toInt())
+        _imageList.notifyObserver()
     }
 
     fun addImageItem(image: ImageForTugas){

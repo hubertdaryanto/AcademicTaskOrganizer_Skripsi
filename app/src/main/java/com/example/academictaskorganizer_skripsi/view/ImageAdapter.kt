@@ -1,7 +1,6 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
-import android.icu.number.NumberFormatter.with
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.academictaskorganizer_skripsi.database.ImageForTugas
+import com.example.academictaskorganizer_skripsi.database.ToDoList
 import com.example.academictaskorganizer_skripsi.databinding.ListItemImageForTugasBinding
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -16,10 +16,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.InputStream
 
 
-class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapter<DataItem, RecyclerView.ViewHolder>(
+interface ImageInterface{
+    fun onRemoveItem(id: Long)
+//    fun onUpdateCheckbox(id: Long, isFinished: Boolean)
+//        : String{
+//            return data
+//        }
+}
+
+class ImageForTugasAdapter(val clickListener: ImageForTugasListener, var imageInterface: ImageInterface): ListAdapter<ImageDataItem, RecyclerView.ViewHolder>(
     ImageForTugasDiffCallback()
 ) {
 
@@ -36,7 +43,7 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
         when (holder)
         {
             is ViewHolder -> {
-                val item = getItem(position) as DataItem.ImageForTugasItem
+                val item = getItem(position) as ImageDataItem.ImageForTugasItem
                 picasso = Picasso.Builder(holder.binding.root.context).build()
                 picasso.isLoggingEnabled = true
 
@@ -52,6 +59,9 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
                 val string = item.ImageForTugas.imageName
                 val uri = Uri.parse(string)
                 picasso.load(File(uri.path)).resize(96, 96).into(holder.binding.gambarTugas)
+                holder.binding.imageDeleteBtn.setOnClickListener {
+                    imageInterface.onRemoveItem(holder.adapterPosition.toLong())
+                }
                 holder.bind(item.ImageForTugas, clickListener)
             }
         }
@@ -60,7 +70,7 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
     fun updateList(list: List<ImageForTugas>?) {
         adapterScope.launch {
             val items = list?.map {
-                DataItem.ImageForTugasItem(it)
+                ImageDataItem.ImageForTugasItem(it)
             }
 
             withContext(Dispatchers.Main){
@@ -90,12 +100,12 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener): ListAdapte
     }
 }
 
-class ImageForTugasDiffCallback : DiffUtil.ItemCallback<DataItem>() {
-    override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+class ImageForTugasDiffCallback : DiffUtil.ItemCallback<ImageDataItem>() {
+    override fun areItemsTheSame(oldItem: ImageDataItem, newItem: ImageDataItem): Boolean {
         return oldItem.id == newItem.id
     }
     @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+    override fun areContentsTheSame(oldItem: ImageDataItem, newItem: ImageDataItem): Boolean {
         return oldItem == newItem
     }
 
@@ -106,4 +116,14 @@ class ImageForTugasListener(val clickListener: (ImageForTugasId: Long) -> Unit)
     fun onClick(ImageForTugas: ImageForTugas) = clickListener(ImageForTugas.imageId)
 }
 
-//DataItem class ada di ToDoListAdapter.kt
+
+sealed class ImageDataItem {
+    abstract val id: Long
+    abstract val name: String
+    data class ImageForTugasItem(val ImageForTugas: ImageForTugas): ImageDataItem(){
+        override val id = ImageForTugas.imageId
+        override val name = ImageForTugas.imageName
+    }
+
+}
+

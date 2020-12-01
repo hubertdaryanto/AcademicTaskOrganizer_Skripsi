@@ -31,23 +31,33 @@
                     android:id="@+id/toDoListItem_checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:checked="@{toDoList.finished}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/text_view_subjectName_dialog"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_subjectName_dialog" />
+                    app:layout_constraintEnd_toStartOf="@id/toDoList_deleteBtn"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/text_view_toDoListName_dialog"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text=""
+                    android:layout_marginEnd="16dp"
+                    android:text="@{toDoList.toDoListName}"
                     android:textAppearance="@style/Base.CardView"
                     android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/toDoListItem_checkBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/toDoList_deleteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/ic_delete" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -30,7 +30,6 @@ class AddTugasFragment : BaseFragment() {
 
 //    private var updatedToDoListIsFinished: Boolean = false
 //    private var updatedToDoListName: String = ""
-    private var currentUpdatetoDoListId: Long = 0
     private lateinit var binding: FragmentAddTugasBinding
     private lateinit var SubjectDataSource: subjectDao
     private lateinit var addTugasFragmentViewModel: AddTugasFragmentViewModel
@@ -197,7 +196,7 @@ class AddTugasFragment : BaseFragment() {
 
 
                 val mToDoList = ToDoList(
-                    toDoListName = "Test Tambah",
+                    toDoListName = "",
                     bindToTugasKuliahId = mTugas.tugasKuliahId,
                     isFinished = false,
                     deadline = 0L
@@ -228,22 +227,27 @@ class AddTugasFragment : BaseFragment() {
 //            addTugasFragmentViewModel.updateToDoList(toDoListId, updatedToDoListName, updatedToDoListIsFinished)
             //instead di update pas click to do list nya, mending langsung update setelah salah satu parameter diedit
         }
+//            , Collections.unmodifiableList(addTugasFragmentViewModel.toDoList.value)
             , object : ToDoListInterface{
-            override fun onUpdateText(data: String) {
+            override fun onUpdateText(id: Long, data: String) {
 //                updatedToDoListName = data
 //                TODO("Coba implement update To Do List disini")
-                addTugasFragmentViewModel.updateToDoListName(currentUpdatetoDoListId, data)
+                addTugasFragmentViewModel.updateToDoListName(id, data)
             }
 
-                override fun onUpdateId(id: Long) {
-//                    TODO("Not yet implemented")
-                    currentUpdatetoDoListId = id
-                    //problem: semua item yang di click merujuk kepada item 0
-                }
+//                override fun onUpdateId(id: Long) {
+////                    TODO("Not yet implemented")
+//                    currentUpdatetoDoListId = id
+//                    //problem: abis edit item paling bawah, crash
+//                }
 
                 override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
 //                    updatedToDoListIsFinished = isFinished
                     addTugasFragmentViewModel.updateToDoListIsFinished(id, isFinished)
+                }
+
+                override fun onRemoveItem(id: Long) {
+                    addTugasFragmentViewModel.removeToDoListItem(id)
                 }
             }
         )
@@ -252,6 +256,11 @@ class AddTugasFragment : BaseFragment() {
 
         val gambarAdapter = ImageForTugasAdapter(ImageForTugasListener { imageId ->
             addTugasFragmentViewModel.onGambarClicked(imageId)
+        } , object : ImageInterface{
+            override fun onRemoveItem(id: Long) {
+                addTugasFragmentViewModel.removeImageItem(id)
+            }
+
         })
         binding.GambarRecyclerView.adapter = gambarAdapter
 
@@ -271,6 +280,8 @@ class AddTugasFragment : BaseFragment() {
 
 //        val manager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
         val manager = LinearLayoutManager(activity)
+//        manager.reverseLayout = true
+//        manager.stackFromEnd = true
         val manager2 = LinearLayoutManager(activity)
         binding.ToDoListRecyclerView.addItemDecoration(MyItemDecoration(16))
         binding.ToDoListRecyclerView.layoutManager = manager

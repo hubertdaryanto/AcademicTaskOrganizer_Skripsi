@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.core.view.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,13 +17,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.w3c.dom.Text
 
 interface ToDoListInterface{
-    fun onUpdateText(name: String)
+    fun onUpdateText(id: Long, name: String)
 //    fun onUpdateText(id: Long, name: String)
-    fun onUpdateId(id: Long)
+//    fun onUpdateId(id: Long)
     fun onUpdateCheckbox(id: Long, isFinished: Boolean)
+    fun onRemoveItem(id: Long)
 //    fun onUpdateCheckbox(id: Long, isFinished: Boolean)
 //        : String{
 //            return data
@@ -32,11 +31,14 @@ interface ToDoListInterface{
 }
 
 class ToDoListAdapter(val clickListener: ToDoListListener
+//, var list: List<ToDoList>?
 , var toDoListInterface: ToDoListInterface
-): ListAdapter<DataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
+): ListAdapter<ToDoListDataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
 
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
+
+//    private var toDoListData: List<ToDoList> = ArrayList<ToDoList>()
 
     var textToSend = ""
 //    private var mAdapterCallback: AdapterCallback()
@@ -59,18 +61,53 @@ class ToDoListAdapter(val clickListener: ToDoListListener
            is ViewHolder ->
            {
 
-               val item = getItem(position) as DataItem.ToDoListItem
+               val item = getItem(position) as ToDoListDataItem.ToDoListItem
+               val textWatcher = object : TextWatcher{
+                   override fun beforeTextChanged(
+                       s: CharSequence?,
+                       start: Int,
+                       count: Int,
+                       after: Int
+                   ) {
 
-               holder.binding.textViewToDoListNameDialog.setOnFocusChangeListener(object : View.OnFocusChangeListener {
-                   override fun onFocusChange(v: View?, hasFocus: Boolean) {
-//                       TODO("Not yet implemented")
-                       if (hasFocus)
-                       {
-                           toDoListInterface.onUpdateId(holder.adapterPosition.toLong())
-                       }
                    }
 
-               })
+                   override fun onTextChanged(
+                       s: CharSequence?,
+                       start: Int,
+                       before: Int,
+                       count: Int
+                   ) {
+                       //bisa implement disini, tapi bikin kinerja device berat banget
+                       toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
+                   }
+
+                   override fun afterTextChanged(s: Editable?) {
+//                        if (TDLI != null) {
+//                            TDLI.onUpdateText(s.toString())
+//                        }
+                   }
+
+               }
+               holder.binding.textViewToDoListNameDialog.setText(item.toDoList.toDoListName)
+               holder.binding.toDoListItemCheckBox.isChecked = item.toDoList.isFinished
+
+               //status sekarang: item paling terakhir malah merujuk ke item ke 0 kalau abis tambah gak diedit lagi
+               //kalau insert 1, terus insert 1 lagi abis ketik to do pertama, dipastikan gagal memenuhi kriteria
+
+               //kalau insert lebih dari 2, dua item diatas item baru aman, gak ada perubahan
+
+               holder.binding.textViewToDoListNameDialog.addTextChangedListener(textWatcher)
+//               holder.binding.textViewToDoListNameDialog.setOnFocusChangeListener(object : View.OnFocusChangeListener {
+//                   override fun onFocusChange(v: View?, hasFocus: Boolean) {
+////                       TODO("Not yet implemented")
+//                       if (hasFocus)
+//                       {
+//                           toDoListInterface.onUpdateId(holder.adapterPosition.toLong())
+//                       }
+//                   }
+//
+//               })
 //               holder.binding.toDoListItemCheckBox.setOnClickListener {
 //                   toDoListInterface.onUpdateId(holder.adapterPosition.toLong())
 //               }
@@ -82,6 +119,10 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                    }
 
                })
+
+               holder.binding.toDoListDeleteBtn.setOnClickListener {
+                   toDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
+               }
                holder.bind(item.toDoList, clickListener)
            }
        }
@@ -90,7 +131,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
     fun updateList(list: List<ToDoList>?) {
         adapterScope.launch {
             val items = list?.map {
-                DataItem.ToDoListItem(it)
+                ToDoListDataItem.ToDoListItem(it)
             }
 
             withContext(Dispatchers.Main){
@@ -116,48 +157,20 @@ class ToDoListAdapter(val clickListener: ToDoListListener
             ): ViewHolder{
 
 //                val TDLR: ToDoListInterface? = null
-                val textWatcher = object : TextWatcher{
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                        //bisa implement disini, tapi bikin kinerja device berat banget
-                        TDLI.onUpdateText(s.toString())
-                    }
-
-                    override fun afterTextChanged(s: Editable?) {
-//                        if (TDLI != null) {
-//                            TDLI.onUpdateText(s.toString())
-//                        }
-                    }
-
-                }
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemToDoListBinding.inflate(layoutInflater, parent, false)
-                binding.textViewToDoListNameDialog.addTextChangedListener(textWatcher)
                 return ViewHolder(binding)
             }
         }
     }
 }
 
-class ToDoListDiffCallback : DiffUtil.ItemCallback<DataItem>() {
-    override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+class ToDoListDiffCallback : DiffUtil.ItemCallback<ToDoListDataItem>() {
+    override fun areItemsTheSame(oldItem: ToDoListDataItem, newItem: ToDoListDataItem): Boolean {
         return oldItem.id == newItem.id
     }
     @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+    override fun areContentsTheSame(oldItem: ToDoListDataItem, newItem: ToDoListDataItem): Boolean {
         return oldItem == newItem
     }
 
@@ -169,14 +182,15 @@ class ToDoListListener(val clickListener: (ToDoListId: Long) -> Unit)
 }
 
 
-sealed class DataItem {
+sealed class ToDoListDataItem {
     abstract val id: Long
-    data class ToDoListItem(val toDoList: ToDoList): DataItem(){
+    abstract val name: String
+    abstract val isFinished: Boolean
+    data class ToDoListItem(val toDoList: ToDoList): ToDoListDataItem(){
         override val id = toDoList.toDoListId
+        override val name = toDoList.toDoListName
+        override val isFinished = toDoList.isFinished
     }
-
-    data class ImageForTugasItem(val ImageForTugas: ImageForTugas): DataItem(){
-        override val id = ImageForTugas.imageId
-    }
+    //gak ada bedanya kalau name sama isfinished di comment atau gak
 
 }
