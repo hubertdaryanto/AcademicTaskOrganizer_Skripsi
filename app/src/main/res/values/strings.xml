@@ -2,4 +2,21 @@
     <string name="app_name">SyncAdapterTest_forBinusmaya</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tugaskuliah_hint_subject">Subject</string>
+    <string name="tugaskuliah_hint_nama_tugas">Nama Tugas</string>
+    <string name="tugaskuliah_hint_deadline">Deadline</string>
+    <string name="tugaskuliah_hint_jam">Jam</string>
+    <string name="tugaskuliah_hint_catatan">Catatan</string>
+    <string name="tugaskuliah_hint_ToDoList">To Do List</string>
+    <string name="deadline_button">deadline button</string>
+    <string name="tugas">tugas</string>
+    <string name="gambar">Gambar</string>
+    <string name="time_icon">Jam</string>
+    <string name="list_agenda_header_text">Tanggal Deadline Tugas Kuliah</string>
+    <string name="batal">batal</string>
+    <string name="list_subject_header_text">Pilih Subject</string>
+    <string name="tambah_subject">Tambah Subject</string>
+    <string name="nama_subject">Nama Subject</string>
+    <string name="to_do_list">To Do List</string>
+    <string name="selesai">Selesai</string>
 </resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.academictaskorganizer_skripsi.view.HomeFragment"
+        android:label="homeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_addTugasFragment"
+            app:destination="@id/addTugasFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editTugasFragment"
+            app:destination="@id/editTugasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTugasFragment"
+        android:name="com.example.academictaskorganizer_skripsi.view.EditTugasFragment"
+        android:label="EditTugasFragment"
+        tools:layout="@layout/fragment_edit_tugas">
+        <action
+            android:id="@+id/actionSaveTugas"
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="tugasKuliahKey"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTugasFragment"
+        android:name="com.example.academictaskorganizer_skripsi.view.AddTugasFragment"
+        android:label="AddTugasFragment"
+        tools:layout="@layout/fragment_add_tugas">
+        <action
+            android:id="@+id/action_addTugasFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
