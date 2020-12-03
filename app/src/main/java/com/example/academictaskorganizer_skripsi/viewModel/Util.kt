@@ -9,6 +9,6 @@ fun convertDeadlineToTimeFormatted(time: Long): String {
 }
 
 fun convertDeadlineToDateFormatted(time: Long): String {
-    val string = SimpleDateFormat("EEEEE, d MMMMM yyyy", Locale.getDefault()).format(time)
+    val string = SimpleDateFormat("d MMMM YYYY", Locale.getDefault()).format(time)
     return string
 }

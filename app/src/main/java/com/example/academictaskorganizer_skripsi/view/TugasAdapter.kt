@@ -2,13 +2,12 @@ package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
+import com.example.academictaskorganizer_skripsi.databinding.ListAgendaHeaderBinding
 import com.example.academictaskorganizer_skripsi.databinding.ListItemTugasBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,6 +68,12 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                 holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
             }
 
+            is TextViewHolder ->
+            {
+                val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
+                holder.bind(item.tugasKuliahListItemType as TugasKuliahDate)
+            }
+
         }
 
     }
@@ -102,17 +107,18 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
     }
 
 
-    class TextViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        fun bind()
+    class TextViewHolder private constructor(val binding: ListAgendaHeaderBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: TugasKuliahDate)
         {
-
+            binding.tugasDate = item
+            binding.executePendingBindings()
         }
 
         companion object{
             fun from(parent: ViewGroup): TextViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.list_agenda_header, parent, false)
-                return TextViewHolder(view)
+                val binding = ListAgendaHeaderBinding.inflate(layoutInflater, parent, false)
+                return TextViewHolder(binding)
             }
         }
     }
