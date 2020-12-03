@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.anggrayudi.storage.SimpleStorage
 import com.example.academictaskorganizer_skripsi.database.ImageForTugas
 import com.example.academictaskorganizer_skripsi.database.ToDoList
 import com.example.academictaskorganizer_skripsi.databinding.ListItemImageForTugasBinding
@@ -53,6 +54,9 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener, var imageIn
 //                    val uri = Uri.parse(string)
 //                    picasso.load(File(uri.path)).into(binding.gambarTugas)
 //                }
+
+                SimpleStorage
+
 
 
                 //binding.image null!!!
