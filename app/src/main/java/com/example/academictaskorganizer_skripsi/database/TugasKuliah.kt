@@ -2,6 +2,7 @@ package com.example.academictaskorganizer_skripsi.database
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
+import com.example.academictaskorganizer_skripsi.view.TugasKuliahListItemType
 
 @Entity(tableName = "TugasKuliah"
     ,foreignKeys = [
@@ -30,11 +31,14 @@ data class TugasKuliah(
 //    @ColumnInfo(name = "tugasImageId")
 //    var tugasImageId: Long
 //    var fromBinusmayaId: Long = -1
-)
+): TugasKuliahListItemType
 {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tugasKuliahId")
     var tugasKuliahId: Long = 0
+    override fun getType(): Int {
+        return ITEM_VIEW_TYPE_ITEM
+    }
 }
 
 @Entity(tableName = "Image", foreignKeys = [

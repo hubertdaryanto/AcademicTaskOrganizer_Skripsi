@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.databinding.ListItemTugasBinding
@@ -14,19 +14,43 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.ClassCastException
 
-val ITEM_VIEW_TYPE_HEADER = 0
-val ITEM_VIEW_TYPE_ITEM = 1
 
-class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKuliahDataItem, RecyclerView.ViewHolder>(TugasKuliahDiffCallback()) {
+class TugasKuliahDate(d: String): TugasKuliahListItemType {
+    var date = d
+
+    override fun getType(): Int {
+        return ITEM_VIEW_TYPE_HEADER
+    }
+
+}
+
+
+
+interface TugasKuliahListItemType {
+    val ITEM_VIEW_TYPE_HEADER: Int
+        get() = 0
+    val ITEM_VIEW_TYPE_ITEM: Int
+        get() = 1
+
+    fun getType(): Int
+}
+
+val ITEM_VIEW_TYPE_HEADER: Int
+    get() = 0
+val ITEM_VIEW_TYPE_ITEM: Int
+    get() = 1
+
+class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKuliahDataItem, RecyclerView.ViewHolder>(
+    TugasKuliahDiffCallback()
+) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
-            ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
+            0 -> TextViewHolder.from(parent)
+            1 -> ViewHolder.from(parent)
             else -> throw ClassCastException("Unknown viewType ${viewType}")
         }
     }
@@ -40,22 +64,21 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
 //            Navigation.findNavController(it).navigate(action)
 //        }
         when (holder) {
-            is ViewHolder ->
-            {
-                val item = getItem(position) as TugasKuliahDataItem.TugasKuliahItem
-                holder.bind(item.tugas, clickListener)
+            is ViewHolder -> {
+                val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
+                holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
             }
 
         }
 
     }
 
-    fun addHeaderAndSubmitList(list: List<TugasKuliah>?) {
+    fun addHeaderAndSubmitList(list: List<TugasKuliahListItemType>?) {
         adapterScope.launch {
             val items = when (list) {
                 null -> listOf(TugasKuliahDataItem.Header)
-                else -> listOf(TugasKuliahDataItem.Header) + list.map {
-                    TugasKuliahDataItem.TugasKuliahItem(it)
+                else -> list.map {
+                    TugasKuliahDataItem.TugasKuliahList(it)
                 }
             }
             withContext(Dispatchers.Main){
@@ -67,14 +90,24 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is TugasKuliahDataItem.Header -> ITEM_VIEW_TYPE_HEADER
-            is TugasKuliahDataItem.TugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
-        }
+//        return when (getItem(position)) {
+//            is TugasKuliahDataItem.Header -> ITEM_VIEW_TYPE_HEADER
+//            is TugasKuliahDataItem.TugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
+//        }
+//        return when (getItem(position)) {
+//            is TugasKuliahDataItem.TugasKuliahList as TugasKuliahDate ->
+//            is TugasKuliahDataItem.TugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
+//        }
+        return getItem(position).type
     }
 
 
     class TextViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        fun bind()
+        {
+
+        }
+
         companion object{
             fun from(parent: ViewGroup): TextViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -84,7 +117,9 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         }
     }
 
-    class ViewHolder private constructor(val binding: ListItemTugasBinding): RecyclerView.ViewHolder(binding.root)
+    class ViewHolder private constructor(val binding: ListItemTugasBinding): RecyclerView.ViewHolder(
+        binding.root
+    )
     {
         fun bind(item: TugasKuliah, clickListener: TugasKuliahListener) {
             binding.tugas = item
@@ -120,13 +155,46 @@ class TugasKuliahListener(val clickListener: (TugasKuliahId: Long) -> Unit)
 
 sealed class TugasKuliahDataItem {
     abstract val id: Long
-    data class TugasKuliahItem(val tugas: TugasKuliah): TugasKuliahDataItem(){
-        override val id = tugas.tugasKuliahId
-    }
-
+    open var count: Long = 0
+    abstract val type: Int
+//    data class TugasKuliahItem(val tugas: TugasKuliah): TugasKuliahDataItem(){
+//        override val id = tugas.tugasKuliahId
+//    }
+//
     object Header: TugasKuliahDataItem(){
         override val id = Long.MIN_VALUE
+         override val type = 0
+}
+
+    data class TugasKuliahList(val tugasKuliahListItemType: TugasKuliahListItemType): TugasKuliahDataItem()
+    {
+        fun getLong(): Long{
+            if (tugasKuliahListItemType is TugasKuliah)
+            {
+                return tugasKuliahListItemType.tugasKuliahId + count
+            }
+            else
+            {
+                count = count + 1
+                return count
+            }
+
+        }
+
+
+        override val id: Long = getLong()
+        override val type: Int = tugasKuliahListItemType.getType()
+//        override val id: Long = {
+//            fun getLong(): Long {
+//                if (tugasKuliahListItemType is TugasKuliah)
+//                {
+//                    return tugasKuliahListItemType.tugasKuliahId
+//                }
+//            }
+//            return getLong()
+//        }
     }
+
 
 
 }

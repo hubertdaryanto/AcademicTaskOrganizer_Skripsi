@@ -51,7 +51,9 @@ class HomeFragment : BaseFragment() {
 
         homeFragmentViewModel.tugas.observe(viewLifecycleOwner, Observer{
             it?.let {
-                adapter.addHeaderAndSubmitList(it)
+
+                val test = homeFragmentViewModel.getTugasKuliahDate()
+                adapter.addHeaderAndSubmitList(test)
             }
         })
 
@@ -93,14 +95,15 @@ class HomeFragment : BaseFragment() {
 //        recyclerViewTugas = binding.recyclerViewTugas
 //        viewModel = ViewModelProvider(this).get(TugasKuliahViewModel::class.java)
 
-        val manager = GridLayoutManager(activity, 3)
+        val manager = GridLayoutManager(activity, 1)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(position: Int): Int {
                 when (position) {
-                    0 -> return 3
+                    0 -> return 1
                     else -> return 1
                 }
             }
+
 
         }
         binding.tugasList.layoutManager = manager

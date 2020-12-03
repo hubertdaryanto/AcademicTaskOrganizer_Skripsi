@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.database.tugasDatabaseDao
+import com.example.academictaskorganizer_skripsi.view.TugasKuliahDate
+import com.example.academictaskorganizer_skripsi.view.TugasKuliahListItemType
 
 class HomeFragmentViewModel(dataSource: tugasDatabaseDao, application: Application): ViewModel() {
     val database = dataSource
@@ -14,6 +16,7 @@ class HomeFragmentViewModel(dataSource: tugasDatabaseDao, application: Applicati
 //    private var tugasList = MutableLiveData<TugasKuliah?>()
 
     var tugas = database.getAllSortedByDeadlineForeground()
+
 
     private val _navigateToEditTugasKuliah = MutableLiveData<Long>()
     val navigateToEditTugasKuliah: LiveData<Long>
@@ -30,6 +33,28 @@ class HomeFragmentViewModel(dataSource: tugasDatabaseDao, application: Applicati
     fun doneShowingSnackbar()
     {
         _showSnackbarEvent.value = null
+    }
+
+    fun getTugasKuliahDate(): List<TugasKuliahListItemType>
+    {
+        var arrayList = arrayListOf<TugasKuliahListItemType>()
+        var date: String = ""
+        for (i in tugas.value!!)
+        {
+            var dateCursor: String = convertDeadlineToDateFormatted(i.deadline)
+            if (date.equals(dateCursor, true))
+            {
+                arrayList.add(i)
+            }
+            else
+            {
+                date = dateCursor
+                var tugasKuliahDate = TugasKuliahDate(date)
+                arrayList.add(tugasKuliahDate)
+                arrayList.add(i)
+            }
+        }
+        return arrayList
     }
 
 //    fun doneNavigating()

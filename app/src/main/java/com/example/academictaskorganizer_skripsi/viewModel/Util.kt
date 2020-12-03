@@ -8,3 +8,7 @@ fun convertDeadlineToTimeFormatted(time: Long): String {
     return weekdayString
 }
 
+fun convertDeadlineToDateFormatted(time: Long): String {
+    val string = SimpleDateFormat("EEEEE, d MMMMM yyyy", Locale.getDefault()).format(time)
+    return string
+}
