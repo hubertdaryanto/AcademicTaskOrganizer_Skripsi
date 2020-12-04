@@ -1,26 +1,38 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.app.Activity
+import android.app.Activity.MODE_APPEND
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.os.FileUtils
+import android.provider.DocumentsContract
+import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.anggrayudi.storage.file.filePath
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
 import com.example.academictaskorganizer_skripsi.database.*
 import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModelFactory
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -315,8 +327,24 @@ class AddTugasFragment : BaseFragment() {
         if (requestCode == YOUR_IMAGE_CODE){
             if (resultCode == RESULT_OK)
                 if (data != null) {
-                    selectedImageUri = data.data!!
 
+                    selectedImageUri = data.data!!
+//                    if (selectedImageUri == null)
+//                    context?.contentResolver?.takePersistableUriPermission(selectedImageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                    val path: String = getRealPathFromURI(this.requireContext(), selectedImageUri)
+                    val file: String = getFileName(this.requireContext(), selectedImageUri)
+
+
+//                    try {
+//                        insertInPrivateStorage(this.requireContext(), file, path)
+//                    } catch (e: FileNotFoundException){
+//                        e.printStackTrace()
+//                    }
+//                    catch (e: IOException)
+//                    {
+//                        e.printStackTrace()
+//                    } uncomment this one it's ready for save to app-specific file
 
 //                    if (selectedImageUri.toString().contains("content:")) {
 //                        imagePath  = getRealPathFromURI(selectedImageUri)
@@ -327,12 +355,123 @@ class AddTugasFragment : BaseFragment() {
 //                    }
                     val mImage = ImageForTugas(
                         bindToTugasKuliahId = mTugas.tugasKuliahId,
-                        imageName = selectedImageUri.toString()
+                        imageName = path
                     )
                     addTugasFragmentViewModel.addImageItem(mImage)
                     addTugasFragmentViewModel.afterAddToDoListClicked()
                 }
         }
+    }
+
+    private fun insertInPrivateStorage(context: Context, name: String, path: String)
+    {
+        var fos: FileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE)
+
+        var file: File = File(context.filesDir, name)
+
+        var bytes: ByteArray = getBytesFromFile(file)
+
+        fos.write(bytes)
+        fos.close()
+
+        Toast.makeText(context, "File saved in :"+ context.filesDir + "/"+name, Toast.LENGTH_LONG).show()
+    }
+
+    private fun getBytesFromFile(file: File): ByteArray
+    {
+        var data: ByteArray = file.readBytes()
+        if (data == null)
+        {
+            throw IOException("No data")
+        }
+        return data
+    }
+
+    private fun getRealPathFromURI(context: Context, uri: Uri): String
+    {
+//        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+//        var selection: String
+//        var cursor: Cursor? = context.contentResolver.query(uri, proj, null, null, null)
+//        if (cursor != null)
+//        {
+//            var column_index: Int = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//            cursor?.moveToFirst()
+//            return cursor.getString(column_index)
+//        }
+//        return ""
+
+        var realPath = String()
+        uri.path?.let { path ->
+
+            val databaseUri: Uri
+            val selection: String?
+            val selectionArgs: Array<String>?
+            if (path.contains("/document/image:")) { // files selected from "Documents"
+                databaseUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                selection = "_id=?"
+                selectionArgs = arrayOf(DocumentsContract.getDocumentId(uri).split(":")[1])
+            }
+            else if (path.contains("/document/primary:"))
+            {
+                databaseUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                selection = "_id=?"
+                selectionArgs = arrayOf(DocumentsContract.getDocumentId(uri).split(":")[1])
+            }
+            else { // files selected from all other sources, especially on Samsung devices
+                databaseUri = uri
+                selection = null
+                selectionArgs = null
+            }
+            try {
+                val column = "_data"
+                val projection = arrayOf(column)
+                val cursor = context.contentResolver.query(
+                    databaseUri,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null
+                )
+                cursor?.let {
+                    if (it.moveToFirst()) {
+                        val columnIndex = cursor.getColumnIndexOrThrow(column)
+                        realPath = cursor.getString(columnIndex)
+                    }
+                    cursor.close()
+                }
+            } catch (e: Exception) {
+                println(e)
+            }
+        }
+        return realPath
+    }
+
+    private fun getFileName(context: Context, uri: Uri): String{
+        var result: String = ""
+        if (uri.scheme.equals("content"))
+        {
+            var cursor: Cursor? = context.contentResolver.query(uri, null, null, null, null)
+            try {
+                if (cursor != null && cursor.moveToFirst())
+                {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                }
+            }
+            finally {
+                cursor?.close()
+            }
+        }
+        if (result == null)
+        {
+            result = uri.path.toString()
+            var cut: Int = result.lastIndexOf("/")
+            if (cut != -1)
+            {
+                result = result.substring(cut + 1)
+            }
+        }
+
+        return result
     }
 
     fun newIntent(message: Long?): Intent? {
