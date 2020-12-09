@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">SyncAdapterTest_forBinusmaya</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">Academic Task Organizer</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tugaskuliah_hint_subject">Subject</string>
     <string name="tugaskuliah_hint_nama_tugas">Nama Tugas</string>
@@ -19,4 +18,7 @@
     <string name="nama_subject">Nama Subject</string>
     <string name="to_do_list">To Do List</string>
     <string name="selesai">Selesai</string>
+    <string name="action_notify_tugas_kuliah">com.example.academictaskorganizer_skripsi.action.NOTIFY_T</string>
+    <string name="notification_group">tugasKuliah</string>
+    UGAS_KULIAH
 </resources>

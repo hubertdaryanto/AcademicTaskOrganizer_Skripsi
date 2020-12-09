@@ -9,6 +9,12 @@ interface tugasDatabaseDao{
     @Query("SELECT * FROM TugasKuliah ORDER BY tugasKuliahName ASC")
     suspend fun getAllSortedByName(): List<TugasKuliah>
 
+    @Query("SELECT * FROM TugasKuliah WHERE isFinished LIKE 0")
+    fun loadAllTugasKuliahUnfinished(): List<TugasKuliah>
+
+    @Query("SELECT tugasKuliahName FROM TugasKuliah")
+    suspend fun loadAllTugasKuliahName(): List<String>
+
     @Query("SELECT * FROM TugasKuliah ORDER BY deadline DESC")
     suspend fun getAllSortedByDeadline(): List<TugasKuliah>
 
@@ -19,7 +25,7 @@ interface tugasDatabaseDao{
     suspend fun loadAllByIds(userIds: LongArray): List<TugasKuliah>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId LIKE :id")
-    suspend fun loadTugasKuliahById(id: Long): TugasKuliah
+    fun loadTugasKuliahById(id: Long): TugasKuliah
 
     @Query("SELECT * FROM TugasKuliah WHERE tugasKuliahName LIKE :name")
     suspend fun findByName(name: String): TugasKuliah

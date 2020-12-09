@@ -3,10 +3,12 @@ package com.example.academictaskorganizer_skripsi.view
 import android.app.Activity
 import android.app.Activity.MODE_APPEND
 import android.app.Activity.RESULT_OK
+import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
@@ -27,6 +29,7 @@ import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
 import com.example.academictaskorganizer_skripsi.database.*
 import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
+import com.example.academictaskorganizer_skripsi.services.AlarmReceiver
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModelFactory
 import java.io.File
@@ -158,6 +161,14 @@ class AddTugasFragment : BaseFragment() {
                     val inputMethodManager =
                         activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
+
+
+                    //notify 24 hours before deadline
+                    //not yet working, gak kepanggil soalnya
+//                    val receiver = AlarmReceiver(mTugas.deadline - 86400, mTugas.tugasKuliahName, mTugas.notes)
+//                    val pm = context?.packageManager
+//                    pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+//                    AlarmReceiver().setAlarm(application.applicationContext, mTugas.deadline, uri)
 
                     addTugasFragmentViewModel.addTugasKuliah(mTugas)
                     context?.toast("Tugas Saved")
