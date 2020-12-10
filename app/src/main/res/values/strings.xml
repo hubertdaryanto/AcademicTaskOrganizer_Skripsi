@@ -18,7 +18,9 @@
     <string name="nama_subject">Nama Subject</string>
     <string name="to_do_list">To Do List</string>
     <string name="selesai">Selesai</string>
-    <string name="action_notify_tugas_kuliah">com.example.academictaskorganizer_skripsi.action.NOTIFY_T</string>
+    <string name="action_notify_tugas_kuliah">com.example.academictaskorganizer_skripsi.action.NOTIFY_TUGAS_KULIAH</string>
     <string name="notification_group">tugasKuliah</string>
-    UGAS_KULIAH
+    <string name="notification_channel_name">Reminder for Tugas Kuliah</string>
+    <string name="group_notification_for">This is group notification for tugasKuliah.</string>
+    <string name="get_tugas_kuliah_id_key">tugasKuliahIdKey</string>
 </resources>

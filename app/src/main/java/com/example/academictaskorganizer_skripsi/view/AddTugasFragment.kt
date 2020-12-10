@@ -170,7 +170,7 @@ class AddTugasFragment : BaseFragment() {
 //                    pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
 //                    AlarmReceiver().setAlarm(application.applicationContext, mTugas.deadline, uri)
 
-                    addTugasFragmentViewModel.addTugasKuliah(mTugas)
+                    addTugasFragmentViewModel.addTugasKuliah(this.context!!, mTugas)
                     context?.toast("Tugas Saved")
 
                     this.findNavController()

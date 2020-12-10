@@ -16,6 +16,6 @@ class AcademicTaskOrganizerApp: Application() {
         instance = this
 
         NotificationHelper.createNotificationChannel(this, NotificationManagerCompat.IMPORTANCE_DEFAULT, false,
-        "Reminder for Tugas Kuliah", "Tugas Kuliah Reminder")
+        getString(R.string.notification_channel_name), "Tugas Kuliah Reminder")
     }
 }

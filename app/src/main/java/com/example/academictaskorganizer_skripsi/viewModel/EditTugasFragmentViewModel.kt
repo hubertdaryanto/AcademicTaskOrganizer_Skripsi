@@ -1,6 +1,7 @@
 package com.example.academictaskorganizer_skripsi.viewModel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.example.academictaskorganizer_skripsi.components.addNewItem
 import com.example.academictaskorganizer_skripsi.components.notifyObserver
 import com.example.academictaskorganizer_skripsi.components.removeItemAt
 import com.example.academictaskorganizer_skripsi.database.*
+import com.example.academictaskorganizer_skripsi.services.AlarmScheduler
 import kotlinx.coroutines.*
 
 class EditTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel()  {
@@ -186,8 +188,9 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
 
     }
 
-    fun updateTugasKuliah(tugasKuliah: TugasKuliah)
+    fun updateTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
+        AlarmScheduler.updateAlarmsForReminder(context, tugasKuliah)
         viewModelScope.launch {
 //            var tugasKuliaId = database.insertTugas(tugasKuliah)
             var tugasKuliahId = database.updateTugas(tugasKuliah)
@@ -216,8 +219,9 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
         }
     }
 
-    fun deleteTugasKuliah()
+    fun deleteTugasKuliah(context: Context)
     {
+        AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah.value!!)
         viewModelScope.launch {
             database.deleteTugas(tugasKuliah.value!!)
             //to do list sama image yang terkait harus di remove juga

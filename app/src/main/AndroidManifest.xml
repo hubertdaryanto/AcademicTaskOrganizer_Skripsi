@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.academictaskorganizer_skripsi">
 
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <uses-permission
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <!--        android:maxSdkVersion="30"-->
@@ -60,6 +63,14 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
+
+        <receiver android:name=".services.AlarmReceiver"/>
+        <receiver android:name=".services.BootReceiver"
+            android:label="StartNotificationServiceBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
         <provider
             android:name="com.example.academictaskorganizer_skripsi.components.StubProvider"
             android:authorities="com.example.academictaskorganizer_skripsi.provider"

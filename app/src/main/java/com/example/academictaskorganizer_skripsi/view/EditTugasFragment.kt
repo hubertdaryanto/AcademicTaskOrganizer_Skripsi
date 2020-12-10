@@ -171,7 +171,7 @@ class EditTugasFragment: BaseFragment() {
                         activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
-                    editTugasFragmentViewModel.updateTugasKuliah(editTugasFragmentViewModel.tugasKuliah.value!!)
+                    editTugasFragmentViewModel.updateTugasKuliah(context!!, editTugasFragmentViewModel.tugasKuliah.value!!)
                     context?.toast("Tugas Updated")
 
                     this.findNavController()
@@ -517,7 +517,7 @@ class EditTugasFragment: BaseFragment() {
 //                    val action = TugasFragmentEditorDirections.actionSaveTugas()
 //                    Navigation.findNavController(requireView()).navigate(action)
 //                }
-                editTugasFragmentViewModel.deleteTugasKuliah()
+                editTugasFragmentViewModel.deleteTugasKuliah(context)
                 val action = EditTugasFragmentDirections.actionSaveTugas()
                 Navigation.findNavController(requireView()).navigate(action)
             }
@@ -570,4 +570,6 @@ class EditTugasFragment: BaseFragment() {
 //        super.onCreateOptionsMenu(menu, inflater)
 //        inflater.inflate(R.menu.tugaseditor_menu, menu)
 //    }
+
+
 }

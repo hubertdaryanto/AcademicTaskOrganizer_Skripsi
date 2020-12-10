@@ -1,6 +1,7 @@
 package com.example.academictaskorganizer_skripsi.viewModel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.example.academictaskorganizer_skripsi.components.addNewItem
 import com.example.academictaskorganizer_skripsi.components.notifyObserver
 import com.example.academictaskorganizer_skripsi.components.removeItemAt
 import com.example.academictaskorganizer_skripsi.database.*
+import com.example.academictaskorganizer_skripsi.services.AlarmScheduler
 import kotlinx.coroutines.*
 
 class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel() {
@@ -165,8 +167,9 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
 
     }
 
-    fun addTugasKuliah(tugasKuliah: TugasKuliah)
+    fun addTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
+        AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
         viewModelScope.launch {
             var tugasKuliaId = database.insertTugas(tugasKuliah)
             //insert to do list and image in here too
