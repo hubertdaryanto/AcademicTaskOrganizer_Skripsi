@@ -36,10 +36,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@{tugas.tugasKuliahName}"
+                android:textAllCaps="false"
                 android:textAppearance="@style/Base.CardView"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:strikeThrough="@{true}"/>
 
             <TextView
                 android:id="@+id/text_view_subject_and_deadline"

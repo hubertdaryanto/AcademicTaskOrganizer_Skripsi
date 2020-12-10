@@ -11,7 +11,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
 import com.example.academictaskorganizer_skripsi.databinding.SubjectDialogBinding
@@ -84,15 +86,11 @@ class SubjectDialogFragment : DialogFragment() {
         binding.subjectDialogFragmentViewModel = subjectDialogFragmentViewModel
         binding.setLifecycleOwner(this)
 
-        val manager = GridLayoutManager(activity, 3)
-        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
-            override fun getSpanSize(position: Int): Int {
-                when (position) {
-                    0 -> return 3
-                    else -> return 1
-                }
-            }
-        }
+        val manager = LinearLayoutManager(activity)
+        val dividerItemDecoration = DividerItemDecoration(binding.subjectList.context,
+        manager.orientation)
+        binding.subjectList.addItemDecoration(dividerItemDecoration)
+
         binding.subjectList.layoutManager = manager
 
         return binding.root

@@ -37,7 +37,15 @@ data class TugasKuliah(
     @ColumnInfo(name = "tugasKuliahId")
     var tugasKuliahId: Long = 0
     override fun getType(): Int {
-        return ITEM_VIEW_TYPE_ITEM
+
+        if (isFinished)
+        {
+            return ITEM_VIEW_TYPE_ITEM_FINISHED
+        }
+        else
+        {
+            return ITEM_VIEW_TYPE_ITEM
+        }
     }
 }
 

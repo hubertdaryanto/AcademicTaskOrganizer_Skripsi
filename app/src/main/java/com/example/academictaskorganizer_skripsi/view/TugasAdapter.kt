@@ -1,13 +1,17 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.databinding.ListAgendaHeaderBinding
+import com.example.academictaskorganizer_skripsi.databinding.ListItemTugas2Binding
 import com.example.academictaskorganizer_skripsi.databinding.ListItemTugasBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +35,8 @@ interface TugasKuliahListItemType {
         get() = 0
     val ITEM_VIEW_TYPE_ITEM: Int
         get() = 1
+    val ITEM_VIEW_TYPE_ITEM_FINISHED: Int
+        get() = 2
 
     fun getType(): Int
 }
@@ -50,6 +56,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         return when (viewType) {
             0 -> TextViewHolder.from(parent)
             1 -> ViewHolder.from(parent)
+            2 -> ViewHolder2.from(parent)
             else -> throw ClassCastException("Unknown viewType ${viewType}")
         }
     }
@@ -68,10 +75,15 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                 holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
             }
 
-            is TextViewHolder ->
-            {
+            is TextViewHolder -> {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
                 holder.bind(item.tugasKuliahListItemType as TugasKuliahDate)
+            }
+
+            is ViewHolder2 ->
+            {
+                val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
+                holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
             }
 
         }
@@ -95,19 +107,13 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
     }
 
     override fun getItemViewType(position: Int): Int {
-//        return when (getItem(position)) {
-//            is TugasKuliahDataItem.Header -> ITEM_VIEW_TYPE_HEADER
-//            is TugasKuliahDataItem.TugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
-//        }
-//        return when (getItem(position)) {
-//            is TugasKuliahDataItem.TugasKuliahList as TugasKuliahDate ->
-//            is TugasKuliahDataItem.TugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
-//        }
         return getItem(position).type
     }
 
 
-    class TextViewHolder private constructor(val binding: ListAgendaHeaderBinding): RecyclerView.ViewHolder(binding.root) {
+    class TextViewHolder private constructor(val binding: ListAgendaHeaderBinding): RecyclerView.ViewHolder(
+        binding.root
+    ) {
         fun bind(item: TugasKuliahDate)
         {
             binding.tugasDate = item
@@ -138,6 +144,25 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemTugasBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
+            }
+        }
+    }
+
+    class ViewHolder2 private constructor(val binding: ListItemTugas2Binding): RecyclerView.ViewHolder(
+        binding.root
+    )
+    {
+        fun bind(item: TugasKuliah, clickListener: TugasKuliahListener) {
+            binding.tugas = item
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
+        }
+
+        companion object{
+            fun from(parent: ViewGroup): ViewHolder2 {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ListItemTugas2Binding.inflate(layoutInflater, parent, false)
+                return ViewHolder2(binding)
             }
         }
     }
@@ -203,4 +228,13 @@ sealed class TugasKuliahDataItem {
 
 
 
+}
+
+@BindingAdapter("strikeThrough")
+fun strikeThrough(textView: TextView, strikeThrough: Boolean) {
+    if (strikeThrough) {
+        textView.paintFlags = textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+    } else {
+        textView.paintFlags = textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+    }
 }

@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/actionSaveTugas"
-        android:icon="@drawable/ic_baseline_save_24"
-        app:showAsAction="ifRoom"
-        android:title="Save"
-        >
-    </item>
-    <item
         android:id="@+id/actionDeleteTugas"
         android:icon="@drawable/ic_baseline_delete_forever_24"
         app:showAsAction="ifRoom"
         android:title="Delete"
+        >
+    </item>
+    <item
+        android:id="@+id/actionSaveTugas"
+        android:icon="@drawable/ic_baseline_save_24"
+        app:showAsAction="ifRoom"
+        android:title="Save"
         >
     </item>
 </menu>

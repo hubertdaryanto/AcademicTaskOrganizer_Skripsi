@@ -10,12 +10,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Color
+import android.graphics.ColorFilter
 import android.net.Uri
 import android.os.Bundle
 import android.os.FileUtils
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.text.InputType
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -80,6 +83,16 @@ class AddTugasFragment : BaseFragment() {
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_add_tugas, container, false)
 
+
+        binding.editTextSubject.inputType = InputType.TYPE_NULL
+        binding.editTextSubject.isFocusable = false
+
+        binding.editDeadline.inputType = InputType.TYPE_NULL
+        binding.editDeadline.isFocusable = false
+
+        binding.editJam.inputType = InputType.TYPE_NULL
+        binding.editJam.isFocusable = false
+
         val dataSource = AppDatabase.getInstance(application).getTugasDao
         SubjectDataSource = AppDatabase.getInstance(application).getSubjectDao
         val viewModelFactory = AddTugasFragmentViewModelFactory(application, dataSource)
@@ -114,7 +127,7 @@ class AddTugasFragment : BaseFragment() {
                         cal.set(Calendar.YEAR, year)
                         cal.set(Calendar.MONTH, month)
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                        binding.editDeadline.setText(SimpleDateFormat("dd-MM-yyyy").format(cal.time))
+                        binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
                     }
                 context?.let { it1 ->
                     DatePickerDialog(
@@ -294,6 +307,20 @@ class AddTugasFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.addtugas_menu, menu)
+        var action_save = menu.findItem(R.id.actionSaveTugas)
+        action_save.setIcon(R.drawable.ic_baseline_save_24)
+        menuIconColor(action_save, Color.BLACK)
+
+    }
+
+    private fun menuIconColor(menuItem: MenuItem, color: Int)
+    {
+        var drawable = menuItem.icon
+        if (drawable != null)
+        {
+            drawable.mutate()
+            drawable.setTint(color)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

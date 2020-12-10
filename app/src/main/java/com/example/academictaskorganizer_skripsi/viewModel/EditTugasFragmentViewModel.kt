@@ -84,6 +84,24 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
     val imageId: LiveData<Long?>
         get() = _imageId
 
+    private val _onIsFinishedClicked = MutableLiveData<Boolean?>()
+    val onIsFinishedClicked: LiveData<Boolean?>
+        get() = _onIsFinishedClicked
+
+    fun onIsFinishedCheckBoxClicked(){
+        _onIsFinishedClicked.value = true
+    }
+
+    fun updateIsFinishedStatus(bool: Boolean)
+    {
+        _tugasKuliah.value!!.isFinished = bool
+    }
+
+    fun afterIsFinishedClicked()
+    {
+        _onIsFinishedClicked.value = null
+    }
+
     fun loadTugasKuliah(id: Long)
     {
         viewModelScope.launch {

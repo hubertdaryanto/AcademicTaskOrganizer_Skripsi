@@ -8,11 +8,13 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.text.InputType
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -67,7 +69,14 @@ class EditTugasFragment: BaseFragment() {
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_edit_tugas, container, false)
 
+        binding.editTextSubject.inputType = InputType.TYPE_NULL
+        binding.editTextSubject.isFocusable = false
 
+        binding.editDeadline.inputType = InputType.TYPE_NULL
+        binding.editDeadline.isFocusable = false
+
+        binding.editJam.inputType = InputType.TYPE_NULL
+        binding.editJam.isFocusable = false
 
         val dataSource = AppDatabase.getInstance(application).getTugasDao
         SubjectDataSource = AppDatabase.getInstance(application).getSubjectDao
@@ -86,7 +95,7 @@ class EditTugasFragment: BaseFragment() {
 //                binding.editTextSubject.setText(it.tugasSubjectId.toString())
                 editTugasFragmentViewModel.convertSubjectIdToSubjectName(it.tugasSubjectId)
                 binding.editTextTugas.setText(it.tugasKuliahName)
-                binding.editDeadline.setText(SimpleDateFormat("dd-MM-yyyy").format(it.deadline))
+                binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(it.deadline))
                 binding.editJam.setText(SimpleDateFormat("H:mm").format(it.deadline))
                 binding.SelesaiCheckBox.isChecked = it.isFinished
                 binding.editCatatan.setText(it.notes)
@@ -119,7 +128,7 @@ class EditTugasFragment: BaseFragment() {
                         cal.set(Calendar.YEAR, year)
                         cal.set(Calendar.MONTH, month)
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                        binding.editDeadline.setText(SimpleDateFormat("dd-MM-yyyy").format(cal.time))
+                        binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
                     }
                 context?.let { it1 ->
                     DatePickerDialog(
@@ -279,6 +288,14 @@ class EditTugasFragment: BaseFragment() {
             }
         })
 
+        editTugasFragmentViewModel.onIsFinishedClicked.observe(viewLifecycleOwner, Observer {
+            if (it == true)
+            {
+                editTugasFragmentViewModel.updateIsFinishedStatus(binding.SelesaiCheckBox.isChecked)
+                editTugasFragmentViewModel.afterIsFinishedClicked()
+            }
+        })
+
         val manager = LinearLayoutManager(activity)
 //        manager.reverseLayout = true
 //        manager.stackFromEnd = true
@@ -294,6 +311,22 @@ class EditTugasFragment: BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.edittugas_menu, menu)
+        var action_save = menu.findItem(R.id.actionSaveTugas)
+        var action_delete = menu.findItem(R.id.actionDeleteTugas)
+        action_save.setIcon(R.drawable.ic_baseline_save_24)
+        action_delete.setIcon(R.drawable.ic_baseline_delete_forever_24)
+        menuIconColor(action_save, Color.BLACK)
+        menuIconColor(action_delete, Color.BLACK)
+    }
+
+    private fun menuIconColor(menuItem: MenuItem, color: Int)
+    {
+        var drawable = menuItem.icon
+        if (drawable != null)
+        {
+            drawable.mutate()
+            drawable.setTint(color)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -321,7 +354,7 @@ class EditTugasFragment: BaseFragment() {
 
 
     private fun convertDateAndTimeToLong(date: String, time: String): Long {
-        val formatter = SimpleDateFormat("dd-MM-yyyy H:mm")
+        val formatter = SimpleDateFormat("dd - MM - yyyy H:mm")
         val date = formatter.parse(date + " " + time)
         return date.time
     }

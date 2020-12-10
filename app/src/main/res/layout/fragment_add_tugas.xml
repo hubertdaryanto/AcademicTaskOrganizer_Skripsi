@@ -45,10 +45,9 @@
                     android:id="@+id/inputTextSubject">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:fontFamily="@font/roboto"
+                        style="@style/edit_text_view"
                         android:id="@+id/editTextSubject"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:editable="false"
                         android:onClick="@{() -> addTugasFragmentViewModel.onShowSubjectDialogClicked()}"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,10 +58,9 @@
                   >
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:fontFamily="@font/roboto"
+                        style="@style/edit_text_view"
                         android:id="@+id/editTextTugas"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"/>
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -83,9 +81,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editDeadline"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto"
+                            style="@style/edit_text_view"
                             android:enabled="true"
                             android:onClick="@{() -> addTugasFragmentViewModel.onDatePickerClicked()}"/>
 
@@ -122,9 +118,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editJam"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto"
+                            style="@style/edit_text_view"
                             android:enabled="true"
                             android:onClick="@{() -> addTugasFragmentViewModel.onTimePickerClicked()}"/>
                     </com.google.android.material.textfield.TextInputLayout>
@@ -197,10 +191,8 @@
                     android:id="@+id/inputCatatan">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:fontFamily="@font/roboto"
-                        android:id="@+id/editCatatan"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent" />
+                        style="@style/edit_text_view"
+                        android:id="@+id/editCatatan" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
