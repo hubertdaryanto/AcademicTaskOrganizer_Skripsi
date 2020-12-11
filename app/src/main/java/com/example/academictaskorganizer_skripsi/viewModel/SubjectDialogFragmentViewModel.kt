@@ -4,12 +4,15 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.academictaskorganizer_skripsi.database.subjectDao
+import com.example.academictaskorganizer_skripsi.database.tugasDatabaseDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class SubjectDialogFragmentViewModel(application: Application, dataSource: subjectDao): ViewModel() {
+class SubjectDialogFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel() {
     val database = dataSource
     private var viewModelJob = Job()
     private val uiScpoe = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -54,5 +57,12 @@ class SubjectDialogFragmentViewModel(application: Application, dataSource: subje
     fun afterdismiss()
     {
         _dismiss.value = null
+    }
+
+    fun removeSubject(id: Long)
+    {
+        uiScpoe.launch {
+            database.deleteSubjectById(id)
+        }
     }
 }

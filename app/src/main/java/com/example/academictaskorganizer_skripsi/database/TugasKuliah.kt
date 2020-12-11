@@ -31,22 +31,11 @@ data class TugasKuliah(
 //    @ColumnInfo(name = "tugasImageId")
 //    var tugasImageId: Long
 //    var fromBinusmayaId: Long = -1
-): TugasKuliahListItemType
+)
 {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tugasKuliahId")
     var tugasKuliahId: Long = 0
-    override fun getType(): Int {
-
-        if (isFinished)
-        {
-            return ITEM_VIEW_TYPE_ITEM_FINISHED
-        }
-        else
-        {
-            return ITEM_VIEW_TYPE_ITEM
-        }
-    }
 }
 
 @Entity(tableName = "Image", foreignKeys = [
@@ -70,8 +59,21 @@ data class SubjectAndTugasKuliah(
         parentColumn = "subjectId",
         entityColumn = "tugasSubjectId"
     )
-    val tugasKuliah: List<TugasKuliah>
-)
+    val tugasKuliah: TugasKuliah
+): TugasKuliahListItemType
+{
+    override fun getType(): Int {
+
+        if (tugasKuliah.isFinished)
+        {
+            return ITEM_VIEW_TYPE_ITEM_FINISHED
+        }
+        else
+        {
+            return ITEM_VIEW_TYPE_ITEM
+        }
+    }
+}
 
 data class TugasKuliahWithToDoList(
     @Embedded val tugasKuliah: TugasKuliah,

@@ -8,7 +8,7 @@ import com.example.academictaskorganizer_skripsi.database.tugasDatabaseDao
 
 
 class SubjectDialogFragmentViewModelFactory(private val application: Application,
-                                       private val dataSource: subjectDao
+                                       private val dataSource: tugasDatabaseDao
 ) : ViewModelProvider.Factory {
     @Suppress("unckecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

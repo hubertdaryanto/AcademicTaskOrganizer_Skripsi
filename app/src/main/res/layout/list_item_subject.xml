@@ -14,14 +14,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="40sp"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:onClick="@{() -> subjectClickListener.onClick(subject)}"
             android:padding="0dp">
 
@@ -30,11 +30,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{subject.subjectName}"
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/Base.CardView"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/subject_deleteBtn"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Test" />
+
+            <ImageButton
+                android:id="@+id/subject_deleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_delete" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

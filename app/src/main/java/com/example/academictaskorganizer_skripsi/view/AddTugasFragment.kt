@@ -19,6 +19,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.InputType
+import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -152,43 +153,63 @@ class AddTugasFragment : BaseFragment() {
         addTugasFragmentViewModel.addTugasKuliahNavigation.observe(viewLifecycleOwner,
             Observer {
                 if (it == true) {
-                    mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
-                    mTugas.tugasSubjectId = subjectId
-                    // Convert Long to Date atau sebaliknya di https://currentmillis.com/
-                    var clock = "9:00"
-                    if (binding.editJam.text.toString() != "")
+                    if (TextUtils.isEmpty(binding.editTextSubject.text))
                     {
-                        clock = binding.editJam.text.toString()
+                        binding.editTextSubject.setError("Harap Pilih Subject")
+                        Toast.makeText(context,binding.editTextSubject.error, Toast.LENGTH_LONG).show()
                     }
-
-                    if (binding.editDeadline.text.toString() != "")
+                    else if (TextUtils.isEmpty(binding.editTextTugas.text))
                     {
-                        mTugas.deadline = convertDateAndTimeToLong(
-                            binding.editDeadline.text.toString(),
-                            clock
-                        )
+                        binding.editTextTugas.setError("Harap masukkan nama tugas")
+                        Toast.makeText(context,binding.editTextTugas.error, Toast.LENGTH_LONG).show()
                     }
+                    else if (TextUtils.isEmpty(binding.editDeadline.text))
+                    {
+                        binding.editDeadline.setError("Harap masukkan tanggal deadline")
+                        Toast.makeText(context,binding.editDeadline.error, Toast.LENGTH_LONG).show()
+                    }
+                    else
+                    {
+                        mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
+                        mTugas.tugasSubjectId = subjectId
+                        // Convert Long to Date atau sebaliknya di https://currentmillis.com/
+                        var clock = "9:00"
+                        if (binding.editJam.text.toString() != "")
+                        {
+                            clock = binding.editJam.text.toString()
+                        }
 
-                    mTugas.notes = binding.editCatatan.text.toString().trim()
+                        if (binding.editDeadline.text.toString() != "")
+                        {
+                            mTugas.deadline = convertDateAndTimeToLong(
+                                binding.editDeadline.text.toString(),
+                                clock
+                            )
+                        }
 
-                    val inputMethodManager =
-                        activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
+                        mTugas.notes = binding.editCatatan.text.toString().trim()
+
+                        val inputMethodManager =
+                            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
 
-                    //notify 24 hours before deadline
-                    //not yet working, gak kepanggil soalnya
+                        //notify 24 hours before deadline
+                        //not yet working, gak kepanggil soalnya
 //                    val receiver = AlarmReceiver(mTugas.deadline - 86400, mTugas.tugasKuliahName, mTugas.notes)
 //                    val pm = context?.packageManager
 //                    pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
 //                    AlarmReceiver().setAlarm(application.applicationContext, mTugas.deadline, uri)
 
-                    addTugasFragmentViewModel.addTugasKuliah(this.context!!, mTugas)
-                    context?.toast("Tugas Saved")
+                        addTugasFragmentViewModel.addTugasKuliah(this.context!!, mTugas)
+                        context?.toast("Tugas Saved")
 
-                    this.findNavController()
-                        .navigate(AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment())
-                    addTugasFragmentViewModel.doneNavigating()
+                        this.findNavController()
+                            .navigate(AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment())
+                        addTugasFragmentViewModel.doneNavigating()
+                    }
+
+
                 }
 
 
@@ -345,7 +366,7 @@ class AddTugasFragment : BaseFragment() {
 
 
     private fun convertDateAndTimeToLong(date: String, time: String): Long {
-        val formatter = SimpleDateFormat("dd-MM-yyyy H:mm")
+        val formatter = SimpleDateFormat("dd - MM - yyyy H:mm")
         val date = formatter.parse(date + " " + time)
         return date.time
     }

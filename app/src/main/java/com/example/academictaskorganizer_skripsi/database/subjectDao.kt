@@ -12,9 +12,6 @@ interface subjectDao{
     @Query("SELECT SubjectName FROM Subject WHERE SubjectId LIKE :id")
     fun loadSubjectNameByIdForeground(id: Long): String
 
-    @Query("SELECT * FROM Subject ORDER BY SubjectName ASC")
-    fun getSubjectByNameForeground(): LiveData<List<Subject>>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSubject(vararg subject: Subject)
 

@@ -23,4 +23,5 @@
     <string name="notification_channel_name">Reminder for Tugas Kuliah</string>
     <string name="group_notification_for">This is group notification for tugasKuliah.</string>
     <string name="get_tugas_kuliah_id_key">tugasKuliahIdKey</string>
+    <string name="pilih_subject">Pilih Subject</string>
 </resources>

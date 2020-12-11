@@ -1,6 +1,7 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ClipData.newIntent
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,13 +44,29 @@ class SubjectDialogFragment : DialogFragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.subject_dialog, null, false)
 
-        val dataSource = AppDatabase.getInstance(application).getSubjectDao
+        val dataSource = AppDatabase.getInstance(application).getTugasDao
         val viewModelFactory = SubjectDialogFragmentViewModelFactory(application, dataSource)
 
         val subjectDialogFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(SubjectDialogFragmentViewModel::class.java)
 
         val adapter = SubjectAdapter(SubjectListener { subjectId ->
             subjectDialogFragmentViewModel.onSubjectClicked(subjectId)
+        } , object : SubjectInterface{
+
+            override fun onRemoveItem(id: Long) {
+
+                AlertDialog.Builder(context).apply {
+                    setTitle("Apakah Anda yakin untuk menghapus subject ini?")
+                    setMessage("Semua agenda tugas kuliah yang terkait akan terhapus")
+                    setPositiveButton("Yes") { _, _ ->
+                        subjectDialogFragmentViewModel.removeSubject(id)
+                    }
+                    setNegativeButton("No") { _, _ ->
+
+                    }
+                }.create().show()
+
+            }
         })
         binding.subjectList.adapter = adapter
 

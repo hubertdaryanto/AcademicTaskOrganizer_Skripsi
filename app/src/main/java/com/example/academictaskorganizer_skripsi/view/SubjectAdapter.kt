@@ -16,7 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.ClassCastException
 
-class SubjectAdapter(val clickListener: SubjectListener): ListAdapter<SubjectDataItem, RecyclerView.ViewHolder>(SubjectDiffCallback()) {
+interface SubjectInterface{
+    fun onRemoveItem(id: Long)
+}
+
+class SubjectAdapter(val clickListener: SubjectListener, val subjectInterface: SubjectInterface): ListAdapter<SubjectDataItem, RecyclerView.ViewHolder>(SubjectDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -33,6 +37,9 @@ class SubjectAdapter(val clickListener: SubjectListener): ListAdapter<SubjectDat
             is ViewHolder ->
             {
                 val item = getItem(position) as SubjectDataItem.SubjectItem
+                holder.binding.subjectDeleteBtn.setOnClickListener {
+                    subjectInterface.onRemoveItem(item.subject.subjectId)
+                }
                 holder.bind(item.subject, clickListener)
             }
 
@@ -44,7 +51,7 @@ class SubjectAdapter(val clickListener: SubjectListener): ListAdapter<SubjectDat
         adapterScope.launch {
             val items = when (list) {
                 null -> listOf(SubjectDataItem.Header)
-                else -> listOf(SubjectDataItem.Header) + list.map {
+                else -> list.map {
                     SubjectDataItem.SubjectItem(it)
                 }
             }

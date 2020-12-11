@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.academictaskorganizer_skripsi.database.SubjectAndTugasKuliah
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.databinding.ListAgendaHeaderBinding
 import com.example.academictaskorganizer_skripsi.databinding.ListItemTugas2Binding
@@ -72,7 +73,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         when (holder) {
             is ViewHolder -> {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
-                holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
+                holder.bind(item.tugasKuliahListItemType as SubjectAndTugasKuliah, clickListener)
             }
 
             is TextViewHolder -> {
@@ -83,7 +84,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
             is ViewHolder2 ->
             {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
-                holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
+                holder.bind(item.tugasKuliahListItemType as SubjectAndTugasKuliah, clickListener)
             }
 
         }
@@ -133,8 +134,8 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         binding.root
     )
     {
-        fun bind(item: TugasKuliah, clickListener: TugasKuliahListener) {
-            binding.tugas = item
+        fun bind(item: SubjectAndTugasKuliah, clickListener: TugasKuliahListener) {
+            binding.subjectAndTugas = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -152,8 +153,8 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         binding.root
     )
     {
-        fun bind(item: TugasKuliah, clickListener: TugasKuliahListener) {
-            binding.tugas = item
+        fun bind(item: SubjectAndTugasKuliah, clickListener: TugasKuliahListener) {
+            binding.subjectAndTugas = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -181,7 +182,7 @@ class TugasKuliahDiffCallback : DiffUtil.ItemCallback<TugasKuliahDataItem>() {
 
 class TugasKuliahListener(val clickListener: (TugasKuliahId: Long) -> Unit)
 {
-    fun onClick(tugas: TugasKuliah) = clickListener(tugas.tugasKuliahId)
+    fun onClick(tugas: SubjectAndTugasKuliah) = clickListener(tugas.tugasKuliah.tugasKuliahId)
 }
 
 sealed class TugasKuliahDataItem {
@@ -200,9 +201,9 @@ sealed class TugasKuliahDataItem {
     data class TugasKuliahList(val tugasKuliahListItemType: TugasKuliahListItemType): TugasKuliahDataItem()
     {
         fun getLong(): Long{
-            if (tugasKuliahListItemType is TugasKuliah)
+            if (tugasKuliahListItemType is SubjectAndTugasKuliah)
             {
-                return tugasKuliahListItemType.tugasKuliahId + count
+                return tugasKuliahListItemType.tugasKuliah.tugasKuliahId + count
             }
             else
             {
