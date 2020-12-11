@@ -41,7 +41,7 @@ class HomeFragmentViewModel(dataSource: tugasDatabaseDao, application: Applicati
         var date: String = ""
         for (i in tugas.value!!)
         {
-            var dateCursor: String = convertDeadlineToDateFormatted(i.tugasKuliah.deadline)
+            var dateCursor: String = convertDeadlineToDateFormatted(i.deadline)
             if (date.equals(dateCursor, true))
             {
                 arrayList.add(i)

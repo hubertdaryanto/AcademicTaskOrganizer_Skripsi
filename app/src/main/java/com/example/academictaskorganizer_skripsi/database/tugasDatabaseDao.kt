@@ -18,8 +18,8 @@ interface tugasDatabaseDao{
     @Query("SELECT * FROM TugasKuliah ORDER BY deadline DESC")
     suspend fun getAllSortedByDeadline(): List<TugasKuliah>
 
-    @Query("SELECT * FROM TugasKuliah tk JOIN Subject s ON s.subjectId = tk.tugasSubjectId ORDER BY tk.deadline DESC")
-    fun getAllSortedByDeadlineForeground(): LiveData<List<SubjectAndTugasKuliah>>
+    @Query("SELECT * FROM TugasKuliah ORDER BY deadline DESC")
+    fun getAllSortedByDeadlineForeground(): LiveData<List<TugasKuliah>>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId IN (:userIds)")
     suspend fun loadAllByIds(userIds: LongArray): List<TugasKuliah>
