@@ -204,8 +204,9 @@ class AddTugasFragment : BaseFragment() {
                         addTugasFragmentViewModel.addTugasKuliah(this.context!!, mTugas)
                         context?.toast("Tugas Saved")
 
-                        this.findNavController()
-                            .navigate(AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment())
+//                        this.findNavController()
+//                            .navigate(AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment())
+                        this.findNavController().popBackStack()
                         addTugasFragmentViewModel.doneNavigating()
                     }
 

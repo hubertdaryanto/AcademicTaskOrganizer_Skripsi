@@ -1,9 +1,11 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -41,11 +43,21 @@ class AddSubjectDialogFragment: DialogFragment() {
         addSubjectDialogViewModel.addSubjectAndDismiss.observe(viewLifecycleOwner, Observer {
             if (it == true)
             {
-                val subjectName = binding.editSubjectName.text.toString().trim()
-                val mSubject = Subject(subjectName = subjectName)
-                addSubjectDialogViewModel.addSubject(mSubject)
-                dismiss()
-                addSubjectDialogViewModel.afterAddSubjectClicked()
+
+                if (TextUtils.isEmpty(binding.editSubjectName.text.toString()))
+                {
+                    binding.editSubjectName.setError("Harap Masukkan Nama Subject")
+                    Toast.makeText(context,binding.editSubjectName.error, Toast.LENGTH_LONG).show()
+                }
+                else
+                {
+                    val subjectName = binding.editSubjectName.text.toString().trim()
+                    val mSubject = Subject(subjectName = subjectName)
+                    addSubjectDialogViewModel.addSubject(mSubject)
+                    dismiss()
+                    addSubjectDialogViewModel.afterAddSubjectClicked()
+                }
+
             }
 
         })

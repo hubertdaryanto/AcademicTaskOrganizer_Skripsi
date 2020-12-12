@@ -15,6 +15,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.InputType
+import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -153,39 +154,58 @@ class EditTugasFragment: BaseFragment() {
         editTugasFragmentViewModel.editTugasKuliahNavigation.observe(viewLifecycleOwner,
             Observer {
                 if (it == true) {
-                    editTugasFragmentViewModel._tugasKuliah.value!!.tugasKuliahName = binding.editTextTugas.text.toString().trim()
-                    if (subjectId != 0L)
+                    if (TextUtils.isEmpty(binding.editTextSubject.text))
                     {
-                        editTugasFragmentViewModel._tugasKuliah.value!!.tugasSubjectId = subjectId
+                        binding.editTextSubject.setError("Harap Pilih Subject")
+                        Toast.makeText(context,binding.editTextSubject.error, Toast.LENGTH_LONG).show()
                     }
-
-                    // Convert Long to Date atau sebaliknya di https://currentmillis.com/
-                    var clock = "9:00"
-                    if (binding.editJam.text.toString() != "")
+                    else if (TextUtils.isEmpty(binding.editTextTugas.text))
                     {
-                        clock = binding.editJam.text.toString()
+                        binding.editTextTugas.setError("Harap masukkan nama tugas")
+                        Toast.makeText(context,binding.editTextTugas.error, Toast.LENGTH_LONG).show()
                     }
-
-                    if (binding.editDeadline.text.toString() != "")
+                    else if (TextUtils.isEmpty(binding.editDeadline.text))
                     {
-                        editTugasFragmentViewModel._tugasKuliah.value!!.deadline = convertDateAndTimeToLong(
-                            binding.editDeadline.text.toString(),
-                            clock
-                        )
+                        binding.editDeadline.setError("Harap masukkan tanggal deadline")
+                        Toast.makeText(context,binding.editDeadline.error, Toast.LENGTH_LONG).show()
                     }
+                    else
+                    {
+                        editTugasFragmentViewModel._tugasKuliah.value!!.tugasKuliahName = binding.editTextTugas.text.toString().trim()
+                        if (subjectId != 0L)
+                        {
+                            editTugasFragmentViewModel._tugasKuliah.value!!.tugasSubjectId = subjectId
+                        }
 
-                    editTugasFragmentViewModel._tugasKuliah.value!!.notes = binding.editCatatan.text.toString().trim()
+                        // Convert Long to Date atau sebaliknya di https://currentmillis.com/
+                        var clock = "9:00"
+                        if (binding.editJam.text.toString() != "")
+                        {
+                            clock = binding.editJam.text.toString()
+                        }
 
-                    val inputMethodManager =
-                        activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
+                        if (binding.editDeadline.text.toString() != "")
+                        {
+                            editTugasFragmentViewModel._tugasKuliah.value!!.deadline = convertDateAndTimeToLong(
+                                binding.editDeadline.text.toString(),
+                                clock
+                            )
+                        }
 
-                    editTugasFragmentViewModel.updateTugasKuliah(context!!, editTugasFragmentViewModel.tugasKuliah.value!!)
-                    context?.toast("Tugas Updated")
+                        editTugasFragmentViewModel._tugasKuliah.value!!.notes = binding.editCatatan.text.toString().trim()
 
-                    this.findNavController()
-                        .navigate(EditTugasFragmentDirections.actionSaveTugas())
-                    editTugasFragmentViewModel.doneNavigating()
+                        val inputMethodManager =
+                            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
+
+                        editTugasFragmentViewModel.updateTugasKuliah(context!!, editTugasFragmentViewModel.tugasKuliah.value!!)
+                        context?.toast("Tugas Updated")
+//
+//                    this.findNavController()
+//                        .navigate(EditTugasFragmentDirections.actionSaveTugas())
+                        this.findNavController().popBackStack()
+                        editTugasFragmentViewModel.doneNavigating()
+                    }
                 }
 
 
@@ -552,7 +572,8 @@ class EditTugasFragment: BaseFragment() {
 //                }
                 editTugasFragmentViewModel.deleteTugasKuliah(context)
                 val action = EditTugasFragmentDirections.actionSaveTugas()
-                Navigation.findNavController(requireView()).navigate(action)
+//                Navigation.findNavController(requireView()).navigate(action)
+                Navigation.findNavController(requireView()).popBackStack()
             }
             setNegativeButton("No") { _, _ ->
 
