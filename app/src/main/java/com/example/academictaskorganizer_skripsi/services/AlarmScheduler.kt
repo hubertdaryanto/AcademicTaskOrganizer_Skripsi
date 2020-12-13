@@ -11,9 +11,12 @@ object AlarmScheduler {
 
     fun scheduleAlarmsForReminder(context: Context, tugasKuliah: TugasKuliah) {
         // get the AlarmManager reference
-        val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = createPendingIntent(context, tugasKuliah)
-        scheduleNotification(tugasKuliah, alarmIntent, alarmMgr)
+        if (!tugasKuliah.isFinished)
+        {
+            val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val alarmIntent = createPendingIntent(context, tugasKuliah)
+            scheduleNotification(tugasKuliah, alarmIntent, alarmMgr)
+        }
     }
 
     private fun createPendingIntent(
@@ -26,7 +29,8 @@ object AlarmScheduler {
 //            type = "${tugasKuliah.tugasKuliahName}-${tugasKuliah.notes}"
             putExtra(context.getString(R.string.get_tugas_kuliah_id_key), tugasKuliah.tugasKuliahId)
         }
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val uniqueid: Int = System.currentTimeMillis().toInt()
+        return PendingIntent.getBroadcast(context, uniqueid, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     /**

@@ -198,7 +198,7 @@ class EditTugasFragment: BaseFragment() {
                             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
-                        editTugasFragmentViewModel.updateTugasKuliah(context!!, editTugasFragmentViewModel.tugasKuliah.value!!)
+                        editTugasFragmentViewModel.updateTugasKuliah(requireContext(), editTugasFragmentViewModel.tugasKuliah.value!!)
                         context?.toast("Tugas Updated")
 //
 //                    this.findNavController()

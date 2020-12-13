@@ -8,20 +8,21 @@ import android.content.Intent
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
 import com.example.academictaskorganizer_skripsi.database.DataUtils
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 
 class AlarmReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
+
+        val job = Job()
+        val uiScope = CoroutineScope(Dispatchers.Main + job)
         if (context != null && intent != null && intent.action != null)
         {
             if (intent.action!!.equals(context.getString(R.string.action_notify_tugas_kuliah), ignoreCase = true))  {
                 if (intent.extras != null)
                 {
-                    GlobalScope.launch(Dispatchers.IO) {
+                    uiScope.launch {
                         val tugasKuliah = AppDatabase.getInstance(context).getTugasDao.loadTugasKuliahById(
                             intent.extras!!.getLong(context.getString(R.string.get_tugas_kuliah_id_key))
                         )
