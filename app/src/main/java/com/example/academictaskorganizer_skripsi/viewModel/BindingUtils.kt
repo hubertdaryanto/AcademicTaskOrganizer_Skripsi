@@ -5,15 +5,16 @@ import androidx.databinding.BindingAdapter
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
 import com.example.academictaskorganizer_skripsi.database.SubjectAndTugasKuliah
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 @BindingAdapter("tugasSubjectNameAndDeadlineTime")
 fun TextView.setTugasSubjectNameAndDeadline(item: TugasKuliah?)
 {
+    val job = Job()
+    val uiScope = CoroutineScope(Dispatchers.Main + job)
     item?.let {
         var database = AppDatabase.getInstance(context).getSubjectDao
-        GlobalScope.launch {
+        uiScope.launch {
             val text1 = database.loadSubjectNameById(item.tugasSubjectId)
             text =  text1 + " - " + item.deadline.let { it1 ->
                 convertDeadlineToTimeFormatted(
