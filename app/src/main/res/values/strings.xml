@@ -5,6 +5,7 @@
     <string name="tugaskuliah_hint_nama_tugas">Nama Tugas</string>
     <string name="tugaskuliah_hint_deadline">Deadline</string>
     <string name="tugaskuliah_hint_jam">Jam</string>
+    <string name="tugaskuliah_hint_editJam">Jam (9:00 jika tidak mengisi)</string>
     <string name="tugaskuliah_hint_catatan">Catatan</string>
     <string name="tugaskuliah_hint_ToDoList">To Do List</string>
     <string name="deadline_button">deadline button</string>

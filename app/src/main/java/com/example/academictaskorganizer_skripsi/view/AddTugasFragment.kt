@@ -110,6 +110,7 @@ class AddTugasFragment : BaseFragment() {
                         cal.set(Calendar.HOUR_OF_DAY, hour)
                         cal.set(Calendar.MINUTE, minute)
                         binding.editJam.setText(SimpleDateFormat("H:mm").format(cal.time))
+                        binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
                     }
                 TimePickerDialog(
                     context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(

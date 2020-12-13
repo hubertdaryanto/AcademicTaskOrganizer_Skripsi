@@ -109,7 +109,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/inputJam"
                         style="@style/input_text_view"
-                        android:hint="@string/tugaskuliah_hint_jam"
+                        android:hint="@string/tugaskuliah_hint_editJam"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

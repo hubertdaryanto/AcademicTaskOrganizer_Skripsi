@@ -15,10 +15,10 @@ interface tugasDatabaseDao{
     @Query("SELECT tugasKuliahName FROM TugasKuliah")
     suspend fun loadAllTugasKuliahName(): List<String>
 
-    @Query("SELECT * FROM TugasKuliah ORDER BY deadline DESC")
+    @Query("SELECT * FROM TugasKuliah ORDER BY deadline ASC")
     suspend fun getAllSortedByDeadline(): List<TugasKuliah>
 
-    @Query("SELECT * FROM TugasKuliah ORDER BY deadline DESC")
+    @Query("SELECT * FROM TugasKuliah ORDER BY deadline ASC")
     fun getAllSortedByDeadlineForeground(): LiveData<List<TugasKuliah>>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId IN (:userIds)")
