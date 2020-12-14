@@ -208,12 +208,19 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
 
     fun updateTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
-        AlarmScheduler.updateAlarmsForReminder(context, tugasKuliah)
         viewModelScope.launch {
+            if (!tugasKuliah.isFinished) {
+                AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
+                tugasKuliah.updatedAt = System.currentTimeMillis()
+                AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
+            } else {
+                AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
+            }
+//
 //            var tugasKuliaId = database.insertTugas(tugasKuliah)
             var tugasKuliahId = database.updateTugas(tugasKuliah)
 
-//
+
 
             if (toDoList.value != null)
             {

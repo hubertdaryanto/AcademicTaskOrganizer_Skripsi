@@ -27,10 +27,9 @@ object AlarmScheduler {
         val intent = Intent(context.applicationContext, AlarmReceiver::class.java).apply {
             action = context.getString(R.string.action_notify_tugas_kuliah)
 //            type = "${tugasKuliah.tugasKuliahName}-${tugasKuliah.notes}"
-            putExtra(context.getString(R.string.get_tugas_kuliah_id_key), tugasKuliah.tugasKuliahId)
+            putExtra(TugasKuliah.KEY_ID, tugasKuliah.tugasKuliahId)
         }
-        val uniqueid: Int = System.currentTimeMillis().toInt()
-        return PendingIntent.getBroadcast(context, uniqueid, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(context, tugasKuliah.updatedAt.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     /**
@@ -51,19 +50,20 @@ object AlarmScheduler {
     fun removeAlarmsForReminder(context: Context, tugasKuliah: TugasKuliah) {
         val intent = Intent(context.applicationContext, AlarmReceiver::class.java)
         intent.action = context.getString(R.string.action_notify_tugas_kuliah)
-        intent.putExtra("tugasKuliahId", tugasKuliah.tugasKuliahId)
+        intent.putExtra(TugasKuliah.KEY_ID, tugasKuliah.tugasKuliahId)
 
-        val alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmIntent = PendingIntent.getBroadcast(context, tugasKuliah.updatedAt.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmMgr.cancel(alarmIntent)
     }
 
-    fun updateAlarmsForReminder(context: Context, tugasKuliah: TugasKuliah) {
-        if (!tugasKuliah.isFinished) {
-            AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
-        } else {
-            AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
-        }
-    }
+//    fun updateAlarmsForReminder(context: Context, tugasKuliah: TugasKuliah) {
+//        if (!tugasKuliah.isFinished) {
+//            AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
+//            AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
+//        } else {
+//            AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
+//        }
+//    }
 }

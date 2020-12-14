@@ -170,8 +170,10 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     fun addTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
         viewModelScope.launch {
+            tugasKuliah.updatedAt = System.currentTimeMillis()
             var tugasKuliaId = database.insertTugas(tugasKuliah)
             //insert to do list and image in here too
+            tugasKuliah.tugasKuliahId = tugasKuliaId
             AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
             //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
             if (toDoList.value != null)

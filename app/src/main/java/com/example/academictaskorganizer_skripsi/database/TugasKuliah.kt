@@ -26,7 +26,8 @@ data class TugasKuliah(
     @ColumnInfo(name = "isFinished")
     var isFinished: Boolean,
     @ColumnInfo(name = "notes")
-    var notes: String
+    var notes: String,
+    var updatedAt: Long
 //    ,
 //    @ColumnInfo(name = "tugasImageId")
 //    var tugasImageId: Long
@@ -46,6 +47,10 @@ data class TugasKuliah(
         {
             return ITEM_VIEW_TYPE_ITEM
         }
+    }
+
+    companion object{
+        const val KEY_ID = "id"
     }
 }
 

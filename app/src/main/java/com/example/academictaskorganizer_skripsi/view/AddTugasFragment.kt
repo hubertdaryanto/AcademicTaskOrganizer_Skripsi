@@ -63,9 +63,10 @@ class AddTugasFragment : BaseFragment() {
         deadline = 0L,
 //                        tugasToDoListId = tugasToDoListId,
         isFinished = false,
-        notes = ""
+        notes = "",
 //                        tugasImageId = tugasGambar
 //                        fromBinusmayaId
+    updatedAt = 0
     )
 
     val TAG: String = this::class.java.getSimpleName()

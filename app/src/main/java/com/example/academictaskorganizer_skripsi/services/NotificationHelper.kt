@@ -72,13 +72,13 @@ object NotificationHelper{
             // get a drawable reference for the LargeIcon
             val drawable = R.drawable.ic_baseline_access_time_24
             setLargeIcon(BitmapFactory.decodeResource(context.resources, drawable))
-            setContentText("24 hours left to complete this tugas kuliah")
+            setContentText( ((tugasKuliah.deadline - System.currentTimeMillis()) / 3600000).toString() + " hours left to complete this tugas kuliah")
             setGroup(context.getString(R.string.notification_group))
 
             // Launches the app to open the reminder edit screen when tapping the whole notification
             val intent = Intent(context, AgendaActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                putExtra("tugasKuliahId", tugasKuliah.tugasKuliahId)
+                putExtra(TugasKuliah.KEY_ID, tugasKuliah.tugasKuliahId)
             }
 
             val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
