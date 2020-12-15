@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.academictaskorganizer_skripsi.components.addNewItem
 import com.example.academictaskorganizer_skripsi.components.notifyObserver
 import com.example.academictaskorganizer_skripsi.components.removeItemAt
@@ -104,7 +103,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
 
     fun loadTugasKuliah(id: Long)
     {
-        viewModelScope.launch {
+        uiScope.launch {
             _tugasKuliah.value = database.loadTugasKuliahById(id)
             _toDoList.value = database.loadToDoListsByTugasKuliahId(id)
             _imageList.value = database.loadImagesByTugasKuliahId(id)
@@ -154,7 +153,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
         val realId = _toDoList.value?.get(id.toInt())?.toDoListId
         _toDoList.removeItemAt(id.toInt())
         _toDoList.notifyObserver()
-        viewModelScope.launch {
+        uiScope.launch {
             if (realId != null) {
                 database.deleteToDoList(realId.toLong())
             }
@@ -166,7 +165,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
         val realId = _imageList.value?.get(id.toInt())?.imageId
         _imageList.removeItemAt(id.toInt())
         _imageList.notifyObserver()
-        viewModelScope.launch {
+        uiScope.launch {
             if (realId != null) {
                 database.deleteImage(realId.toLong())
             }
@@ -199,16 +198,12 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
 
     fun onAddTugasKuliahClicked2()
     {
-//        viewModelScope.launch {
-
         _editTugasKuliahNavigation.value = true
-//        }
-
     }
 
     fun updateTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
-        viewModelScope.launch {
+        uiScope.launch {
             if (!tugasKuliah.isFinished) {
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
                 tugasKuliah.updatedAt = System.currentTimeMillis()
@@ -216,30 +211,24 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
             } else {
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
             }
-//
-//            var tugasKuliaId = database.insertTugas(tugasKuliah)
-            var tugasKuliahId = database.updateTugas(tugasKuliah)
-
-
+           database.updateTugas(tugasKuliah)
 
             if (toDoList.value != null)
             {
-                for (i in toDoList.value!!)
-                {
-                    i.bindToTugasKuliahId = _tugasKuliah.value?.tugasKuliahId!!
-                    database.insertToDoList(i)
+                toDoList.value!!.toList().forEach {
+
+                    it.bindToTugasKuliahId = tugasKuliah.tugasKuliahId
+                    database.insertToDoList(it)
                 }
-//                database.updateListOfToDoList(toDoList.value!!)
             }
 
-            if (imageList.value != null) {
-                for (i in imageList.value!!) {
-                    i.bindToTugasKuliahId = _tugasKuliah.value?.tugasKuliahId!!
-                    database.insertImage(i)
+            if (imageList.value != null)
+            {
+                imageList.value!!.toList().forEach{
+                    it.bindToTugasKuliahId = tugasKuliah.tugasKuliahId
+                    database.insertImage(it)
                 }
-//                database.updateListOfImages(imageList.value!!)
             }
-            //TODO:nanti ganti method jadi update
 
         }
     }
@@ -247,7 +236,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
     fun deleteTugasKuliah(context: Context)
     {
         AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah.value!!)
-        viewModelScope.launch {
+        uiScope.launch {
             database.deleteTugas(tugasKuliah.value!!)
             //to do list sama image yang terkait harus di remove juga
         }
@@ -259,7 +248,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
     }
 
     fun convertSubjectIdToSubjectName(id: Long){
-        viewModelScope.launch {
+        uiScope.launch {
             _subjectText.value = database.loadSubjectName(id)
         }
     }

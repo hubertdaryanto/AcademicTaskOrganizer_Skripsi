@@ -23,7 +23,11 @@ import com.example.academictaskorganizer_skripsi.viewModel.SubjectDialogFragment
 import com.example.academictaskorganizer_skripsi.viewModel.SubjectDialogFragmentViewModelFactory
 
 
-class SubjectDialogFragment : DialogFragment() {
+object SubjectFrom{
+    var fromFragment = ""
+}
+
+class SubjectDialogFragment() : DialogFragment() {
     val TAG: String = this::class.java.simpleName
 
     private lateinit var binding: SubjectDialogBinding
@@ -36,8 +40,7 @@ class SubjectDialogFragment : DialogFragment() {
     ): View? {
         val application = requireNotNull(this.activity).application
 
-
-
+        SubjectFrom.fromFragment = this.targetFragment.toString()
 
 
         val inflater = requireActivity().layoutInflater;
@@ -54,14 +57,13 @@ class SubjectDialogFragment : DialogFragment() {
         } , object : SubjectInterface{
 
             override fun onRemoveItem(id: Long) {
-
                 AlertDialog.Builder(context).apply {
-                    setTitle("Apakah Anda yakin untuk menghapus subject ini?")
-                    setMessage("Semua agenda tugas kuliah yang terkait akan terhapus")
-                    setPositiveButton("Yes") { _, _ ->
+                    setTitle(context.getString(R.string.delete_subject_title_confirmation))
+                    setMessage(context.getString(R.string.delete_subject_subtitle_confirmation))
+                    setPositiveButton(context.getString(R.string.ya)) { _, _ ->
                         subjectDialogFragmentViewModel.removeSubject(id)
                     }
-                    setNegativeButton("No") { _, _ ->
+                    setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
 
                     }
                 }.create().show()

@@ -1,14 +1,17 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.anggrayudi.storage.SimpleStorage
 import com.example.academictaskorganizer_skripsi.database.ImageForTugas
+import com.example.academictaskorganizer_skripsi.database.ImageUtils
 import com.example.academictaskorganizer_skripsi.database.ToDoList
 import com.example.academictaskorganizer_skripsi.databinding.ListItemImageForTugasBinding
 import com.squareup.picasso.Picasso
@@ -55,7 +58,6 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener, var imageIn
 //                    picasso.load(File(uri.path)).into(binding.gambarTugas)
 //                }
 
-                SimpleStorage
 
 
 
@@ -63,6 +65,9 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener, var imageIn
                 val string = item.ImageForTugas.imageName
                 val uri = Uri.parse(string)
                 picasso.load(File(uri.path)).resize(96, 96).into(holder.binding.gambarTugas)
+                holder.binding.gambarTugas.setOnClickListener{
+                    ImageUtils.openInGallery(holder.binding.root.context, uri)
+                }
                 holder.binding.imageDeleteBtn.setOnClickListener {
                     imageInterface.onRemoveItem(holder.adapterPosition.toLong())
                 }

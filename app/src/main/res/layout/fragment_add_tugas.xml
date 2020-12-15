@@ -161,7 +161,7 @@
 
                     <ImageButton
                         android:adjustViewBounds="true"
-                        android:background="#FFFFFF"
+                        android:background="@android:color/transparent"
                         android:clickable="true"
                         android:contentDescription="@string/tugas"
                         android:cropToPadding="false"
@@ -214,7 +214,7 @@
 
                     <ImageButton
                         android:adjustViewBounds="true"
-                        android:background="#FFFFFF"
+                        android:background="@android:color/transparent"
                         android:clickable="true"
                         android:contentDescription="@string/tugas"
                         android:cropToPadding="false"

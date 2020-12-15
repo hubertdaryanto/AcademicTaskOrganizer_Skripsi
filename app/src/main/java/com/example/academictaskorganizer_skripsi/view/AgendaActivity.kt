@@ -1,24 +1,25 @@
 package com.example.academictaskorganizer_skripsi.view
 
+import android.Manifest
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.documentfile.provider.DocumentFile
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.anggrayudi.storage.SimpleStorage
-import com.anggrayudi.storage.callback.StorageAccessCallback
-import com.anggrayudi.storage.file.StorageType
-import com.anggrayudi.storage.file.storageId
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.databinding.ActivityMainBinding
+
 
 // Constants
 // The authority for the sync adapter's content provider
@@ -28,15 +29,82 @@ const val ACCOUNT_TYPE = "com.example.academictaskorganizer_skripsi"
 // The account name
 const val ACCOUNT = "Testing Account"
 
+private const val STORAGE_PERMISSION_CODE = 1
+
+private const val READ_STORAGE_PERMISSION = "android.permission.READ_EXTERNAL_STORAGE"
+
 class AgendaActivity : AppCompatActivity() {
     // Instance fields
     private lateinit var mAccount: Account
     private lateinit var binding: ActivityMainBinding
     private lateinit var storage: SimpleStorage
 
+    fun checkPermission(permission: String, requestCode: Int) {
+
+        // Checking if permission is not granted
+        if (ContextCompat.checkSelfPermission(
+                this,
+                permission
+            )
+            == PackageManager.PERMISSION_DENIED
+        ) {
+            ActivityCompat
+                .requestPermissions(
+                    this, arrayOf(permission),
+                    requestCode
+                )
+        } else {
+            Toast
+                .makeText(
+                    this,
+                    "Permission already granted",
+                    Toast.LENGTH_SHORT
+                )
+                .show()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.count() > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this,
+                    "Akses Penyimpanan Diizinkan",
+                    Toast.LENGTH_SHORT)
+                    .show();
+            }
+            else {
+                Toast.makeText(this,
+                    "Akses Penyimpanan Tidak Diizinkan",
+                    Toast.LENGTH_SHORT)
+                    .show();
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Load the placeholder account
+
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED)
+        {
+            // Permission is not granted
+            android.app.AlertDialog.Builder(this).apply {
+                setTitle(context.getString(R.string.allow_access_storage_title))
+                setMessage(context.getString(R.string.allow_access_storage))
+
+                setPositiveButton("OK") { _, _ ->
+                    checkPermission(READ_STORAGE_PERMISSION, STORAGE_PERMISSION_CODE)
+                }
+            }.create().show()
+
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 //        ReceiveBtn.setOnClickListener {
@@ -117,7 +185,7 @@ class AgendaActivity : AppCompatActivity() {
 //                 */
 //                ContentResolver.requestSync(mAccount,
 //                    AUTHORITY, settingsBundle)
-                Log.d("0",accountManager.getPassword(mAccount))//ini password
+                Log.d("0", accountManager.getPassword(mAccount))//ini password
                 Log.d("0", mAccount.name)//ini username
             }
         }

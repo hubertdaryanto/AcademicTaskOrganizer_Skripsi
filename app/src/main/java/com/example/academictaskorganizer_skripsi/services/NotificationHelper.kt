@@ -1,5 +1,6 @@
 package com.example.academictaskorganizer_skripsi.services
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -8,6 +9,8 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.DEFAULT_ALL
+import androidx.core.app.NotificationCompat.DEFAULT_SOUND
 import androidx.core.app.NotificationManagerCompat
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
@@ -68,11 +71,21 @@ object NotificationHelper{
             setSmallIcon(R.drawable.ic_baseline_access_time_24)
             setContentTitle(tugasKuliah.tugasKuliahName)
             setAutoCancel(true)
+            setDefaults(Notification.DEFAULT_ALL)
+            setPriority(NotificationCompat.PRIORITY_MAX)
 
             // get a drawable reference for the LargeIcon
             val drawable = R.drawable.ic_baseline_access_time_24
             setLargeIcon(BitmapFactory.decodeResource(context.resources, drawable))
-            setContentText( ((tugasKuliah.deadline - System.currentTimeMillis()) / 3600000).toString() + " hours left to complete this tugas kuliah")
+            if ((tugasKuliah.deadline - System.currentTimeMillis()) > 0)
+            {
+                setContentText( ((tugasKuliah.deadline - System.currentTimeMillis()) / 3600000).toString() + " jam tersisa untuk menyelesaikan tugas kuliah ini")
+            }
+            else
+            {
+                setContentText(((System.currentTimeMillis() - tugasKuliah.deadline) / 3600000).toString() + " jam terlewati untuk menyelesaikan tugas kuliah ini")
+            }
+
             setGroup(context.getString(R.string.notification_group))
 
             // Launches the app to open the reminder edit screen when tapping the whole notification

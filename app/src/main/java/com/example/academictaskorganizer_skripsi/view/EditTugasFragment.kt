@@ -1,7 +1,6 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -25,12 +24,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.academictaskorganizer_skripsi.view.EditTugasFragmentArgs
-import com.example.academictaskorganizer_skripsi.view.EditTugasFragmentDirections
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
 import com.example.academictaskorganizer_skripsi.database.*
-import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
 import com.example.academictaskorganizer_skripsi.databinding.FragmentEditTugasBinding
 import com.example.academictaskorganizer_skripsi.viewModel.EditTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.EditTugasFragmentViewModelFactory
@@ -39,7 +35,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.properties.Delegates
 
 class EditTugasFragment: BaseFragment() {
     //    private var updatedToDoListIsFinished: Boolean = false
@@ -156,17 +151,17 @@ class EditTugasFragment: BaseFragment() {
                 if (it == true) {
                     if (TextUtils.isEmpty(binding.editTextSubject.text))
                     {
-                        binding.editTextSubject.setError("Harap Pilih Subject")
+                        binding.editTextSubject.setError(context?.getString(R.string.subject_error))
                         Toast.makeText(context,binding.editTextSubject.error, Toast.LENGTH_LONG).show()
                     }
                     else if (TextUtils.isEmpty(binding.editTextTugas.text))
                     {
-                        binding.editTextTugas.setError("Harap masukkan nama tugas")
+                        binding.editTextTugas.setError(context?.getString(R.string.tugas_error))
                         Toast.makeText(context,binding.editTextTugas.error, Toast.LENGTH_LONG).show()
                     }
                     else if (TextUtils.isEmpty(binding.editDeadline.text))
                     {
-                        binding.editDeadline.setError("Harap masukkan tanggal deadline")
+                        binding.editDeadline.setError(context?.getString(R.string.deadline_error))
                         Toast.makeText(context,binding.editDeadline.error, Toast.LENGTH_LONG).show()
                     }
                     else
@@ -199,7 +194,11 @@ class EditTugasFragment: BaseFragment() {
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
                         editTugasFragmentViewModel.updateTugasKuliah(requireContext(), editTugasFragmentViewModel.tugasKuliah.value!!)
-                        context?.toast("Tugas Updated")
+                        context?.getString(R.string.updated_tugas_kuliah_message)?.let { it1 ->
+                            context?.toast(
+                                it1
+                            )
+                        }
 //
 //                    this.findNavController()
 //                        .navigate(EditTugasFragmentDirections.actionSaveTugas())
@@ -220,15 +219,12 @@ class EditTugasFragment: BaseFragment() {
 
         editTugasFragmentViewModel.toDoListId.observe(viewLifecycleOwner, Observer {
             it?.let {
-                //ini buat nge update to do list ya kalau di click, gakjadi kyknya wkwkwkkw
                 editTugasFragmentViewModel.afterClickToDoList()
             }
         })
 
         editTugasFragmentViewModel.imageId.observe(viewLifecycleOwner, Observer {
             it?.let {
-                //action not defined
-
                 editTugasFragmentViewModel.afterClickGambar()
             }
         })
@@ -250,9 +246,9 @@ class EditTugasFragment: BaseFragment() {
             if (it == true) {
                 val intent = Intent()
                 intent.setType("image/*")
-                intent.setAction(Intent.ACTION_GET_CONTENT)
+                intent.setAction(Intent.ACTION_PICK)
                 startActivityForResult(
-                    Intent.createChooser(intent, "Select a picture"),
+                    Intent.createChooser(intent, "Pilih Gambar"),
                     YOUR_IMAGE_CODE
                 )
 
@@ -262,24 +258,29 @@ class EditTugasFragment: BaseFragment() {
 
         val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
             editTugasFragmentViewModel.onToDoListClicked(toDoListId)
-//            addTugasFragmentViewModel.updateToDoList(toDoListId, updatedToDoListName, updatedToDoListIsFinished)
-            //instead di update pas click to do list nya, mending langsung update setelah salah satu parameter diedit
         }
-//            , Collections.unmodifiableList(addTugasFragmentViewModel.toDoList.value)
             , object : ToDoListInterface{
                 override fun onUpdateText(id: Long, data: String) {
-//                updatedToDoListName = data
-//                TODO("Coba implement update To Do List disini")
                     editTugasFragmentViewModel.updateToDoListName(id, data)
                 }
 
                 override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
-//                    updatedToDoListIsFinished = isFinished
                     editTugasFragmentViewModel.updateToDoListIsFinished(id, isFinished)
                 }
 
                 override fun onRemoveItem(id: Long) {
-                    editTugasFragmentViewModel.removeToDoListItem(id)
+
+                    AlertDialog.Builder(context).apply {
+                        setTitle(context.getString(R.string.delete_todolist_confirmation_title))
+                        setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
+                        setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                            editTugasFragmentViewModel.removeToDoListItem(id)
+                        }
+                        setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+
+                        }
+                    }.create().show()
+
                 }
             }
         )
@@ -290,7 +291,17 @@ class EditTugasFragment: BaseFragment() {
             editTugasFragmentViewModel.onGambarClicked(imageId)
         } , object : ImageInterface{
             override fun onRemoveItem(id: Long) {
-                editTugasFragmentViewModel.removeImageItem(id)
+                AlertDialog.Builder(context).apply {
+                    setTitle(context.getString(R.string.delete_image_confirmation_title))
+                    setMessage(context.getString(R.string.delete_image_confirmation_subtitle))
+                    setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                        editTugasFragmentViewModel.removeImageItem(id)
+                    }
+                    setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+
+                    }
+                }.create().show()
+
             }
 
         })
@@ -364,15 +375,6 @@ class EditTugasFragment: BaseFragment() {
     }
 
 
-//    private fun updateTugasKuliahTextBox(view: View) {
-//        binding.editTextTugas.visibility = View.VISIBLE
-//        binding.editTextTugas.requestFocus()
-//        val imm =
-//            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.showSoftInput(binding.editTextTugas, 0)
-//    }
-
-
     private fun convertDateAndTimeToLong(date: String, time: String): Long {
         val formatter = SimpleDateFormat("dd - MM - yyyy H:mm")
         val date = formatter.parse(date + " " + time)
@@ -398,13 +400,6 @@ class EditTugasFragment: BaseFragment() {
 
                     val path: String = getRealPathFromURI(this.requireContext(), selectedImageUri)
                     val file: String = getFileName(this.requireContext(), selectedImageUri)
-//                    if (selectedImageUri.toString().contains("content:")) {
-//                        imagePath  = getRealPathFromURI(selectedImageUri)
-//                    } else if (selectedImageUri.toString().contains("file:")) {
-//                        imagePath = selectedImageUri.getPath().toString();
-//                    } else {
-//                        imagePath = null.toString();
-//                    }
                     val mImage = ImageForTugas(
                         bindToTugasKuliahId = editTugasFragmentViewModel.tugasKuliah.value!!.tugasKuliahId,
                         imageName = path
@@ -441,16 +436,6 @@ class EditTugasFragment: BaseFragment() {
 
     private fun getRealPathFromURI(context: Context, uri: Uri): String
     {
-//        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-//        var selection: String
-//        var cursor: Cursor? = context.contentResolver.query(uri, proj, null, null, null)
-//        if (cursor != null)
-//        {
-//            var column_index: Int = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-//            cursor?.moveToFirst()
-//            return cursor.getString(column_index)
-//        }
-//        return ""
 
         var realPath = String()
         uri.path?.let { path ->
@@ -536,94 +521,33 @@ class EditTugasFragment: BaseFragment() {
         return this
     }
 
-//    fun getRealPathFromURI(uri: Uri): String{
-//        var cursor: Cursor? = null
-//        return try {
-//            val proj = arrayOf(MediaStore.Images.Media.DATA)
-//            cursor = context?.getContentResolver()?.query(
-//                selectedImageUri, proj, null, null,
-//                null
-//            )
-//            val column_index: Int? = cursor
-//                ?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-//            cursor?.moveToFirst()
-//            if (column_index != null) {
-//                cursor?.getString(column_index).toString()
-//            }
-//        } finally {
-//            if (cursor != null) {
-//                cursor.close()
-//            }
-//        }
-//    }
 
 
     private fun deleteTugas()
     {
 
         AlertDialog.Builder(context).apply {
-            setTitle("Are you sure?")
-            setMessage("You cannot undo this operation")
-            setPositiveButton("Yes") { _, _ ->
+            setTitle(context.getString(R.string.delete_tugas_confirmation_title))
+            setMessage(context.getString(R.string.delete_tugas_confirmation_subtitle))
+            setPositiveButton(context.getString(R.string.ya)) { _, _ ->
 //                launch {
 //                    AppDatabase().getTugasDao.deleteTugas(TugasKuliah!!)
 //                    val action = TugasFragmentEditorDirections.actionSaveTugas()
 //                    Navigation.findNavController(requireView()).navigate(action)
 //                }
+
+                val inputMethodManager =
+                    activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
                 editTugasFragmentViewModel.deleteTugasKuliah(context)
                 val action = EditTugasFragmentDirections.actionSaveTugas()
 //                Navigation.findNavController(requireView()).navigate(action)
                 Navigation.findNavController(requireView()).popBackStack()
             }
-            setNegativeButton("No") { _, _ ->
+            setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
 
             }
         }.create().show()
     }
-
-    private fun setDeleteGambarListeners() {
-//        val boxOneText = findViewById<TextView>(R.id.box_one_text)
-//        val boxTwoText = findViewById<TextView>(R.id.box_two_text)
-//        val boxThreeText = findViewById<TextView>(R.id.box_three_text)
-//        val boxFourText = findViewById<TextView>(R.id.box_four_text)
-//        val boxFiveText = findViewById<TextView>(R.id.box_five_text)
-//
-//        val rootConstraintLayout = findViewById<View>(R.id.constraint_layout)
-//
-//        val clickableViews: List<View> =
-//            listOf(
-//                boxOneText, boxTwoText, boxThreeText,
-//                boxFourText, boxFiveText, rootConstraintLayout
-//            )
-//
-//        for (item in clickableViews) {
-//            item.setOnClickListener { deleteIndividualGambar(it) }
-//        }
-
-        //dicomment dulu, baru disesuaikan nanti
-
-    }
-
-
-//    private fun updateTugasKuliahTextBox (view: View) {
-//        editTextTugas.visibility = View.VISIBLE
-//        editTextTugas.requestFocus()
-//        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.showSoftInput(editTextTugas, 0)
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId)
-//        {
-//            R.id.delete -> if(TugasKuliah != null && TugasKuliah!!.fromBinusmayaId!!.toInt() == -1) deleteTugas() else context?.toast("Cannot delete")
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-//
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        super.onCreateOptionsMenu(menu, inflater)
-//        inflater.inflate(R.menu.tugaseditor_menu, menu)
-//    }
-
 
 }

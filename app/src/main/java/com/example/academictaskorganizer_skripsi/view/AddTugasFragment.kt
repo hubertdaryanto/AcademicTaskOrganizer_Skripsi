@@ -1,20 +1,13 @@
 package com.example.academictaskorganizer_skripsi.view
 
-import android.app.Activity
-import android.app.Activity.MODE_APPEND
+import android.app.*
 import android.app.Activity.RESULT_OK
-import android.app.AlarmManager
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Color
-import android.graphics.ColorFilter
 import android.net.Uri
 import android.os.Bundle
-import android.os.FileUtils
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
@@ -28,16 +21,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.anggrayudi.storage.file.filePath
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
 import com.example.academictaskorganizer_skripsi.database.*
 import com.example.academictaskorganizer_skripsi.databinding.FragmentAddTugasBinding
-import com.example.academictaskorganizer_skripsi.services.AlarmReceiver
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.AddTugasFragmentViewModelFactory
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -61,11 +51,8 @@ class AddTugasFragment : BaseFragment() {
         tugasSubjectId = 0,
         tugasKuliahName = "",
         deadline = 0L,
-//                        tugasToDoListId = tugasToDoListId,
         isFinished = false,
         notes = "",
-//                        tugasImageId = tugasGambar
-//                        fromBinusmayaId
     updatedAt = 0
     )
 
@@ -106,6 +93,8 @@ class AddTugasFragment : BaseFragment() {
         addTugasFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 val cal = Calendar.getInstance()
+
+
                 val timeSetListener =
                     TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
                         cal.set(Calendar.HOUR_OF_DAY, hour)
@@ -113,11 +102,15 @@ class AddTugasFragment : BaseFragment() {
                         binding.editJam.setText(SimpleDateFormat("H:mm").format(cal.time))
                         binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
                     }
-                TimePickerDialog(
+                val timePickerDialog: TimePickerDialog = TimePickerDialog(
                     context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(
                         Calendar.MINUTE
                     ), true
-                ).show()
+                )
+                timePickerDialog.show()
+//                timePickerDialog.getButton(TimePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorPrimaryDark)
+//                timePickerDialog.getButton(TimePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
+//                timePickerDialog.getButton(TimePickerDialog.BUTTON_NEUTRAL).setTextColor(R.color.colorPrimaryDark)
                 addTugasFragmentViewModel.doneLoadTimePicker()
             }
         })
@@ -132,12 +125,18 @@ class AddTugasFragment : BaseFragment() {
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                         binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
                     }
+
+
                 context?.let { it1 ->
-                    DatePickerDialog(
+                    val datePickerDialog: DatePickerDialog = DatePickerDialog(
                         it1, dateSetListener, cal.get(Calendar.YEAR), cal.get(
                             Calendar.MONTH
                         ), cal.get(Calendar.DAY_OF_MONTH)
-                    ).show()
+                    )
+                    datePickerDialog.show()
+//                    datePickerDialog.getButton(DatePickerDialog.BUTTON_NEUTRAL).setTextColor(R.color.colorPrimaryDark)
+//                    datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
+//                    datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorPrimaryDark)
                 }
                 addTugasFragmentViewModel.doneLoadDatePicker()
             }
@@ -157,17 +156,17 @@ class AddTugasFragment : BaseFragment() {
                 if (it == true) {
                     if (TextUtils.isEmpty(binding.editTextSubject.text))
                     {
-                        binding.editTextSubject.setError("Harap Pilih Subject")
+                        binding.editTextSubject.setError(context?.getString(R.string.subject_error))
                         Toast.makeText(context,binding.editTextSubject.error, Toast.LENGTH_LONG).show()
                     }
                     else if (TextUtils.isEmpty(binding.editTextTugas.text))
                     {
-                        binding.editTextTugas.setError("Harap masukkan nama tugas")
+                        binding.editTextTugas.setError(context?.getString(R.string.tugas_error))
                         Toast.makeText(context,binding.editTextTugas.error, Toast.LENGTH_LONG).show()
                     }
                     else if (TextUtils.isEmpty(binding.editDeadline.text))
                     {
-                        binding.editDeadline.setError("Harap masukkan tanggal deadline")
+                        binding.editDeadline.setError(context?.getString(R.string.deadline_error))
                         Toast.makeText(context,binding.editDeadline.error, Toast.LENGTH_LONG).show()
                     }
                     else
@@ -204,7 +203,11 @@ class AddTugasFragment : BaseFragment() {
 //                    AlarmReceiver().setAlarm(application.applicationContext, mTugas.deadline, uri)
 
                         addTugasFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
-                        context?.toast("Tugas Saved")
+                        context?.getString(R.string.inserted_tugas_kuliah_message)?.let { it1 ->
+                            context?.toast(
+                                it1
+                            )
+                        }
 
 //                        this.findNavController()
 //                            .navigate(AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment())
@@ -257,9 +260,9 @@ class AddTugasFragment : BaseFragment() {
             if (it == true) {
                 val intent = Intent()
                 intent.setType("image/*")
-                intent.setAction(Intent.ACTION_GET_CONTENT)
+                intent.setAction(Intent.ACTION_PICK)
                 startActivityForResult(
-                    Intent.createChooser(intent, "Select a picture"),
+                    Intent.createChooser(intent, "Pilih Gambar"),
                     YOUR_IMAGE_CODE
                 )
 
@@ -287,7 +290,18 @@ class AddTugasFragment : BaseFragment() {
                 }
 
                 override fun onRemoveItem(id: Long) {
-                    addTugasFragmentViewModel.removeToDoListItem(id)
+
+                    AlertDialog.Builder(context).apply {
+                        setTitle(context.getString(R.string.delete_todolist_confirmation_title))
+                        setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
+                        setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                            addTugasFragmentViewModel.removeToDoListItem(id)
+                        }
+                        setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+
+                        }
+                    }.create().show()
+
                 }
             }
         )
@@ -298,7 +312,18 @@ class AddTugasFragment : BaseFragment() {
             addTugasFragmentViewModel.onGambarClicked(imageId)
         } , object : ImageInterface{
             override fun onRemoveItem(id: Long) {
-                addTugasFragmentViewModel.removeImageItem(id)
+
+                AlertDialog.Builder(context).apply {
+                    setTitle(context.getString(R.string.delete_image_confirmation_title))
+                    setMessage(context.getString(R.string.delete_image_confirmation_subtitle))
+                    setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                        addTugasFragmentViewModel.removeImageItem(id)
+                    }
+                    setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+
+                    }
+                }.create().show()
+
             }
 
         })

@@ -23,9 +23,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/roboto"
-            android:paddingTop="20dp"
+            android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:text="@string/pilih_subject"
+            android:textAlignment="center"
             android:textColor="@color/title_color"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/subject_list"
@@ -33,33 +34,44 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            style="@style/alert_buttons"
             android:id="@+id/dismiss_subject_dialog_button"
+            style="@style/alert_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:onClick="@{() -> subjectDialogFragmentViewModel.dismiss()}"
-            android:text="@android:string/cancel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/add_subject_button" />
-
-        <Button
-            style="@style/alert_buttons"
-            android:id="@+id/add_subject_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:onClick="@{() -> subjectDialogFragmentViewModel.onShowAddSubjectDialogClicked()}"
-            android:text="@string/tambah_subject"
+            android:text="@string/batal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <ImageButton
+            android:id="@+id/add_subject_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="16dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:contentDescription="@string/tugas"
+            android:cropToPadding="false"
+            android:focusable="true"
+            android:foregroundTint="#54000000"
+            android:onClick="@{() -> subjectDialogFragmentViewModel.onShowAddSubjectDialogClicked()}"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:src="@drawable/ic_add"
+            android:tint="#8A000000"
+            app:layout_constraintBottom_toTopOf="@+id/subject_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/subject_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="400dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"

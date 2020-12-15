@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/editTugasFragment"
         android:name="com.example.academictaskorganizer_skripsi.view.EditTugasFragment"
-        android:label="Edit Tugas Kuliah"
+        android:label="Ubah Tugas Kuliah"
         tools:layout="@layout/fragment_edit_tugas">
         <action
             android:id="@+id/actionSaveTugas"

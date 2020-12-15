@@ -5,14 +5,14 @@
         android:id="@+id/actionDeleteTugas"
         android:icon="@drawable/ic_baseline_delete_forever_24"
         app:showAsAction="ifRoom"
-        android:title="Delete"
+        android:title="@string/hapus"
         >
     </item>
     <item
         android:id="@+id/actionSaveTugas"
         android:icon="@drawable/ic_baseline_save_24"
         app:showAsAction="ifRoom"
-        android:title="Save"
+        android:title="@string/simpan"
         >
     </item>
 </menu>

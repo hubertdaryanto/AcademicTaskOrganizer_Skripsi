@@ -1,6 +1,7 @@
 package com.example.academictaskorganizer_skripsi
 
 import android.app.Application
+import android.app.NotificationManager
 import androidx.core.app.NotificationManagerCompat
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.services.NotificationHelper
@@ -15,7 +16,7 @@ class AcademicTaskOrganizerApp: Application() {
         super.onCreate()
         instance = this
 
-        NotificationHelper.createNotificationChannel(this, NotificationManagerCompat.IMPORTANCE_DEFAULT, false,
-        getString(R.string.notification_channel_name), "Tugas Kuliah Reminder")
+        NotificationHelper.createNotificationChannel(this, NotificationManager.IMPORTANCE_HIGH, true,
+        getString(R.string.notification_channel_name), "Pengingat Tugas Kuliah")
     }
 }

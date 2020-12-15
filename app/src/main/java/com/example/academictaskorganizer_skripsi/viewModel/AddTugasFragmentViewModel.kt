@@ -160,16 +160,15 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
 
     fun onAddTugasKuliahClicked2()
     {
-//        viewModelScope.launch {
 
             _addTugasKuliahNavigation.value = true
-//        }
+
 
     }
 
     fun addTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
-        viewModelScope.launch {
+        uiScope.launch {
             tugasKuliah.updatedAt = System.currentTimeMillis()
             var tugasKuliaId = database.insertTugas(tugasKuliah)
             //insert to do list and image in here too
@@ -178,19 +177,18 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
             //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
             if (toDoList.value != null)
             {
-                for (i in toDoList.value!!)
-                {
-                    i.bindToTugasKuliahId = tugasKuliaId
-                    database.insertToDoList(i)
+                toDoList.value!!.toList().forEach {
+
+                    it.bindToTugasKuliahId = tugasKuliaId
+                    database.insertToDoList(it)
                 }
             }
 
             if (imageList.value != null)
             {
-                for (i in imageList.value!!)
-                {
-                    i.bindToTugasKuliahId = tugasKuliaId
-                    database.insertImage(i)
+                imageList.value!!.toList().forEach{
+                    it.bindToTugasKuliahId = tugasKuliaId
+                    database.insertImage(it)
                 }
             }
 
@@ -212,7 +210,7 @@ class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatab
     }
 
     fun convertSubjectIdToSubjectName(id: Long){
-        viewModelScope.launch {
+        uiScope.launch {
             _subjectText.value = database.loadSubjectName(id)
         }
     }

@@ -1,9 +1,11 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -37,9 +39,18 @@ class SubjectAdapter(val clickListener: SubjectListener, val subjectInterface: S
             is ViewHolder ->
             {
                 val item = getItem(position) as SubjectDataItem.SubjectItem
-                holder.binding.subjectDeleteBtn.setOnClickListener {
-                    subjectInterface.onRemoveItem(item.subject.subjectId)
+                if (SubjectFrom.fromFragment.contains("AddTugasFragment"))
+                {
+                    holder.binding.subjectDeleteBtn.visibility = View.VISIBLE
+                    holder.binding.subjectDeleteBtn.setOnClickListener {
+                        subjectInterface.onRemoveItem(item.subject.subjectId)
+                    }
                 }
+                else
+                {
+                    holder.binding.subjectDeleteBtn.visibility = View.GONE
+                }
+
                 holder.bind(item.subject, clickListener)
             }
 
