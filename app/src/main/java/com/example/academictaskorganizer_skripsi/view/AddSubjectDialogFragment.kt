@@ -46,7 +46,7 @@ class AddSubjectDialogFragment: DialogFragment() {
 
                 if (TextUtils.isEmpty(binding.editSubjectName.text.toString()))
                 {
-                    binding.editSubjectName.setError("Harap Masukkan Nama Subject")
+                    binding.editSubjectName.setError(context?.getString(R.string.add_subject_error))
                     Toast.makeText(context,binding.editSubjectName.error, Toast.LENGTH_LONG).show()
                 }
                 else

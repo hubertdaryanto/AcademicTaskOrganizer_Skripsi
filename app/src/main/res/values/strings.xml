@@ -35,6 +35,7 @@
     <string name="delete_tugas_confirmation_title">Apakah Anda yakin untuk menghapus Tugas Kuliah ini?</string>
     <string name="delete_tugas_confirmation_subtitle">Anda tidak dapat mengembalikan aksi ini.</string>
     <string name="subject_error">Harap pilih Mata Kuliah.</string>
+    <string name="add_subject_error">Harap masukkan Nama Mata Kuliah.</string>
     <string name="tugas_error">Harap masukkan Nama Tugas Kuliah.</string>
     <string name="deadline_error">Harap masukkan Tanggal Tenggat Waktu.</string>
     <string name="updated_tugas_kuliah_message">Tugas Kuliah diperbarui.</string>
