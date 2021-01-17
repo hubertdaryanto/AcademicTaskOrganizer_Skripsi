@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 
 @Database(entities = arrayOf(TugasKuliah::class, ToDoList::class, Subject::class, ImageForTugas::class), version = 17, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract val getTugasDao: tugasDatabaseDao
+    abstract val getAllQueryListDao: tugasDatabaseDao
     abstract val getToDoListDao: toDoListDao
     abstract val getSubjectDao: subjectDao
 

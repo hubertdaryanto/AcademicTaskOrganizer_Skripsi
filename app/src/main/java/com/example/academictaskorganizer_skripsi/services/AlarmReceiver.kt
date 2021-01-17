@@ -1,15 +1,12 @@
 package com.example.academictaskorganizer_skripsi.services
 
 import com.example.academictaskorganizer_skripsi.R
-import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
-import com.example.academictaskorganizer_skripsi.database.DataUtils
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import kotlinx.coroutines.*
-import java.util.*
 
 
 class AlarmReceiver: BroadcastReceiver() {
@@ -23,7 +20,7 @@ class AlarmReceiver: BroadcastReceiver() {
                 if (intent.extras != null)
                 {
                     uiScope.launch {
-                        val tugasKuliah = AppDatabase.getInstance(context).getTugasDao.loadTugasKuliahById(
+                        val tugasKuliah = AppDatabase.getInstance(context).getAllQueryListDao.loadTugasKuliahById(
                             intent.extras!!.getLong(TugasKuliah.KEY_ID)
                         )
                         if (tugasKuliah != null) {

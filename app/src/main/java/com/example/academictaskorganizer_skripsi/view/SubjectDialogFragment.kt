@@ -2,7 +2,6 @@ package com.example.academictaskorganizer_skripsi.view
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ClipData.newIntent
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
@@ -47,7 +44,7 @@ class SubjectDialogFragment() : DialogFragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.subject_dialog, null, false)
 
-        val dataSource = AppDatabase.getInstance(application).getTugasDao
+        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
         val viewModelFactory = SubjectDialogFragmentViewModelFactory(application, dataSource)
 
         val subjectDialogFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(SubjectDialogFragmentViewModel::class.java)

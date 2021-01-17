@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment() {
 
         val application = requireNotNull(this.activity).application
 
-        val dataSource = AppDatabase.getInstance(application).getTugasDao
+        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
         val viewModelFactory = HomeFragmentViewModelFactory(dataSource, application)
 
         val homeFragmentViewModel =

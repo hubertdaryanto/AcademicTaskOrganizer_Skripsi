@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.core.content.ContextCompat.startActivity
 import com.example.academictaskorganizer_skripsi.services.AlarmScheduler
 import kotlinx.coroutines.*
 
@@ -17,7 +16,7 @@ object DataUtils {
         val uiScope = CoroutineScope(Dispatchers.Main + job)
 
         uiScope.launch {
-            val tugasKuliahList = AppDatabase.getInstance(context).getTugasDao.loadAllTugasKuliahUnfinished()
+            val tugasKuliahList = AppDatabase.getInstance(context).getAllQueryListDao.loadAllTugasKuliahUnfinished()
             for (tugasKuliah in tugasKuliahList) {
                 AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
             }

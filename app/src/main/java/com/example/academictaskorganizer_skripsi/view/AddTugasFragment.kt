@@ -82,7 +82,7 @@ class AddTugasFragment : BaseFragment() {
         binding.editJam.inputType = InputType.TYPE_NULL
         binding.editJam.isFocusable = false
 
-        val dataSource = AppDatabase.getInstance(application).getTugasDao
+        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
         SubjectDataSource = AppDatabase.getInstance(application).getSubjectDao
         val viewModelFactory = AddTugasFragmentViewModelFactory(application, dataSource)
         addTugasFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
