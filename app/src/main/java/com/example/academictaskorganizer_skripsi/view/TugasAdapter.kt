@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.databinding.ListAgendaHeaderBinding
-import com.example.academictaskorganizer_skripsi.databinding.ListItemTugas2Binding
 import com.example.academictaskorganizer_skripsi.databinding.ListItemTugasBinding
+import com.example.academictaskorganizer_skripsi.databinding.ListItemTugasSelesaiBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -148,7 +148,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         }
     }
 
-    class ViewHolder2 private constructor(val binding: ListItemTugas2Binding): RecyclerView.ViewHolder(
+    class ViewHolder2 private constructor(val binding: ListItemTugasSelesaiBinding): RecyclerView.ViewHolder(
         binding.root
     )
     {
@@ -161,7 +161,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         companion object{
             fun from(parent: ViewGroup): ViewHolder2 {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ListItemTugas2Binding.inflate(layoutInflater, parent, false)
+                val binding = ListItemTugasSelesaiBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder2(binding)
             }
         }

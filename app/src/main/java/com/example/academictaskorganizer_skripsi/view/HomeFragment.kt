@@ -1,9 +1,8 @@
 package com.example.academictaskorganizer_skripsi.view
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +28,7 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
+        setHasOptionsMenu(true)
         val binding: FragmentHomeBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
@@ -110,6 +109,28 @@ class HomeFragment : BaseFragment() {
 
         return binding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.tugaskuliahsaya_menu, menu)
+        var actionViewTaskCompletionHistory = menu.findItem(R.id.actionTaskCompletionHistory)
+//        var action_delete = menu.findItem(R.id.actionViewTaskCompletionHistory)
+//        action_save.setIcon(R.drawable.ic_baseline_save_24)
+//        action_delete.setIcon(R.drawable.ic_baseline_delete_forever_24)
+        view_utilities.menuIconColor(actionViewTaskCompletionHistory, Color.BLACK)
+//        menuIconColor(action_delete, Color.BLACK)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId)
+        {
+            R.id.actionTaskCompletionHistory -> {
+
+                //insert the action here. Hint: Buat ke tampilan task completion history.
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
 
 //    override fun onActivityCreated(savedInstanceState: Bundle?) {
 //        super.onActivityCreated(savedInstanceState)

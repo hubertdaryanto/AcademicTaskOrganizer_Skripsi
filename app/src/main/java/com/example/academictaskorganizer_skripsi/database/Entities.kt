@@ -69,6 +69,21 @@ data class ImageForTugas(
     var imageId: Long = 0
 }
 
+@Entity(tableName = "TaskCompletionHistory", foreignKeys = [
+    ForeignKey(entity = TugasKuliah::class, parentColumns = ["tugasKuliahId"], childColumns = ["bindToTugasKuliahId"], onDelete = CASCADE, onUpdate = CASCADE)
+])
+data class TaskCompletionHistory(
+    @ColumnInfo(name = "bindToTugasKuliahId")
+    var bindToTugasKuliahId: Long,
+    @ColumnInfo(name = "type")
+    var type: String
+)
+{
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "taskCompletionHistoryId")
+    var taskCompletionHistoryId: Long = 0
+}
+
 data class SubjectAndTugasKuliah(
     @Embedded val subject: Subject,
     @Relation(

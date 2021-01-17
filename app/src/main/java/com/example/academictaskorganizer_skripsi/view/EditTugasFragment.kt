@@ -346,19 +346,19 @@ class EditTugasFragment: BaseFragment() {
         var action_delete = menu.findItem(R.id.actionDeleteTugas)
         action_save.setIcon(R.drawable.ic_baseline_save_24)
         action_delete.setIcon(R.drawable.ic_baseline_delete_forever_24)
-        menuIconColor(action_save, Color.BLACK)
-        menuIconColor(action_delete, Color.BLACK)
+        view_utilities.menuIconColor(action_save, Color.BLACK)
+        view_utilities.menuIconColor(action_delete, Color.BLACK)
     }
 
-    private fun menuIconColor(menuItem: MenuItem, color: Int)
-    {
-        var drawable = menuItem.icon
-        if (drawable != null)
-        {
-            drawable.mutate()
-            drawable.setTint(color)
-        }
-    }
+//    private fun menuIconColor(menuItem: MenuItem, color: Int)
+//    {
+//        var drawable = menuItem.icon
+//        if (drawable != null)
+//        {
+//            drawable.mutate()
+//            drawable.setTint(color)
+//        }
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId)
