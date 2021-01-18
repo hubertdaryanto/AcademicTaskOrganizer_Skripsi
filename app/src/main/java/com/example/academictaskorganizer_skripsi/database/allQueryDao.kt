@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 @Dao
-interface tugasDatabaseDao{
+interface allQueryDao{
     @Query("SELECT * FROM TugasKuliah ORDER BY tugasKuliahName ASC")
     suspend fun getAllSortedByName(): List<TugasKuliah>
 
@@ -19,13 +19,19 @@ interface tugasDatabaseDao{
     suspend fun getAllSortedByDeadline(): List<TugasKuliah>
 
     @Query("SELECT * FROM TugasKuliah ORDER BY deadline ASC")
-    fun getAllSortedByDeadlineForeground(): LiveData<List<TugasKuliah>>
+    fun getAllTugasKuliahSortedByDeadlineForeground(): LiveData<List<TugasKuliah>>
+
+    @Query("SELECT * FROM TaskCompletionHistory ORDER BY taskCompletionHistoryId DESC")
+    fun getAllTaskCompletionHistorySortedByMostRecentForeground(): LiveData<List<TaskCompletionHistory>>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId IN (:userIds)")
     suspend fun loadAllByIds(userIds: LongArray): List<TugasKuliah>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId LIKE :id")
     suspend fun loadTugasKuliahById(id: Long): TugasKuliah
+
+    @Query("SELECT tugasKuliahName FROM TugasKuliah WHERE TugasKuliahId LIKE :id")
+    suspend fun loadTugasKuliahNameById(id: Long): String
 
     @Query("SELECT * FROM TugasKuliah WHERE tugasKuliahName LIKE :name")
     suspend fun findByName(name: String): TugasKuliah
@@ -50,6 +56,9 @@ interface tugasDatabaseDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertImage(imageForTugas: ImageForTugas)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTaskCompletionHistory(taskCompletionHistory: TaskCompletionHistory)
 
     @Delete
     suspend fun deleteTugas(TugasKuliah: TugasKuliah)

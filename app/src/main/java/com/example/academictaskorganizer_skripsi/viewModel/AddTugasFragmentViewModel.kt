@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.academictaskorganizer_skripsi.components.addNewItem
 import com.example.academictaskorganizer_skripsi.components.notifyObserver
 import com.example.academictaskorganizer_skripsi.components.removeItemAt
@@ -13,7 +12,7 @@ import com.example.academictaskorganizer_skripsi.database.*
 import com.example.academictaskorganizer_skripsi.services.AlarmScheduler
 import kotlinx.coroutines.*
 
-class AddTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel() {
+class AddTugasFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel() {
     val database = dataSource
 
     private val _tugasKuliah = MutableLiveData<TugasKuliah>()

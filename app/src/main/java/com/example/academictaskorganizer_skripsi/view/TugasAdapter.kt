@@ -21,11 +21,9 @@ import kotlinx.coroutines.withContext
 
 class TugasKuliahDate(d: String): TugasKuliahListItemType {
     var date = d
-
     override fun getType(): Int {
         return ITEM_VIEW_TYPE_HEADER
     }
-
 }
 
 
@@ -40,11 +38,6 @@ interface TugasKuliahListItemType {
 
     fun getType(): Int
 }
-
-val ITEM_VIEW_TYPE_HEADER: Int
-    get() = 0
-val ITEM_VIEW_TYPE_ITEM: Int
-    get() = 1
 
 class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKuliahDataItem, RecyclerView.ViewHolder>(
     TugasKuliahDiffCallback()
@@ -62,32 +55,21 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//        holder.view.text_view_tugas.text = TugasKuliah[position].TugasKuliahName
-//
-//        holder.view.setOnClickListener {
-//            val action = HomeFragmentDirections.actionEditTugas()
-//            action.tugasKuliah = TugasKuliah[position]
-//            Navigation.findNavController(it).navigate(action)
-//        }
         when (holder) {
             is ViewHolder -> {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
                 holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
             }
-
             is TextViewHolder -> {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
                 holder.bind(item.tugasKuliahListItemType as TugasKuliahDate)
             }
-
             is ViewHolder2 ->
             {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
                 holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
             }
-
         }
-
     }
 
     fun addHeaderAndSubmitList(list: List<TugasKuliahListItemType>?) {
@@ -101,9 +83,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
             withContext(Dispatchers.Main){
                 submitList(items)
             }
-
         }
-
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -176,7 +156,6 @@ class TugasKuliahDiffCallback : DiffUtil.ItemCallback<TugasKuliahDataItem>() {
     override fun areContentsTheSame(oldItem: TugasKuliahDataItem, newItem: TugasKuliahDataItem): Boolean {
         return oldItem == newItem
     }
-
 }
 
 class TugasKuliahListener(val clickListener: (TugasKuliahId: Long) -> Unit)
@@ -188,15 +167,10 @@ sealed class TugasKuliahDataItem {
     abstract val id: Long
     open var count: Long = 0
     abstract val type: Int
-//    data class TugasKuliahItem(val tugas: TugasKuliah): TugasKuliahDataItem(){
-//        override val id = tugas.tugasKuliahId
-//    }
-//
     object Header: TugasKuliahDataItem(){
         override val id = Long.MIN_VALUE
          override val type = 0
 }
-
     data class TugasKuliahList(val tugasKuliahListItemType: TugasKuliahListItemType): TugasKuliahDataItem()
     {
         fun getLong(): Long{
@@ -209,32 +183,8 @@ sealed class TugasKuliahDataItem {
                 count = count + 1
                 return count
             }
-
         }
-
-
         override val id: Long = getLong()
         override val type: Int = tugasKuliahListItemType.getType()
-//        override val id: Long = {
-//            fun getLong(): Long {
-//                if (tugasKuliahListItemType is TugasKuliah)
-//                {
-//                    return tugasKuliahListItemType.tugasKuliahId
-//                }
-//            }
-//            return getLong()
-//        }
-    }
-
-
-
-}
-
-@BindingAdapter("strikeThrough")
-fun strikeThrough(textView: TextView, strikeThrough: Boolean) {
-    if (strikeThrough) {
-        textView.paintFlags = textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-    } else {
-        textView.paintFlags = textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
 }

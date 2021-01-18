@@ -51,8 +51,8 @@ class HomeFragment : BaseFragment() {
         homeFragmentViewModel.tugas.observe(viewLifecycleOwner, Observer{
             it?.let {
 
-                val test = homeFragmentViewModel.getTugasKuliahDate()
-                adapter.addHeaderAndSubmitList(test)
+                val date = homeFragmentViewModel.getTugasKuliahDate()
+                adapter.addHeaderAndSubmitList(date)
             }
         })
 
@@ -89,10 +89,6 @@ class HomeFragment : BaseFragment() {
 
         binding.homeFragmentViewModel = homeFragmentViewModel
         binding.setLifecycleOwner(this)
-//        var view = binding.root
-//        floatingActionButton = binding.floatingActionButton
-//        recyclerViewTugas = binding.recyclerViewTugas
-//        viewModel = ViewModelProvider(this).get(TugasKuliahViewModel::class.java)
 
         val manager = GridLayoutManager(activity, 1)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
@@ -102,8 +98,6 @@ class HomeFragment : BaseFragment() {
                     else -> return 1
                 }
             }
-
-
         }
         binding.tugasList.layoutManager = manager
 
@@ -123,7 +117,7 @@ class HomeFragment : BaseFragment() {
         when (item.itemId)
         {
             R.id.actionTaskCompletionHistory -> {
-
+                goToTaskCompletionHistory()
                 //insert the action here. Hint: Buat ke tampilan task completion history.
                 return true
             }
@@ -131,21 +125,9 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        recyclerViewTugas.setHasFixedSize(true)
-//        recyclerViewTugas.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-//        launch {
-//            context?.let {
-//                val tugas = AppDatabase(it).getTugasDao().getAllSortedByDeadline()
-//                recyclerViewTugas.adapter = TugasAdapter(tugas)
-//            }
-//
-//        }
-//        floatingActionButton.setOnClickListener {
-//            val action = HomeFragmentDirections.actionEditTugas()
-//            Navigation.findNavController(it).navigate(action)
-//        }
-//    }
+    private fun goToTaskCompletionHistory() {
+        this.findNavController()
+            .navigate(HomeFragmentDirections.actionHomeFragmentToTaskCompletionHistoryFragment())
+//        homeFragmentViewModel.onTaskCompletionHistoryNavigated()
+    }
 }

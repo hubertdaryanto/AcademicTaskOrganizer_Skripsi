@@ -12,7 +12,7 @@ import com.example.academictaskorganizer_skripsi.database.*
 import com.example.academictaskorganizer_skripsi.services.AlarmScheduler
 import kotlinx.coroutines.*
 
-class EditTugasFragmentViewModel(application: Application, dataSource: tugasDatabaseDao): ViewModel()  {
+class EditTugasFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel()  {
     val database = dataSource
 
     var _tugasKuliah = MutableLiveData<TugasKuliah>()
@@ -210,6 +210,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: tugasData
                 AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
             } else {
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
+                database.insertTaskCompletionHistory(TaskCompletionHistory(bindToTugasKuliahId = tugasKuliah.tugasKuliahId, activityType = "Tugas Kuliah Selesai"))
             }
            database.updateTugas(tugasKuliah)
 

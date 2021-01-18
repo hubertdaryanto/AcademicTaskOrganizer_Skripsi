@@ -5,18 +5,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.academictaskorganizer_skripsi.database.TugasKuliah
-import com.example.academictaskorganizer_skripsi.database.tugasDatabaseDao
+import com.example.academictaskorganizer_skripsi.database.allQueryDao
 import com.example.academictaskorganizer_skripsi.view.TugasKuliahDate
 import com.example.academictaskorganizer_skripsi.view.TugasKuliahListItemType
 
-class HomeFragmentViewModel(dataSource: tugasDatabaseDao, application: Application): ViewModel() {
+class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): ViewModel() {
     val database = dataSource
-
-//    private var tugasList = MutableLiveData<TugasKuliah?>()
-
-    var tugas = database.getAllSortedByDeadlineForeground()
-
+    var tugas = database.getAllTugasKuliahSortedByDeadlineForeground()
 
     private val _navigateToEditTugasKuliah = MutableLiveData<Long>()
     val navigateToEditTugasKuliah: LiveData<Long>
@@ -57,28 +52,9 @@ class HomeFragmentViewModel(dataSource: tugasDatabaseDao, application: Applicati
         return arrayList
     }
 
-//    fun doneNavigating()
-//    {
-//        _navigateToEditTugasKuliah.value = null
-//    }
-
     init {
-//        initializeUpcoming()
         Log.i("AgendaActivityViewModel", "AgendaActivityViewModel created!")
     }
-
-//    private fun initializeTugasList()
-//    {
-//        viewModelScope.launch {
-//            tugasList.value = getTugasFromDatabase()
-//        }
-//    }
-//
-//    private suspend fun getTugasFromDatabase(): TugasKuliah?
-//    {
-//        var tugas = database.getAllSortedByDeadline()
-//        return tugas
-//    }
 
     fun onAddTugasKuliahClicked()
     {

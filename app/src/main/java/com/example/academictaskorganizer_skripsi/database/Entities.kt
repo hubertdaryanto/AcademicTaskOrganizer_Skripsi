@@ -2,6 +2,7 @@ package com.example.academictaskorganizer_skripsi.database
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
+import com.example.academictaskorganizer_skripsi.view.TaskCompletionHistoryListItemType
 import com.example.academictaskorganizer_skripsi.view.TugasKuliahListItemType
 
 @Entity(tableName = "TugasKuliah"
@@ -38,7 +39,6 @@ data class TugasKuliah(
     @ColumnInfo(name = "tugasKuliahId")
     var tugasKuliahId: Long = 0
     override fun getType(): Int {
-
         if (isFinished)
         {
             return ITEM_VIEW_TYPE_ITEM_FINISHED
@@ -76,12 +76,15 @@ data class TaskCompletionHistory(
     @ColumnInfo(name = "bindToTugasKuliahId")
     var bindToTugasKuliahId: Long,
     @ColumnInfo(name = "type")
-    var type: String
-)
+    var activityType: String
+): TaskCompletionHistoryListItemType
 {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "taskCompletionHistoryId")
-    var taskCompletionHistoryId: Long = 0
+    var taskCompletionHistoryId: Long = System.currentTimeMillis()
+    override fun getType(): Int {
+        return ITEM_VIEW_TYPE_ITEM
+    }
 }
 
 data class SubjectAndTugasKuliah(

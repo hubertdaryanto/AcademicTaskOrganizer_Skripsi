@@ -46,5 +46,5 @@
     <string name="ya">Ya</string>
     <string name="tidak">Tidak</string>
     <string name="hapus">Hapus</string>
-    <string name="task_completion_history">Task Completion History</string>
+    <string name="task_completion_history">Riwayat Penyelesaian Tugas</string>
 </resources>

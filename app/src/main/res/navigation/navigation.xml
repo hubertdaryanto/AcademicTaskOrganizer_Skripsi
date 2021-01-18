@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_homeFragment_to_editTugasFragment"
             app:destination="@id/editTugasFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_taskCompletionHistoryFragment"
+            app:destination="@id/taskCompletionHistoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/editTugasFragment"
@@ -41,4 +44,9 @@
             app:destination="@id/homeFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/taskCompletionHistoryFragment"
+        android:name="com.example.academictaskorganizer_skripsi.view.TaskCompletionHistoryFragment"
+        android:label="Riwayat Penyelesaian Tugas"
+        tools:layout="@layout/fragment_task_completion_history"/>
 </navigation>

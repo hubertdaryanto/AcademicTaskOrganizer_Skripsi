@@ -22,6 +22,11 @@ interface SubjectInterface{
     fun onRemoveItem(id: Long)
 }
 
+val ITEM_VIEW_TYPE_HEADER: Int
+    get() = 0
+val ITEM_VIEW_TYPE_ITEM: Int
+    get() = 1
+
 class SubjectAdapter(val clickListener: SubjectListener, val subjectInterface: SubjectInterface): ListAdapter<SubjectDataItem, RecyclerView.ViewHolder>(SubjectDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)

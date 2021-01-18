@@ -22,6 +22,19 @@ fun TextView.setTugasSubjectNameAndDeadline(item: TugasKuliah?)
                 )
             }
         }
+    }
+}
 
+@BindingAdapter("loadTugasKuliahName")
+fun TextView.loadTugasKuliahName(tugasKuliahId: Long)
+{
+    val job = Job()
+    val uiScope = CoroutineScope(Dispatchers.Main + job)
+    tugasKuliahId?.let {
+        var database = AppDatabase.getInstance(context).getAllQueryListDao
+        uiScope.launch {
+            val text1 = database.loadTugasKuliahNameById(it)
+            text =  text1
+        }
     }
 }

@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
 import com.example.academictaskorganizer_skripsi.databinding.FragmentTaskCompletionHistoryBinding
-import com.example.academictaskorganizer_skripsi.viewModel.HomeFragmentViewModel
-import com.example.academictaskorganizer_skripsi.viewModel.HomeFragmentViewModelFactory
 import com.example.academictaskorganizer_skripsi.viewModel.TaskCompletionHistoryFragmentViewModel
 import com.example.academictaskorganizer_skripsi.viewModel.TaskCompletionHistoryFragmentViewModelFactory
 
@@ -31,11 +32,39 @@ class TaskCompletionHistoryFragment: BaseFragment() {
 
         val taskCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(TaskCompletionHistoryFragmentViewModel::class.java)
 
-        val adapter = TaskCompletionHistoryAdapter(TugasKuliahListener { tugasKuliahId ->
-            taskCompletionHistoryFragmentViewModel.onTugasKuliahClicked(tugasKuliahId)
+        val adapter = TaskCompletionHistoryAdapter(TaskCompletionHistoryListener { tugasKuliahId ->
+            taskCompletionHistoryFragmentViewModel.onTaskCompletionHistoryClicked(tugasKuliahId)
         })
-        binding.tugasList.adapter = adapter
+        binding.taskCompletionHistoryList.adapter = adapter
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        taskCompletionHistoryFragmentViewModel.taskCompletionHistories.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val date = taskCompletionHistoryFragmentViewModel.getTaskCompletionHistoryDate()
+                adapter.addHeaderAndSubmitList(date)
+            }
+        })
+
+        taskCompletionHistoryFragmentViewModel.navigateToViewTaskCompletionHistoryDetails.observe(viewLifecycleOwner, Observer {
+            it.let {
+//                this.findNavController().navigate(TaskCompletionHistoryDirections.actionTaskCompletionHistoryFragmentToTaskCompletionHistoryDetailFragment(it))
+//                taskCompletionHistoryFragmentViewModel.onTaskCompletionHistoryNavigated()
+            }
+        })
+
+        binding.taskCompletionHistoryFragmentViewModel = taskCompletionHistoryFragmentViewModel
+        binding.setLifecycleOwner(this)
+
+        val manager = GridLayoutManager(activity, 1)
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
+            override fun getSpanSize(position: Int): Int {
+                when (position) {
+                    0 -> return 1
+                    else -> return 1
+                }
+            }
+        }
+        binding.taskCompletionHistoryList.layoutManager = manager
+
+        return binding.root
     }
 }

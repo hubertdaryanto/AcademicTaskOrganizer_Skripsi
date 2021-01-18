@@ -199,9 +199,6 @@ class EditTugasFragment: BaseFragment() {
                                 it1
                             )
                         }
-//
-//                    this.findNavController()
-//                        .navigate(EditTugasFragmentDirections.actionSaveTugas())
                         this.findNavController().popBackStack()
                         editTugasFragmentViewModel.doneNavigating()
                     }
