@@ -41,7 +41,6 @@ class HomeFragment : BaseFragment() {
             ViewModelProvider(this, viewModelFactory).get(HomeFragmentViewModel::class.java)
 
 
-
         val adapter = TugasAdapter(TugasKuliahListener { tugasKuliahId ->
             homeFragmentViewModel.onTugasKuliahClicked(tugasKuliahId)
         })

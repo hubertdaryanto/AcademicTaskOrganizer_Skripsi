@@ -1,22 +1,26 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
-import android.graphics.Paint
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.academictaskorganizer_skripsi.R
+import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
+import com.example.academictaskorganizer_skripsi.database.AppDatabase
+import com.example.academictaskorganizer_skripsi.database.ToDoList
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import com.example.academictaskorganizer_skripsi.databinding.ListAgendaHeaderBinding
 import com.example.academictaskorganizer_skripsi.databinding.ListItemTugasBinding
 import com.example.academictaskorganizer_skripsi.databinding.ListItemTugasSelesaiBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 
 class TugasKuliahDate(d: String): TugasKuliahListItemType {
@@ -116,6 +120,59 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         fun bind(item: TugasKuliah, clickListener: TugasKuliahListener) {
             binding.tugas = item
             binding.clickListener = clickListener
+
+            var viewModelJob = Job()
+            val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+//            val viewModelFactory = TugasAdapterViewModelFactory(application, dataSource)
+//            val tugasAdapterViewModel = ViewModelProvider(this, viewModelFactory).get(
+//                TugasAdapterViewModel::class.java
+//            )
+            val dataSource = AppDatabase.getInstance(binding.root.context).getAllQueryListDao
+
+            val _toDoList = MutableLiveData<MutableList<ToDoList>>()
+            val toDoList: LiveData<MutableList<ToDoList>> = _toDoList
+
+            uiScope.launch {
+                _toDoList.value = dataSource.loadToDoListsByTugasKuliahId(item.tugasKuliahId)
+            }
+
+            val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
+                //function buat apa yang terjadi kalau di click
+            }
+                , object : ToDoListInterface{
+                    override fun onUpdateText(id: Long, data: String) {
+                        //function buat update data
+                    }
+
+                    override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
+                        //function buat update to do list langsung
+                    }
+
+                    override fun onRemoveItem(id: Long) {
+                        AlertDialog.Builder(binding.root.context).apply {
+                            setTitle(context.getString(R.string.delete_todolist_confirmation_title))
+                            setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
+                            setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                                //remove to do list langsung
+                            }
+                            setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+                            }
+                        }.create().show()
+                    }
+                }
+            )
+            binding.homeToDoList.adapter = toDoListAdapter
+
+            binding..let {
+                toDoList.observe(it, Observer {
+                    it?.let {
+                        toDoListAdapter.updateList(it)
+                    }
+                })
+            }
+            val manager = LinearLayoutManager(binding.root.context)
+            binding.homeToDoList.addItemDecoration(MyItemDecoration(16))
+            binding.homeToDoList.layoutManager = manager
             binding.executePendingBindings()
         }
 

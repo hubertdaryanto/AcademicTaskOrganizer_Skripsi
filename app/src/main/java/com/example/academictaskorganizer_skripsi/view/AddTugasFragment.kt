@@ -273,24 +273,17 @@ class AddTugasFragment : BaseFragment() {
 
         val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
             addTugasFragmentViewModel.onToDoListClicked(toDoListId)
-//            addTugasFragmentViewModel.updateToDoList(toDoListId, updatedToDoListName, updatedToDoListIsFinished)
-            //instead di update pas click to do list nya, mending langsung update setelah salah satu parameter diedit
         }
-//            , Collections.unmodifiableList(addTugasFragmentViewModel.toDoList.value)
             , object : ToDoListInterface{
             override fun onUpdateText(id: Long, data: String) {
-//                updatedToDoListName = data
-//                TODO("Coba implement update To Do List disini")
                 addTugasFragmentViewModel.updateToDoListName(id, data)
             }
 
                 override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
-//                    updatedToDoListIsFinished = isFinished
                     addTugasFragmentViewModel.updateToDoListIsFinished(id, isFinished)
                 }
 
                 override fun onRemoveItem(id: Long) {
-
                     AlertDialog.Builder(context).apply {
                         setTitle(context.getString(R.string.delete_todolist_confirmation_title))
                         setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
@@ -298,10 +291,8 @@ class AddTugasFragment : BaseFragment() {
                             addTugasFragmentViewModel.removeToDoListItem(id)
                         }
                         setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
-
                         }
                     }.create().show()
-
                 }
             }
         )

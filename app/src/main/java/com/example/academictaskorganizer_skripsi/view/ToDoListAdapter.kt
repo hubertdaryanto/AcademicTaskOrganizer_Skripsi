@@ -31,25 +31,9 @@ interface ToDoListInterface{
 }
 
 class ToDoListAdapter(val clickListener: ToDoListListener
-//, var list: List<ToDoList>?
 , var toDoListInterface: ToDoListInterface
 ): ListAdapter<ToDoListDataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
-
-
     private val adapterScope = CoroutineScope(Dispatchers.Default)
-
-//    private var toDoListData: List<ToDoList> = ArrayList<ToDoList>()
-
-    var textToSend = ""
-//    private var mAdapterCallback: AdapterCallback()
-//    private var TDLI: ToDoListInterface? = null
-
-
-
-//    class RecyclerListViewAdapter(mContext: Context, listItem: List<ToDoList>, tdli: ToDoListInterface)
-//    {
-//
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent, toDoListInterface)
@@ -60,7 +44,6 @@ class ToDoListAdapter(val clickListener: ToDoListListener
        {
            is ViewHolder ->
            {
-
                val item = getItem(position) as ToDoListDataItem.ToDoListItem
                val textWatcher = object : TextWatcher{
                    override fun beforeTextChanged(
@@ -71,53 +54,27 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                    ) {
 
                    }
-
                    override fun onTextChanged(
                        s: CharSequence?,
                        start: Int,
                        before: Int,
                        count: Int
                    ) {
-                       //bisa implement disini, tapi bikin kinerja device berat banget
                        toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
                    }
 
                    override fun afterTextChanged(s: Editable?) {
-//                        if (TDLI != null) {
-//                            TDLI.onUpdateText(s.toString())
-//                        }
-                   }
 
+                   }
                }
                holder.binding.textViewToDoListNameDialog.setText(item.toDoList.toDoListName)
                holder.binding.toDoListItemCheckBox.isChecked = item.toDoList.isFinished
-
-               //status sekarang: item paling terakhir malah merujuk ke item ke 0 kalau abis tambah gak diedit lagi
-               //kalau insert 1, terus insert 1 lagi abis ketik to do pertama, dipastikan gagal memenuhi kriteria
-
-               //kalau insert lebih dari 2, dua item diatas item baru aman, gak ada perubahan
-
                holder.binding.textViewToDoListNameDialog.addTextChangedListener(textWatcher)
-//               holder.binding.textViewToDoListNameDialog.setOnFocusChangeListener(object : View.OnFocusChangeListener {
-//                   override fun onFocusChange(v: View?, hasFocus: Boolean) {
-////                       TODO("Not yet implemented")
-//                       if (hasFocus)
-//                       {
-//                           toDoListInterface.onUpdateId(holder.adapterPosition.toLong())
-//                       }
-//                   }
-//
-//               })
-//               holder.binding.toDoListItemCheckBox.setOnClickListener {
-//                   toDoListInterface.onUpdateId(holder.adapterPosition.toLong())
-//               }
-
                holder.binding.toDoListItemCheckBox.setOnCheckedChangeListener(object :
                    CompoundButton.OnCheckedChangeListener {
                    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
                        toDoListInterface.onUpdateCheckbox(holder.adapterPosition.toLong(), isChecked)
                    }
-
                })
 
                holder.binding.toDoListDeleteBtn.setOnClickListener {
