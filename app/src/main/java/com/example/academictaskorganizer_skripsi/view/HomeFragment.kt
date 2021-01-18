@@ -50,7 +50,6 @@ class HomeFragment : BaseFragment() {
 
         homeFragmentViewModel.tugas.observe(viewLifecycleOwner, Observer{
             it?.let {
-
                 val date = homeFragmentViewModel.getTugasKuliahDate()
                 adapter.addHeaderAndSubmitList(date)
             }

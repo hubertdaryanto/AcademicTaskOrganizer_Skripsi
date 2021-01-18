@@ -13,7 +13,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/tugasCardView"
+        android:id="@+id/taskCompletionListCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
@@ -31,12 +31,12 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/text_view_tugas"
+                android:id="@+id/text_view_task_completion_list_activity_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="1dp"
-                android:text="@{taskCompletionHistory.type}"
+                android:text="@{taskCompletionHistory.activityType}"
                 android:textAppearance="@style/Base.CardView"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/text_view_subject"
@@ -54,7 +54,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:loadTugasKuliahName="@{taskCompletionHistory.bindToTugasKuliahId}"
+                app:loadTugasKuliahName="@{taskCompletionHistory}"
                 tools:text="Tugas Kuliah Name" />
 <!--                android:text= "Not Yet Implemented"-->
 

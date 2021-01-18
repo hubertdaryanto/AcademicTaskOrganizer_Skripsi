@@ -1,9 +1,10 @@
 package com.example.academictaskorganizer_skripsi.viewModel
 
+import android.annotation.SuppressLint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
-import com.example.academictaskorganizer_skripsi.database.SubjectAndTugasKuliah
+import com.example.academictaskorganizer_skripsi.database.TaskCompletionHistory
 import com.example.academictaskorganizer_skripsi.database.TugasKuliah
 import kotlinx.coroutines.*
 
@@ -26,15 +27,17 @@ fun TextView.setTugasSubjectNameAndDeadline(item: TugasKuliah?)
 }
 
 @BindingAdapter("loadTugasKuliahName")
-fun TextView.loadTugasKuliahName(tugasKuliahId: Long)
+fun TextView.loadTugasKuliahName(taskCompletionHistory: TaskCompletionHistory?)
 {
     val job = Job()
     val uiScope = CoroutineScope(Dispatchers.Main + job)
-    tugasKuliahId?.let {
+    taskCompletionHistory?.let {
         var database = AppDatabase.getInstance(context).getAllQueryListDao
         uiScope.launch {
-            val text1 = database.loadTugasKuliahNameById(it)
-            text =  text1
+            val text1 = database.loadTugasKuliahById(it.bindToTugasKuliahId)
+            text =  text1.tugasKuliahName + " - " + it.taskCompletionHistoryId.let { it1 ->
+                convertDeadlineToTimeFormatted(it1)
+            }
         }
     }
 }
