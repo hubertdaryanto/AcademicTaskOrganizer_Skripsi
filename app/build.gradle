@@ -36,7 +36,14 @@ android {
 //    }
 }
 
+repositories {
+    maven {
+        url  "https://dl.bintray.com/stephen-brewer/org.stephenbrewer"
+    }
+}
+
 dependencies {
+    implementation "org.stephenbrewer:recyclerview:0.1.6"
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

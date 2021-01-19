@@ -8,10 +8,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.DiffUtil
+//import androidx.recyclerview.widget.DiffUtil
+import org.stephenbrewer.arch.recyclerview.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+//import org.stephenbrewer.arch.recyclerview.LinearLayoutManager
+//import androidx.recyclerview.widget.ListAdapter
+import org.stephenbrewer.arch.recyclerview.ListAdapter
+import org.stephenbrewer.arch.recyclerview.RecyclerView
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
@@ -120,6 +123,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
         fun bind(item: TugasKuliah, clickListener: TugasKuliahListener) {
             binding.tugas = item
             binding.clickListener = clickListener
+            binding.lifecycleOwner = this
 
             var viewModelJob = Job()
             val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -163,12 +167,15 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
             )
             binding.homeToDoList.adapter = toDoListAdapter
 
-            binding..let {
-                toDoList.observe(it, Observer {
-                    it?.let {
-                        toDoListAdapter.updateList(it)
-                    }
-                })
+//            toDoListAdapter.updateList(toDoList.value)
+            binding.lifecycleOwner.let {
+                if (it != null) {
+                    toDoList.observe(it, Observer {
+                        it?.let {
+                            toDoListAdapter.updateList(it)
+                        }
+                    })
+                }
             }
             val manager = LinearLayoutManager(binding.root.context)
             binding.homeToDoList.addItemDecoration(MyItemDecoration(16))

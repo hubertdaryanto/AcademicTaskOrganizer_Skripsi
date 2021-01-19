@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         tools:context=".view.HomeFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <org.stephenbrewer.arch.recyclerview.RecyclerView
             android:id="@+id/tugas_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

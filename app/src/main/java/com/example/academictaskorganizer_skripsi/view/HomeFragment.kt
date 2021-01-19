@@ -3,11 +3,12 @@ package com.example.academictaskorganizer_skripsi.view
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import org.stephenbrewer.arch.recyclerview.GridLayoutManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+//import androidx.recyclerview.widget.GridLayoutManager
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.viewModel.HomeFragmentViewModel
