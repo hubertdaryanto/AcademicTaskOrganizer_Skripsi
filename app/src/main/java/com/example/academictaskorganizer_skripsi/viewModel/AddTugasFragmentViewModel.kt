@@ -159,10 +159,7 @@ class AddTugasFragmentViewModel(application: Application, dataSource: allQueryDa
 
     fun onAddTugasKuliahClicked2()
     {
-
             _addTugasKuliahNavigation.value = true
-
-
     }
 
     fun addTugasKuliah(context: Context, tugasKuliah: TugasKuliah)

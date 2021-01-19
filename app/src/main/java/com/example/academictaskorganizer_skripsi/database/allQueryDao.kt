@@ -42,6 +42,9 @@ interface allQueryDao{
     @Query("SELECT * FROM Image WHERE bindToTugasKuliahId LIKE :id")
     suspend fun loadImagesByTugasKuliahId(id: Long): MutableList<ImageForTugas>
 
+    @Query("SELECT * FROM TaskCompletionHistory WHERE bindToTugasKuliahId LIKE :id")
+    suspend fun getTaskCompletionHistoryByTugasKuliahId(id: Long): TaskCompletionHistory
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTugas(TugasKuliah: TugasKuliah): Long
 

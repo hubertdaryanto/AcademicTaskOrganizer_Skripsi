@@ -172,6 +172,9 @@ class AddTugasFragment : Fragment() {
                     }
                     else
                     {
+                        //redirect ke fragment lah lebih baik
+
+
                         mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
                         mTugas.tugasSubjectId = subjectId
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
@@ -195,23 +198,12 @@ class AddTugasFragment : Fragment() {
                             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
-
-                        //notify 24 hours before deadline
-                        //not yet working, gak kepanggil soalnya
-//                    val receiver = AlarmReceiver(mTugas.deadline - 86400, mTugas.tugasKuliahName, mTugas.notes)
-//                    val pm = context?.packageManager
-//                    pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
-//                    AlarmReceiver().setAlarm(application.applicationContext, mTugas.deadline, uri)
-
                         addTugasFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
                         context?.getString(R.string.inserted_tugas_kuliah_message)?.let { it1 ->
                             context?.toast(
                                 it1
                             )
                         }
-
-//                        this.findNavController()
-//                            .navigate(AddTugasFragmentDirections.actionAddTugasFragmentToHomeFragment())
                         this.findNavController().popBackStack()
                         addTugasFragmentViewModel.doneNavigating()
                     }
@@ -350,18 +342,8 @@ class AddTugasFragment : Fragment() {
         inflater.inflate(R.menu.addtugas_menu, menu)
         var action_save = menu.findItem(R.id.actionSaveTugas)
         action_save.setIcon(R.drawable.ic_baseline_save_24)
-        menuIconColor(action_save, Color.BLACK)
+        view_utilities.menuIconColor(action_save, Color.BLACK)
 
-    }
-
-    private fun menuIconColor(menuItem: MenuItem, color: Int)
-    {
-        var drawable = menuItem.icon
-        if (drawable != null)
-        {
-            drawable.mutate()
-            drawable.setTint(color)
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

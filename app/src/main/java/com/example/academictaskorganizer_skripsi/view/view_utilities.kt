@@ -4,6 +4,7 @@ import android.graphics.Paint
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import java.text.SimpleDateFormat
 
 object view_utilities {
     fun menuIconColor(menuItem: MenuItem, color: Int)
@@ -14,6 +15,12 @@ object view_utilities {
             drawable.mutate()
             drawable.setTint(color)
         }
+    }
+
+    fun convertDateAndTimeToLong(date: String, time: String): Long {
+        val formatter = SimpleDateFormat("dd - MM - yyyy H:mm")
+        val date = formatter.parse(date + " " + time)
+        return date.time
     }
 }
 

@@ -204,15 +204,19 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
     fun updateTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
         uiScope.launch {
+            var mTaskCompletionHistory = database.getTaskCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
+            if (mTaskCompletionHistory == null) {
+                mTaskCompletionHistory = TaskCompletionHistory(bindToTugasKuliahId = tugasKuliah.tugasKuliahId, activityType = "Tugas Kuliah Selesai")
+            }
             if (!tugasKuliah.isFinished) {
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
                 tugasKuliah.updatedAt = System.currentTimeMillis()
                 AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
-                database.deleteTaskCompletionHistory(TaskCompletionHistory(bindToTugasKuliahId = tugasKuliah.tugasKuliahId, activityType = "Tugas Kuliah Selesai"))
+                database.deleteTaskCompletionHistory(mTaskCompletionHistory)
                 //is different because the id is different, maybe if it loaded first, it will be deleted
             } else {
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
-                database.insertTaskCompletionHistory(TaskCompletionHistory(bindToTugasKuliahId = tugasKuliah.tugasKuliahId, activityType = "Tugas Kuliah Selesai"))
+                database.insertTaskCompletionHistory(mTaskCompletionHistory)
             }
            database.updateTugas(tugasKuliah)
 
