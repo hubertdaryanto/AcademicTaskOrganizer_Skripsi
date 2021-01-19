@@ -1,15 +1,19 @@
 package com.example.academictaskorganizer_skripsi.view
 
 import android.annotation.SuppressLint
+import android.graphics.Canvas
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.database.ImageForTugas
 import com.example.academictaskorganizer_skripsi.database.ToDoList
 import com.example.academictaskorganizer_skripsi.databinding.ListItemToDoListBinding
@@ -34,6 +38,9 @@ class ToDoListAdapter(val clickListener: ToDoListListener
 , var toDoListInterface: ToDoListInterface
 ): ListAdapter<ToDoListDataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
     private val adapterScope = CoroutineScope(Dispatchers.Default)
+
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent, toDoListInterface)
@@ -98,6 +105,21 @@ class ToDoListAdapter(val clickListener: ToDoListListener
     }
 
 
+    fun removeAt(list: List<ToDoList>?, position: Int) {
+
+        adapterScope.launch {
+            val items = list?.map {
+                ToDoListDataItem.ToDoListItem(it)
+            }
+            if (items != null) {
+                items.drop(position)
+                notifyItemRemoved(position)
+            }
+
+        }
+
+    }
+
     class ViewHolder private constructor(val binding: ListItemToDoListBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ToDoList, clickListener: ToDoListListener)
         {
@@ -120,6 +142,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
             }
         }
     }
+
 }
 
 class ToDoListDiffCallback : DiffUtil.ItemCallback<ToDoListDataItem>() {

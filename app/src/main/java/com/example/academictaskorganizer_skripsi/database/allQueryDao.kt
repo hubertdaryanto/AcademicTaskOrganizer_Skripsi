@@ -19,10 +19,10 @@ interface allQueryDao{
     suspend fun getAllSortedByDeadline(): List<TugasKuliah>
 
     @Query("SELECT * FROM TugasKuliah ORDER BY deadline ASC")
-    fun getAllTugasKuliahSortedByDeadlineForeground(): LiveData<List<TugasKuliah>>
+    suspend fun getAllTugasKuliahSortedByDeadlineForeground(): MutableList<TugasKuliah>
 
     @Query("SELECT * FROM TaskCompletionHistory ORDER BY taskCompletionHistoryId DESC")
-    fun getAllTaskCompletionHistorySortedByMostRecentForeground(): LiveData<List<TaskCompletionHistory>>
+    suspend fun getAllTaskCompletionHistorySortedByMostRecentForeground(): MutableList<TaskCompletionHistory>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId IN (:userIds)")
     suspend fun loadAllByIds(userIds: LongArray): List<TugasKuliah>

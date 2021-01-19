@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.ItemTouchHelper
 //import androidx.recyclerview.widget.DiffUtil
 import org.stephenbrewer.arch.recyclerview.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -180,6 +181,18 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
             val manager = LinearLayoutManager(binding.root.context)
             binding.homeToDoList.addItemDecoration(MyItemDecoration(16))
             binding.homeToDoList.layoutManager = manager
+            val swipeHandler = object : SwipeToDeleteCallback(binding.root.context) {
+                override fun onSwiped(
+                    viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
+                    direction: Int
+                ) {
+                    val adapter = binding.homeToDoList.adapter as ToDoListAdapter
+                    adapter.removeAt(_toDoList.value , viewHolder.adapterPosition)
+                }
+            }
+
+            val itemTouchHelper = ItemTouchHelper(swipeHandler)
+            itemTouchHelper.attachToRecyclerView(binding.homeToDoList)
             binding.executePendingBindings()
         }
 

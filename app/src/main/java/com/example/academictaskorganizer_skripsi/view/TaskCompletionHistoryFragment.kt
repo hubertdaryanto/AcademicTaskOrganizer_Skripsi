@@ -32,6 +32,7 @@ class TaskCompletionHistoryFragment: BaseFragment() {
 
         val taskCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(TaskCompletionHistoryFragmentViewModel::class.java)
 
+        taskCompletionHistoryFragmentViewModel.loadTaskCompletionHistory()
         val adapter = TaskCompletionHistoryAdapter(TaskCompletionHistoryListener { tugasKuliahId ->
             taskCompletionHistoryFragmentViewModel.onTaskCompletionHistoryClicked(tugasKuliahId)
         })
