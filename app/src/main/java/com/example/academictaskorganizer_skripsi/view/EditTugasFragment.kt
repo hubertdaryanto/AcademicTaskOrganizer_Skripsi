@@ -19,6 +19,8 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -36,7 +38,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EditTugasFragment: BaseFragment() {
+class EditTugasFragment: Fragment() {
     //    private var updatedToDoListIsFinished: Boolean = false
 //    private var updatedToDoListName: String = ""
     private lateinit var binding: FragmentEditTugasBinding
@@ -199,12 +201,11 @@ class EditTugasFragment: BaseFragment() {
                                 it1
                             )
                         }
+//                        this.findNavController().popBackStack(0, true)
                         this.findNavController().popBackStack()
                         editTugasFragmentViewModel.doneNavigating()
                     }
                 }
-
-
             })
 
         editTugasFragmentViewModel.SubjectText.observe(viewLifecycleOwner, Observer {

@@ -25,8 +25,8 @@ class TaskCompletionHistoryFragmentViewModel(dataSource: allQueryDao, applicatio
     val taskCompletionHistories: LiveData<MutableList<TaskCompletionHistory>>
         get() = _taskCompletionHistories
 
-    private val _navigateToViewTaskCompletionHistoryDetails = MutableLiveData<Long>()
-    val navigateToViewTaskCompletionHistoryDetails: LiveData<Long>
+    private val _navigateToViewTaskCompletionHistoryDetails = MutableLiveData<Long?>()
+    val navigateToViewTaskCompletionHistoryDetails: LiveData<Long?>
         get() = _navigateToViewTaskCompletionHistoryDetails
 
     fun loadTaskCompletionHistory()

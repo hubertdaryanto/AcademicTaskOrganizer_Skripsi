@@ -127,7 +127,7 @@ class TaskCompletionHistoryDiffCallback : DiffUtil.ItemCallback<TaskCompletionHi
 
 class TaskCompletionHistoryListener(val clickListener: (TaskCompletionHistoryId: Long) -> Unit)
 {
-    fun onClick(taskCompletionHistory: TaskCompletionHistory) = clickListener(taskCompletionHistory.taskCompletionHistoryId)
+    fun onClick(taskCompletionHistory: TaskCompletionHistory) = clickListener(taskCompletionHistory.bindToTugasKuliahId)
 }
 
 sealed class TaskCompletionHistoryDataItem {

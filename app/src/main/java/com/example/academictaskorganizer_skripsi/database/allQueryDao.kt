@@ -18,7 +18,7 @@ interface allQueryDao{
     @Query("SELECT * FROM TugasKuliah ORDER BY deadline ASC")
     suspend fun getAllSortedByDeadline(): List<TugasKuliah>
 
-    @Query("SELECT * FROM TugasKuliah ORDER BY deadline ASC")
+    @Query("SELECT * FROM TugasKuliah WHERE isFinished LIKE 0 ORDER BY deadline ASC")
     suspend fun getAllTugasKuliahSortedByDeadlineForeground(): MutableList<TugasKuliah>
 
     @Query("SELECT * FROM TaskCompletionHistory ORDER BY taskCompletionHistoryId DESC")
@@ -62,6 +62,9 @@ interface allQueryDao{
 
     @Delete
     suspend fun deleteTugas(TugasKuliah: TugasKuliah)
+
+    @Delete
+    suspend fun deleteTaskCompletionHistory(taskCompletionHistory: TaskCompletionHistory)
 
     @Query("DELETE FROM ToDoList WHERE toDoListId LIKE :id")
     suspend fun deleteToDoList(id: Long)

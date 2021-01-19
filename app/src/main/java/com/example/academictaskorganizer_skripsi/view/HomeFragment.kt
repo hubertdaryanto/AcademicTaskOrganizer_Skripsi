@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import org.stephenbrewer.arch.recyclerview.GridLayoutManager
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,7 +18,7 @@ import com.example.academictaskorganizer_skripsi.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
 
 //    private lateinit var floatingActionButton: FloatingActionButton
@@ -124,6 +125,10 @@ class HomeFragment : BaseFragment() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//    }
 
     private fun goToTaskCompletionHistory() {
         this.findNavController()

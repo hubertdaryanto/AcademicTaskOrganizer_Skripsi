@@ -17,6 +17,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -35,7 +36,7 @@ import java.util.*
 import kotlin.properties.Delegates
 
 
-class AddTugasFragment : BaseFragment() {
+class AddTugasFragment : Fragment() {
 
 //    private var updatedToDoListIsFinished: Boolean = false
 //    private var updatedToDoListName: String = ""

@@ -208,6 +208,8 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
                 tugasKuliah.updatedAt = System.currentTimeMillis()
                 AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
+                database.deleteTaskCompletionHistory(TaskCompletionHistory(bindToTugasKuliahId = tugasKuliah.tugasKuliahId, activityType = "Tugas Kuliah Selesai"))
+                //is different because the id is different, maybe if it loaded first, it will be deleted
             } else {
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
                 database.insertTaskCompletionHistory(TaskCompletionHistory(bindToTugasKuliahId = tugasKuliah.tugasKuliahId, activityType = "Tugas Kuliah Selesai"))
