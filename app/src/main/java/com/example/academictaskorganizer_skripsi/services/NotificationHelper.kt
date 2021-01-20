@@ -38,14 +38,8 @@ object NotificationHelper{
         // create a group notification
         val groupBuilder = buildGroupNotification(context, tugasKuliah)
 
-        // create the pet notification
         val notificationBuilder = buildNotificationForTugasKuliah(context, tugasKuliah)
 
-//        // add an action to the pet notification
-//        val administerPendingIntent = createPendingIntentForAction(context, tugasKuliah)
-//        notificationBuilder.addAction(R.drawable.tugasKuliah, context.getString(R.string.administer), administerPendingIntent)
-
-        // call notify for both the group and the pet notification
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(0, groupBuilder.build())
         notificationManager.notify(tugasKuliah.tugasKuliahId.toInt(), notificationBuilder.build())
@@ -69,8 +63,8 @@ object NotificationHelper{
 
         return NotificationCompat.Builder(context, channelId).apply {
             setSmallIcon(R.drawable.ic_baseline_access_time_24)
-            setContentTitle(tugasKuliah.tugasKuliahName)
-            setAutoCancel(true)
+            setContentTitle("Anda menunda untuk menyelesaikan " + tugasKuliah.tugasKuliahName)
+            setAutoCancel(false)
             setDefaults(Notification.DEFAULT_ALL)
             setPriority(NotificationCompat.PRIORITY_MAX)
 

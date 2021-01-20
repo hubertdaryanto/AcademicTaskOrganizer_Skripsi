@@ -137,6 +137,7 @@ class AddTugasFragment : Fragment() {
                             Calendar.MONTH
                         ), cal.get(Calendar.DAY_OF_MONTH)
                     )
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                     datePickerDialog.show()
 //                    datePickerDialog.getButton(DatePickerDialog.BUTTON_NEUTRAL).setTextColor(R.color.colorPrimaryDark)
 //                    datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
@@ -210,7 +211,7 @@ class AddTugasFragment : Fragment() {
 
                         shared_data.mTugas = mTugas
 
-                        this.findNavController().navigate(AddTugasFragmentDirections.actionAddTugasFragmentToAddTugasCommitmentFragment(mTugas))
+                        this.findNavController().navigate(AddTugasFragmentDirections.actionAddTugasFragmentToAddTugasCommitmentFragment())
                         addTugasFragmentViewModel.doneNavigating()
                     }
 

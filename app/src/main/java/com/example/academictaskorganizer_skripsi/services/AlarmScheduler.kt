@@ -42,7 +42,7 @@ object AlarmScheduler {
     ) {
         alarmMgr.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
-            tugasKuliah.deadline - 86400000,
+            tugasKuliah.finishCommitment,
             alarmIntent
         )
     }

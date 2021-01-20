@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.academictaskorganizer_skripsi.CustomDialog.RangeTimePickerDialog
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
 import com.example.academictaskorganizer_skripsi.database.AppDatabase
@@ -39,6 +40,9 @@ class AddTugasCommitmentFragment: Fragment() {
 //    private var mTugas: TugasKuliah = arguments?.get("TugasKuliahTransfer") as TugasKuliah
     private var mTugas: TugasKuliah = shared_data.mTugas
 
+    private var TimeRangeCanBeSelected = (mTugas.deadline - System.currentTimeMillis()) * 0.25//up to 25% time remaining
+
+    private var TimeSelected: Long = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,7 +68,7 @@ class AddTugasCommitmentFragment: Fragment() {
 
         addTugasCommitmentFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                val cal = Calendar.getInstance()
+                var cal = Calendar.getInstance()
 
 
                 val timeSetListener =
@@ -74,11 +78,14 @@ class AddTugasCommitmentFragment: Fragment() {
                         binding.editJam.setText(SimpleDateFormat("H:mm").format(cal.time))
                         binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
                     }
-                val timePickerDialog: TimePickerDialog = TimePickerDialog(
+                val timePickerDialog: RangeTimePickerDialog = RangeTimePickerDialog(
                     context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(
                         Calendar.MINUTE
                     ), true
                 )
+//                cal.timeInMillis = TimeSelected
+//                timePickerDialog.setMax(cal., cal.get(Calendar.MINUTE))
+//                //maximum time set currently not working
                 timePickerDialog.show()
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorPrimaryDark)
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
@@ -95,6 +102,7 @@ class AddTugasCommitmentFragment: Fragment() {
                         cal.set(Calendar.YEAR, year)
                         cal.set(Calendar.MONTH, month)
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        TimeSelected = cal.timeInMillis
                         binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
                     }
 
@@ -105,6 +113,8 @@ class AddTugasCommitmentFragment: Fragment() {
                             Calendar.MONTH
                         ), cal.get(Calendar.DAY_OF_MONTH)
                     )
+                    datePickerDialog.datePicker.maxDate = (mTugas.deadline - TimeRangeCanBeSelected).toLong()
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                     datePickerDialog.show()
 //                    datePickerDialog.getButton(DatePickerDialog.BUTTON_NEUTRAL).setTextColor(R.color.colorPrimaryDark)
 //                    datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
@@ -124,11 +134,6 @@ class AddTugasCommitmentFragment: Fragment() {
                     }
                     else
                     {
-                        //redirect ke fragment lah lebih baik
-//
-//
-//                        mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
-//                        mTugas.tugasSubjectId = subjectId
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
                         var clock = "9:00"
                         if (binding.editJam.text.toString() != "")

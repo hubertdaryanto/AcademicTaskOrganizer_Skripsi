@@ -60,7 +60,5 @@
         android:id="@+id/addTugasCommitmentFragment"
         android:name="com.example.academictaskorganizer_skripsi.view.AddTugasCommitmentFragment"
         android:label="AddTugasCommitmentFragment" >
-        <argument android:name="TugasKuliahTransfer"
-            app:argType="com.example.academictaskorganizer_skripsi.database.TugasKuliah"/>
     </fragment>
 </navigation>
