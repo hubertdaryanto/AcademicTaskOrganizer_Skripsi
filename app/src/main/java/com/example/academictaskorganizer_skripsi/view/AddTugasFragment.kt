@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -42,6 +43,7 @@ class AddTugasFragment : Fragment() {
 //    private var updatedToDoListName: String = ""
     private lateinit var binding: FragmentAddTugasBinding
     private lateinit var SubjectDataSource: subjectDao
+    private lateinit var dataSource: allQueryDao
     private lateinit var addTugasFragmentViewModel: AddTugasFragmentViewModel
 
     private var subjectId by Delegates.notNull<Long>()
@@ -83,7 +85,7 @@ class AddTugasFragment : Fragment() {
         binding.editJam.inputType = InputType.TYPE_NULL
         binding.editJam.isFocusable = false
 
-        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
+        dataSource = AppDatabase.getInstance(application).getAllQueryListDao
         SubjectDataSource = AppDatabase.getInstance(application).getSubjectDao
         val viewModelFactory = AddTugasFragmentViewModelFactory(application, dataSource)
         addTugasFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
@@ -204,7 +206,9 @@ class AddTugasFragment : Fragment() {
                                 it1
                             )
                         }
-                        this.findNavController().popBackStack()
+
+
+                        this.findNavController().navigate(AddTugasFragmentDirections.actionAddTugasFragmentToAddTugasCommitmentFragment(mTugas))
                         addTugasFragmentViewModel.doneNavigating()
                     }
 

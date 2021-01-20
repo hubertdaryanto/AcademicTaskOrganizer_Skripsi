@@ -10,11 +10,13 @@ import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.academictaskorganizer_skripsi.R
 import com.example.academictaskorganizer_skripsi.components.MyItemDecoration
@@ -32,7 +34,10 @@ class AddTugasCommitmentFragment: Fragment() {
     private lateinit var binding: FragmentAddTugasCommitmentBinding
     private lateinit var addTugasCommitmentFragmentViewModel: AddTugasCommitmentFragmentViewModel
 
-    private var mTugas = //arguments
+
+
+    private var mTugas: TugasKuliah = arguments?.get("TugasKuliahTransfer") as TugasKuliah
+//    private var mTugas: TugasKuliah = AddTugasCommitmentFragmentArgs.fromBundle("TugasKuliahTransfer")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -120,10 +125,10 @@ class AddTugasCommitmentFragment: Fragment() {
                     else
                     {
                         //redirect ke fragment lah lebih baik
-
-
-                        mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
-                        mTugas.tugasSubjectId = subjectId
+//
+//
+//                        mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
+//                        mTugas.tugasSubjectId = subjectId
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
                         var clock = "9:00"
                         if (binding.editJam.text.toString() != "")
@@ -133,13 +138,13 @@ class AddTugasCommitmentFragment: Fragment() {
 
                         if (binding.editDeadline.text.toString() != "")
                         {
-                            mTugas.deadline = convertDateAndTimeToLong(
+                            mTugas.deadline = view_utilities.convertDateAndTimeToLong(
                                 binding.editDeadline.text.toString(),
                                 clock
                             )
                         }
 
-                        mTugas.notes = binding.editCatatan.text.toString().trim()
+//                        mTugas.notes = binding.editCatatan.text.toString().trim()
 
                         val inputMethodManager =
                             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

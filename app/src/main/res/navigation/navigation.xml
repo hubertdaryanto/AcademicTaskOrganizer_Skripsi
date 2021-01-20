@@ -43,6 +43,9 @@
             android:id="@+id/action_addTugasFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addTugasFragment_to_addTugasCommitmentFragment"
+            app:destination="@id/addTugasCommitmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskCompletionHistoryFragment"
@@ -57,6 +60,7 @@
         android:id="@+id/addTugasCommitmentFragment"
         android:name="com.example.academictaskorganizer_skripsi.view.AddTugasCommitmentFragment"
         android:label="AddTugasCommitmentFragment" >
-        <argument android:name="mTugas" />
+        <argument android:name="TugasKuliahTransfer"
+            app:argType="com.example.academictaskorganizer_skripsi.database.TugasKuliah"/>
     </fragment>
 </navigation>

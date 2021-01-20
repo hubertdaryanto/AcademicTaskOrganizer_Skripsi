@@ -4,6 +4,7 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import com.example.academictaskorganizer_skripsi.view.TaskCompletionHistoryListItemType
 import com.example.academictaskorganizer_skripsi.view.TugasKuliahListItemType
+import java.io.Serializable
 
 @Entity(tableName = "TugasKuliah"
     ,foreignKeys = [
@@ -33,7 +34,7 @@ data class TugasKuliah(
 //    @ColumnInfo(name = "tugasImageId")
 //    var tugasImageId: Long
 //    var fromBinusmayaId: Long = -1
-): TugasKuliahListItemType
+): TugasKuliahListItemType, Serializable
 {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tugasKuliahId")
