@@ -348,7 +348,8 @@ class AddTugasFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.addtugas_menu, menu)
         var action_save = menu.findItem(R.id.actionSaveTugas)
-        action_save.setIcon(R.drawable.ic_baseline_save_24)
+        action_save.setTitle("Selanjutnya")
+        action_save.setIcon(R.drawable.ic_arrow_forward_black_24dp)
         view_utilities.menuIconColor(action_save, Color.BLACK)
 
     }

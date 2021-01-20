@@ -85,7 +85,7 @@ class AddTugasCommitmentFragment: Fragment() {
                 )
 //                cal.timeInMillis = TimeSelected
 //                timePickerDialog.setMax(cal., cal.get(Calendar.MINUTE))
-//                //maximum time set currently not working
+//                //maximum time set currently not working, karena kodingan di atas malah set waktu saat ini
                 timePickerDialog.show()
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorPrimaryDark)
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
