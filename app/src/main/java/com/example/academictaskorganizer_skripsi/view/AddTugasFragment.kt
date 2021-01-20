@@ -56,6 +56,7 @@ class AddTugasFragment : Fragment() {
         deadline = 0L,
         isFinished = false,
         notes = "",
+        finishCommitment = 0,
     updatedAt = 0
     )
 
@@ -200,13 +201,14 @@ class AddTugasFragment : Fragment() {
                             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
-                        addTugasFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
-                        context?.getString(R.string.inserted_tugas_kuliah_message)?.let { it1 ->
-                            context?.toast(
-                                it1
-                            )
-                        }
+//                        addTugasFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
+//                        context?.getString(R.string.inserted_tugas_kuliah_message)?.let { it1 ->
+//                            context?.toast(
+//                                it1
+//                            )
+//                        }
 
+                        shared_data.mTugas = mTugas
 
                         this.findNavController().navigate(AddTugasFragmentDirections.actionAddTugasFragmentToAddTugasCommitmentFragment(mTugas))
                         addTugasFragmentViewModel.doneNavigating()

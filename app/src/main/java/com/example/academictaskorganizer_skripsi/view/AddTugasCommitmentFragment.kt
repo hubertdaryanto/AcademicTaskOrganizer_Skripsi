@@ -36,8 +36,8 @@ class AddTugasCommitmentFragment: Fragment() {
 
 
 
-    private var mTugas: TugasKuliah = arguments?.get("TugasKuliahTransfer") as TugasKuliah
-//    private var mTugas: TugasKuliah = AddTugasCommitmentFragmentArgs.fromBundle("TugasKuliahTransfer")
+//    private var mTugas: TugasKuliah = arguments?.get("TugasKuliahTransfer") as TugasKuliah
+    private var mTugas: TugasKuliah = shared_data.mTugas
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -138,7 +138,7 @@ class AddTugasCommitmentFragment: Fragment() {
 
                         if (binding.editDeadline.text.toString() != "")
                         {
-                            mTugas.deadline = view_utilities.convertDateAndTimeToLong(
+                            mTugas.finishCommitment = view_utilities.convertDateAndTimeToLong(
                                 binding.editDeadline.text.toString(),
                                 clock
                             )
@@ -156,7 +156,7 @@ class AddTugasCommitmentFragment: Fragment() {
                                 it1
                             )
                         }
-                        this.findNavController().popBackStack()
+                        this.findNavController().popBackStack()//cari cara buat langusng ke home fragment
                         addTugasCommitmentFragmentViewModel.doneNavigating()
                     }
 

@@ -29,6 +29,7 @@ data class TugasKuliah(
     var isFinished: Boolean,
     @ColumnInfo(name = "notes")
     var notes: String,
+    var finishCommitment: Long,
     var updatedAt: Long
 //    ,
 //    @ColumnInfo(name = "tugasImageId")
