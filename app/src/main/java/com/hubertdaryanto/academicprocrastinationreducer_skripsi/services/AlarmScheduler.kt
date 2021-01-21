@@ -5,9 +5,17 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TaskCompletionHistory
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TugasKuliah
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 object AlarmScheduler {
+
+
 
     fun scheduleAlarmsForReminder(context: Context, tugasKuliah: TugasKuliah) {
         // get the AlarmManager reference

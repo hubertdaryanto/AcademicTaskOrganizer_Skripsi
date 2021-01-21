@@ -1,7 +1,9 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 
 import android.graphics.Paint
+import android.view.KeyEvent
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import java.text.SimpleDateFormat
@@ -22,6 +24,8 @@ object view_utilities {
         val date = formatter.parse(date + " " + time)
         return date.time
     }
+
+
 }
 
 

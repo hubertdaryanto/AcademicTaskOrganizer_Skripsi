@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.text.Editable
 import android.text.InputType
 import android.text.TextUtils
 import android.view.*
@@ -244,13 +245,7 @@ class AddTugasFragment : Fragment() {
 
         addTugasFragmentViewModel.addToDoList.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                val mToDoList = ToDoList(
-                    toDoListName = "",
-                    bindToTugasKuliahId = mTugas.tugasKuliahId,
-                    isFinished = false,
-                    deadline = 0L
-                )
-                addTugasFragmentViewModel.addToDoListItem(mToDoList)
+                addToDoList()
                 addTugasFragmentViewModel.afterAddToDoListClicked()
             }
         })
@@ -292,6 +287,10 @@ class AddTugasFragment : Fragment() {
                         setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
                         }
                     }.create().show()
+                }
+
+                override fun onEnterPressed(id: Long) {
+                    addToDoList()
                 }
             }
         )
@@ -345,6 +344,16 @@ class AddTugasFragment : Fragment() {
         return binding.root
     }
 
+    private fun addToDoList() {
+        val mToDoList = ToDoList(
+            toDoListName = "",
+            bindToTugasKuliahId = mTugas.tugasKuliahId,
+            isFinished = false,
+            deadline = 0L
+        )
+        addTugasFragmentViewModel.addToDoListItem(mToDoList)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.addtugas_menu, menu)
         var action_save = menu.findItem(R.id.actionSaveTugas)
@@ -386,10 +395,14 @@ class AddTugasFragment : Fragment() {
             return
         }
         if (requestCode == TARGET_FRAGMENT_REQUEST_CODE) {
+            binding.editTextSubject.setText(shared_data.mSubjectAtAddTugasFragment)
             val greeting = data?.getLongExtra(EXTRA_GREETING_MESSAGE, 0)
+            val compare: Long = 0
             if (greeting != null) {
-                subjectId = greeting
-                addTugasFragmentViewModel.convertSubjectIdToSubjectName(greeting)
+                if (!greeting.equals(compare)) {
+                    subjectId = greeting
+                    addTugasFragmentViewModel.convertSubjectIdToSubjectName(greeting)
+                }
             }
         }
 
@@ -431,6 +444,11 @@ class AddTugasFragment : Fragment() {
                 }
         }
     }
+
+//    override fun onFocus() {
+//        binding.editTextSubject.setText(shared_data.mSubjectAtAddTugasFragment)
+//        super.onResume()
+//    }
 
     private fun insertInPrivateStorage(context: Context, name: String, path: String)
     {

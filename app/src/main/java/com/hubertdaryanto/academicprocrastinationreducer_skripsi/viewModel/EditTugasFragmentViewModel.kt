@@ -61,6 +61,14 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
     val showDatePicker: LiveData<Boolean?>
         get() = _showDatePicker
 
+    private val _showTimePicker2 = MutableLiveData<Boolean?>()
+    val showTimePicker2: LiveData<Boolean?>
+        get() = _showTimePicker2
+
+    private val _showDatePicker2 = MutableLiveData<Boolean?>()
+    val showDatePicker2: LiveData<Boolean?>
+        get() = _showDatePicker2
+
     private val _showSubjectDialog = MutableLiveData<Boolean?>()
     val showSubjectDialog: LiveData<Boolean?>
         get() = _showSubjectDialog
@@ -177,13 +185,20 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
         _imageList.notifyObserver()
     }
 
-
     fun onTimePickerClicked() {
         _showTimePicker.value = true
     }
 
     fun onDatePickerClicked() {
         _showDatePicker.value = true
+    }
+
+    fun onTimePickerClicked2() {
+        _showTimePicker2.value = true
+    }
+
+    fun onDatePickerClicked2() {
+        _showDatePicker2.value = true
     }
 
     fun doneLoadTimePicker()
@@ -195,6 +210,17 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
     {
         _showDatePicker.value = null
     }
+
+    fun doneLoadTimePicker2()
+    {
+        _showTimePicker2.value = null
+    }
+
+    fun doneLoadDatePicker2()
+    {
+        _showDatePicker2.value = null
+    }
+
 
     fun onAddTugasKuliahClicked2()
     {
@@ -216,6 +242,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
                 //is different because the id is different, maybe if it loaded first, it will be deleted
             } else {
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
+                mTaskCompletionHistory.activityType = "Tugas Kuliah Selesai"
                 database.insertTaskCompletionHistory(mTaskCompletionHistory)
             }
            database.updateTugas(tugasKuliah)
@@ -242,8 +269,9 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
 
     fun deleteTugasKuliah(context: Context)
     {
-        AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah.value!!)
+
         uiScope.launch {
+            AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah.value!!)
             database.deleteTugas(tugasKuliah.value!!)
             //to do list sama image yang terkait harus di remove juga
         }

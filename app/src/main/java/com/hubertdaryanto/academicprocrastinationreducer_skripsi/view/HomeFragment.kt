@@ -50,18 +50,19 @@ class HomeFragment : Fragment() {
         })
         binding.tugasList.adapter = adapter
 
-        if (homeFragmentViewModel.tugas.value == null)
-        {
-            binding.textView3.visibility = View.VISIBLE
-        }
+//        if (homeFragmentViewModel.tugas.value == null)
+//        {
+//            binding.textView3.visibility = View.VISIBLE
+//        }
 
         homeFragmentViewModel.tugas.observe(viewLifecycleOwner, Observer{
-            if (it == null)
+            if (it.count() == 0)
             {
                 binding.textView3.visibility = View.VISIBLE
             }
             else
             {
+                binding.textView3.visibility = View.GONE
                 val date = homeFragmentViewModel.getTugasKuliahDate()
                 adapter.addHeaderAndSubmitList(date)
             }

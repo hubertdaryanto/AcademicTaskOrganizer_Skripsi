@@ -151,6 +151,10 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
 
                     override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
                         //function buat update to do list langsung
+//                        uiScope.launch {
+                            _toDoList.value?.get(id.toInt())?.isFinished  = isFinished
+
+//                        }
                     }
 
                     override fun onRemoveItem(id: Long) {
@@ -164,6 +168,10 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                             }
                         }.create().show()
                     }
+
+                    override fun onEnterPressed(id: Long) {
+
+                    }
                 }
             )
             binding.homeToDoList.adapter = toDoListAdapter
@@ -175,8 +183,25 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                     toDoList.observe(it, Observer {
                         it?.let {
                             toDoListAdapter.updateList(it)
+//                            uiScope.launch {
+//                                toDoList.value!!.toList().forEach {
+//                                    it.bindToTugasKuliahId = item.tugasKuliahId
+//                                    dataSource.insertToDoList(it)
+//                                }
+//                            }
                         }
                     })
+
+//                    _toDoList.observe(it, Observer {
+//                        it?.let {
+//                            uiScope.launch {
+//                                _toDoList.value!!.toList().forEach {
+//                                    it.bindToTugasKuliahId = item.tugasKuliahId
+//                                    dataSource.insertToDoList(it)
+//                                }
+//                            }
+//                        }
+//                    })
                 }
             }
             val manager = LinearLayoutManager(binding.root.context)

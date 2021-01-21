@@ -4,7 +4,9 @@
     <string name="tugaskuliah_hint_subject">Mata Kuliah</string>
     <string name="tugaskuliah_hint_nama_tugas">Nama Tugas Kuliah</string>
     <string name="tugaskuliah_hint_deadline">Tanggal Tenggat Waktu</string>
+    <string name="tugaskuliah_hint_deadline_commitment">Tanggal Target Selesai</string>
     <string name="tugaskuliah_hint_jam">Jam Tenggat Waktu</string>
+    <string name="tugaskuliah_hint_jam_commitment">Jam Target Selesai</string>
     <string name="tugaskuliah_hint_editJam">Jam Tenggat Waktu (9:00)</string>
     <string name="tugaskuliah_hint_catatan">Catatan</string>
     <string name="tugaskuliah_hint_ToDoList">Daftar Sub Tugas</string>
