@@ -2,8 +2,12 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 
 import android.annotation.SuppressLint
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
@@ -18,20 +22,16 @@ import kotlinx.coroutines.withContext
 
 interface ToDoListInterface{
     fun onUpdateText(id: Long, name: String)
-//    fun onUpdateText(id: Long, name: String)
-//    fun onUpdateId(id: Long)
     fun onUpdateCheckbox(id: Long, isFinished: Boolean)
     fun onRemoveItem(id: Long)
-//    fun onUpdateCheckbox(id: Long, isFinished: Boolean)
-//        : String{
-//            return data
-//        }
+    fun onEnterPressed(id: Long)
 }
 
 class ToDoListAdapter(val clickListener: ToDoListListener
 , var toDoListInterface: ToDoListInterface
 ): ListAdapter<ToDoListDataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
     private val adapterScope = CoroutineScope(Dispatchers.Default)
+
 
 
 
@@ -62,16 +62,59 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                        before: Int,
                        count: Int
                    ) {
-                       toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
+                       if (s != null) {
+//                           if (s.length>0 && s.subSequence(s.length-1, s.length).toString().equals("\n", true)) {
+//                               toDoListInterface.onEnterPressed(holder.adapterPosition.toLong())
+//                           }
+//                           else
+//                           {
+//                               toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
+//                           }
+                           toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
+//                           var onEnter: View.OnKeyListener = object : View.OnKeyListener {
+//                               override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+//                                   if (event.getAction() == KeyEvent.ACTION_DOWN
+//                                       && keyCode == KeyEvent.KEYCODE_ENTER
+//                                   ) {
+//                                       toDoListInterface.onEnterPressed(holder.adapterPosition.toLong())
+//                                   }
+//                                   else
+//                                   {
+//                                       toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
+//                                   }
+//                                   return false // very important
+//                               }
+//                           }
+
+
+                       }
                    }
 
                    override fun afterTextChanged(s: Editable?) {
+//                       if (TextUtils.isEmpty(s.toString().trim())) {
+//                            toDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
+//                       }
 
                    }
+
                }
+
                holder.binding.textViewToDoListNameDialog.setText(item.toDoList.toDoListName)
                holder.binding.toDoListItemCheckBox.isChecked = item.toDoList.isFinished
                holder.binding.textViewToDoListNameDialog.addTextChangedListener(textWatcher)
+               holder.binding.textViewToDoListNameDialog.setOnFocusChangeListener(
+                   object: View.OnFocusChangeListener {
+                       override fun onFocusChange(arg0: View, hasfocus: Boolean) {
+                           if (hasfocus) {
+                               Log.e("TAG", "e1 focused")
+                           } else {
+                               if (TextUtils.isEmpty(holder.binding.textViewToDoListNameDialog.text.toString().trim())) {
+                                    toDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
+                                }
+                           }
+                       }
+                   }
+               )
                holder.binding.toDoListItemCheckBox.setOnCheckedChangeListener(object :
                    CompoundButton.OnCheckedChangeListener {
                    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {

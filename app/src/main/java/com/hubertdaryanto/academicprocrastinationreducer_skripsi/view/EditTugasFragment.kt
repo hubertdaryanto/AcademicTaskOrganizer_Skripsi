@@ -75,6 +75,14 @@ class EditTugasFragment: Fragment() {
         binding.editJam.inputType = InputType.TYPE_NULL
         binding.editJam.isFocusable = false
 
+        binding.editDeadline2.inputType = InputType.TYPE_NULL
+        binding.editDeadline2.isFocusable = false
+
+        binding.editJam2.inputType = InputType.TYPE_NULL
+        binding.editJam2.isFocusable = false
+
+
+
         val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
         SubjectDataSource = AppDatabase.getInstance(application).getSubjectDao
         val viewModelFactory = EditTugasFragmentViewModelFactory(application, dataSource)
@@ -94,6 +102,8 @@ class EditTugasFragment: Fragment() {
                 binding.editTextTugas.setText(it.tugasKuliahName)
                 binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(it.deadline))
                 binding.editJam.setText(SimpleDateFormat("H:mm").format(it.deadline))
+                binding.editDeadline2.setText(SimpleDateFormat("dd - MM - yyyy").format(it.finishCommitment))
+                binding.editJam2.setText(SimpleDateFormat("H:mm").format(it.finishCommitment))
                 binding.SelesaiCheckBox.isChecked = it.isFinished
                 binding.editCatatan.setText(it.notes)
             }
@@ -117,6 +127,24 @@ class EditTugasFragment: Fragment() {
             }
         })
 
+        editTugasFragmentViewModel.showTimePicker2.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                val cal = Calendar.getInstance()
+                val timeSetListener =
+                    TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                        cal.set(Calendar.HOUR_OF_DAY, hour)
+                        cal.set(Calendar.MINUTE, minute)
+                        binding.editJam2.setText(SimpleDateFormat("H:mm").format(cal.time))
+                    }
+                TimePickerDialog(
+                    context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(
+                        Calendar.MINUTE
+                    ), true
+                ).show()
+                editTugasFragmentViewModel.doneLoadTimePicker2()
+            }
+        })
+
         editTugasFragmentViewModel.showDatePicker.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 val cal = Calendar.getInstance()
@@ -135,6 +163,27 @@ class EditTugasFragment: Fragment() {
                     ).show()
                 }
                 editTugasFragmentViewModel.doneLoadDatePicker()
+            }
+        })
+
+        editTugasFragmentViewModel.showDatePicker2.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                val cal = Calendar.getInstance()
+                val dateSetListener =
+                    DatePickerDialog.OnDateSetListener { datePicker, year, month, dayOfMonth ->
+                        cal.set(Calendar.YEAR, year)
+                        cal.set(Calendar.MONTH, month)
+                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        binding.editDeadline2.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
+                    }
+                context?.let { it1 ->
+                    DatePickerDialog(
+                        it1, dateSetListener, cal.get(Calendar.YEAR), cal.get(
+                            Calendar.MONTH
+                        ), cal.get(Calendar.DAY_OF_MONTH)
+                    ).show()
+                }
+                editTugasFragmentViewModel.doneLoadDatePicker2()
             }
         })
 
@@ -175,6 +224,7 @@ class EditTugasFragment: Fragment() {
 
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
                         var clock = "9:00"
+                        var clock2 = "9:00"
                         if (binding.editJam.text.toString() != "")
                         {
                             clock = binding.editJam.text.toString()
@@ -185,6 +235,19 @@ class EditTugasFragment: Fragment() {
                             editTugasFragmentViewModel._tugasKuliah.value!!.deadline = convertDateAndTimeToLong(
                                 binding.editDeadline.text.toString(),
                                 clock
+                            )
+                        }
+
+                        if (binding.editJam2.text.toString() != "")
+                        {
+                            clock2 = binding.editJam2.text.toString()
+                        }
+
+                        if (binding.editDeadline2.text.toString() != "")
+                        {
+                            editTugasFragmentViewModel._tugasKuliah.value!!.finishCommitment = convertDateAndTimeToLong(
+                                binding.editDeadline2.text.toString(),
+                                clock2
                             )
                         }
 
@@ -228,13 +291,7 @@ class EditTugasFragment: Fragment() {
 
         editTugasFragmentViewModel.addToDoList.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                val mToDoList = ToDoList(
-                    toDoListName = "",
-                    bindToTugasKuliahId = editTugasFragmentViewModel.tugasKuliah.value!!.tugasKuliahId,
-                    isFinished = false,
-                    deadline = 0L
-                )
-                editTugasFragmentViewModel.addToDoListItem(mToDoList)
+                addToDoList()
                 editTugasFragmentViewModel.afterAddToDoListClicked()
             }
         })
@@ -278,6 +335,10 @@ class EditTugasFragment: Fragment() {
                         }
                     }.create().show()
 
+                }
+
+                override fun onEnterPressed(id: Long) {
+                    addToDoList()
                 }
             }
         )
@@ -335,6 +396,16 @@ class EditTugasFragment: Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
+    }
+
+    private fun addToDoList() {
+        val mToDoList = ToDoList(
+            toDoListName = "",
+            bindToTugasKuliahId = editTugasFragmentViewModel.tugasKuliah.value!!.tugasKuliahId,
+            isFinished = false,
+            deadline = 0L
+        )
+        editTugasFragmentViewModel.addToDoListItem(mToDoList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

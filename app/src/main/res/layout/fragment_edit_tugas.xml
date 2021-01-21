@@ -143,12 +143,85 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout4">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inputDeadline2"
+                        style="@style/input_text_view"
+                        android:hint="@string/tugaskuliah_hint_deadline_commitment"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editDeadline2"
+                            style="@style/edit_text_view"
+                            android:enabled="true"
+                            android:onClick="@{() -> editTugasFragmentViewModel.onDatePickerClicked2()}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/imageForDeadlineIcon2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/deadline_button"
+                        android:src="@drawable/ic_baseline_today_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout2">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inputJam2"
+                        style="@style/input_text_view"
+                        android:hint="@string/tugaskuliah_hint_jam_commitment"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editJam2"
+                            style="@style/edit_text_view"
+                            android:enabled="true"
+                            android:onClick="@{() -> editTugasFragmentViewModel.onTimePickerClicked2()}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        android:id="@+id/imageForTimeIcon2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/time_icon"
+                        android:src="@drawable/ic_baseline_access_time_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/app_layout_margin"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/constraintLayout4">
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/SelesaiTextView"

@@ -11,10 +11,19 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TaskCompletionHistory
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AgendaActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 object NotificationHelper{
+    private val job = Job()
+
+    private val uiScope = CoroutineScope(Dispatchers.Main + job)
     fun createNotificationChannel(context: Context, importance: Int, showBadge: Boolean, name: String, description: String) {
         // 1
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -79,6 +88,18 @@ object NotificationHelper{
             }
 
             setGroup(context.getString(R.string.notification_group))
+
+
+
+            uiScope.launch {
+                var database = AppDatabase.getInstance(context).getAllQueryListDao
+                var mTaskCompletionHistory = database.getTaskCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
+                if (mTaskCompletionHistory == null) {
+                    mTaskCompletionHistory = TaskCompletionHistory(bindToTugasKuliahId = tugasKuliah.tugasKuliahId, activityType = "Tugas Kuliah Ditunda")
+                }
+                database.insertTaskCompletionHistory(mTaskCompletionHistory)
+            }
+
 
             // Launches the app to open the reminder edit screen when tapping the whole notification
             val intent = Intent(context, AgendaActivity::class.java).apply {
