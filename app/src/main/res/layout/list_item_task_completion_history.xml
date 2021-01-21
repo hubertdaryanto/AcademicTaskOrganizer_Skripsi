@@ -6,10 +6,10 @@
     <data>
         <variable
             name="taskCompletionHistory"
-            type="com.example.academictaskorganizer_skripsi.database.TaskCompletionHistory" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TaskCompletionHistory" />
         <variable
             name="clickListener"
-            type="com.example.academictaskorganizer_skripsi.view.TaskCompletionHistoryListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryListener" />
     </data>
 
     <androidx.cardview.widget.CardView

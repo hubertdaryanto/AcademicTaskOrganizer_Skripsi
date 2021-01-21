@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.academictaskorganizer_skripsi.view.HomeFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.HomeFragment"
         android:label="Tugas Kuliah Saya"
         android:color="@android:color/black"
         tools:layout="@layout/fragment_home">
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/editTugasFragment"
-        android:name="com.example.academictaskorganizer_skripsi.view.EditTugasFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.EditTugasFragment"
         android:label="Ubah Tugas Kuliah"
         tools:layout="@layout/fragment_edit_tugas">
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/addTugasFragment"
-        android:name="com.example.academictaskorganizer_skripsi.view.AddTugasFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AddTugasFragment"
         android:label="Tambah Tugas Kuliah"
         tools:layout="@layout/fragment_add_tugas">
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/taskCompletionHistoryFragment"
-        android:name="com.example.academictaskorganizer_skripsi.view.TaskCompletionHistoryFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryFragment"
         android:label="Riwayat Penyelesaian Tugas"
         tools:layout="@layout/fragment_task_completion_history">
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/addTugasCommitmentFragment"
-        android:name="com.example.academictaskorganizer_skripsi.view.AddTugasCommitmentFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AddTugasCommitmentFragment"
         android:label="AddTugasCommitmentFragment" >
     </fragment>
 </navigation>

@@ -6,32 +6,32 @@
     <data>
         <variable
             name="toDoList"
-            type="com.example.academictaskorganizer_skripsi.database.ToDoList" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ToDoList" />
         <variable
             name="toDoListClickListener"
-            type="com.example.academictaskorganizer_skripsi.view.ToDoListListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.ToDoListListener" />
     </data>
 
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/toDoListCardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/toDoListCardView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="0dp"
                 android:onClick="@{() -> toDoListClickListener.onClick(toDoList)}">
 
                 <CheckBox
                     android:id="@+id/toDoListItem_checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:checked="@{toDoList.finished}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/toDoList_deleteBtn"
@@ -39,9 +39,10 @@
 
                 <EditText
                     android:id="@+id/text_view_toDoListName_dialog"
+                    style="@style/edit_text_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@{toDoList.toDoListName}"
                     android:textAppearance="@style/Base.CardView"
                     android:textSize="24sp"
@@ -57,10 +58,10 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@android:drawable/ic_delete" />
+                    app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </androidx.cardview.widget.CardView>
+<!--        </androidx.cardview.widget.CardView>-->
 </layout>

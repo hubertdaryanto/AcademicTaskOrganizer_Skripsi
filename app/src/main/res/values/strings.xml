@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Academic Task Organizer</string>
+    <string name="app_name">Academic Procrastination Reducer</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tugaskuliah_hint_subject">Mata Kuliah</string>
     <string name="tugaskuliah_hint_nama_tugas">Nama Tugas Kuliah</string>

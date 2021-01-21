@@ -9,7 +9,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.academictaskorganizer_skripsi"
+        applicationId "com.hubertdaryanto.academicprocrastinationreducer_skripsi"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

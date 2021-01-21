@@ -10,7 +10,7 @@
     <data>
         <variable
             name="editTugasFragmentViewModel"
-            type="com.example.academictaskorganizer_skripsi.viewModel.EditTugasFragmentViewModel" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.EditTugasFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="vertical">
@@ -41,7 +41,9 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/input_text_view"
                     android:hint="@string/tugaskuliah_hint_subject"
-                    android:id="@+id/inputTextSubject">
+                    android:id="@+id/inputTextSubject"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/edit_text_view"
@@ -52,7 +54,9 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/input_text_view"
                     android:hint="@string/tugaskuliah_hint_nama_tugas"
-                    android:id="@+id/inputTextTugas">
+                    android:id="@+id/inputTextTugas"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/inputTextSubject">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/edit_text_view"
@@ -61,8 +65,11 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout3"
                     android:layout_width="match_parent"
-                    android:layout_height="72dp">
+                    android:layout_height="72dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/inputTextTugas">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/inputDeadline"
@@ -97,8 +104,11 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout4"
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout3"
                     >
 
 
@@ -133,9 +143,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/app_layout_margin">
+                    android:layout_marginVertical="@dimen/app_layout_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout4">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/SelesaiTextView"
@@ -166,9 +179,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout6"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/app_layout_margin"
-                    android:layout_width="match_parent">
+                    android:layout_width="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout5">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/ToDoListTextView"
@@ -211,12 +227,16 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ToDoListRecyclerView"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_width="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout6"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/input_text_view"
                     android:hint="@string/tugaskuliah_hint_catatan"
-                    android:id="@+id/inputCatatan">
+                    android:id="@+id/inputCatatan"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ToDoListRecyclerView">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/edit_text_view"
@@ -224,9 +244,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout7"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/app_layout_margin"
-                    android:layout_width="match_parent">
+                    android:layout_width="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/inputCatatan">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/GambarTextView"
@@ -269,8 +292,10 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/GambarRecyclerView"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
-            </LinearLayout>
+                    android:layout_width="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/constraintLayout7" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

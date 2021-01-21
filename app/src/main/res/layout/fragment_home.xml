@@ -7,12 +7,25 @@
     <data>
         <variable
             name="homeFragmentViewModel"
-            type="com.example.academictaskorganizer_skripsi.viewModel.HomeFragmentViewModel" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.HomeFragment">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Untuk menambahkan tugas kuliah, tekan tombol + yang ada di pojok kanan bawah tampilan ini."
+            style="@style/TextAppearance.MyApp.Headline5"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/tugas_list"
+            app:layout_constraintEnd_toEndOf="@+id/tugas_list"
+            app:layout_constraintStart_toStartOf="@+id/tugas_list"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <org.stephenbrewer.arch.recyclerview.RecyclerView
             android:id="@+id/tugas_list"
@@ -24,8 +37,12 @@
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+        </org.stephenbrewer.arch.recyclerview.RecyclerView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"

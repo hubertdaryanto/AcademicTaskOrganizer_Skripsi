@@ -6,10 +6,10 @@
     <data>
         <variable
             name="subject"
-            type="com.example.academictaskorganizer_skripsi.database.Subject" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.Subject" />
         <variable
             name="subjectClickListener"
-            type="com.example.academictaskorganizer_skripsi.view.SubjectListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.SubjectListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -46,7 +46,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_delete" />
+                app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

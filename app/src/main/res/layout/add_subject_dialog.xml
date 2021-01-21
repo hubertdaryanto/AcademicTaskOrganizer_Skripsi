@@ -7,7 +7,7 @@
     <data>
         <variable
             name="addSubjectDialogFragmentViewModel"
-            type="com.example.academictaskorganizer_skripsi.viewModel.AddSubjectDialogFragmentViewModel" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddSubjectDialogFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
