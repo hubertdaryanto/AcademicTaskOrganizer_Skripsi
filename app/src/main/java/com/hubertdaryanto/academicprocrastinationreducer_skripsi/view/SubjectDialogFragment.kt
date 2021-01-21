@@ -93,6 +93,7 @@ class SubjectDialogFragment() : DialogFragment() {
         subjectDialogFragmentViewModel.dismiss.observe(viewLifecycleOwner, Observer {
             if (it == true)
             {
+                sendResult(null)
                 dismiss()
                 subjectDialogFragmentViewModel.afterdismiss()
             }
@@ -188,7 +189,7 @@ class SubjectDialogFragment() : DialogFragment() {
         sendResult(subjectName)
     }
 
-    private fun sendResult(message: Long){
+    private fun sendResult(message: Long?){
         if (targetFragment == null)
         {
             return

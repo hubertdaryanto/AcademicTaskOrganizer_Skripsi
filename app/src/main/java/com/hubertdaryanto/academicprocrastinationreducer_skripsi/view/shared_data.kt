@@ -8,4 +8,6 @@ object shared_data {
     lateinit var mTugas: TugasKuliah
     var mToDoList: MutableList<ToDoList>? = null
     var mImageForTugas: MutableList<ImageForTugas>? = null
+    var mSubjectAtAddTugasFragment: String? = null
+    var mSubjectId: Long? = null
 }

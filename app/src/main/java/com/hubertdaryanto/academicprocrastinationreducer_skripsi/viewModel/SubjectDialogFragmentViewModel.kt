@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.allQueryDao
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.shared_data
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -60,6 +61,10 @@ class SubjectDialogFragmentViewModel(application: Application, dataSource: allQu
     fun removeSubject(id: Long)
     {
         uiScpoe.launch {
+            if (shared_data.mSubjectId == id)
+            {
+                shared_data.mSubjectAtAddTugasFragment = null
+            }
             database.deleteSubjectById(id)
         }
     }

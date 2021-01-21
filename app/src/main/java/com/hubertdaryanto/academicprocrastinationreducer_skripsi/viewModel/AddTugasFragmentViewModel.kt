@@ -215,7 +215,9 @@ class AddTugasFragmentViewModel(application: Application, dataSource: allQueryDa
 
     fun convertSubjectIdToSubjectName(id: Long){
         uiScope.launch {
-            _subjectText.value = database.loadSubjectName(id)
+            shared_data.mSubjectId = id
+            shared_data.mSubjectAtAddTugasFragment = database.loadSubjectName(id)
+            _subjectText.value = shared_data.mSubjectAtAddTugasFragment
         }
     }
 
