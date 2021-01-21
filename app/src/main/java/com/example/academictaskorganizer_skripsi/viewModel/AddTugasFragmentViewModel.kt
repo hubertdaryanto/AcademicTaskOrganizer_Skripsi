@@ -10,6 +10,7 @@ import com.example.academictaskorganizer_skripsi.components.notifyObserver
 import com.example.academictaskorganizer_skripsi.components.removeItemAt
 import com.example.academictaskorganizer_skripsi.database.*
 import com.example.academictaskorganizer_skripsi.services.AlarmScheduler
+import com.example.academictaskorganizer_skripsi.view.shared_data
 import kotlinx.coroutines.*
 
 class AddTugasFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel() {
@@ -164,35 +165,43 @@ class AddTugasFragmentViewModel(application: Application, dataSource: allQueryDa
 
     fun addTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
-        uiScope.launch {
-            tugasKuliah.updatedAt = System.currentTimeMillis()
-            var tugasKuliaId = database.insertTugas(tugasKuliah)
-            //insert to do list and image in here too
-            tugasKuliah.tugasKuliahId = tugasKuliaId
-            AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
-            //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
-            if (toDoList.value != null)
-            {
-                toDoList.value!!.toList().forEach {
-
-                    it.bindToTugasKuliahId = tugasKuliaId
-                    database.insertToDoList(it)
-                }
-            }
-
-            if (imageList.value != null)
-            {
-                imageList.value!!.toList().forEach{
-                    it.bindToTugasKuliahId = tugasKuliaId
-                    database.insertImage(it)
-                }
-            }
-
-            //how to insert multiple data to database in one time?
-//            database.insertToDoLists(Collections.unmodifiableList(toDoList.value))
-//            database.insertImages(Collections.unmodifiableList(imageList.value))
-
+        if (toDoList.value != null)
+        {
+            shared_data.mToDoList = toDoList.value!!
         }
+        if (imageList.value != null)
+        {
+            shared_data.mImageForTugas = imageList.value!!
+        }
+//        uiScope.launch {
+//            tugasKuliah.updatedAt = System.currentTimeMillis()
+//            var tugasKuliaId = database.insertTugas(tugasKuliah)
+//            //insert to do list and image in here too
+//            tugasKuliah.tugasKuliahId = tugasKuliaId
+//            AlarmScheduler.scheduleAlarmsForReminder(context, tugasKuliah)
+//            //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
+//            if (toDoList.value != null)
+//            {
+//                toDoList.value!!.toList().forEach {
+//
+//                    it.bindToTugasKuliahId = tugasKuliaId
+//                    database.insertToDoList(it)
+//                }
+//            }
+//
+//            if (imageList.value != null)
+//            {
+//                imageList.value!!.toList().forEach{
+//                    it.bindToTugasKuliahId = tugasKuliaId
+//                    database.insertImage(it)
+//                }
+//            }
+//
+//            //how to insert multiple data to database in one time?
+////            database.insertToDoLists(Collections.unmodifiableList(toDoList.value))
+////            database.insertImages(Collections.unmodifiableList(imageList.value))
+//
+//        }
     }
 
     private suspend fun insert(tugasKuliah: TugasKuliah) {

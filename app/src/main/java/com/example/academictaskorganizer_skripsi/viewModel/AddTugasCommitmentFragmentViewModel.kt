@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.academictaskorganizer_skripsi.database.*
 import com.example.academictaskorganizer_skripsi.services.AlarmScheduler
+import com.example.academictaskorganizer_skripsi.view.shared_data
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -70,6 +71,14 @@ class AddTugasCommitmentFragmentViewModel(application: Application, dataSource: 
 
     fun addTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
+        if (shared_data.mToDoList != null)
+        {
+            _toDoList.value = shared_data.mToDoList
+        }
+        if (shared_data.mImageForTugas != null)
+        {
+            _imageList.value = shared_data.mImageForTugas
+        }
         uiScope.launch {
             tugasKuliah.updatedAt = System.currentTimeMillis()
             var tugasKuliaId = database.insertTugas(tugasKuliah)

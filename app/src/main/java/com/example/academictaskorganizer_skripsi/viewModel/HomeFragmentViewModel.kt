@@ -63,19 +63,30 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
     {
         var arrayList = arrayListOf<TugasKuliahListItemType>()
         var date: String = ""
+        var temp = 0
+        var count = 1
+        var tempdate = ""
         for (i in tugas.value!!)
         {
             var dateCursor: String = convertDeadlineToDateFormatted(i.deadline)
             if (date.equals(dateCursor, true))
             {
                 arrayList.add(i)
+                count++
+                arrayList[temp] = TugasKuliahDate(tempdate, count.toString())
             }
             else
             {
                 date = dateCursor
-                var tugasKuliahDate = TugasKuliahDate(date)
+                tempdate = date
+                var tugasKuliahDate = TugasKuliahDate(date, "0")
                 arrayList.add(tugasKuliahDate)
+                temp = arrayList.count() - 1
                 arrayList.add(i)
+                count = 1
+                arrayList[temp] = TugasKuliahDate(tempdate, count.toString())
+                //kalau misalkan i++ disini, maka jumlah nya belum ketahuan ada berapa pas munculin header nya
+                //bisa sih pakai query load data from deadline xxxx ke xxxx pakai modulus per hari buat nentuin parameter query nya
             }
         }
         return arrayList

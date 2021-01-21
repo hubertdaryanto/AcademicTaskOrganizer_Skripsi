@@ -27,8 +27,9 @@ import com.example.academictaskorganizer_skripsi.databinding.ListItemTugasSelesa
 import kotlinx.coroutines.*
 
 
-class TugasKuliahDate(d: String): TugasKuliahListItemType {
+class TugasKuliahDate(d: String, c: String): TugasKuliahListItemType {
     var date = d
+    var count = c
     override fun getType(): Int {
         return ITEM_VIEW_TYPE_HEADER
     }
