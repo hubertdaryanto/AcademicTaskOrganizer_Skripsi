@@ -3,7 +3,9 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.marginBottom
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -20,6 +22,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.addN
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.notifyObserver
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.removeItemAt
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TaskCompletionHistory
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ToDoList
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListAgendaHeaderBinding
@@ -140,8 +143,15 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
             val _toDoList = MutableLiveData<MutableList<ToDoList>>()
             val toDoList: LiveData<MutableList<ToDoList>> = _toDoList
 
+
+
             uiScope.launch {
                 _toDoList.value = dataSource.loadToDoListsByTugasKuliahId(item.tugasKuliahId)
+                if (_toDoList.value!!.count() == 0)
+                 {
+                     binding.homeToDoList.visibility = View.GONE
+                     binding.textViewSubjectAndDeadline.setPadding(0,0,0,24)
+                 }
             }
 
             val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
@@ -160,8 +170,37 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                     override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
                         //function buat update to do list langsung
                         uiScope.launch {
+                            var allFinished: Boolean = true
                             _toDoList.value?.get(id.toInt())?.isFinished  = isFinished
                             _toDoList.value?.get(id.toInt())?.let { dataSource.insertToDoList(it) }
+                            for (i in _toDoList.value!!)
+                            {
+                                if (i.isFinished == false)
+                                {
+                                    allFinished = false
+                                    break
+                                }
+                            }
+                            if (allFinished)
+                            {
+                                item.isFinished = true
+                                uiScope.launch {
+                                    dataSource.updateTugas(item)
+                                    var mTaskCompletionHistory: TaskCompletionHistory? = dataSource.getTaskCompletionHistoryByTugasKuliahId(item.tugasKuliahId)
+                                    if (mTaskCompletionHistory == null) {
+                                        mTaskCompletionHistory = TaskCompletionHistory(bindToTugasKuliahId = item.tugasKuliahId, activityType = "Tugas Kuliah Selesai")
+                                        dataSource.insertTaskCompletionHistory(mTaskCompletionHistory)
+                                    }
+                                    else
+                                    {
+                                        mTaskCompletionHistory.activityType = "Tugas Kuliah Selesai"
+                                        mTaskCompletionHistory.taskCompletionHistoryId = System.currentTimeMillis()
+                                        dataSource.insertTaskCompletionHistory(mTaskCompletionHistory)
+                                    }
+
+                                }
+
+                            }
                         }
                     }
 

@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.CustomDialog.RangeTimePickerDialog
@@ -52,12 +53,18 @@ class AddTugasCommitmentFragment: Fragment() {
 
         binding.editJam.inputType = InputType.TYPE_NULL
         binding.editJam.isFocusable = false
+        binding.inputJam.hint = "Jam Target Selesai (9:00)"
 
         val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
         val viewModelFactory = AddTugasCommitmentFragmentViewModelFactory(application, dataSource)
         addTugasCommitmentFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
             AddTugasCommitmentFragmentViewModel::class.java
         )
+
+        var day = ((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / 86400000
+
+        var hour = ((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / 3600000
+        var minute = (((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / hour) % 60
 
 
         addTugasCommitmentFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {
@@ -78,8 +85,14 @@ class AddTugasCommitmentFragment: Fragment() {
                     ), true
                 )
 //                cal.timeInMillis = TimeSelected
-//                timePickerDialog.setMax(cal., cal.get(Calendar.MINUTE))
-//                //maximum time set currently not working, karena kodingan di atas malah set waktu saat ini
+
+                if (day < 1)
+                {
+                    timePickerDialog.updateTime(hour.toInt(), minute.toInt())
+                    timePickerDialog.setMax(hour.toInt(), minute.toInt())
+
+                }
+                //maximum time set currently not working, karena kodingan di atas malah set waktu saat ini
                 timePickerDialog.show()
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorPrimaryDark)
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
@@ -96,8 +109,29 @@ class AddTugasCommitmentFragment: Fragment() {
                         cal.set(Calendar.YEAR, year)
                         cal.set(Calendar.MONTH, month)
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        cal.set(Calendar.HOUR_OF_DAY, 0)
+                        cal.set(Calendar.MINUTE, 0)
                         TimeSelected = cal.timeInMillis
+                        day = ((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / 86400000
+                        hour = ((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / 3600000
+                        minute = (((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / hour) % 60
                         binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
+                        if (day < 1)
+                        {
+                            if (hour < 9)
+                            {
+                                binding.inputJam.hint = "Jam Target Selesai (" + hour + ":" + minute + ", Max " + hour + ":" + minute + ")"
+                            }
+                            else
+                            {
+                                binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + hour + ":" + minute + ")"
+                            }
+
+                        }
+                        else
+                        {
+                            binding.inputJam.hint = "Jam Target Selesai (9:00)"
+                        }
                     }
 
 
@@ -129,7 +163,17 @@ class AddTugasCommitmentFragment: Fragment() {
                     else
                     {
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
+
                         var clock = "9:00"
+                        if (day < 1)
+                        {
+                            clock = "" + hour + ":" + minute
+                        }
+                        else
+                        {
+                            clock = "9:00"
+                        }
+
                         if (binding.editJam.text.toString() != "")
                         {
                             clock = binding.editJam.text.toString()
@@ -155,7 +199,7 @@ class AddTugasCommitmentFragment: Fragment() {
                                 it1
                             )
                         }
-                        this.findNavController().popBackStack()//cari cara buat langusng ke home fragment
+                        this.findNavController().popBackStack(R.id.homeFragment, false)//cari cara buat langusng ke home fragment
                         addTugasCommitmentFragmentViewModel.doneNavigating()
                     }
 

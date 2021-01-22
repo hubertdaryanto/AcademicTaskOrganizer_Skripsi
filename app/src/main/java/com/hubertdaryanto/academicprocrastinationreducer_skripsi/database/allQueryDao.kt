@@ -83,6 +83,9 @@ interface allQueryDao{
     @Update
     suspend fun updateListOfImages(images: List<ImageForTugas>)
 
+    @Update
+    suspend fun updateTaskCompletionHistory(taskCompletionHistory: TaskCompletionHistory)
+
     //one to many relationship
 //    @Transaction
 //    @Query("SELECT * FROM TugasKuliah WHERE tugasSubjectId  IN (SELECT DISTINCT(subjectId) FROM Subject)")

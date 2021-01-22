@@ -243,6 +243,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
             } else {
                 AlarmScheduler.removeAlarmsForReminder(context, tugasKuliah)
                 mTaskCompletionHistory.activityType = "Tugas Kuliah Selesai"
+                mTaskCompletionHistory.taskCompletionHistoryId = System.currentTimeMillis()
                 database.insertTaskCompletionHistory(mTaskCompletionHistory)
             }
            database.updateTugas(tugasKuliah)

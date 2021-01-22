@@ -259,7 +259,7 @@ class AddTugasFragment : Fragment() {
                     Intent.createChooser(intent, "Pilih Gambar"),
                     YOUR_IMAGE_CODE
                 )
-
+                addTugasFragmentViewModel.afterAddImageClicked()
                 //problem with selectedImageURi
 
             }
