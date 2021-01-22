@@ -292,6 +292,10 @@ class AddTugasFragment : Fragment() {
                 override fun onEnterPressed(id: Long) {
                     addToDoList()
                 }
+
+                override fun onRemoveEmptyItem(id: Long) {
+                    addTugasFragmentViewModel.removeToDoListItem(id)
+                }
             }
         )
         binding.ToDoListRecyclerView.adapter = toDoListAdapter

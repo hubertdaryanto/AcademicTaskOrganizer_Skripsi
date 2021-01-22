@@ -2,6 +2,7 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -60,7 +61,10 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener, var imageIn
                 //binding.image null!!!
                 val string = item.ImageForTugas.imageName
                 val uri = Uri.parse(string)
-                picasso.load(File(uri.path)).resize(96, 96).into(holder.binding.gambarTugas)
+
+
+//                picasso.load(File(uri.path)).resize(96* ( / 160), 96* ( / 160)).into(holder.binding.gambarTugas)
+                picasso.load(File(uri.path)).resize(96* 3, 96* 3).into(holder.binding.gambarTugas)
                 holder.binding.gambarTugas.setOnClickListener{
                     ImageUtils.openInGallery(holder.binding.root.context, uri)
                 }

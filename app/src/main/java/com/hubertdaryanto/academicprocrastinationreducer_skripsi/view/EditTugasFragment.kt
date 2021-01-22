@@ -337,6 +337,10 @@ class EditTugasFragment: Fragment() {
 
                 }
 
+                override fun onRemoveEmptyItem(id: Long) {
+                    editTugasFragmentViewModel.removeToDoListItem(id)
+                }
+
                 override fun onEnterPressed(id: Long) {
                     addToDoList()
                 }

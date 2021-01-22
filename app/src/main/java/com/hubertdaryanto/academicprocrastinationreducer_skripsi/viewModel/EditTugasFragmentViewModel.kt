@@ -158,7 +158,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
 
     fun removeToDoListItem(id: Long)
     {
-        val realId = _toDoList.value?.get(id.toInt())?.toDoListId
+        val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
         _toDoList.removeItemAt(id.toInt())
         _toDoList.notifyObserver()
         uiScope.launch {

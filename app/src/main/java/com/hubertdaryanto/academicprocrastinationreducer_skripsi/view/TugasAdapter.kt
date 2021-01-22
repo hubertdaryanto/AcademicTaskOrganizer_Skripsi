@@ -16,6 +16,9 @@ import org.stephenbrewer.arch.recyclerview.ListAdapter
 import org.stephenbrewer.arch.recyclerview.RecyclerView
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.MyItemDecoration
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.addNewItem
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.notifyObserver
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.removeItemAt
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ToDoList
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TugasKuliah
@@ -147,14 +150,19 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                 , object : ToDoListInterface{
                     override fun onUpdateText(id: Long, data: String) {
                         //function buat update data
+
+                        uiScope.launch {
+                            _toDoList.value?.get(id.toInt())?.toDoListName = data
+                            _toDoList.value?.get(id.toInt())?.let { dataSource.insertToDoList(it) }
+                        }
                     }
 
                     override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
                         //function buat update to do list langsung
-//                        uiScope.launch {
+                        uiScope.launch {
                             _toDoList.value?.get(id.toInt())?.isFinished  = isFinished
-
-//                        }
+                            _toDoList.value?.get(id.toInt())?.let { dataSource.insertToDoList(it) }
+                        }
                     }
 
                     override fun onRemoveItem(id: Long) {
@@ -163,6 +171,14 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                             setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
                             setPositiveButton(context.getString(R.string.ya)) { _, _ ->
                                 //remove to do list langsung
+                                val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
+                                _toDoList.removeItemAt(id.toInt())
+                                _toDoList.notifyObserver()
+                                uiScope.launch {
+                                    if (realId != null) {
+                                        dataSource.deleteToDoList(realId.toLong())
+                                    }
+                                }
                             }
                             setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
                             }
@@ -170,7 +186,29 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                     }
 
                     override fun onEnterPressed(id: Long) {
+                        uiScope.launch {
+                            val mToDoList = ToDoList(
+                            toDoListName = "",
+                            bindToTugasKuliahId = item.tugasKuliahId,
+                            isFinished = false,
+                            deadline = 0L
+                        )
+                            _toDoList.addNewItem(mToDoList)
+                            _toDoList.notifyObserver()
+                            dataSource.insertToDoList(mToDoList)
+                        }
+                    }
 
+                    override fun onRemoveEmptyItem(id: Long) {
+                        //remove to do list langsung
+                        val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
+                        _toDoList.removeItemAt(id.toInt())
+                        _toDoList.notifyObserver()
+                        uiScope.launch {
+                            if (realId != null) {
+                                dataSource.deleteToDoList(realId.toLong())
+                            }
+                        }
                     }
                 }
             )
