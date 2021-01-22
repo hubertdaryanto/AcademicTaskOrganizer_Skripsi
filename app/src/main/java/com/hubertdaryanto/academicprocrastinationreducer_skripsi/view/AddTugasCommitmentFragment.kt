@@ -77,14 +77,13 @@ class AddTugasCommitmentFragment: Fragment() {
                         cal.set(Calendar.HOUR_OF_DAY, hour)
                         cal.set(Calendar.MINUTE, minute)
                         binding.editJam.setText(SimpleDateFormat("H:mm").format(cal.time))
-                        binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
+                        binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam_commitment)
                     }
                 val timePickerDialog: RangeTimePickerDialog = RangeTimePickerDialog(
                     context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(
                         Calendar.MINUTE
                     ), true
                 )
-//                cal.timeInMillis = TimeSelected
 
                 if (day < 1)
                 {
@@ -92,7 +91,6 @@ class AddTugasCommitmentFragment: Fragment() {
                     timePickerDialog.setMax(hour.toInt(), minute.toInt())
 
                 }
-                //maximum time set currently not working, karena kodingan di atas malah set waktu saat ini
                 timePickerDialog.show()
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorPrimaryDark)
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
@@ -120,13 +118,27 @@ class AddTugasCommitmentFragment: Fragment() {
                         {
                             if (hour < 9)
                             {
-                                binding.inputJam.hint = "Jam Target Selesai (" + hour + ":" + minute + ", Max " + hour + ":" + minute + ")"
+                                if (minute < 10)
+                                {
+                                    binding.inputJam.hint = "Jam Target Selesai (" + hour + ":0" + minute + ", Max " + hour + ":0" + minute + ")"
+                                }
+                                else
+                                {
+                                    binding.inputJam.hint = "Jam Target Selesai (" + hour + ":" + minute + ", Max " + hour + ":" + minute + ")"
+                                }
+
                             }
                             else
                             {
-                                binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + hour + ":" + minute + ")"
+                                if (minute < 10)
+                                {
+                                    binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + hour + ":0" + minute + ")"
+                                }
+                                else
+                                {
+                                    binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + hour + ":" + minute + ")"
+                                }
                             }
-
                         }
                         else
                         {
