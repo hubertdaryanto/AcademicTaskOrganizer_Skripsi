@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">Academic Task Organizer</string>
+    <string name="app_name">Academic Procrastination Reducer</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tugaskuliah_hint_subject">Mata Kuliah</string>
     <string name="tugaskuliah_hint_nama_tugas">Nama Tugas Kuliah</string>
     <string name="tugaskuliah_hint_deadline">Tanggal Tenggat Waktu</string>
+    <string name="tugaskuliah_hint_deadline_commitment">Tanggal Target Selesai</string>
     <string name="tugaskuliah_hint_jam">Jam Tenggat Waktu</string>
+    <string name="tugaskuliah_hint_jam_commitment">Jam Target Selesai</string>
     <string name="tugaskuliah_hint_editJam">Jam Tenggat Waktu (9:00)</string>
     <string name="tugaskuliah_hint_catatan">Catatan</string>
     <string name="tugaskuliah_hint_ToDoList">Daftar Sub Tugas</string>
@@ -37,13 +39,15 @@
     <string name="subject_error">Harap pilih Mata Kuliah.</string>
     <string name="add_subject_error">Harap masukkan Nama Mata Kuliah.</string>
     <string name="tugas_error">Harap masukkan Nama Tugas Kuliah.</string>
+    <string name="finish_commitment_error">Harap masukkan Tanggal Target Selesai.</string>
     <string name="deadline_error">Harap masukkan Tanggal Tenggat Waktu.</string>
     <string name="updated_tugas_kuliah_message">Tugas Kuliah diperbarui.</string>
-    <string name="inserted_tugas_kuliah_message">Tugas Kuliah tersimpan.</string>
+    <string name="inserted_tugas_kuliah_message">Tugas Kuliah disimpan.</string>
     <string name="simpan">Simpan</string>
     <string name="delete_subject_title_confirmation">Apakah Anda yakin untuk menghapus Mata Kuliah ini?</string>
     <string name="delete_subject_subtitle_confirmation">Semua Tugas Kuliah yang terkait akan terhapus. Anda tidak dapat mengembalikan aksi ini.</string>
     <string name="ya">Ya</string>
     <string name="tidak">Tidak</string>
     <string name="hapus">Hapus</string>
+    <string name="task_completion_history">Riwayat Penyelesaian Tugas</string>
 </resources>

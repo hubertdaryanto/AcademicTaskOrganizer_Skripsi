@@ -6,10 +6,10 @@
     <data>
         <variable
             name="tugas"
-            type="com.example.academictaskorganizer_skripsi.database.TugasKuliah" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TugasKuliah" />
         <variable
             name="clickListener"
-            type="com.example.academictaskorganizer_skripsi.view.TugasKuliahListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -27,7 +27,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="8dp">
 
             <TextView
@@ -39,23 +39,34 @@
                 android:text="@{tugas.tugasKuliahName}"
                 android:textAppearance="@style/Base.CardView"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/text_view_subject_and_deadline"
+                app:layout_constraintBottom_toTopOf="@id/text_view_subject_and_deadline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="fasfjasjfasjfbasjbfasjbfjasbfjasbfjabsajbfa asfjasjf asfasfasfa  asasf asfas fsa fa afssf afasf fas fas fas fas fas faasfas fas fas fas fas a fs safasfasfasffas fas fas fa fas as asf asf a" />
+                tools:text="Nama Tugas Kuliah" />
 
             <TextView
                 android:id="@+id/text_view_subject_and_deadline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_view_tugas"
+                app:tugasSubjectNameAndDeadlineTime="@{tugas}"
+                tools:text="Test - Test" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_to_do_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:tugasSubjectNameAndDeadlineTime="@{tugas}"
-                tools:text="Test - Test" />
+                app:layout_constraintTop_toBottomOf="@id/text_view_subject_and_deadline" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

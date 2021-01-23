@@ -9,11 +9,11 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.academictaskorganizer_skripsi"
+        applicationId "com.hubertdaryanto.academicprocrastinationreducer_skripsi"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -36,7 +36,14 @@ android {
 //    }
 }
 
+repositories {
+    maven {
+        url  "https://dl.bintray.com/stephen-brewer/org.stephenbrewer"
+    }
+}
+
 dependencies {
+    implementation "org.stephenbrewer:recyclerview:0.1.6"
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -53,6 +60,7 @@ dependencies {
     def nav_version = "2.3.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+//    implementation "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

@@ -6,10 +6,10 @@
     <data>
         <variable
             name="image"
-            type="com.example.academictaskorganizer_skripsi.database.ImageForTugas" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ImageForTugas" />
         <variable
             name="imageClickListener"
-            type="com.example.academictaskorganizer_skripsi.view.ImageForTugasListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.ImageForTugasListener" />
     </data>
 
 

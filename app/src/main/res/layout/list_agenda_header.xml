@@ -7,14 +7,14 @@
     <data>
         <variable
             name="tugasDate"
-            type="com.example.academictaskorganizer_skripsi.view.TugasKuliahDate" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahDate" />
     </data>
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@{tugasDate.date}"
+        android:text="@{tugasDate.date + ` (` + tugasDate.count + `)`}"
         android:textColor="#000000"
         tools:text="Test"/>
 </layout>
