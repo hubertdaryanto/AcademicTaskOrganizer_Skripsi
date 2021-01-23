@@ -49,13 +49,17 @@ class AddTugasCommitmentFragment: Fragment() {
         val application = requireNotNull(this.activity).application
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_add_tugas_commitment, container, false)
+        binding.textView.setText("Kapan Anda akan menyelesaikan " +  mTugas.tugasKuliahName + " (Maksimal 75% dari waktu saat ini sebelum tenggat waktu)")
+    binding.textView2.setText("Anda akan diperingatkan dan dicatat bahwa anda menunda menyelesaikan " +  mTugas.tugasKuliahName + " apabila sudah melewati waktu yang sudah ditentukan dibawah.")
+
+
 
         binding.editDeadline.inputType = InputType.TYPE_NULL
         binding.editDeadline.isFocusable = false
 
         binding.editJam.inputType = InputType.TYPE_NULL
         binding.editJam.isFocusable = false
-        binding.inputJam.hint = "Jam Target Selesai (9:00)"
+//        binding.inputJam.hint = "Jam Target Selesai (9:00)"
 
         val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
         val viewModelFactory = AddTugasCommitmentFragmentViewModelFactory(application, dataSource)
@@ -236,7 +240,7 @@ class AddTugasCommitmentFragment: Fragment() {
                 if (it == true) {
                     if (TextUtils.isEmpty(binding.editDeadline.text))
                     {
-                        binding.editDeadline.setError(context?.getString(R.string.deadline_error))
+                        binding.editDeadline.setError(context?.getString(R.string.finish_commitment_error))
                         Toast.makeText(context,binding.editDeadline.error, Toast.LENGTH_LONG).show()
                     }
                     else
@@ -321,11 +325,12 @@ class AddTugasCommitmentFragment: Fragment() {
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
                         addTugasCommitmentFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
-                        context?.getString(R.string.inserted_tugas_kuliah_message)?.let { it1 ->
-                            context?.toast(
-                                it1
-                            )
-                        }
+//                        context?.getString(R.string.inserted_tugas_kuliah_message)?.let { it1 ->
+//                            context?.toast(
+//                                it1
+//                            )
+//                        }
+                        Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " disimpan.", Toast.LENGTH_LONG).show()
                         this.findNavController().popBackStack(R.id.homeFragment, false)//cari cara buat langusng ke home fragment
                         addTugasCommitmentFragmentViewModel.doneNavigating()
                     }

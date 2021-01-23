@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.marginBottom
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -184,6 +185,7 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                             if (allFinished)
                             {
                                 item.isFinished = true
+                                Toast.makeText(binding.root.context, "Tugas kuliah " + item.tugasKuliahName + " selesai.", Toast.LENGTH_LONG).show()
                                 uiScope.launch {
                                     dataSource.updateTugas(item)
                                     var mTaskCompletionHistory: TaskCompletionHistory? = dataSource.getTaskCompletionHistoryByTugasKuliahId(item.tugasKuliahId)

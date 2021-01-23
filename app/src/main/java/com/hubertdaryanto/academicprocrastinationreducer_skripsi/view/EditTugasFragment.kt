@@ -554,11 +554,12 @@ class EditTugasFragment: Fragment() {
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
                         editTugasFragmentViewModel.updateTugasKuliah(requireContext(), editTugasFragmentViewModel.tugasKuliah.value!!)
-                        context?.getString(R.string.updated_tugas_kuliah_message)?.let { it1 ->
-                            context?.toast(
-                                it1
-                            )
-                        }
+//                        context?.getString(R.string.updated_tugas_kuliah_message)?.let { it1 ->
+//                            context?.toast(
+//                                it1
+//                            )
+//                        }
+                        Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " diperbarui.", Toast.LENGTH_LONG).show()
 //                        this.findNavController().popBackStack(0, true)
                         this.findNavController().popBackStack()
                         editTugasFragmentViewModel.doneNavigating()
@@ -907,6 +908,8 @@ class EditTugasFragment: Fragment() {
                 val inputMethodManager =
                     activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
+
+                Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " dihapus.", Toast.LENGTH_LONG).show()
                 editTugasFragmentViewModel.deleteTugasKuliah(context)
                 val action = EditTugasFragmentDirections.actionSaveTugas()
 //                Navigation.findNavController(requireView()).navigate(action)

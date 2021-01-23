@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Anda akan diperingatkan apabila sudah melewati waktu yang sudah ditentukan"
+        android:text="Anda akan diperingatkan dan dicatat bahwa anda menunda menyelesaikan tugas kuliah ini apabila sudah melewati waktu yang sudah ditentukan dibawah."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />

@@ -59,6 +59,5 @@
     <fragment
         android:id="@+id/addTugasCommitmentFragment"
         android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AddTugasCommitmentFragment"
-        android:label="AddTugasCommitmentFragment" >
-    </fragment>
+        android:label="Tambah Tugas Kuliah"></fragment>
 </navigation>
