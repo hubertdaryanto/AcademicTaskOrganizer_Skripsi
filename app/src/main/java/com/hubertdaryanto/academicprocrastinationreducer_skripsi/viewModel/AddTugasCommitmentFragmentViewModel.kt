@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.services.AlarmScheduler
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.shared_data
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.shared_data
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

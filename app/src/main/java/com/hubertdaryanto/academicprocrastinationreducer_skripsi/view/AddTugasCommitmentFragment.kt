@@ -13,11 +13,12 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.CustomDialog.RangeTimePickerDialog
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.finish_commitment_components
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasCommitmentBinding
@@ -35,9 +36,9 @@ class AddTugasCommitmentFragment: Fragment() {
 //    private var mTugas: TugasKuliah = arguments?.get("TugasKuliahTransfer") as TugasKuliah
     private var mTugas: TugasKuliah = shared_data.mTugas
 
-    private var TimeRangeCanBeSelected = (mTugas.deadline - System.currentTimeMillis()) * 0.25//up to 25% time remaining
+//    private var TimeRangeCanBeSelected = (mTugas.deadline - System.currentTimeMillis()) * 0.25//up to 25% time remaining
 
-    private var TimeSelected: Long = 0
+//    private var TimeSelected: Long = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,10 +62,12 @@ class AddTugasCommitmentFragment: Fragment() {
             AddTugasCommitmentFragmentViewModel::class.java
         )
 
-        var day = ((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / 86400000
+        finish_commitment_components.timeRangeCanBeSelected = (mTugas.deadline - System.currentTimeMillis()) * 0.25
 
-        var hour = ((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / 3600000
-        var minute = (((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / hour) % 60
+        finish_commitment_components.day = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 86400000
+
+        finish_commitment_components.hour = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 3600000
+        finish_commitment_components.minute = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / finish_commitment_components.hour) % 60
 
 
         addTugasCommitmentFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {
@@ -85,10 +88,10 @@ class AddTugasCommitmentFragment: Fragment() {
                     ), true
                 )
 
-                if (day < 1)
+                if (finish_commitment_components.day < 1)
                 {
-                    timePickerDialog.updateTime(hour.toInt(), minute.toInt())
-                    timePickerDialog.setMax(hour.toInt(), minute.toInt())
+                    timePickerDialog.updateTime(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                    timePickerDialog.setMax(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
 
                 }
                 timePickerDialog.show()
@@ -109,34 +112,34 @@ class AddTugasCommitmentFragment: Fragment() {
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                         cal.set(Calendar.HOUR_OF_DAY, 0)
                         cal.set(Calendar.MINUTE, 0)
-                        TimeSelected = cal.timeInMillis
-                        day = ((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / 86400000
-                        hour = ((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / 3600000
-                        minute = (((mTugas.deadline - TimeRangeCanBeSelected).toLong() - TimeSelected) / hour) % 60
+                        finish_commitment_components.TimeSelected = cal.timeInMillis
+                        finish_commitment_components.day = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 86400000
+                        finish_commitment_components.hour = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 3600000
+                        finish_commitment_components.minute = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / (60000)) % 60
                         binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
-                        if (day < 1)
+                        if (finish_commitment_components.day < 1)
                         {
-                            if (hour < 9)
+                            if (finish_commitment_components.hour < 9)
                             {
-                                if (minute < 10)
+                                if (finish_commitment_components.minute < 10)
                                 {
-                                    binding.inputJam.hint = "Jam Target Selesai (" + hour + ":0" + minute + ", Max " + hour + ":0" + minute + ")"
+                                    binding.inputJam.hint = "Jam Target Selesai (" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
                                 }
                                 else
                                 {
-                                    binding.inputJam.hint = "Jam Target Selesai (" + hour + ":" + minute + ", Max " + hour + ":" + minute + ")"
+                                    binding.inputJam.hint = "Jam Target Selesai (" + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
                                 }
 
                             }
                             else
                             {
-                                if (minute < 10)
+                                if (finish_commitment_components.minute < 10)
                                 {
-                                    binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + hour + ":0" + minute + ")"
+                                    binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
                                 }
                                 else
                                 {
-                                    binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + hour + ":" + minute + ")"
+                                    binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
                                 }
                             }
                         }
@@ -153,7 +156,7 @@ class AddTugasCommitmentFragment: Fragment() {
                             Calendar.MONTH
                         ), cal.get(Calendar.DAY_OF_MONTH)
                     )
-                    datePickerDialog.datePicker.maxDate = (mTugas.deadline - TimeRangeCanBeSelected).toLong()
+                    datePickerDialog.datePicker.maxDate = (mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong()
                     datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                     datePickerDialog.show()
 //                    datePickerDialog.getButton(DatePickerDialog.BUTTON_NEUTRAL).setTextColor(R.color.colorPrimaryDark)
@@ -177,9 +180,9 @@ class AddTugasCommitmentFragment: Fragment() {
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
 
                         var clock = "9:00"
-                        if (day < 1)
+                        if (finish_commitment_components.day < 1)
                         {
-                            clock = "" + hour + ":" + minute
+                            clock = "" + finish_commitment_components.hour + ":" + finish_commitment_components.minute
                         }
                         else
                         {

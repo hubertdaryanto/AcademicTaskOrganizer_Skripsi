@@ -9,7 +9,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.addN
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.notifyObserver
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.removeItemAt
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.*
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.shared_data
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.shared_data
 import kotlinx.coroutines.*
 
 class AddTugasFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel() {

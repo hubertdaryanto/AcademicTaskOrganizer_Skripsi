@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.components
 
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ImageForTugas
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ToDoList

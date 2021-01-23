@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.text.Editable
 import android.text.InputType
 import android.text.TextUtils
 import android.view.*
@@ -23,8 +22,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.CustomDialog.RangeTimePickerDialog
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.MyItemDecoration
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.deadline_components
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.finish_commitment_components
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddTugasFragmentViewModel
@@ -106,11 +109,23 @@ class AddTugasFragment : Fragment() {
                         binding.editJam.setText(SimpleDateFormat("H:mm").format(cal.time))
                         binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
                     }
-                val timePickerDialog: TimePickerDialog = TimePickerDialog(
+                val timePickerDialog: RangeTimePickerDialog = RangeTimePickerDialog(
                     context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(
                         Calendar.MINUTE
                     ), true
                 )
+
+                if (deadline_components.day < 1)
+                {
+
+                    timePickerDialog.updateTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                    timePickerDialog.setMin(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                }
+                else
+                {
+                    timePickerDialog.updateTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                    timePickerDialog.setMin(0, 0)
+                }
                 timePickerDialog.show()
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorPrimaryDark)
 //                timePickerDialog.getButton(TimePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
@@ -127,6 +142,49 @@ class AddTugasFragment : Fragment() {
                         cal.set(Calendar.YEAR, year)
                         cal.set(Calendar.MONTH, month)
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        cal.set(Calendar.HOUR_OF_DAY, 9)
+                        cal.set(Calendar.MINUTE, 1)
+                        deadline_components.TimeSelected = cal.timeInMillis
+                        val cal2 = Calendar.getInstance()
+                        cal2.set(Calendar.HOUR_OF_DAY, 9)
+                        cal2.set(Calendar.MINUTE, 0)
+                        deadline_components.day = (deadline_components.TimeSelected - cal2.timeInMillis) / 86400000
+                        finish_commitment_components.hour = (deadline_components.TimeSelected - cal2.timeInMillis) / 3600000
+                        finish_commitment_components.minute = ((deadline_components.TimeSelected - cal2.timeInMillis) / (60000)) % 60
+                        if (deadline_components.day < 1)
+                        {
+                            val cal3 = Calendar.getInstance()
+                            binding.editJam.text = null
+                            if (cal3.get(Calendar.HOUR_OF_DAY) >= 9)
+                            {
+                                if (cal3.get(Calendar.MINUTE) < 10)
+                                {
+                                    binding.inputJam.hint = "Jam Tenggat Waktu (" + cal3.get(Calendar.HOUR_OF_DAY) + ":0" + cal3.get(Calendar.MINUTE) + ", Min " + cal3.get(Calendar.HOUR_OF_DAY) + ":0" + cal3.get(Calendar.MINUTE) + ")"
+                                }
+                                else
+                                {
+                                    binding.inputJam.hint = "Jam Tenggat Waktu (" + cal3.get(Calendar.HOUR_OF_DAY) + ":" + cal3.get(Calendar.MINUTE) + ", Min " + cal3.get(Calendar.HOUR_OF_DAY) + ":" + cal3.get(Calendar.MINUTE) + ")"
+                                }
+
+                            }
+                            else
+                            {
+                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_editJam)
+                            }
+
+                        }
+                        else
+                        {
+                            if (binding.editJam.text.isNullOrBlank())
+                            {
+                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_editJam)
+                            }
+                            else
+                            {
+                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
+                            }
+
+                        }
                         binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
                     }
 
@@ -183,6 +241,14 @@ class AddTugasFragment : Fragment() {
                         mTugas.tugasSubjectId = subjectId
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
                         var clock = "9:00"
+                        if (deadline_components.day < 1)
+                        {
+                            clock = "" + deadline_components.hour + ":" + deadline_components.minute
+                        }
+                        else
+                        {
+                            clock = "9:00"
+                        }
                         if (binding.editJam.text.toString() != "")
                         {
                             clock = binding.editJam.text.toString()
