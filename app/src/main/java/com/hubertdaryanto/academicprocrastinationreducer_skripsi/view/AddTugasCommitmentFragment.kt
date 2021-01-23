@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.CustomDialog.RangeTimePickerDialog
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.deadline_components
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.finish_commitment_components
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase
@@ -90,8 +91,33 @@ class AddTugasCommitmentFragment: Fragment() {
 
                 if (finish_commitment_components.day < 1)
                 {
-                    timePickerDialog.updateTime(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
-                    timePickerDialog.setMax(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                    if (deadline_components.day == finish_commitment_components.day)
+                    {
+                        timePickerDialog.updateTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                        timePickerDialog.setMin(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                        timePickerDialog.setMax(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                    }
+                    else
+                    {
+                        timePickerDialog.updateTime(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                        timePickerDialog.setMax(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                    }
+
+                }
+                else
+                {
+                    val cal4 = Calendar.getInstance()
+                    cal4.timeInMillis = finish_commitment_components.TimeSelected
+
+                    if (cal.get(Calendar.DATE) == cal4.get(Calendar.DATE))
+                    {
+                        timePickerDialog.updateTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                        timePickerDialog.setMin(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                    }
+                    else
+                    {
+                        //bebas
+                    }
 
                 }
                 timePickerDialog.show()
@@ -114,39 +140,77 @@ class AddTugasCommitmentFragment: Fragment() {
                         cal.set(Calendar.MINUTE, 0)
                         finish_commitment_components.TimeSelected = cal.timeInMillis
                         finish_commitment_components.day = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 86400000
-                        finish_commitment_components.hour = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 3600000
+                        finish_commitment_components.hour = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 3600000) % 24
                         finish_commitment_components.minute = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / (60000)) % 60
-                        binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
-                        if (finish_commitment_components.day < 1)
-                        {
-                            if (finish_commitment_components.hour < 9)
-                            {
-                                if (finish_commitment_components.minute < 10)
-                                {
-                                    binding.inputJam.hint = "Jam Target Selesai (" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+                        if (finish_commitment_components.day < 1) {
+                            binding.editJam.text = null
+                            if (finish_commitment_components.hour < 9) {
+                                if (finish_commitment_components.minute < 10) {
+                                    binding.inputJam.hint =
+                                        "Jam Target Selesai (" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+                                } else {
+                                    binding.inputJam.hint =
+                                        "Jam Target Selesai (" + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
                                 }
-                                else
-                                {
-                                    binding.inputJam.hint = "Jam Target Selesai (" + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
-                                }
-
                             }
                             else
                             {
-                                if (finish_commitment_components.minute < 10)
+                                if (deadline_components.day == finish_commitment_components.day)
                                 {
-                                    binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+
+                                    if (finish_commitment_components.minute < 10)
+                                    {
+                                        binding.inputJam.hint = "Jam Target Selesai ("+ finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+                                    }
+                                    else
+                                    {
+                                        binding.inputJam.hint = "Jam Target Selesai ("+ finish_commitment_components.hour + ":" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
+                                    }
                                 }
                                 else
                                 {
-                                    binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
+                                    if (finish_commitment_components.minute < 10)
+                                    {
+                                        binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+                                    }
+                                    else
+                                    {
+                                        binding.inputJam.hint = "Jam Target Selesai (9:00, Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
+                                    }
                                 }
+
                             }
                         }
                         else
                         {
-                            binding.inputJam.hint = "Jam Target Selesai (9:00)"
+                            val cal4 = Calendar.getInstance()
+
+
+                            if (cal.get(Calendar.DATE) == cal4.get(Calendar.DATE))
+                            {
+                                binding.editJam.text = null
+                                if (cal4.get(Calendar.MINUTE) < 10)
+                                {
+                                    binding.inputJam.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":0" + cal4.get(Calendar.MINUTE) + ")"
+                                }
+                                else
+                                {
+                                    binding.inputJam.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":" + cal4.get(Calendar.MINUTE) + ")"
+                                }
+                            }
+                            else
+                            {
+                                if (binding.editJam.text.isNullOrBlank())
+                                {
+                                    binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam_commitment) + " (9:00)"
+                                }
+                                else
+                                {
+                                    binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
+                                }
+                            }
                         }
+                        binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
                     }
 
 
@@ -182,11 +246,59 @@ class AddTugasCommitmentFragment: Fragment() {
                         var clock = "9:00"
                         if (finish_commitment_components.day < 1)
                         {
-                            clock = "" + finish_commitment_components.hour + ":" + finish_commitment_components.minute
+                            if (finish_commitment_components.hour < 9)
+                            {
+                                if (finish_commitment_components.minute < 10)
+                                {
+                                    clock = "" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute
+                                }
+                                else
+                                {
+                                    clock = "" + finish_commitment_components.hour + ":" + finish_commitment_components.minute
+                                }
+                            }
+                            else
+                            {
+                                if (deadline_components.day == finish_commitment_components.day)
+                                {
+                                    if (finish_commitment_components.minute < 10)
+                                    {
+                                        clock = "" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute
+                                    }
+                                    else
+                                    {
+                                        clock = "" + finish_commitment_components.hour + ":" + finish_commitment_components.minute
+                                    }
+                                }
+                                else
+                                {
+                                    clock = "9:00"
+                                }
+                            }
                         }
                         else
                         {
-                            clock = "9:00"
+                            val cal = Calendar.getInstance()
+                            val cal2 = Calendar.getInstance()
+
+                            cal2.timeInMillis = finish_commitment_components.TimeSelected
+
+                            if (cal.get(Calendar.DATE) == cal2.get(Calendar.DATE))
+                            {
+                                if (cal.get(Calendar.MINUTE) < 10)
+                                {
+                                    clock = "" + cal.get(Calendar.HOUR_OF_DAY) + ":0" + cal.get(Calendar.MINUTE)
+                                }
+                                else
+                                {
+                                    clock = "" + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE)
+                                }
+                            }
+                            else
+                            {
+                                clock = "9:00"
+                            }
+
                         }
 
                         if (binding.editJam.text.toString() != "")

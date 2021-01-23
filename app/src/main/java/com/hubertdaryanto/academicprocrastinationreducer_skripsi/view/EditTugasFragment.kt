@@ -113,14 +113,28 @@ class EditTugasFragment: Fragment() {
 
                 cal.set(Calendar.HOUR_OF_DAY, 0)
                 cal.set(Calendar.MINUTE, 0)
-                TimeSelected = cal.timeInMillis
+                finish_commitment_components.TimeSelected = cal.timeInMillis
 
                 finish_commitment_components.timeRangeCanBeSelected = (mTugas.deadline - System.currentTimeMillis()) * 0.25
 
-                finish_commitment_components.day = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - TimeSelected) / 86400000
+                finish_commitment_components.day = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 86400000
+                finish_commitment_components.hour = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 3600000) % 24
+                finish_commitment_components.minute = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / (60000)) % 60
 
-                finish_commitment_components.hour = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - TimeSelected) / 3600000
-                finish_commitment_components.minute = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - TimeSelected) / finish_commitment_components.hour) % 60
+                val cal2 = Calendar.getInstance()
+
+                cal2.timeInMillis = mTugas.deadline
+
+                cal.set(Calendar.HOUR_OF_DAY, 0)
+                cal.set(Calendar.MINUTE, 1)
+                deadline_components.TimeSelected = cal2.timeInMillis
+
+                val cal3 = Calendar.getInstance()
+                cal3.set(Calendar.HOUR_OF_DAY, 0)
+                cal3.set(Calendar.MINUTE, 0)
+                deadline_components.day = (deadline_components.TimeSelected - cal3.timeInMillis) / 86400000
+                deadline_components.hour = ((deadline_components.TimeSelected - cal3.timeInMillis) / 3600000) % 24
+                deadline_components.minute = ((deadline_components.TimeSelected - cal3.timeInMillis) / (60000)) % 60
 
 //                binding.editTextSubject.setText(it.tugasSubjectId.toString())
                 editTugasFragmentViewModel.convertSubjectIdToSubjectName(it.tugasSubjectId)
@@ -186,8 +200,33 @@ class EditTugasFragment: Fragment() {
 
                 if (finish_commitment_components.day < 1)
                 {
-                    timePickerDialog.updateTime(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
-                    timePickerDialog.setMax(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                    if (deadline_components.day == finish_commitment_components.day)
+                    {
+                        timePickerDialog.updateTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                        timePickerDialog.setMin(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                        timePickerDialog.setMax(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                    }
+                    else
+                    {
+                        timePickerDialog.updateTime(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                        timePickerDialog.setMax(finish_commitment_components.hour.toInt(), finish_commitment_components.minute.toInt())
+                    }
+
+                }
+                else
+                {
+                    val cal4 = Calendar.getInstance()
+                    cal4.timeInMillis = finish_commitment_components.TimeSelected
+
+                    if (cal.get(Calendar.DATE) == cal4.get(Calendar.DATE))
+                    {
+                        timePickerDialog.updateTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                        timePickerDialog.setMin(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                    }
+                    else
+                    {
+                        //bebas
+                    }
 
                 }
                 timePickerDialog.show()
@@ -210,10 +249,14 @@ class EditTugasFragment: Fragment() {
                         cal2.set(Calendar.HOUR_OF_DAY, 9)
                         cal2.set(Calendar.MINUTE, 0)
                         deadline_components.day = (deadline_components.TimeSelected - cal2.timeInMillis) / 86400000
+                        deadline_components.hour = ((deadline_components.TimeSelected - cal2.timeInMillis) / 3600000) % 24
+                        deadline_components.minute = ((deadline_components.TimeSelected - cal2.timeInMillis) / (60000)) % 60
                         if (deadline_components.day < 1)
                         {
                             val cal3 = Calendar.getInstance()
                             binding.editJam.text = null
+                            deadline_components.hour = cal3.get(Calendar.HOUR_OF_DAY).toLong()
+                            deadline_components.minute = cal3.get(Calendar.MINUTE).toLong()
                             if (cal3.get(Calendar.HOUR_OF_DAY) >= 9)
                             {
                                 if (cal3.get(Calendar.MINUTE) < 10)
@@ -254,9 +297,6 @@ class EditTugasFragment: Fragment() {
                     )
                     datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                     datePickerDialog.show()
-//                    datePickerDialog.getButton(DatePickerDialog.BUTTON_NEUTRAL).setTextColor(R.color.colorPrimaryDark)
-//                    datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.colorPrimaryDark)
-//                    datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.colorPrimaryDark)
                 }
                 editTugasFragmentViewModel.doneLoadDatePicker()
             }
@@ -272,43 +312,77 @@ class EditTugasFragment: Fragment() {
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                         cal.set(Calendar.HOUR_OF_DAY, 0)
                         cal.set(Calendar.MINUTE, 0)
-                        TimeSelected = cal.timeInMillis
-                        finish_commitment_components.day = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - TimeSelected) / 86400000
-                        finish_commitment_components.hour = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - TimeSelected) / 3600000
-                        finish_commitment_components.minute = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - TimeSelected) / finish_commitment_components.hour) % 60
-                        if (deadline_components.day < 1)
-                        {
-                            val cal3 = Calendar.getInstance()
-                            binding.editJam.text = null
-                            if (cal3.get(Calendar.HOUR_OF_DAY) >= 9)
+                        finish_commitment_components.TimeSelected = cal.timeInMillis
+                        finish_commitment_components.day = ((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 86400000
+                        finish_commitment_components.hour = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / 3600000) % 24
+                        finish_commitment_components.minute = (((mTugas.deadline - finish_commitment_components.timeRangeCanBeSelected).toLong() - finish_commitment_components.TimeSelected) / (60000)) % 60
+                        if (finish_commitment_components.day < 1) {
+                            binding.editJam2.text = null
+                            if (finish_commitment_components.hour < 9) {
+                                if (finish_commitment_components.minute < 10) {
+                                    binding.inputJam2.hint =
+                                        "Jam Target Selesai (" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+                                } else {
+                                    binding.inputJam2.hint =
+                                        "Jam Target Selesai (" + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
+                                }
+                            }
+                            else
                             {
-                                if (cal3.get(Calendar.MINUTE) < 10)
+                                if (deadline_components.day == finish_commitment_components.day)
                                 {
-                                    binding.inputJam.hint = "Jam Tenggat Waktu (" + cal3.get(Calendar.HOUR_OF_DAY) + ":0" + cal3.get(Calendar.MINUTE) + ", Min " + cal3.get(Calendar.HOUR_OF_DAY) + ":0" + cal3.get(Calendar.MINUTE) + ")"
+
+                                    if (finish_commitment_components.minute < 10)
+                                    {
+                                        binding.inputJam2.hint = "Jam Target Selesai ("+ finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+                                    }
+                                    else
+                                    {
+                                        binding.inputJam2.hint = "Jam Target Selesai ("+ finish_commitment_components.hour + ":" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
+                                    }
                                 }
                                 else
                                 {
-                                    binding.inputJam.hint = "Jam Tenggat Waktu (" + cal3.get(Calendar.HOUR_OF_DAY) + ":" + cal3.get(Calendar.MINUTE) + ", Min " + cal3.get(Calendar.HOUR_OF_DAY) + ":" + cal3.get(Calendar.MINUTE) + ")"
+                                    if (finish_commitment_components.minute < 10)
+                                    {
+                                        binding.inputJam2.hint = "Jam Target Selesai (9:00, Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+                                    }
+                                    else
+                                    {
+                                        binding.inputJam2.hint = "Jam Target Selesai (9:00, Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
+                                    }
                                 }
 
                             }
-                            else
-                            {
-                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_editJam)
-                            }
-
                         }
                         else
                         {
-                            if (binding.editJam.text.isNullOrBlank())
+                            val cal4 = Calendar.getInstance()
+
+
+                            if (cal.get(Calendar.DATE) == cal4.get(Calendar.DATE))
                             {
-                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_editJam)
+                                binding.editJam2.text = null
+                                if (cal4.get(Calendar.MINUTE) < 10)
+                                {
+                                    binding.inputJam2.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":0" + cal4.get(Calendar.MINUTE) + ")"
+                                }
+                                else
+                                {
+                                    binding.inputJam2.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":" + cal4.get(Calendar.MINUTE) + ")"
+                                }
                             }
                             else
                             {
-                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
+                                if (binding.editJam2.text.isNullOrBlank())
+                                {
+                                    binding.inputJam2.hint = context?.getString(R.string.tugaskuliah_hint_jam_commitment) + " (9:00)"
+                                }
+                                else
+                                {
+                                    binding.inputJam2.hint = context?.getString(R.string.tugaskuliah_hint_jam)
+                                }
                             }
-
                         }
                         binding.editDeadline2.setText(SimpleDateFormat("dd - MM - yyyy").format(cal.time))
                     }
@@ -370,13 +444,20 @@ class EditTugasFragment: Fragment() {
                         var clock = "9:00"
                         if (deadline_components.day < 1)
                         {
-                            if (deadline_components.minute < 10)
+                            if (deadline_components.hour < 9)
                             {
-                                clock = "" + deadline_components.hour + ":0" + deadline_components.minute
+                                clock = "9:00"
                             }
                             else
                             {
-                                clock = "" + deadline_components.hour + ":" + deadline_components.minute
+                                if (deadline_components.minute < 10)
+                                {
+                                    clock = "" + deadline_components.hour + ":0" + deadline_components.minute
+                                }
+                                else
+                                {
+                                    clock = "" + deadline_components.hour + ":" + deadline_components.minute
+                                }
                             }
                         }
                         else
@@ -386,18 +467,59 @@ class EditTugasFragment: Fragment() {
                         var clock2 = "9:00"
                         if (finish_commitment_components.day < 1)
                         {
-                            if (finish_commitment_components.minute < 10)
+                            if (finish_commitment_components.hour < 9)
                             {
-                                clock2 = "" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute
+                                if (finish_commitment_components.minute < 10)
+                                {
+                                    clock2 = "" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute
+                                }
+                                else
+                                {
+                                    clock2 = "" + finish_commitment_components.hour + ":" + finish_commitment_components.minute
+                                }
                             }
                             else
                             {
-                                clock2 = "" + finish_commitment_components.hour + ":" + finish_commitment_components.minute
+                                if (deadline_components.day == finish_commitment_components.day)
+                                {
+                                    if (finish_commitment_components.minute < 10)
+                                    {
+                                        clock2 = "" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute
+                                    }
+                                    else
+                                    {
+                                        clock2 = "" + finish_commitment_components.hour + ":" + finish_commitment_components.minute
+                                    }
+                                }
+                                else
+                                {
+                                    clock2 = "9:00"
+                                }
                             }
                         }
                         else
                         {
-                            clock2 = "9:00"
+                            val cal = Calendar.getInstance()
+                            val cal2 = Calendar.getInstance()
+
+                            cal2.timeInMillis = finish_commitment_components.TimeSelected
+
+                            if (cal.get(Calendar.DATE) == cal2.get(Calendar.DATE))
+                            {
+                                if (cal.get(Calendar.MINUTE) < 10)
+                                {
+                                    clock2 = "" + cal.get(Calendar.HOUR_OF_DAY) + ":0" + cal.get(Calendar.MINUTE)
+                                }
+                                else
+                                {
+                                    clock2 = "" + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE)
+                                }
+                            }
+                            else
+                            {
+                                clock2 = "9:00"
+                            }
+
                         }
                         if (binding.editJam.text.toString() != "")
                         {

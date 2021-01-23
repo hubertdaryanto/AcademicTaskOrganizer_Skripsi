@@ -142,19 +142,21 @@ class AddTugasFragment : Fragment() {
                         cal.set(Calendar.YEAR, year)
                         cal.set(Calendar.MONTH, month)
                         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                        cal.set(Calendar.HOUR_OF_DAY, 9)
+                        cal.set(Calendar.HOUR_OF_DAY, 0)
                         cal.set(Calendar.MINUTE, 1)
                         deadline_components.TimeSelected = cal.timeInMillis
                         val cal2 = Calendar.getInstance()
-                        cal2.set(Calendar.HOUR_OF_DAY, 9)
+                        cal2.set(Calendar.HOUR_OF_DAY, 0)
                         cal2.set(Calendar.MINUTE, 0)
                         deadline_components.day = (deadline_components.TimeSelected - cal2.timeInMillis) / 86400000
-                        finish_commitment_components.hour = (deadline_components.TimeSelected - cal2.timeInMillis) / 3600000
-                        finish_commitment_components.minute = ((deadline_components.TimeSelected - cal2.timeInMillis) / (60000)) % 60
+                        deadline_components.hour = ((deadline_components.TimeSelected - cal2.timeInMillis) / 3600000) % 24
+                        deadline_components.minute = ((deadline_components.TimeSelected - cal2.timeInMillis) / (60000)) % 60
                         if (deadline_components.day < 1)
                         {
                             val cal3 = Calendar.getInstance()
                             binding.editJam.text = null
+                            deadline_components.hour = cal3.get(Calendar.HOUR_OF_DAY).toLong()
+                            deadline_components.minute = cal3.get(Calendar.MINUTE).toLong()
                             if (cal3.get(Calendar.HOUR_OF_DAY) >= 9)
                             {
                                 if (cal3.get(Calendar.MINUTE) < 10)
@@ -234,16 +236,28 @@ class AddTugasFragment : Fragment() {
                     }
                     else
                     {
-                        //redirect ke fragment lah lebih baik
-
-
                         mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
                         mTugas.tugasSubjectId = subjectId
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
                         var clock = "9:00"
                         if (deadline_components.day < 1)
                         {
-                            clock = "" + deadline_components.hour + ":" + deadline_components.minute
+                            if (deadline_components.hour < 9)
+                            {
+                                clock = "9:00"
+                            }
+                            else
+                            {
+                                if (deadline_components.minute < 10)
+                                {
+                                    clock = "" + deadline_components.hour + ":0" + deadline_components.minute
+                                }
+                                else
+                                {
+                                    clock = "" + deadline_components.hour + ":" + deadline_components.minute
+                                }
+                            }
+
                         }
                         else
                         {
