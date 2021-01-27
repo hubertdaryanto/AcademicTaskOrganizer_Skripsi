@@ -621,16 +621,22 @@ class EditTugasFragment: Fragment() {
 
                 override fun onRemoveItem(id: Long) {
 
-                    AlertDialog.Builder(context).apply {
-                        setTitle(context.getString(R.string.delete_todolist_confirmation_title))
-                        setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
-                        setPositiveButton(context.getString(R.string.ya)) { _, _ ->
-                            editTugasFragmentViewModel.removeToDoListItem(id)
-                        }
-                        setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
-
-                        }
-                    }.create().show()
+                    if (editTugasFragmentViewModel._toDoList.value?.get(id.toInt())?.toDoListName?.isEmpty()!!)
+                    {
+                        editTugasFragmentViewModel.removeToDoListItem(id)
+                    }
+                    else
+                    {
+                        AlertDialog.Builder(context).apply {
+                            setTitle(context.getString(R.string.delete_todolist_confirmation_title))
+                            setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
+                            setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                                editTugasFragmentViewModel.removeToDoListItem(id)
+                            }
+                            setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+                            }
+                        }.create().show()
+                    }
 
                 }
 

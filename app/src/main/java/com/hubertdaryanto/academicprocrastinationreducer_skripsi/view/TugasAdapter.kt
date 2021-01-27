@@ -207,23 +207,40 @@ class TugasAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKul
                     }
 
                     override fun onRemoveItem(id: Long) {
-                        AlertDialog.Builder(binding.root.context).apply {
-                            setTitle(context.getString(R.string.delete_todolist_confirmation_title))
-                            setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
-                            setPositiveButton(context.getString(R.string.ya)) { _, _ ->
-                                //remove to do list langsung
-                                val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
-                                _toDoList.removeItemAt(id.toInt())
-                                _toDoList.notifyObserver()
-                                uiScope.launch {
-                                    if (realId != null) {
-                                        dataSource.deleteToDoList(realId.toLong())
-                                    }
+
+                        if (_toDoList.value?.get(id.toInt())?.toDoListName?.isEmpty()!!)
+                        {
+                            //remove to do list langsung
+                            val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
+                            _toDoList.removeItemAt(id.toInt())
+                            _toDoList.notifyObserver()
+                            uiScope.launch {
+                                if (realId != null) {
+                                    dataSource.deleteToDoList(realId.toLong())
                                 }
                             }
-                            setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
-                            }
-                        }.create().show()
+                        }
+                        else
+                        {
+                            AlertDialog.Builder(binding.root.context).apply {
+                                setTitle(context.getString(R.string.delete_todolist_confirmation_title))
+                                setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
+                                setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                                    //remove to do list langsung
+                                    val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
+                                    _toDoList.removeItemAt(id.toInt())
+                                    _toDoList.notifyObserver()
+                                    uiScope.launch {
+                                        if (realId != null) {
+                                            dataSource.deleteToDoList(realId.toLong())
+                                        }
+                                    }
+                                }
+                                setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+                                }
+                            }.create().show()
+                        }
+
                     }
 
                     override fun onEnterPressed(id: Long) {

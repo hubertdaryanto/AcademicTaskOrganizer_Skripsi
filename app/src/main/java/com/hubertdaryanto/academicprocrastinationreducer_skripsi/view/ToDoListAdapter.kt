@@ -137,6 +137,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                holder.binding.toDoListDeleteBtn.setOnClickListener {
                    toDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
                }
+               /// TODO: 27/01/2021 ketahuan kalau text box yang focused kosong dan menekan tombol delete, maka item akan keremove 2x. Fix this bug later. 
                holder.bind(item.toDoList, clickListener)
            }
        }
