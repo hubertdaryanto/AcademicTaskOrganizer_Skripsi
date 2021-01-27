@@ -365,11 +365,11 @@ class EditTugasFragment: Fragment() {
                                 binding.editJam2.text = null
                                 if (cal4.get(Calendar.MINUTE) < 10)
                                 {
-                                    binding.inputJam2.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":0" + cal4.get(Calendar.MINUTE) + ")"
+                                    binding.inputJam2.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":0" + cal4.get(Calendar.MINUTE) + ", Min " + cal4.get(Calendar.HOUR_OF_DAY) + ":0" + cal4.get(Calendar.MINUTE) + ")"
                                 }
                                 else
                                 {
-                                    binding.inputJam2.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":" + cal4.get(Calendar.MINUTE) + ")"
+                                    binding.inputJam2.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":" + cal4.get(Calendar.MINUTE) + ", Min " + cal4.get(Calendar.HOUR_OF_DAY) + ":" + cal4.get(Calendar.MINUTE) + ")"
                                 }
                             }
                             else

@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "AcademicTaskOrganizer_Skripsi"
+rootProject.name = "AcademicProcrastinationReducer_Skripsi"

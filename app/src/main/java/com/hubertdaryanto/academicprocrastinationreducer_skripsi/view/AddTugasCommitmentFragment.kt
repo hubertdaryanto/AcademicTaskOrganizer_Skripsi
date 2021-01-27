@@ -150,11 +150,9 @@ class AddTugasCommitmentFragment: Fragment() {
                             binding.editJam.text = null
                             if (finish_commitment_components.hour < 9) {
                                 if (finish_commitment_components.minute < 10) {
-                                    binding.inputJam.hint =
-                                        "Jam Target Selesai (" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
+                                    binding.inputJam.hint = "Jam Target Selesai (" + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":0" + finish_commitment_components.minute + ")"
                                 } else {
-                                    binding.inputJam.hint =
-                                        "Jam Target Selesai (" + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
+                                    binding.inputJam.hint = "Jam Target Selesai (" + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ", Max " + finish_commitment_components.hour + ":" + finish_commitment_components.minute + ")"
                                 }
                             }
                             else
@@ -195,11 +193,11 @@ class AddTugasCommitmentFragment: Fragment() {
                                 binding.editJam.text = null
                                 if (cal4.get(Calendar.MINUTE) < 10)
                                 {
-                                    binding.inputJam.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":0" + cal4.get(Calendar.MINUTE) + ")"
+                                    binding.inputJam.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":0" + cal4.get(Calendar.MINUTE) + ", Min " + cal4.get(Calendar.HOUR_OF_DAY) + ":0" + cal4.get(Calendar.MINUTE) + ")"
                                 }
                                 else
                                 {
-                                    binding.inputJam.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":" + cal4.get(Calendar.MINUTE) + ")"
+                                    binding.inputJam.hint = "Jam Target Selesai ("+ cal4.get(Calendar.HOUR_OF_DAY) + ":" + cal4.get(Calendar.MINUTE) + ", Min " + cal4.get(Calendar.HOUR_OF_DAY) + ":" + cal4.get(Calendar.MINUTE) + ")"
                                 }
                             }
                             else
