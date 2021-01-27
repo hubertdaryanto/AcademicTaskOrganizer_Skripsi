@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@{taskCompletionHistoryDate.date}"
+        android:text="@{taskCompletionHistoryDate.date+ ` (` + taskCompletionHistoryDate.count + `)`}"
         android:textColor="#000000"
         tools:text="Test"/>
 </layout>

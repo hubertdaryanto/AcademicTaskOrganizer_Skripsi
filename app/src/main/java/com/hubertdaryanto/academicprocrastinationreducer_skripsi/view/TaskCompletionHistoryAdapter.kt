@@ -16,8 +16,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TaskCompletionHistoryDate(d: String): TaskCompletionHistoryListItemType {
+class TaskCompletionHistoryDate(d: String, c: String): TaskCompletionHistoryListItemType {
     var date = d
+    var count = c
     override fun getType(): Int {
         return ITEM_VIEW_TYPE_HEADER
     }

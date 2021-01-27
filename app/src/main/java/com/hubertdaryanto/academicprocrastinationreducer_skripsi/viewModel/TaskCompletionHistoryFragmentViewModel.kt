@@ -8,6 +8,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TaskCo
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.allQueryDao
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryDate
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryListItemType
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,19 +40,31 @@ class TaskCompletionHistoryFragmentViewModel(dataSource: allQueryDao, applicatio
     {
         var arrayList = arrayListOf<TaskCompletionHistoryListItemType>()
         var date: String = ""
+        var temp = 0
+        var count = 1
+        var tempdate = ""
         for (i in taskCompletionHistories.value!!)
         {
             var dateCursor: String = convertDeadlineToDateFormatted(i.taskCompletionHistoryId)
             if (date.equals(dateCursor, true))
             {
                 arrayList.add(i)
+                count++
+                arrayList[temp] = TaskCompletionHistoryDate(tempdate, count.toString())
             }
             else
             {
                 date = dateCursor
-                var taskCompletionHistoryDate = TaskCompletionHistoryDate(date)
+                tempdate = date
+                var taskCompletionHistoryDate = TaskCompletionHistoryDate(date, "0")
                 arrayList.add(taskCompletionHistoryDate)
+                temp = arrayList.count() - 1
                 arrayList.add(i)
+                count = 1
+                arrayList[temp] = TaskCompletionHistoryDate(tempdate, count.toString())
+                //kalau misalkan i++ disini, maka jumlah nya belum ketahuan ada berapa pas munculin header nya
+                //bisa sih pakai query load data from deadline xxxx ke xxxx pakai modulus per hari buat nentuin parameter query nya
+
             }
         }
         return arrayList

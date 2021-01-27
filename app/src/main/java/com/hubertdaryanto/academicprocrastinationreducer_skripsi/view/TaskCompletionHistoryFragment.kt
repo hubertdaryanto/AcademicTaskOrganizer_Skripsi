@@ -48,8 +48,16 @@ class TaskCompletionHistoryFragment: Fragment() {
 
         taskCompletionHistoryFragmentViewModel.taskCompletionHistories.observe(viewLifecycleOwner, Observer {
             it?.let {
-                val date = taskCompletionHistoryFragmentViewModel.getTaskCompletionHistoryDate()
-                adapter.addHeaderAndSubmitList(date)
+                if (it.count() == 0)
+                {
+                    binding.textView3.visibility = View.VISIBLE
+                }
+                else
+                {
+                    binding.textView3.visibility = View.GONE
+                    val date = taskCompletionHistoryFragmentViewModel.getTaskCompletionHistoryDate()
+                    adapter.addHeaderAndSubmitList(date)
+                }
             }
         })
 
