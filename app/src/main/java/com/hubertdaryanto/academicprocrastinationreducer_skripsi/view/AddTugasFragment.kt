@@ -13,9 +13,11 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.InputType
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -69,12 +71,25 @@ class AddTugasFragment : Fragment() {
     private val YOUR_IMAGE_CODE = 2
     private val EXTRA_GREETING_MESSAGE: String = "message"
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
 
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (!binding.editTextTugas.text.isNullOrBlank() || !binding.editTextSubject.text.isNullOrBlank() || !binding.editDeadline.text.isNullOrBlank() || !binding.editJam.text.isNullOrBlank() || !binding.editCatatan.text.isNullOrBlank() || addTugasFragmentViewModel.toDoList.value != null || addTugasFragmentViewModel.imageList.value != null)
+            {
+                backAndUpButtonHandlerWhenDataIsAvailable()
+            }
+            else
+            {
+                isEnabled = false
+                requireActivity().onBackPressed()
+            }
+        }
         val application = requireNotNull(this.activity).application
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_add_tugas, container, false)
@@ -462,8 +477,31 @@ class AddTugasFragment : Fragment() {
                 addTugasFragmentViewModel.onAddTugasKuliahClicked2()
                 return true
             }
+            android.R.id.home -> {
+                if (!binding.editTextTugas.text.isNullOrBlank() || !binding.editTextSubject.text.isNullOrBlank() || !binding.editDeadline.text.isNullOrBlank() || !binding.editJam.text.isNullOrBlank() || !binding.editCatatan.text.isNullOrBlank() || addTugasFragmentViewModel.toDoList.value != null || addTugasFragmentViewModel.imageList.value != null)
+                {
+                    backAndUpButtonHandlerWhenDataIsAvailable()
+                }
+                else
+                {
+                    requireActivity().onBackPressed()
+                }
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun backAndUpButtonHandlerWhenDataIsAvailable() {
+        AlertDialog.Builder(context).apply {
+            setTitle(context.getString(R.string.back_confirmation_title))
+            setMessage(context.getString(R.string.back_confirmation_subtitle))
+            setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                this@AddTugasFragment.findNavController().popBackStack()
+            }
+            setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+            }
+        }.create().show()
     }
 
 
@@ -541,6 +579,8 @@ class AddTugasFragment : Fragment() {
 //        binding.editTextSubject.setText(shared_data.mSubjectAtAddTugasFragment)
 //        super.onResume()
 //    }
+
+
 
     private fun insertInPrivateStorage(context: Context, name: String, path: String)
     {

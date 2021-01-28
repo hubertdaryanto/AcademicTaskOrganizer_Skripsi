@@ -15,9 +15,16 @@ import kotlinx.coroutines.*
 class EditTugasFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel()  {
     val database = dataSource
 
+    var toDoListIdToBeDeleted: ArrayList<Long> = arrayListOf()
+    var imageIdToBeDeleted: ArrayList<Long> = arrayListOf()
+
     var _tugasKuliah = MutableLiveData<TugasKuliah>()
     val tugasKuliah: LiveData<TugasKuliah>
         get() = _tugasKuliah
+
+    var _tugasKuliahBefore = MutableLiveData<TugasKuliah>()
+    val tugasKuliahBefore: LiveData<TugasKuliah>
+        get() = _tugasKuliahBefore
 
     val _toDoList = MutableLiveData<MutableList<ToDoList>>()
     val toDoList: LiveData<MutableList<ToDoList>>
@@ -26,6 +33,14 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
     private val _imageList = MutableLiveData<MutableList<ImageForTugas>>()
     val imageList: LiveData<MutableList<ImageForTugas>>
         get() = _imageList
+
+    val _toDoListBefore = MutableLiveData<MutableList<ToDoList>>()
+    val toDoListBefore: LiveData<MutableList<ToDoList>>
+        get() = _toDoListBefore
+
+    private val _imageListBefore = MutableLiveData<MutableList<ImageForTugas>>()
+    val imageListBefore: LiveData<MutableList<ImageForTugas>>
+        get() = _imageListBefore
     /** Coroutine variables */
 
     /**
@@ -36,6 +51,10 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
     private val _subjectText = MutableLiveData<String>()
     val SubjectText: LiveData<String>
         get() = _subjectText
+
+    private val _subjectTextBefore = MutableLiveData<String>()
+    val SubjectTextBefore: LiveData<String>
+        get() = _subjectTextBefore
 
     /**
      * A [CoroutineScope] keeps track of all coroutines started by this ViewModel.
@@ -113,8 +132,12 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
     {
         uiScope.launch {
             _tugasKuliah.value = database.loadTugasKuliahById(id)
+            _tugasKuliahBefore.value = database.loadTugasKuliahById(id)
             _toDoList.value = database.loadToDoListsByTugasKuliahId(id)
             _imageList.value = database.loadImagesByTugasKuliahId(id)
+            _toDoListBefore.value = database.loadToDoListsByTugasKuliahId(id)
+            _imageListBefore.value = database.loadImagesByTugasKuliahId(id)
+            _subjectTextBefore.value = tugasKuliah.value?.tugasSubjectId?.let { database.loadSubjectName(it) }
         }
     }
 
@@ -161,11 +184,14 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
         val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
         _toDoList.removeItemAt(id.toInt())
         _toDoList.notifyObserver()
-        uiScope.launch {
-            if (realId != null) {
-                database.deleteToDoList(realId.toLong())
-            }
+        if (realId != null) {
+            toDoListIdToBeDeleted.add(realId)
         }
+//        uiScope.launch {
+//            if (realId != null) {
+//                database.deleteToDoList(realId.toLong())
+//            }
+//        }
     }
 
     fun removeImageItem(id: Long)
@@ -173,11 +199,14 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
         val realId = _imageList.value?.get(id.toInt())?.imageId
         _imageList.removeItemAt(id.toInt())
         _imageList.notifyObserver()
-        uiScope.launch {
-            if (realId != null) {
-                database.deleteImage(realId.toLong())
-            }
+        if (realId != null) {
+            imageIdToBeDeleted.add(realId)
         }
+//        uiScope.launch {
+//            if (realId != null) {
+//                database.deleteImage(realId.toLong())
+//            }
+//        }
     }
 
     fun addImageItem(image: ImageForTugas){
@@ -247,6 +276,21 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
                 database.insertTaskCompletionHistory(mTaskCompletionHistory)
             }
            database.updateTugas(tugasKuliah)
+            if (toDoListIdToBeDeleted.count() != 0)
+            {
+                for (i in toDoListIdToBeDeleted)
+                {
+                    database.deleteToDoList(i)
+                }
+            }
+
+            if (imageIdToBeDeleted.count() != 0)
+            {
+                for (i in imageIdToBeDeleted)
+                {
+                    database.deleteImage(i)
+                }
+            }
 
             if (toDoList.value != null)
             {
@@ -327,6 +371,7 @@ class EditTugasFragmentViewModel(application: Application, dataSource: allQueryD
     fun updateToDoListIsFinished(id: Long, isFinished: Boolean)
     {
 //        toDoList.value?.get(id.toInt())?.toDoListName = data
-        toDoList.value?.get(id.toInt())?.isFinished = isFinished
+        _toDoList.value?.get(id.toInt())?.isFinished = isFinished
+        _toDoList.notifyObserver()
     }
 }

@@ -18,6 +18,7 @@ import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -34,6 +35,8 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.EditTugasFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.EditTugasFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.convertDeadlineToDateFormatted
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.convertDeadlineToTimeFormatted
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -70,6 +73,19 @@ class EditTugasFragment: Fragment() {
     ): View? {
         setHasOptionsMenu(true)
 
+
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (!binding.editTextTugas.text?.toString().equals(editTugasFragmentViewModel.tugasKuliahBefore.value?.tugasKuliahName)!! || !binding.editTextSubject.text?.toString().equals(editTugasFragmentViewModel.SubjectTextBefore.value)!! || !binding.editDeadline.text?.toString().equals(SimpleDateFormat("dd - MM - yyyy").format(editTugasFragmentViewModel.tugasKuliahBefore.value?.deadline))!! || !binding.editJam.text?.toString().equals(SimpleDateFormat("H:mm").format(editTugasFragmentViewModel.tugasKuliahBefore.value?.deadline))!! || !binding.editDeadline2.text?.toString().equals(SimpleDateFormat("dd - MM - yyyy").format(editTugasFragmentViewModel.tugasKuliahBefore.value?.finishCommitment))!! || !binding.editJam2.text?.toString().equals(SimpleDateFormat("H:mm").format(editTugasFragmentViewModel.tugasKuliahBefore.value?.finishCommitment))!! || !binding.editCatatan.text?.toString().equals(editTugasFragmentViewModel.tugasKuliahBefore.value?.notes)!! || editTugasFragmentViewModel.toDoList.value != editTugasFragmentViewModel.toDoListBefore.value || editTugasFragmentViewModel.imageList.value != editTugasFragmentViewModel.imageListBefore.value || binding.SelesaiCheckBox.isChecked != editTugasFragmentViewModel.tugasKuliahBefore.value?.isFinished)
+            {
+                backAndUpButtonHandlerWhenDataIsAvailable()
+            }
+            else
+            {
+                isEnabled = false
+                requireActivity().onBackPressed()
+            }
+        }
         val application = requireNotNull(this.activity).application
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_edit_tugas, container, false)
@@ -674,6 +690,24 @@ class EditTugasFragment: Fragment() {
 
         editTugasFragmentViewModel.toDoList.observe(viewLifecycleOwner, Observer {
             it?.let {
+                for (i in it)
+                {
+                    if (i.isFinished == false)
+                    {
+                        binding.SelesaiCheckBox.visibility = View.GONE
+                        binding.SelesaiCheckBox.isChecked = false
+                        binding.SelesaiTextView.visibility = View.GONE
+                        editTugasFragmentViewModel.updateIsFinishedStatus(binding.SelesaiCheckBox.isChecked)
+                        break
+                    }
+                    else
+                    {
+                        binding.SelesaiCheckBox.visibility = View.VISIBLE
+                        binding.SelesaiCheckBox.isChecked = true
+                        binding.SelesaiTextView.visibility = View.VISIBLE
+                        editTugasFragmentViewModel.updateIsFinishedStatus(binding.SelesaiCheckBox.isChecked)
+                    }
+                }
                 toDoListAdapter.updateList(it)
             }
         })
@@ -745,6 +779,17 @@ class EditTugasFragment: Fragment() {
             R.id.actionDeleteTugas -> {deleteTugas()
                 return true
             }
+            android.R.id.home -> {
+                if (!binding.editTextTugas.text?.toString().equals(editTugasFragmentViewModel.tugasKuliahBefore.value?.tugasKuliahName)!! || !binding.editTextSubject.text?.toString().equals(editTugasFragmentViewModel.SubjectTextBefore.value)!! || !binding.editDeadline.text?.toString().equals(SimpleDateFormat("dd - MM - yyyy").format(editTugasFragmentViewModel.tugasKuliahBefore.value?.deadline))!! || !binding.editJam.text?.toString().equals(SimpleDateFormat("H:mm").format(editTugasFragmentViewModel.tugasKuliahBefore.value?.deadline))!! || !binding.editDeadline2.text?.toString().equals(SimpleDateFormat("dd - MM - yyyy").format(editTugasFragmentViewModel.tugasKuliahBefore.value?.finishCommitment))!! || !binding.editJam2.text?.toString().equals(SimpleDateFormat("H:mm").format(editTugasFragmentViewModel.tugasKuliahBefore.value?.finishCommitment))!! || !binding.editCatatan.text?.toString().equals(editTugasFragmentViewModel.tugasKuliahBefore.value?.notes)!! || editTugasFragmentViewModel.toDoList.value != editTugasFragmentViewModel.toDoListBefore.value || editTugasFragmentViewModel.imageList.value != editTugasFragmentViewModel.imageListBefore.value || binding.SelesaiCheckBox.isChecked != editTugasFragmentViewModel.tugasKuliahBefore.value?.isFinished)
+                {
+                    backAndUpButtonHandlerWhenDataIsAvailable()
+                }
+                else
+                {
+                    requireActivity().onBackPressed()
+                }
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -754,6 +799,18 @@ class EditTugasFragment: Fragment() {
         val formatter = SimpleDateFormat("dd - MM - yyyy H:mm")
         val date = formatter.parse(date + " " + time)
         return date.time
+    }
+
+    private fun backAndUpButtonHandlerWhenDataIsAvailable() {
+        AlertDialog.Builder(context).apply {
+            setTitle(context.getString(R.string.back_confirmation_title))
+            setMessage(context.getString(R.string.back_confirmation_subtitle))
+            setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                this@EditTugasFragment.findNavController().popBackStack()
+            }
+            setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+            }
+        }.create().show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

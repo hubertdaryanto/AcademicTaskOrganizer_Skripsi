@@ -30,6 +30,8 @@
     <string name="pilih_subject">Pilih Mata Kuliah</string>
     <string name="allow_access_storage">Untuk mengizinkan aplikasi agar dapat menampilkan gambar pada editor Tugas Kuliah. Tekan OK untuk melanjutkan.</string>
     <string name="allow_access_storage_title">Izin membaca penyimpanan dibutuhkan</string>
+    <string name="back_confirmation_title">Apakah Anda yakin untuk meninggalkan halaman ini?</string>
+    <string name="back_confirmation_subtitle">Data yang telah Anda masukkan akan hilang.</string>
     <string name="delete_todolist_confirmation_title">Apakah Anda yakin untuk menghapus Sub Tugas ini?</string>
     <string name="delete_todolist_confirmation_subtitle">Anda tidak dapat mengembalikan aksi ini.</string>
     <string name="delete_image_confirmation_title">Apakah Anda yakin untuk menghapus Gambar ini?</string>
