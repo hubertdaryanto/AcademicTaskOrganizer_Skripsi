@@ -6,7 +6,7 @@
     <data>
         <variable
             name="toDoList"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ToDoList" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList" />
         <variable
             name="toDoListClickListener"
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.ToDoListListener" />

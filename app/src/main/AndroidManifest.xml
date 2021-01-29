@@ -1,32 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hubertdaryanto.academicprocrastinationreducer_skripsi">
-
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
-<!--    <uses-permission-->
-<!--        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>-->
-    <!--        android:maxSdkVersion="30"-->
-<!--    <uses-permission-->
-<!--        android:name="android.permission.GET_ACCOUNTS"-->
-<!--        android:maxSdkVersion="22" />-->
-<!--    <uses-permission-->
-<!--        android:name="android.permission.INTERNET"/>-->
-<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
-
-<!--    <uses-permission-->
-<!--        android:name="android.permission.READ_SYNC_SETTINGS"/>-->
-<!--    <uses-permission-->
-<!--        android:name="android.permission.WRITE_SYNC_SETTINGS"/>-->
-<!--    <uses-permission-->
-<!--        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>-->
-
-<!--    <permission-->
-<!--        android:name="com.example.academictaskorganizer_skripsi.permission.READ_EXTERNAL_STORAGE"-->
-<!--        android:label="Read Image File From Your Device"-->
-<!--        android:description="Allow the app for showing images directly in tugas kuliah editor"-->
-<!--        android:protectionLevel="normal" />-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:label="Read Image File From Your Device"
         android:description="@string/allow_access_storage"/>
@@ -43,46 +18,21 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">
-        <activity android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AgendaActivity">
+        <activity android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.BinusmayaLoginActivity"></activity>
-        <service
-            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.services.SyncService"
-            android:exported="true"
-            android:process=":sync">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
-            </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
-        </service>
-        <service
-            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.services.AuthenticatorService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
 
-        <receiver android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.services.AlarmReceiver"/>
-        <receiver android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.services.BootReceiver"
+        <receiver android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AlarmReceiver"/>
+        <receiver android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.BootReceiver"
             android:label="StartNotificationServiceBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <provider
-            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.components.StubProvider"
-            android:authorities="com.hubertdaryanto.academicprocrastinationreducer_skripsi.provider"
-            android:exported="false"
-            android:syncable="true"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

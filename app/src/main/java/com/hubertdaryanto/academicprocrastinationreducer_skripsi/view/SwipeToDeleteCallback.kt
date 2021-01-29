@@ -27,7 +27,7 @@ abstract class SwipeToDeleteCallback(context: Context) : ItemTouchHelper.SimpleC
          * if (viewHolder?.itemViewType == YourAdapter.SOME_TYPE) return 0
          * if (viewHolder?.adapterPosition == 0) return 0
          */
-        if (viewHolder?.adapterPosition == 10) return 0
+        if (viewHolder.adapterPosition == 10) return 0
         return super.getMovementFlags(recyclerView, viewHolder)
     }
 
@@ -64,11 +64,11 @@ abstract class SwipeToDeleteCallback(context: Context) : ItemTouchHelper.SimpleC
         background.draw(c)
 
         // Calculate position of delete icon
-        val deleteIconTop = itemView.top + (itemHeight - this!!.intrinsicHeight!!) / 2
-        val deleteIconMargin = (itemHeight - this!!.intrinsicHeight!!) / 2
-        val deleteIconLeft = itemView.right - deleteIconMargin - this!!.intrinsicWidth!!
+        val deleteIconTop = itemView.top + (itemHeight - this.intrinsicHeight!!) / 2
+        val deleteIconMargin = (itemHeight - this.intrinsicHeight!!) / 2
+        val deleteIconLeft = itemView.right - deleteIconMargin - this.intrinsicWidth!!
         val deleteIconRight = itemView.right - deleteIconMargin
-        val deleteIconBottom = deleteIconTop + this!!.intrinsicHeight!!
+        val deleteIconBottom = deleteIconTop + this.intrinsicHeight!!
 
         // Draw the delete icon
         if (deleteIcon != null) {

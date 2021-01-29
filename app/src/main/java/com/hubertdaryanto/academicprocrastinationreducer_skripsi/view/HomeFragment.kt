@@ -1,30 +1,24 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 
+//import androidx.recyclerview.widget.GridLayoutManager
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.*
-import org.stephenbrewer.arch.recyclerview.GridLayoutManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-//import androidx.recyclerview.widget.GridLayoutManager
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase
+import com.google.android.material.snackbar.Snackbar
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModelFactory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBinding
-import com.google.android.material.snackbar.Snackbar
+import org.stephenbrewer.arch.recyclerview.GridLayoutManager
 
 
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-
-//    private lateinit var floatingActionButton: FloatingActionButton
-//    private lateinit var recyclerViewTugas: RecyclerView
-//    private lateinit var viewModel: TugasKuliahViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +39,7 @@ class HomeFragment : Fragment() {
 
 
         homeFragmentViewModel.loadTugasKuliah()
-        val adapter = TugasAdapter(TugasKuliahListener { tugasKuliahId ->
+        val adapter = TugasKuliahAdapter(TugasKuliahListener { tugasKuliahId ->
             homeFragmentViewModel.onTugasKuliahClicked(tugasKuliahId)
         })
         binding.tugasList.adapter = adapter
@@ -100,7 +94,7 @@ class HomeFragment : Fragment() {
             })
 
         binding.homeFragmentViewModel = homeFragmentViewModel
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
 
         val manager = GridLayoutManager(activity, 1)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){

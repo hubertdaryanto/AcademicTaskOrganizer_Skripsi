@@ -3,7 +3,7 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.allQueryDao
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
 
 class HomeFragmentViewModelFactory(private val dataSource: allQueryDao,
                                    private val application: Application) : ViewModelProvider.Factory {

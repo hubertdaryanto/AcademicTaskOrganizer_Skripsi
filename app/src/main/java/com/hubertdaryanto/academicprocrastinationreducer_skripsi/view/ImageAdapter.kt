@@ -2,14 +2,13 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ImageForTugas
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ImageUtils
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.ImageForTugasUtils
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemImageForTugasBinding
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -59,24 +58,24 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener, var imageIn
 
 
                 //binding.image null!!!
-                val string = item.ImageForTugas.imageName
+                val string = item.TugasKuliahImage.imageName
                 val uri = Uri.parse(string)
 
 
 //                picasso.load(File(uri.path)).resize(96* ( / 160), 96* ( / 160)).into(holder.binding.gambarTugas)
                 picasso.load(File(uri.path)).resize(96* 3, 96* 3).into(holder.binding.gambarTugas)
                 holder.binding.gambarTugas.setOnClickListener{
-                    ImageUtils.openInGallery(holder.binding.root.context, uri)
+                    ImageForTugasUtils.openImageInGallery(holder.binding.root.context, uri)
                 }
                 holder.binding.imageDeleteBtn.setOnClickListener {
                     imageInterface.onRemoveItem(holder.adapterPosition.toLong())
                 }
-                holder.bind(item.ImageForTugas, clickListener)
+                holder.bind(item.TugasKuliahImage, clickListener)
             }
         }
     }
 
-    fun updateList(list: List<ImageForTugas>?) {
+    fun updateList(list: List<TugasKuliahImage>?) {
         adapterScope.launch {
             val items = list?.map {
                 ImageDataItem.ImageForTugasItem(it)
@@ -92,7 +91,7 @@ class ImageForTugasAdapter(val clickListener: ImageForTugasListener, var imageIn
     class ViewHolder private constructor(val binding: ListItemImageForTugasBinding): RecyclerView.ViewHolder(
         binding.root
     ) {
-        fun bind(item: ImageForTugas, clickListener: ImageForTugasListener)
+        fun bind(item: TugasKuliahImage, clickListener: ImageForTugasListener)
         {
             binding.image = item
             binding.imageClickListener = clickListener
@@ -122,16 +121,16 @@ class ImageForTugasDiffCallback : DiffUtil.ItemCallback<ImageDataItem>() {
 
 class ImageForTugasListener(val clickListener: (ImageForTugasId: Long) -> Unit)
 {
-    fun onClick(ImageForTugas: ImageForTugas) = clickListener(ImageForTugas.imageId)
+    fun onClick(TugasKuliahImage: TugasKuliahImage) = clickListener(TugasKuliahImage.imageId)
 }
 
 
 sealed class ImageDataItem {
     abstract val id: Long
     abstract val name: String
-    data class ImageForTugasItem(val ImageForTugas: ImageForTugas): ImageDataItem(){
-        override val id = ImageForTugas.imageId
-        override val name = ImageForTugas.imageName
+    data class ImageForTugasItem(val TugasKuliahImage: TugasKuliahImage): ImageDataItem(){
+        override val id = TugasKuliahImage.imageId
+        override val name = TugasKuliahImage.imageName
     }
 
 }

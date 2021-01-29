@@ -23,9 +23,9 @@
     </fragment>
     <fragment
         android:id="@+id/editTugasFragment"
-        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.EditTugasFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.EditTugasKuliahFragment"
         android:label="Ubah Tugas Kuliah"
-        tools:layout="@layout/fragment_edit_tugas">
+        tools:layout="@layout/fragment_edit_tugas_kuliah">
         <action
             android:id="@+id/actionSaveTugas"
             app:destination="@id/homeFragment"
@@ -36,9 +36,9 @@
     </fragment>
     <fragment
         android:id="@+id/addTugasFragment"
-        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AddTugasFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AddTugasKuliahFragment"
         android:label="Tambah Tugas Kuliah"
-        tools:layout="@layout/fragment_add_tugas">
+        tools:layout="@layout/fragment_add_tugas_kuliah">
         <action
             android:id="@+id/action_addTugasFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -49,15 +49,15 @@
     </fragment>
     <fragment
         android:id="@+id/taskCompletionHistoryFragment"
-        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahCompletionHistoryFragment"
         android:label="Riwayat Penyelesaian Tugas"
-        tools:layout="@layout/fragment_task_completion_history">
+        tools:layout="@layout/fragment_tugas_kuliah_completion_history">
         <action
             android:id="@+id/action_taskCompletionHistoryFragment_to_editTugasFragment"
             app:destination="@id/editTugasFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTugasCommitmentFragment"
-        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AddTugasCommitmentFragment"
+        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AddTugasKuliahFinishCommitmentFragment"
         android:label="Tambah Tugas Kuliah"></fragment>
 </navigation>

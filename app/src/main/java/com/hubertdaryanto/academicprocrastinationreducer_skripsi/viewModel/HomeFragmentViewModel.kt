@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ToDoList
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.allQueryDao
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahDate
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahListItemType
 import kotlinx.coroutines.CoroutineScope
@@ -24,8 +24,8 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
 //    var tugas = database.getAllTugasKuliahSortedByDeadlineForeground()
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val _toDoList = MutableLiveData<MutableList<ToDoList>>()
-    val toDoList: LiveData<MutableList<ToDoList>>
+    private val _toDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
+    val tugasKuliahToDoList: LiveData<MutableList<TugasKuliahToDoList>>
         get() = _toDoList
 
     fun loadTugasKuliah()

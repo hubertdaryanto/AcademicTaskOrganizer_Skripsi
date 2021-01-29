@@ -6,7 +6,7 @@
     <data>
         <variable
             name="image"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ImageForTugas" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage" />
         <variable
             name="imageClickListener"
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.ImageForTugasListener" />

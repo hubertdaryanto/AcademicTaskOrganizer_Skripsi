@@ -7,7 +7,7 @@
     <data>
         <variable
             name="taskCompletionHistoryDate"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryDate" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahCompletionHistoryDate" />
     </data>
     <TextView
         android:id="@+id/text"

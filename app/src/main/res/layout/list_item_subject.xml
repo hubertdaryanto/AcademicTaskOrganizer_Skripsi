@@ -6,7 +6,7 @@
     <data>
         <variable
             name="subject"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.Subject" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah" />
         <variable
             name="subjectClickListener"
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.SubjectListener" />
