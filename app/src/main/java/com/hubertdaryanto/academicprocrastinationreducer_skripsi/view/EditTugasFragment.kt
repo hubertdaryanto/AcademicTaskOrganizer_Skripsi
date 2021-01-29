@@ -690,24 +690,34 @@ class EditTugasFragment: Fragment() {
 
         editTugasFragmentViewModel.toDoList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                for (i in it)
+
+                if (it.count() == 0)
                 {
-                    if (i.isFinished == false)
+                    binding.SelesaiCheckBox.visibility = View.VISIBLE
+                    binding.SelesaiTextView.visibility = View.VISIBLE
+                }
+                else
+                {
+                    for (i in it)
                     {
-                        binding.SelesaiCheckBox.visibility = View.GONE
-                        binding.SelesaiCheckBox.isChecked = false
-                        binding.SelesaiTextView.visibility = View.GONE
-                        editTugasFragmentViewModel.updateIsFinishedStatus(binding.SelesaiCheckBox.isChecked)
-                        break
-                    }
-                    else
-                    {
-                        binding.SelesaiCheckBox.visibility = View.VISIBLE
-                        binding.SelesaiCheckBox.isChecked = true
-                        binding.SelesaiTextView.visibility = View.VISIBLE
-                        editTugasFragmentViewModel.updateIsFinishedStatus(binding.SelesaiCheckBox.isChecked)
+                        if (i.isFinished == false && it.count() != 0)
+                        {
+                            binding.SelesaiCheckBox.visibility = View.GONE
+                            binding.SelesaiCheckBox.isChecked = false
+                            binding.SelesaiTextView.visibility = View.GONE
+                            editTugasFragmentViewModel.updateIsFinishedStatus(binding.SelesaiCheckBox.isChecked)
+                            break
+                        }
+                        else
+                        {
+                            binding.SelesaiCheckBox.visibility = View.VISIBLE
+                            binding.SelesaiCheckBox.isChecked = true
+                            binding.SelesaiTextView.visibility = View.VISIBLE
+                            editTugasFragmentViewModel.updateIsFinishedStatus(binding.SelesaiCheckBox.isChecked)
+                        }
                     }
                 }
+
                 toDoListAdapter.updateList(it)
             }
         })
