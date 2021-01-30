@@ -31,8 +31,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.deadline_
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.finish_commitment_components
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasKuliahBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.EditTugasKuliahFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.EditTugasKuliahFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -43,11 +42,10 @@ class EditTugasKuliahFragment: Fragment() {
     private lateinit var subjectTugasKuliahDataSource: subjectTugasKuliahDao
     private lateinit var editTugasKuliahFragmentViewModel: EditTugasKuliahFragmentViewModel
 
-    private var subjectId = 0L
-    private lateinit var selectedImageUri: Uri
+    private var subjectTugasKuliahId = 0L
 
 
-    val TAG: String = this::class.java.simpleName
+//    val TAG: String = this::class.java.simpleName
     private val TARGET_FRAGMENT_REQUEST_CODE = 1
 
     private val YOUR_IMAGE_CODE = 2
@@ -63,14 +61,14 @@ class EditTugasKuliahFragment: Fragment() {
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (!binding.editTextTugas.text?.toString()
                     .equals(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.tugasKuliahName) || !binding.editTextSubject.text?.toString()
-                    .equals(editTugasKuliahFragmentViewModel.SubjectTextBefore.value) || !binding.editDeadline.text?.toString()
+                    .equals(editTugasKuliahFragmentViewModel.subjectTugasKuliahTextBefore.value) || !binding.editDeadline.text?.toString()
                     .equals(SimpleDateFormat("dd - MM - yyyy").format(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.deadline)) || !binding.editJam.text?.toString()
                     .equals(SimpleDateFormat("H:mm").format(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.deadline)) || !binding.editDeadline2.text?.toString()
                     .equals(SimpleDateFormat("dd - MM - yyyy").format(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.finishCommitment)) || !binding.editJam2.text?.toString()
                     .equals(SimpleDateFormat("H:mm").format(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.finishCommitment)) || !binding.editCatatan.text?.toString()
-                    .equals(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.notes) || editTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != editTugasKuliahFragmentViewModel.tugasKuliahToDoListBefore.value || editTugasKuliahFragmentViewModel.imageListKuliahImage.value != editTugasKuliahFragmentViewModel.imageListBeforeKuliahImage.value || binding.SelesaiCheckBox.isChecked != editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.isFinished)
+                    .equals(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.notes) || editTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != editTugasKuliahFragmentViewModel.tugasKuliahToDoListBefore.value || editTugasKuliahFragmentViewModel.tugasKuliahImageList.value != editTugasKuliahFragmentViewModel.tugasKuliahImageListBefore.value || binding.SelesaiCheckBox.isChecked != editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.isFinished)
             {
-                backAndUpButtonHandlerWhenDataIsAvailable()
+                backAndUpButtonHandlerWhenHaveSomeDataChanged()
             }
             else
             {
@@ -145,7 +143,7 @@ class EditTugasKuliahFragment: Fragment() {
                 deadline_components.minute = ((deadline_components.TimeSelected - cal3.timeInMillis) / (60000)) % 60
 
 //                binding.editTextSubject.setText(it.tugasSubjectId.toString())
-                editTugasKuliahFragmentViewModel.convertSubjectIdToSubjectName(it.tugasSubjectId)
+                editTugasKuliahFragmentViewModel.convertSubjectIdToSubjectName(it.tugasKuliahSubjectId)
                 binding.editTextTugas.setText(it.tugasKuliahName)
                 binding.editDeadline.setText(SimpleDateFormat("dd - MM - yyyy").format(it.deadline))
                 binding.editJam.setText(SimpleDateFormat("H:mm").format(it.deadline))
@@ -415,12 +413,12 @@ class EditTugasKuliahFragment: Fragment() {
             }
         })
 
-        editTugasKuliahFragmentViewModel.showSubjectDialog.observe(viewLifecycleOwner, Observer {
+        editTugasKuliahFragmentViewModel.showSubjectTugasKuliahDialog.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 val dialog = ChooseSubjectTugasKuliahDialogFragment()
                 dialog.setTargetFragment(this, TARGET_FRAGMENT_REQUEST_CODE)
                 dialog.show(parentFragmentManager, dialog.TAG)
-                editTugasKuliahFragmentViewModel.doneLoadSubjectDialog()
+                editTugasKuliahFragmentViewModel.doneLoadSubjectTugasKuliahDialog()
             }
         })
 
@@ -445,9 +443,9 @@ class EditTugasKuliahFragment: Fragment() {
                     else
                     {
                         editTugasKuliahFragmentViewModel._tugasKuliah.value!!.tugasKuliahName = binding.editTextTugas.text.toString().trim()
-                        if (subjectId != 0L)
+                        if (subjectTugasKuliahId != 0L)
                         {
-                            editTugasKuliahFragmentViewModel._tugasKuliah.value!!.tugasSubjectId = subjectId
+                            editTugasKuliahFragmentViewModel._tugasKuliah.value!!.tugasKuliahSubjectId = subjectTugasKuliahId
                         }
 
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
@@ -577,33 +575,33 @@ class EditTugasKuliahFragment: Fragment() {
                 }
             })
 
-        editTugasKuliahFragmentViewModel.SubjectText.observe(viewLifecycleOwner, Observer {
+        editTugasKuliahFragmentViewModel.subjectTugasKuliahText.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.editTextSubject.setText(it)
-                editTugasKuliahFragmentViewModel.onSubjectNameChanged()
+                editTugasKuliahFragmentViewModel.onSubjectTugasKuliahNameChanged()
             }
         })
 
-        editTugasKuliahFragmentViewModel.toDoListId.observe(viewLifecycleOwner, Observer {
+        editTugasKuliahFragmentViewModel.tugasKuliahToDoListId.observe(viewLifecycleOwner, Observer {
             it?.let {
-                editTugasKuliahFragmentViewModel.afterClickToDoList()
+                editTugasKuliahFragmentViewModel.afterClickTugasKuliahToDoList()
             }
         })
 
-        editTugasKuliahFragmentViewModel.imageId.observe(viewLifecycleOwner, Observer {
+        editTugasKuliahFragmentViewModel.tugasKuliahImageId.observe(viewLifecycleOwner, Observer {
             it?.let {
-                editTugasKuliahFragmentViewModel.afterClickGambar()
+                editTugasKuliahFragmentViewModel.afterClickTugasKuliahImage()
             }
         })
 
-        editTugasKuliahFragmentViewModel.addToDoList.observe(viewLifecycleOwner, Observer {
+        editTugasKuliahFragmentViewModel.addTugasKuliahToDoList.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 addToDoList()
-                editTugasKuliahFragmentViewModel.afterAddToDoListClicked()
+                editTugasKuliahFragmentViewModel.afterAddTugasKuliahToDoListClicked()
             }
         })
 
-        editTugasKuliahFragmentViewModel.addImage.observe(viewLifecycleOwner, Observer {
+        editTugasKuliahFragmentViewModel.addTugasKuliahImage.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 val intent = Intent()
                 intent.type = "image/*"
@@ -617,23 +615,24 @@ class EditTugasKuliahFragment: Fragment() {
             }
         })
 
-        val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
-            editTugasKuliahFragmentViewModel.onToDoListClicked(toDoListId)
+        val toDoListAdapter = TugasKuliahToDoListAdapter(TugasKuliahToDoListListener { toDoListId ->
+            editTugasKuliahFragmentViewModel.onTugasKuliahToDoListClicked(toDoListId)
         }
-            , object : ToDoListInterface{
+            , object :
+                TugasKuliahToDoListInterface {
                 override fun onUpdateText(id: Long, data: String) {
-                    editTugasKuliahFragmentViewModel.updateToDoListName(id, data)
+                    editTugasKuliahFragmentViewModel.updateTugasKuliahToDoListName(id, data)
                 }
 
                 override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
-                    editTugasKuliahFragmentViewModel.updateToDoListIsFinished(id, isFinished)
+                    editTugasKuliahFragmentViewModel.updateTugasKuliahToDoListIsFinished(id, isFinished)
                 }
 
                 override fun onRemoveItem(id: Long) {
 
-                    if (editTugasKuliahFragmentViewModel._toDoList.value?.get(id.toInt())?.toDoListName?.isEmpty()!!)
+                    if (editTugasKuliahFragmentViewModel._tugasKuliahToDoList.value?.get(id.toInt())?.tugasKuliahToDoListName?.isEmpty()!!)
                     {
-                        editTugasKuliahFragmentViewModel.removeToDoListItem(id)
+                        editTugasKuliahFragmentViewModel.removeTugasKuliahToDoListItem(id)
                     }
                     else
                     {
@@ -641,7 +640,7 @@ class EditTugasKuliahFragment: Fragment() {
                             setTitle(context.getString(R.string.delete_todolist_confirmation_title))
                             setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
                             setPositiveButton(context.getString(R.string.ya)) { _, _ ->
-                                editTugasKuliahFragmentViewModel.removeToDoListItem(id)
+                                editTugasKuliahFragmentViewModel.removeTugasKuliahToDoListItem(id)
                             }
                             setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
                             }
@@ -651,7 +650,7 @@ class EditTugasKuliahFragment: Fragment() {
                 }
 
                 override fun onRemoveEmptyItem(id: Long) {
-                    editTugasKuliahFragmentViewModel.removeToDoListItem(id)
+                    editTugasKuliahFragmentViewModel.removeTugasKuliahToDoListItem(id)
                 }
 
                 override fun onEnterPressed(id: Long) {
@@ -662,15 +661,15 @@ class EditTugasKuliahFragment: Fragment() {
         binding.ToDoListRecyclerView.adapter = toDoListAdapter
 
 
-        val gambarAdapter = ImageForTugasAdapter(ImageForTugasListener { imageId ->
-            editTugasKuliahFragmentViewModel.onGambarClicked(imageId)
-        } , object : ImageInterface{
+        val gambarAdapter = ImageForTugasKuliahAdapter(TugasKuliahImageListener { imageId ->
+            editTugasKuliahFragmentViewModel.onTugasKuliahImageClicked(imageId)
+        }, object : TugasKuliahImageInterface{
             override fun onRemoveItem(id: Long) {
                 AlertDialog.Builder(context).apply {
                     setTitle(context.getString(R.string.delete_image_confirmation_title))
                     setMessage(context.getString(R.string.delete_image_confirmation_subtitle))
                     setPositiveButton(context.getString(R.string.ya)) { _, _ ->
-                        editTugasKuliahFragmentViewModel.removeImageItem(id)
+                        editTugasKuliahFragmentViewModel.removeTugasKuliahImageItem(id)
                     }
                     setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
 
@@ -716,7 +715,7 @@ class EditTugasKuliahFragment: Fragment() {
             }
         })
 
-        editTugasKuliahFragmentViewModel.imageListKuliahImage.observe(viewLifecycleOwner, Observer {
+        editTugasKuliahFragmentViewModel.tugasKuliahImageList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 gambarAdapter.updateList(it)
             }
@@ -750,12 +749,12 @@ class EditTugasKuliahFragment: Fragment() {
     private fun addToDoList() {
         val mToDoList =
             TugasKuliahToDoList(
-                toDoListName = "",
+                tugasKuliahToDoListName = "",
                 bindToTugasKuliahId = editTugasKuliahFragmentViewModel.tugasKuliah.value!!.tugasKuliahId,
                 isFinished = false,
                 deadline = 0L
             )
-        editTugasKuliahFragmentViewModel.addToDoListItem(mToDoList)
+        editTugasKuliahFragmentViewModel.addTugasKuliahToDoListItem(mToDoList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -764,8 +763,8 @@ class EditTugasKuliahFragment: Fragment() {
         var action_delete = menu.findItem(R.id.actionDeleteTugas)
         action_save.setIcon(R.drawable.ic_baseline_save_24)
         action_delete.setIcon(R.drawable.ic_baseline_delete_forever_24)
-        view_utilities.menuIconColor(action_save, Color.BLACK)
-        view_utilities.menuIconColor(action_delete, Color.BLACK)
+        View_utilities.menuIconColor(action_save, Color.BLACK)
+        View_utilities.menuIconColor(action_delete, Color.BLACK)
     }
 
 //    private fun menuIconColor(menuItem: MenuItem, color: Int)
@@ -782,23 +781,23 @@ class EditTugasKuliahFragment: Fragment() {
         when (item.itemId)
         {
             R.id.actionSaveTugas -> {
-                editTugasKuliahFragmentViewModel.onAddTugasKuliahClicked2()
+                editTugasKuliahFragmentViewModel.onSaveTugasKuliahClicked()
                 return true
             }
-            R.id.actionDeleteTugas -> {deleteTugas()
+            R.id.actionDeleteTugas -> {deleteTugasKuliah()
                 return true
             }
             android.R.id.home -> {
                 if (!binding.editTextTugas.text?.toString()
                         .equals(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.tugasKuliahName) || !binding.editTextSubject.text?.toString()
-                        .equals(editTugasKuliahFragmentViewModel.SubjectTextBefore.value) || !binding.editDeadline.text?.toString()
+                        .equals(editTugasKuliahFragmentViewModel.subjectTugasKuliahTextBefore.value) || !binding.editDeadline.text?.toString()
                         .equals(SimpleDateFormat("dd - MM - yyyy").format(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.deadline)) || !binding.editJam.text?.toString()
                         .equals(SimpleDateFormat("H:mm").format(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.deadline)) || !binding.editDeadline2.text?.toString()
                         .equals(SimpleDateFormat("dd - MM - yyyy").format(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.finishCommitment)) || !binding.editJam2.text?.toString()
                         .equals(SimpleDateFormat("H:mm").format(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.finishCommitment)) || !binding.editCatatan.text?.toString()
-                        .equals(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.notes) || editTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != editTugasKuliahFragmentViewModel.tugasKuliahToDoListBefore.value || editTugasKuliahFragmentViewModel.imageListKuliahImage.value != editTugasKuliahFragmentViewModel.imageListBeforeKuliahImage.value || binding.SelesaiCheckBox.isChecked != editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.isFinished)
+                        .equals(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.notes) || editTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != editTugasKuliahFragmentViewModel.tugasKuliahToDoListBefore.value || editTugasKuliahFragmentViewModel.tugasKuliahImageList.value != editTugasKuliahFragmentViewModel.tugasKuliahImageListBefore.value || binding.SelesaiCheckBox.isChecked != editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.isFinished)
                 {
-                    backAndUpButtonHandlerWhenDataIsAvailable()
+                    backAndUpButtonHandlerWhenHaveSomeDataChanged()
                 }
                 else
                 {
@@ -817,7 +816,7 @@ class EditTugasKuliahFragment: Fragment() {
         return date.time
     }
 
-    private fun backAndUpButtonHandlerWhenDataIsAvailable() {
+    private fun backAndUpButtonHandlerWhenHaveSomeDataChanged() {
         AlertDialog.Builder(context).apply {
             setTitle(context.getString(R.string.back_confirmation_title))
             setMessage(context.getString(R.string.back_confirmation_subtitle))
@@ -836,7 +835,7 @@ class EditTugasKuliahFragment: Fragment() {
         if (requestCode == TARGET_FRAGMENT_REQUEST_CODE) {
             val greeting = data?.getLongExtra(EXTRA_GREETING_MESSAGE, 0)
             if (greeting != null) {
-                subjectId = greeting
+                subjectTugasKuliahId = greeting
                 editTugasKuliahFragmentViewModel.convertSubjectIdToSubjectName(greeting)
             }
         }
@@ -844,17 +843,17 @@ class EditTugasKuliahFragment: Fragment() {
         if (requestCode == YOUR_IMAGE_CODE){
             if (resultCode == Activity.RESULT_OK)
                 if (data != null) {
-                    selectedImageUri = data.data!!
+                    var selectedImageUri = data.data!!
 
                     val path: String = getRealPathFromURI(this.requireContext(), selectedImageUri)
                     val file: String = getFileName(this.requireContext(), selectedImageUri)
                     val mImage =
                         TugasKuliahImage(
                             bindToTugasKuliahId = editTugasKuliahFragmentViewModel.tugasKuliah.value!!.tugasKuliahId,
-                            imageName = path
+                            tugasKuliahImageName = path
                         )
-                    editTugasKuliahFragmentViewModel.addImageItem(mImage)
-                    editTugasKuliahFragmentViewModel.afterAddToDoListClicked()
+                    editTugasKuliahFragmentViewModel.addTugasKuliahImageItem(mImage)
+                    editTugasKuliahFragmentViewModel.afterAddTugasKuliahToDoListClicked()
                 }
         }
     }
@@ -972,7 +971,7 @@ class EditTugasKuliahFragment: Fragment() {
 
 
 
-    private fun deleteTugas()
+    private fun deleteTugasKuliah()
     {
 
         AlertDialog.Builder(context).apply {

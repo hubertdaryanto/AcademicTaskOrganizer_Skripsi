@@ -5,9 +5,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.addNewItem
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.notifyObserver
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.removeItemAt
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
@@ -64,56 +61,56 @@ class AddTugasKuliahFragmentViewModel(application: Application, dataSource: allQ
     val showDatePicker: LiveData<Boolean?>
         get() = _showDatePicker
 
-    private val _showSubjectDialog = MutableLiveData<Boolean?>()
-    val showSubjectDialog: LiveData<Boolean?>
-        get() = _showSubjectDialog
+    private val _showSubjectTugasKuliahDialog = MutableLiveData<Boolean?>()
+    val showSubjectTugasKuliahDialog: LiveData<Boolean?>
+        get() = _showSubjectTugasKuliahDialog
 
-    private val _addToDoList = MutableLiveData<Boolean?>()
-    val addToDoList: LiveData<Boolean?>
-        get() = _addToDoList
+    private val _addTugasKuliahToDoList = MutableLiveData<Boolean?>()
+    val addTugasKuliahToDoList: LiveData<Boolean?>
+        get() = _addTugasKuliahToDoList
 
-    private val _addImage = MutableLiveData<Boolean?>()
-    val addImage: LiveData<Boolean?>
-        get() = _addImage
+    private val _addTugasKuliahImage = MutableLiveData<Boolean?>()
+    val addTugasKuliahImage: LiveData<Boolean?>
+        get() = _addTugasKuliahImage
 
 
     //can be useful when edit tugas
-    private val _toDoListId = MutableLiveData<Long?>()
-    val toDoListId: LiveData<Long?>
-        get() = _toDoListId
+    private val _tugasKuliahToDoListId = MutableLiveData<Long?>()
+    val tugasKuliahToDoListId: LiveData<Long?>
+        get() = _tugasKuliahToDoListId
 
-    private val _imageId = MutableLiveData<Long?>()
-    val imageId: LiveData<Long?>
-        get() = _imageId
+    private val _tugasKuliahImageId = MutableLiveData<Long?>()
+    val tugasKuliahImageId: LiveData<Long?>
+        get() = _tugasKuliahImageId
 
     fun onShowSubjectDialogClicked()
     {
-        _showSubjectDialog.value = true
+        _showSubjectTugasKuliahDialog.value = true
     }
 
     fun doneLoadSubjectDialog()
     {
-        _showSubjectDialog.value = null
+        _showSubjectTugasKuliahDialog.value = null
     }
 
     fun onAddToDoListClicked()
     {
-        _addToDoList.value = true
+        _addTugasKuliahToDoList.value = true
     }
 
     fun afterAddToDoListClicked()
     {
-        _addToDoList.value = null
+        _addTugasKuliahToDoList.value = null
     }
 
     fun onAddImageClicked()
     {
-        _addImage.value = true
+        _addTugasKuliahImage.value = true
     }
 
     fun afterAddImageClicked()
     {
-        _addImage.value = null
+        _addTugasKuliahImage.value = null
     }
 
 
@@ -208,7 +205,7 @@ class AddTugasKuliahFragmentViewModel(application: Application, dataSource: allQ
 
     private suspend fun insert(tugasKuliah: TugasKuliah) {
         withContext(Dispatchers.IO) {
-            database.insertTugas(tugasKuliah)
+            database.insertTugasKuliah(tugasKuliah)
         }
     }
 
@@ -219,7 +216,7 @@ class AddTugasKuliahFragmentViewModel(application: Application, dataSource: allQ
     fun convertSubjectIdToSubjectName(id: Long){
         uiScope.launch {
             shared_data.mSubjectId = id
-            shared_data.mSubjectAtAddTugasFragment = database.loadSubjectName(id)
+            shared_data.mSubjectAtAddTugasFragment = database.loadSubjectTugasKuliahNameById(id)
             _subjectText.value = shared_data.mSubjectAtAddTugasFragment
         }
     }
@@ -230,21 +227,21 @@ class AddTugasKuliahFragmentViewModel(application: Application, dataSource: allQ
     }
 
     fun onToDoListClicked(toDoListId: Long) {
-        _toDoListId.value = toDoListId
+        _tugasKuliahToDoListId.value = toDoListId
     }
 
     fun onGambarClicked(imageId: Long){
-        _imageId.value = imageId
+        _tugasKuliahImageId.value = imageId
     }
 
     fun afterClickToDoList()
     {
-        _toDoListId.value = null
+        _tugasKuliahToDoListId.value = null
     }
 
     fun afterClickGambar()
     {
-        _imageId.value = null
+        _tugasKuliahImageId.value = null
     }
 
 //    fun updateToDoList(id: Long, data: String, isFinished: Boolean)
@@ -255,7 +252,7 @@ class AddTugasKuliahFragmentViewModel(application: Application, dataSource: allQ
 
     fun updateToDoListName(id: Long, data: String)
     {
-        tugasKuliahToDoList.value?.get(id.toInt())?.toDoListName = data
+        tugasKuliahToDoList.value?.get(id.toInt())?.tugasKuliahToDoListName = data
 //        toDoList.value?.get(id.toInt())?.isFinished = isFinished
     }
 

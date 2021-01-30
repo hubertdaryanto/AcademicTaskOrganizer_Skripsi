@@ -4,8 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahCompletionHistoryListItemType
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryListItemType
 
 @Entity(tableName = "TugasKuliahCompletionHistory", foreignKeys = [
     ForeignKey(entity = TugasKuliah::class, parentColumns = ["tugasKuliahId"], childColumns = ["bindToTugasKuliahId"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)

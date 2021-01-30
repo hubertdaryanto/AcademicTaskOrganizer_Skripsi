@@ -10,4 +10,5 @@ object shared_data {
     var mTugasKuliahImages: MutableList<TugasKuliahImage>? = null
     var mSubjectAtAddTugasFragment: String? = null
     var mSubjectId: Long? = null
+    var fromFragment = ""
 }

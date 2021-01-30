@@ -4,12 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "Subject")
+@Entity(tableName = "SubjectTugasKuliah")
 data class SubjectTugasKuliah(
     @ColumnInfo(name = "subjectName")
-    var subjectName: String
+    var subjectTugasKuliahName: String
 ){
 @PrimaryKey(autoGenerate = true)
-@ColumnInfo(name = "subjectId")
-var subjectId: Long = 0
+@ColumnInfo(name = "subjectTugasKuliahId")
+var subjectTugasKuliahId: Long = 0
 }

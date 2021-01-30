@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahDate
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahListItemType
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,6 +17,7 @@ import kotlinx.coroutines.launch
 class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): ViewModel() {
     val database = dataSource
 
+    //todo : rename variable same as class diagram
     private val _tugas = MutableLiveData<MutableList<TugasKuliah>>()
     val tugas: LiveData<MutableList<TugasKuliah>>
         get() = _tugas
@@ -27,20 +27,6 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
     private val _toDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
     val tugasKuliahToDoList: LiveData<MutableList<TugasKuliahToDoList>>
         get() = _toDoList
-
-    fun loadTugasKuliah()
-    {
-        uiScope.launch {
-            _tugas.value = database.getAllTugasKuliahSortedByDeadlineForeground()
-        }
-    }
-
-    fun loadToDoList(id: Long)
-    {
-        uiScope.launch {
-            _toDoList.value = database.loadToDoListsByTugasKuliahId(id)
-        }
-    }
 
     private val _navigateToEditTugasKuliah = MutableLiveData<Long>()
     val navigateToEditTugasKuliah: LiveData<Long>
@@ -53,6 +39,20 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
     private var _showSnackbarEvent = MutableLiveData<Boolean?>()
     val showSnackbarEvent: LiveData<Boolean?>
         get() = _showSnackbarEvent
+
+    fun loadTugasKuliah()
+    {
+        uiScope.launch {
+            _tugas.value = database.getAllTugasKuliahUnfinishedSortedByDeadline()
+        }
+    }
+
+    fun loadToDoList(id: Long)
+    {
+        uiScope.launch {
+            _toDoList.value = database.loadToDoListsByTugasKuliahId(id)
+        }
+    }
 
     fun doneShowingSnackbar()
     {
@@ -73,18 +73,30 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
             {
                 arrayList.add(i)
                 count++
-                arrayList[temp] = TugasKuliahDate(tempdate, count.toString())
+                arrayList[temp] =
+                    TugasKuliahDate(
+                        tempdate,
+                        count.toString()
+                    )
             }
             else
             {
                 date = dateCursor
                 tempdate = date
-                var tugasKuliahDate = TugasKuliahDate(date, "0")
+                var tugasKuliahDate =
+                    TugasKuliahDate(
+                        date,
+                        "0"
+                    )
                 arrayList.add(tugasKuliahDate)
                 temp = arrayList.count() - 1
                 arrayList.add(i)
                 count = 1
-                arrayList[temp] = TugasKuliahDate(tempdate, count.toString())
+                arrayList[temp] =
+                    TugasKuliahDate(
+                        tempdate,
+                        count.toString()
+                    )
                 //kalau misalkan i++ disini, maka jumlah nya belum ketahuan ada berapa pas munculin header nya
                 //bisa sih pakai query load data from deadline xxxx ke xxxx pakai modulus per hari buat nentuin parameter query nya
             }
@@ -106,16 +118,13 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
         _navigateToAddTugasKuliah.value = false
     }
 
-    fun onTugasKuliahClicked(id: Long) {
+    fun onTugasKuliahClicked(id: Long)
+    {
         _navigateToEditTugasKuliah.value = id
     }
 
     fun onEditTugasKuliahNavigated()
     {
         _navigateToEditTugasKuliah.value = null
-    }
-    override fun onCleared() {
-        super.onCleared()
-        Log.i("AgendaActivityViewModel", "AgendaActivityViewModel destroyed!")
     }
 }

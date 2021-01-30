@@ -7,7 +7,7 @@
     <data>
         <variable
             name="tugasDate"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahDate" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahDate" />
     </data>
     <TextView
         android:id="@+id/text"

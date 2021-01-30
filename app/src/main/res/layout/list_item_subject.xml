@@ -9,7 +9,7 @@
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah" />
         <variable
             name="subjectClickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.SubjectListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -29,7 +29,7 @@
                 android:id="@+id/text_view_subjectName_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{subject.subjectName}"
+                android:text="@{subject.subjectTugasKuliahName}"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/Base.CardView"
                 android:textSize="20sp"

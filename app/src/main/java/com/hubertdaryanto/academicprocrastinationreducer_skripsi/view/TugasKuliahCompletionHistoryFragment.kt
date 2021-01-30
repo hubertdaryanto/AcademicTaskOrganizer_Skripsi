@@ -15,6 +15,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDataba
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTugasKuliahCompletionHistoryBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryListener
 
 class TugasKuliahCompletionHistoryFragment: Fragment() {
 
@@ -40,13 +41,15 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
 
         val tugasKuliahCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(TugasKuliahCompletionHistoryFragmentViewModel::class.java)
 
-        tugasKuliahCompletionHistoryFragmentViewModel.loadTaskCompletionHistory()
+        tugasKuliahCompletionHistoryFragmentViewModel.loadTugasKuliahCompletionHistory()
         val adapter = TugasKuliahCompletionHistoryAdapter(TugasKuliahCompletionHistoryListener { tugasKuliahId ->
-            tugasKuliahCompletionHistoryFragmentViewModel.onTaskCompletionHistoryClicked(tugasKuliahId)
+            tugasKuliahCompletionHistoryFragmentViewModel.onTugasKuliahCompletionHistoryClicked(
+                tugasKuliahId
+            )
         })
         binding.taskCompletionHistoryList.adapter = adapter
 
-        tugasKuliahCompletionHistoryFragmentViewModel.taskCompletionHistories.observe(viewLifecycleOwner, Observer {
+        tugasKuliahCompletionHistoryFragmentViewModel.tugasKuliahCompletionHistories.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it.count() == 0)
                 {
@@ -55,17 +58,17 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
                 else
                 {
                     binding.textView3.visibility = View.GONE
-                    val date = tugasKuliahCompletionHistoryFragmentViewModel.getTaskCompletionHistoryDate()
+                    val date = tugasKuliahCompletionHistoryFragmentViewModel.getTugasKuliahCompletionHistoryDate()
                     adapter.addHeaderAndSubmitList(date)
                 }
             }
         })
 
-        tugasKuliahCompletionHistoryFragmentViewModel.navigateToViewTaskCompletionHistoryDetails.observe(viewLifecycleOwner, Observer {
+        tugasKuliahCompletionHistoryFragmentViewModel.navigateToViewTugasKuliahCompletionHistoryDetails.observe(viewLifecycleOwner, Observer {
             it?.let {
                 this.findNavController().navigate(TugasKuliahCompletionHistoryFragmentDirections.actionTaskCompletionHistoryFragmentToEditTugasFragment(it))
 //                this.findNavController().navigate(TaskCompletionHistoryDirections.actionTaskCompletionHistoryFragmentToTaskCompletionHistoryDetailFragment(it))
-                tugasKuliahCompletionHistoryFragmentViewModel.onTaskCompletionHistoryNavigated()
+                tugasKuliahCompletionHistoryFragmentViewModel.onTugasKuliahCompletionHistoryNavigated()
             }
         })
 

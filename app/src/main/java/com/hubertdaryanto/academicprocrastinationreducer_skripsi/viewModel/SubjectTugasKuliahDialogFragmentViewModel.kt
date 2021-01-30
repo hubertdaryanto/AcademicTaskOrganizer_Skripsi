@@ -16,7 +16,7 @@ class SubjectTugasKuliahDialogFragmentViewModel(application: Application, dataSo
     private var viewModelJob = Job()
     private val uiScpoe = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    var subject = database.getSubjectByNameForeground()
+    var subject = database.getSubjectTugasKuliahByNameForeground()
 
     private val _showAddSubjectDialog = MutableLiveData<Boolean?>()
     val showAddSubjectDialog: LiveData<Boolean?>
@@ -30,20 +30,22 @@ class SubjectTugasKuliahDialogFragmentViewModel(application: Application, dataSo
     val selectSubject: LiveData<Long?>
         get() = _selectSubject
 
-    fun onShowAddSubjectDialogClicked() {
+    fun onShowAddSubjectTugasKuliahDialogClicked()
+    {
         _showAddSubjectDialog.value = true
     }
 
-    fun doneLoadAddSubjectDialog()
+    fun doneLoadAddSubjectTugasKuliahDialog()
     {
         _showAddSubjectDialog.value = null
     }
 
-    fun onSubjectClicked(id: Long) {
+    fun onSubjectTugasKuliahClicked(id: Long)
+    {
         _selectSubject.value = id
     }
 
-    fun afterSubjectClicked()
+    fun afterSubjectTugasKuliahClicked()
     {
         _selectSubject.value = null
     }
@@ -58,14 +60,14 @@ class SubjectTugasKuliahDialogFragmentViewModel(application: Application, dataSo
         _dismiss.value = null
     }
 
-    fun removeSubject(id: Long)
+    fun removeSubjectTugasKuliah(id: Long)
     {
         uiScpoe.launch {
             if (shared_data.mSubjectId == id)
             {
                 shared_data.mSubjectAtAddTugasFragment = null
             }
-            database.deleteSubjectById(id)
+            database.deleteSubjectTugasKuliahById(id)
         }
     }
 }

@@ -12,11 +12,11 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuli
 data class TugasKuliahImage(
     @ColumnInfo(name = "bindToTugasKuliahId")
     var bindToTugasKuliahId: Long,
-    @ColumnInfo(name = "imageName")
-    var imageName: String
+    @ColumnInfo(name = "tugasKuliahImageName")
+    var tugasKuliahImageName: String
 )
 {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "imageId")
-    var imageId: Long = 0
+    @ColumnInfo(name = "tugasKuliahImageId")
+    var tugasKuliahImageId: Long = 0
 }

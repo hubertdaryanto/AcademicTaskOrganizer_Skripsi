@@ -5,9 +5,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.addNewItem
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.notifyObserver
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.removeItemAt
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AlarmScheduler
 import kotlinx.coroutines.CoroutineScope
@@ -18,8 +15,8 @@ import kotlinx.coroutines.launch
 class EditTugasKuliahFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel()  {
     val database = dataSource
 
-    var toDoListIdToBeDeleted: ArrayList<Long> = arrayListOf()
-    var imageIdToBeDeleted: ArrayList<Long> = arrayListOf()
+    var tugasKuliahToDoListIdToBeDeleted: ArrayList<Long> = arrayListOf()
+    var tugasKuliahImageIdToBeDeleted: ArrayList<Long> = arrayListOf()
 
     var _tugasKuliah = MutableLiveData<TugasKuliah>()
     val tugasKuliah: LiveData<TugasKuliah>
@@ -29,21 +26,21 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
     val tugasKuliahBefore: LiveData<TugasKuliah>
         get() = _tugasKuliahBefore
 
-    val _toDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
+    val _tugasKuliahToDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
     val tugasKuliahToDoList: LiveData<MutableList<TugasKuliahToDoList>>
-        get() = _toDoList
+        get() = _tugasKuliahToDoList
 
-    private val _imageList = MutableLiveData<MutableList<TugasKuliahImage>>()
-    val imageListKuliahImage: LiveData<MutableList<TugasKuliahImage>>
-        get() = _imageList
+    private val _tugasKuliahImageList = MutableLiveData<MutableList<TugasKuliahImage>>()
+    val tugasKuliahImageList: LiveData<MutableList<TugasKuliahImage>>
+        get() = _tugasKuliahImageList
 
-    val _toDoListBefore = MutableLiveData<MutableList<TugasKuliahToDoList>>()
+    val _tugasKuliahToDoListBefore = MutableLiveData<MutableList<TugasKuliahToDoList>>()
     val tugasKuliahToDoListBefore: LiveData<MutableList<TugasKuliahToDoList>>
-        get() = _toDoListBefore
+        get() = _tugasKuliahToDoListBefore
 
-    private val _imageListBefore = MutableLiveData<MutableList<TugasKuliahImage>>()
-    val imageListBeforeKuliahImage: LiveData<MutableList<TugasKuliahImage>>
-        get() = _imageListBefore
+    private val _tugasKuliahImageListBefore = MutableLiveData<MutableList<TugasKuliahImage>>()
+    val tugasKuliahImageListBefore: LiveData<MutableList<TugasKuliahImage>>
+        get() = _tugasKuliahImageListBefore
     /** Coroutine variables */
 
     /**
@@ -51,13 +48,13 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
      */
     private var viewModelJob = Job()
 
-    private val _subjectText = MutableLiveData<String>()
-    val SubjectText: LiveData<String>
-        get() = _subjectText
+    private val _subjectTugasKuliahText = MutableLiveData<String>()
+    val subjectTugasKuliahText: LiveData<String>
+        get() = _subjectTugasKuliahText
 
-    private val _subjectTextBefore = MutableLiveData<String>()
-    val SubjectTextBefore: LiveData<String>
-        get() = _subjectTextBefore
+    private val _subjectTugasKuliahTextBefore = MutableLiveData<String>()
+    val subjectTugasKuliahTextBefore: LiveData<String>
+        get() = _subjectTugasKuliahTextBefore
 
     /**
      * A [CoroutineScope] keeps track of all coroutines started by this ViewModel.
@@ -91,27 +88,27 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
     val showDatePicker2: LiveData<Boolean?>
         get() = _showDatePicker2
 
-    private val _showSubjectDialog = MutableLiveData<Boolean?>()
-    val showSubjectDialog: LiveData<Boolean?>
-        get() = _showSubjectDialog
+    private val _showSubjectTugasKuliahDialog = MutableLiveData<Boolean?>()
+    val showSubjectTugasKuliahDialog: LiveData<Boolean?>
+        get() = _showSubjectTugasKuliahDialog
 
-    private val _addToDoList = MutableLiveData<Boolean?>()
-    val addToDoList: LiveData<Boolean?>
-        get() = _addToDoList
+    private val _addTugasKuliahToDoList = MutableLiveData<Boolean?>()
+    val addTugasKuliahToDoList: LiveData<Boolean?>
+        get() = _addTugasKuliahToDoList
 
-    private val _addImage = MutableLiveData<Boolean?>()
-    val addImage: LiveData<Boolean?>
-        get() = _addImage
+    private val _addTugasKuliahImage = MutableLiveData<Boolean?>()
+    val addTugasKuliahImage: LiveData<Boolean?>
+        get() = _addTugasKuliahImage
 
 
     //can be useful when edit tugas
-    private val _toDoListId = MutableLiveData<Long?>()
-    val toDoListId: LiveData<Long?>
-        get() = _toDoListId
+    private val _tugasKuliahToDoListId = MutableLiveData<Long?>()
+    val tugasKuliahToDoListId: LiveData<Long?>
+        get() = _tugasKuliahToDoListId
 
-    private val _imageId = MutableLiveData<Long?>()
-    val imageId: LiveData<Long?>
-        get() = _imageId
+    private val _tugasKuliahImageId = MutableLiveData<Long?>()
+    val tugasKuliahImageId: LiveData<Long?>
+        get() = _tugasKuliahImageId
 
     private val _onIsFinishedClicked = MutableLiveData<Boolean?>()
     val onIsFinishedClicked: LiveData<Boolean?>
@@ -136,59 +133,59 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
         uiScope.launch {
             _tugasKuliah.value = database.loadTugasKuliahById(id)
             _tugasKuliahBefore.value = database.loadTugasKuliahById(id)
-            _toDoList.value = database.loadToDoListsByTugasKuliahId(id)
-            _imageList.value = database.loadImagesByTugasKuliahId(id)
-            _toDoListBefore.value = database.loadToDoListsByTugasKuliahId(id)
-            _imageListBefore.value = database.loadImagesByTugasKuliahId(id)
-            _subjectTextBefore.value = tugasKuliah.value?.tugasSubjectId?.let { database.loadSubjectName(it) }
+            _tugasKuliahToDoList.value = database.loadToDoListsByTugasKuliahId(id)
+            _tugasKuliahImageList.value = database.loadImagesByTugasKuliahId(id)
+            _tugasKuliahToDoListBefore.value = database.loadToDoListsByTugasKuliahId(id)
+            _tugasKuliahImageListBefore.value = database.loadImagesByTugasKuliahId(id)
+            _subjectTugasKuliahTextBefore.value = tugasKuliah.value?.tugasKuliahSubjectId?.let { database.loadSubjectTugasKuliahNameById(it) }
         }
     }
 
-    fun onShowSubjectDialogClicked()
+    fun onShowSubjectTugasKuliahDialogClicked()
     {
-        _showSubjectDialog.value = true
+        _showSubjectTugasKuliahDialog.value = true
     }
 
-    fun doneLoadSubjectDialog()
+    fun doneLoadSubjectTugasKuliahDialog()
     {
-        _showSubjectDialog.value = null
+        _showSubjectTugasKuliahDialog.value = null
     }
 
-    fun onAddToDoListClicked()
+    fun onAddTugasKuliahToDoListClicked()
     {
-        _addToDoList.value = true
+        _addTugasKuliahToDoList.value = true
     }
 
-    fun afterAddToDoListClicked()
+    fun afterAddTugasKuliahToDoListClicked()
     {
-        _addToDoList.value = null
+        _addTugasKuliahToDoList.value = null
     }
 
-    fun onAddImageClicked()
+    fun onAddTugasKuliahImageClicked()
     {
-        _addImage.value = true
+        _addTugasKuliahImage.value = true
     }
 
-    fun afterAddImageClicked()
+    fun afterAddTugasKuliahImageClicked()
     {
-        _addImage.value = null
+        _addTugasKuliahImage.value = null
     }
 
 
 
-    fun addToDoListItem(tugasKuliahToDoList: TugasKuliahToDoList)
+    fun addTugasKuliahToDoListItem(tugasKuliahToDoList: TugasKuliahToDoList)
     {
-        _toDoList.addNewItem(tugasKuliahToDoList)
-        _toDoList.notifyObserver()
+        _tugasKuliahToDoList.addNewItem(tugasKuliahToDoList)
+        _tugasKuliahToDoList.notifyObserver()
     }
 
-    fun removeToDoListItem(id: Long)
+    fun removeTugasKuliahToDoListItem(id: Long)
     {
-        val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
-        _toDoList.removeItemAt(id.toInt())
-        _toDoList.notifyObserver()
+        val realId: Long? = _tugasKuliahToDoList.value?.get(id.toInt())?.tugasKuliahToDoListId
+        _tugasKuliahToDoList.removeItemAt(id.toInt())
+        _tugasKuliahToDoList.notifyObserver()
         if (realId != null) {
-            toDoListIdToBeDeleted.add(realId)
+            tugasKuliahToDoListIdToBeDeleted.add(realId)
         }
 //        uiScope.launch {
 //            if (realId != null) {
@@ -197,13 +194,13 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
 //        }
     }
 
-    fun removeImageItem(id: Long)
+    fun removeTugasKuliahImageItem(id: Long)
     {
-        val realId = _imageList.value?.get(id.toInt())?.imageId
-        _imageList.removeItemAt(id.toInt())
-        _imageList.notifyObserver()
+        val realId = _tugasKuliahImageList.value?.get(id.toInt())?.tugasKuliahImageId
+        _tugasKuliahImageList.removeItemAt(id.toInt())
+        _tugasKuliahImageList.notifyObserver()
         if (realId != null) {
-            imageIdToBeDeleted.add(realId)
+            tugasKuliahImageIdToBeDeleted.add(realId)
         }
 //        uiScope.launch {
 //            if (realId != null) {
@@ -212,9 +209,9 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
 //        }
     }
 
-    fun addImageItem(imageKuliahImage: TugasKuliahImage){
-        _imageList.addNewItem(imageKuliahImage)
-        _imageList.notifyObserver()
+    fun addTugasKuliahImageItem(imageKuliahImage: TugasKuliahImage){
+        _tugasKuliahImageList.addNewItem(imageKuliahImage)
+        _tugasKuliahImageList.notifyObserver()
     }
 
     fun onTimePickerClicked() {
@@ -225,11 +222,11 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
         _showDatePicker.value = true
     }
 
-    fun onTimePickerClicked2() {
+    fun onTimePicker2Clicked() {
         _showTimePicker2.value = true
     }
 
-    fun onDatePickerClicked2() {
+    fun onDatePicker2Clicked() {
         _showDatePicker2.value = true
     }
 
@@ -254,7 +251,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
     }
 
 
-    fun onAddTugasKuliahClicked2()
+    fun onSaveTugasKuliahClicked()
     {
         _editTugasKuliahNavigation.value = true
     }
@@ -262,7 +259,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
     fun updateTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
         uiScope.launch {
-            var mTaskCompletionHistory = database.getTaskCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
+            var mTaskCompletionHistory = database.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
             if (mTaskCompletionHistory == null) {
                 mTaskCompletionHistory =
                     TugasKuliahCompletionHistory(
@@ -274,28 +271,28 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
                 AlarmScheduler.removeAlarmsForTugasKuliahReminder(context, tugasKuliah)
                 tugasKuliah.updatedAt = System.currentTimeMillis()
                 AlarmScheduler.scheduleAlarmsForTugasKuliahReminder(context, tugasKuliah)
-                database.deleteTaskCompletionHistory(mTaskCompletionHistory)
+                database.deleteTugasKuliahCompletionHistory(mTaskCompletionHistory)
                 //is different because the id is different, maybe if it loaded first, it will be deleted
             } else {
                 AlarmScheduler.removeAlarmsForTugasKuliahReminder(context, tugasKuliah)
                 mTaskCompletionHistory.activityType = "Tugas Kuliah Selesai"
                 mTaskCompletionHistory.tugasKuliahCompletionHistoryId = System.currentTimeMillis()
-                database.insertTaskCompletionHistory(mTaskCompletionHistory)
+                database.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
             }
-           database.updateTugas(tugasKuliah)
-            if (toDoListIdToBeDeleted.count() != 0)
+           database.updateTugasKuliah(tugasKuliah)
+            if (tugasKuliahToDoListIdToBeDeleted.count() != 0)
             {
-                for (i in toDoListIdToBeDeleted)
+                for (i in tugasKuliahToDoListIdToBeDeleted)
                 {
-                    database.deleteToDoList(i)
+                    database.deleteTugasKuliahToDoListById(i)
                 }
             }
 
-            if (imageIdToBeDeleted.count() != 0)
+            if (tugasKuliahImageIdToBeDeleted.count() != 0)
             {
-                for (i in imageIdToBeDeleted)
+                for (i in tugasKuliahImageIdToBeDeleted)
                 {
-                    database.deleteImage(i)
+                    database.deleteTugasKuliahImageById(i)
                 }
             }
 
@@ -304,15 +301,15 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
                 tugasKuliahToDoList.value!!.toList().forEach {
 
                     it.bindToTugasKuliahId = tugasKuliah.tugasKuliahId
-                    database.insertToDoList(it)
+                    database.insertTugasKuliahToDoList(it)
                 }
             }
 
-            if (imageListKuliahImage.value != null)
+            if (tugasKuliahImageList.value != null)
             {
-                imageListKuliahImage.value!!.toList().forEach{
+                tugasKuliahImageList.value!!.toList().forEach{
                     it.bindToTugasKuliahId = tugasKuliah.tugasKuliahId
-                    database.insertImage(it)
+                    database.insertTugasKuliahImage(it)
                 }
             }
 
@@ -334,33 +331,36 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
         _editTugasKuliahNavigation.value = null
     }
 
-    fun convertSubjectIdToSubjectName(id: Long){
+    fun convertSubjectIdToSubjectName(id: Long)
+    {
         uiScope.launch {
-            _subjectText.value = database.loadSubjectName(id)
+            _subjectTugasKuliahText.value = database.loadSubjectTugasKuliahNameById(id)
         }
     }
 
-    fun onSubjectNameChanged()
+    fun onSubjectTugasKuliahNameChanged()
     {
-        _subjectText.value = null
+        _subjectTugasKuliahText.value = null
     }
 
-    fun onToDoListClicked(toDoListId: Long) {
-        _toDoListId.value = toDoListId
-    }
-
-    fun onGambarClicked(imageId: Long){
-        _imageId.value = imageId
-    }
-
-    fun afterClickToDoList()
+    fun onTugasKuliahToDoListClicked(toDoListId: Long)
     {
-        _toDoListId.value = null
+        _tugasKuliahToDoListId.value = toDoListId
     }
 
-    fun afterClickGambar()
+    fun onTugasKuliahImageClicked(imageId: Long)
     {
-        _imageId.value = null
+        _tugasKuliahImageId.value = imageId
+    }
+
+    fun afterClickTugasKuliahToDoList()
+    {
+        _tugasKuliahToDoListId.value = null
+    }
+
+    fun afterClickTugasKuliahImage()
+    {
+        _tugasKuliahImageId.value = null
     }
 
 //    fun updateToDoList(id: Long, data: String, isFinished: Boolean)
@@ -369,16 +369,16 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
 //        toDoList.value?.get(id.toInt())?.isFinished = isFinished
 //    }
 
-    fun updateToDoListName(id: Long, data: String)
+    fun updateTugasKuliahToDoListName(id: Long, data: String)
     {
-        tugasKuliahToDoList.value?.get(id.toInt())?.toDoListName = data
+        tugasKuliahToDoList.value?.get(id.toInt())?.tugasKuliahToDoListName = data
 //        toDoList.value?.get(id.toInt())?.isFinished = isFinished
     }
 
-    fun updateToDoListIsFinished(id: Long, isFinished: Boolean)
+    fun updateTugasKuliahToDoListIsFinished(id: Long, isFinished: Boolean)
     {
 //        toDoList.value?.get(id.toInt())?.toDoListName = data
-        _toDoList.value?.get(id.toInt())?.isFinished = isFinished
-        _toDoList.notifyObserver()
+        _tugasKuliahToDoList.value?.get(id.toInt())?.isFinished = isFinished
+        _tugasKuliahToDoList.notifyObserver()
     }
 }

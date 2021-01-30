@@ -5,19 +5,19 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTu
 
 @Dao
 interface subjectTugasKuliahDao{
-    @Query("SELECT SubjectName FROM Subject WHERE SubjectId LIKE :id")
+    @Query("SELECT SubjectName FROM SubjectTugasKuliah WHERE subjectTugasKuliahId LIKE :id")
     suspend fun loadSubjectNameById(id: Long): String
 
 
-    @Query("SELECT SubjectName FROM Subject WHERE SubjectId LIKE :id")
+    @Query("SELECT SubjectName FROM SubjectTugasKuliah WHERE subjectTugasKuliahId LIKE :id")
     fun loadSubjectNameByIdForeground(id: Long): String
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSubject(vararg subjectTugasKuliah: SubjectTugasKuliah)
+    suspend fun insertSubject(subjectTugasKuliah: SubjectTugasKuliah)
 
     @Delete
-    suspend fun deleteSubject(subjectTugasKuliah: SubjectTugasKuliah)
+    suspend fun deleteSubjectTugasKuliah(subjectTugasKuliah: SubjectTugasKuliah)
 
     @Update
-    suspend fun updateSubject(subjectTugasKuliah: SubjectTugasKuliah)
+    suspend fun updateSubjectTugasKuliah(subjectTugasKuliah: SubjectTugasKuliah)
 }

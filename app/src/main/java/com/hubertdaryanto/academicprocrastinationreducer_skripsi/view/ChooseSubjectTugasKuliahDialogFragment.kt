@@ -14,20 +14,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ChooseSubjectTugasKuliahDialogBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.SubjectDialogBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahDialogFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahDialogFragmentViewModelFactory
-
-
-object SubjectFrom{
-    var fromFragment = ""
-}
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahListener
 
 class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
     val TAG: String = this::class.java.simpleName
 
-    private lateinit var binding: SubjectDialogBinding
+    private lateinit var binding: ChooseSubjectTugasKuliahDialogBinding
     private lateinit var intent: Intent
 
     override fun onCreateView(
@@ -37,28 +35,29 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
     ): View? {
         val application = requireNotNull(this.activity).application
 
-        SubjectFrom.fromFragment = this.targetFragment.toString()
+        shared_data.fromFragment = this.targetFragment.toString()
 
 
         val inflater = requireActivity().layoutInflater
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.subject_dialog, null, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.choose_subject_tugas_kuliah_dialog, null, false)
 
         val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
         val viewModelFactory = SubjectTugasKuliahDialogFragmentViewModelFactory(application, dataSource)
 
         val subjectDialogFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(SubjectTugasKuliahDialogFragmentViewModel::class.java)
 
-        val adapter = SubjectTugasKuliahAdapter(SubjectListener { subjectId ->
-            subjectDialogFragmentViewModel.onSubjectClicked(subjectId)
-        } , object : SubjectInterface{
+        val adapter = SubjectTugasKuliahAdapter(SubjectTugasKuliahListener { subjectId ->
+            subjectDialogFragmentViewModel.onSubjectTugasKuliahClicked(subjectId)
+        }, object :
+            SubjectTugasKuliahInterface {
 
             override fun onRemoveItem(id: Long) {
                 AlertDialog.Builder(context).apply {
                     setTitle(context.getString(R.string.delete_subject_title_confirmation))
                     setMessage(context.getString(R.string.delete_subject_subtitle_confirmation))
                     setPositiveButton(context.getString(R.string.ya)) { _, _ ->
-                        subjectDialogFragmentViewModel.removeSubject(id)
+                        subjectDialogFragmentViewModel.removeSubjectTugasKuliah(id)
                     }
                     setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
 
@@ -78,7 +77,7 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
         subjectDialogFragmentViewModel.selectSubject.observe(viewLifecycleOwner, Observer {
             it?.let{
                 sendSubject(it)
-                subjectDialogFragmentViewModel.afterSubjectClicked()
+                subjectDialogFragmentViewModel.afterSubjectTugasKuliahClicked()
             }
         })
 
@@ -93,7 +92,7 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
         subjectDialogFragmentViewModel.dismiss.observe(viewLifecycleOwner, Observer {
             if (it == true)
             {
-                sendResult(null)
+                sendSubject(null)
                 dismiss()
                 subjectDialogFragmentViewModel.afterdismiss()
             }
@@ -182,14 +181,9 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
 //            builder.create()
 //        } ?: throw IllegalStateException("Activity cannot be null")
 //    }
+    
 
-
-    fun sendSubject(subjectName: Long)
-    {
-        sendResult(subjectName)
-    }
-
-    private fun sendResult(message: Long?){
+    private fun sendSubject(message: Long?){
         if (targetFragment == null)
         {
             return

@@ -15,8 +15,8 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuli
 data class TugasKuliahToDoList(
     @ColumnInfo(name = "bindToTugasKuliahId")
     var bindToTugasKuliahId: Long,
-    @ColumnInfo(name = "toDoListName")
-    var toDoListName: String,
+    @ColumnInfo(name = "tugasKuliahToDoListName")
+    var tugasKuliahToDoListName: String,
     @ColumnInfo(name = "deadline")
     var deadline: Long,
     @ColumnInfo(name = "isFinished")
@@ -24,6 +24,6 @@ data class TugasKuliahToDoList(
 )
 {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "toDoListId")
-    var toDoListId: Long = 0
+    @ColumnInfo(name = "tugasKuliahToDoListId")
+    var tugasKuliahToDoListId: Long = 0
 }

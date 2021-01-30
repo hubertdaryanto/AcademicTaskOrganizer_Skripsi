@@ -9,7 +9,7 @@
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory" />
         <variable
             name="clickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahCompletionHistoryListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryListener" />
     </data>
 
     <androidx.cardview.widget.CardView

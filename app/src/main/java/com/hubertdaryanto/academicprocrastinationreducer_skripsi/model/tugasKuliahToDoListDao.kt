@@ -5,15 +5,15 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuli
 
 @Dao
 interface tugasKuliahToDoListDao{
-    @Query("SELECT ToDoListName FROM TugasKuliahToDoList WHERE ToDoListId LIKE :id")
+    @Query("SELECT tugasKuliahToDoListName FROM TugasKuliahToDoList WHERE tugasKuliahToDoListId LIKE :id")
     suspend fun loadToDoListNameById(id: Long): String
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertToDoList(vararg tugasKuliahToDoList: TugasKuliahToDoList)
+    suspend fun insertTugasKuliahToDoList(tugasKuliahToDoList: TugasKuliahToDoList)
 
     @Delete
-    suspend fun deleteToDoList(tugasKuliahToDoList: TugasKuliahToDoList)
+    suspend fun deleteTugasKuliahToDoList(tugasKuliahToDoList: TugasKuliahToDoList)
 
     @Update
-    suspend fun updateToDoList(tugasKuliahToDoList: TugasKuliahToDoList)
+    suspend fun updateTugasKuliahToDoList(tugasKuliahToDoList: TugasKuliahToDoList)
 }

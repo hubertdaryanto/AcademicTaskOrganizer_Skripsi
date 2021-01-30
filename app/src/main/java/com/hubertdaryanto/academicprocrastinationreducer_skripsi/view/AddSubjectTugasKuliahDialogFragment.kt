@@ -13,29 +13,26 @@ import androidx.lifecycle.ViewModelProvider
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectDialogBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectTugasKuliahDialogBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddSubjectTugasKuliahDialogFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddSubjectTugasKuliahDialogFragmentViewModelFactory
 
 class AddSubjectTugasKuliahDialogFragment: DialogFragment() {
-    private lateinit var binding: AddSubjectDialogBinding
+    private lateinit var binding: AddSubjectTugasKuliahDialogBinding
+    private lateinit var addSubjectTugasKuliahDialogViewModel: AddSubjectTugasKuliahDialogFragmentViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val application = requireNotNull(this.activity).application
         val inflater = requireActivity().layoutInflater
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.add_subject_dialog, null, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.add_subject_tugas_kuliah_dialog, null, false)
 
         val dataSource = AppDatabase.getInstance(application).getSubjectTugasKuliahDao
         val viewModelFactory = AddSubjectTugasKuliahDialogFragmentViewModelFactory(application, dataSource)
 
-        val addSubjectDialogViewModel = ViewModelProvider(this, viewModelFactory).get(AddSubjectTugasKuliahDialogFragmentViewModel::class.java)
+        addSubjectTugasKuliahDialogViewModel = ViewModelProvider(this, viewModelFactory).get(AddSubjectTugasKuliahDialogFragmentViewModel::class.java)
 
-        addSubjectDialogViewModel.addSubjectAndDismiss.observe(viewLifecycleOwner, Observer {
+        addSubjectTugasKuliahDialogViewModel.addSubjectAndDismiss.observe(viewLifecycleOwner, Observer {
             if (it == true)
             {
                 if (TextUtils.isEmpty(binding.editSubjectName.text.toString()))
@@ -48,27 +45,27 @@ class AddSubjectTugasKuliahDialogFragment: DialogFragment() {
                     val subjectName = binding.editSubjectName.text.toString().trim()
                     val mSubject =
                         SubjectTugasKuliah(
-                            subjectName = subjectName
+                            subjectTugasKuliahName = subjectName
                         )
-                    addSubjectDialogViewModel.addSubject(mSubject)
+                    addSubjectTugasKuliahDialogViewModel.addSubject(mSubject)
                     dismiss()
-                    addSubjectDialogViewModel.afterAddSubjectClicked()
+                    addSubjectTugasKuliahDialogViewModel.afterAddSubjectClicked()
                 }
 
             }
 
         })
 
-        addSubjectDialogViewModel.dismiss.observe(viewLifecycleOwner, Observer {
+        addSubjectTugasKuliahDialogViewModel.dismiss.observe(viewLifecycleOwner, Observer {
             if (it == true)
             {
                 dismiss()
-                addSubjectDialogViewModel.afterdismiss()
+                addSubjectTugasKuliahDialogViewModel.afterdismiss()
             }
 
         })
 
-        binding.addSubjectDialogFragmentViewModel = addSubjectDialogViewModel
+        binding.addSubjectDialogFragmentViewModel = addSubjectTugasKuliahDialogViewModel
         binding.lifecycleOwner = this
         return binding.root
     }

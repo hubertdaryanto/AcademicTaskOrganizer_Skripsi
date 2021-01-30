@@ -1,11 +1,11 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 
-object ImageForTugasUtils {
+object TugasKuliahImageUtils {
     fun openImageInGallery(context: Context, uri: Uri)
     {
 

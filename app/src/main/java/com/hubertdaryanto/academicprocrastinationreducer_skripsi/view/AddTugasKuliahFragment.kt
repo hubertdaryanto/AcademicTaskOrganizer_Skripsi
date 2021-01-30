@@ -31,11 +31,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.deadline_
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasKuliahBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddTugasKuliahFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddTugasKuliahFragmentViewModelFactory
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -47,12 +43,11 @@ class AddTugasKuliahFragment : Fragment() {
     private lateinit var dataSource: allQueryDao
     private lateinit var addTugasKuliahFragmentViewModel: AddTugasKuliahFragmentViewModel
 
-    private var subjectId by Delegates.notNull<Long>()
-    private lateinit var selectedImageUri: Uri
+    private var subjectTugasKuliahId by Delegates.notNull<Long>()
 
     private var mTugas =
         TugasKuliah(
-            tugasSubjectId = 0,
+            tugasKuliahSubjectId = 0,
             tugasKuliahName = "",
             deadline = 0L,
             isFinished = false,
@@ -61,7 +56,6 @@ class AddTugasKuliahFragment : Fragment() {
             updatedAt = 0
         )
 
-    val TAG: String = this::class.java.simpleName
     private val TARGET_FRAGMENT_REQUEST_CODE = 1
 
     private val YOUR_IMAGE_CODE = 2
@@ -78,7 +72,7 @@ class AddTugasKuliahFragment : Fragment() {
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (!binding.editTextTugas.text.isNullOrBlank() || !binding.editTextSubject.text.isNullOrBlank() || !binding.editDeadline.text.isNullOrBlank() || !binding.editJam.text.isNullOrBlank() || !binding.editCatatan.text.isNullOrBlank() || addTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != null || addTugasKuliahFragmentViewModel.imageListKuliahImage.value != null)
             {
-                backAndUpButtonHandlerWhenDataIsAvailable()
+                backAndUpButtonHandlerWhenHaveSomeData()
             }
             else
             {
@@ -219,7 +213,7 @@ class AddTugasKuliahFragment : Fragment() {
             }
         })
 
-        addTugasKuliahFragmentViewModel.showSubjectDialog.observe(viewLifecycleOwner, Observer {
+        addTugasKuliahFragmentViewModel.showSubjectTugasKuliahDialog.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 val dialog = ChooseSubjectTugasKuliahDialogFragment()
                 dialog.setTargetFragment(this, TARGET_FRAGMENT_REQUEST_CODE)
@@ -249,7 +243,7 @@ class AddTugasKuliahFragment : Fragment() {
                     else
                     {
                         mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
-                        mTugas.tugasSubjectId = subjectId
+                        mTugas.tugasKuliahSubjectId = subjectTugasKuliahId
                         // Convert Long to Date atau sebaliknya di https://currentmillis.com/
                         var clock = "9:00"
                         if (deadline_components.day < 1)
@@ -320,14 +314,14 @@ class AddTugasKuliahFragment : Fragment() {
             }
         })
 
-        addTugasKuliahFragmentViewModel.toDoListId.observe(viewLifecycleOwner, Observer {
+        addTugasKuliahFragmentViewModel.tugasKuliahToDoListId.observe(viewLifecycleOwner, Observer {
             it?.let {
                 //ini buat nge update to do list ya kalau di click, gakjadi kyknya wkwkwkkw
                 addTugasKuliahFragmentViewModel.afterClickToDoList()
             }
         })
 
-        addTugasKuliahFragmentViewModel.imageId.observe(viewLifecycleOwner, Observer {
+        addTugasKuliahFragmentViewModel.tugasKuliahImageId.observe(viewLifecycleOwner, Observer {
             it?.let {
                 //action not defined
 
@@ -335,14 +329,14 @@ class AddTugasKuliahFragment : Fragment() {
             }
         })
 
-        addTugasKuliahFragmentViewModel.addToDoList.observe(viewLifecycleOwner, Observer {
+        addTugasKuliahFragmentViewModel.addTugasKuliahToDoList.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 addToDoList()
                 addTugasKuliahFragmentViewModel.afterAddToDoListClicked()
             }
         })
 
-        addTugasKuliahFragmentViewModel.addImage.observe(viewLifecycleOwner, Observer {
+        addTugasKuliahFragmentViewModel.addTugasKuliahImage.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 val intent = Intent()
                 intent.type = "image/*"
@@ -357,10 +351,11 @@ class AddTugasKuliahFragment : Fragment() {
             }
         })
 
-        val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
+        val toDoListAdapter = TugasKuliahToDoListAdapter(TugasKuliahToDoListListener { toDoListId ->
             addTugasKuliahFragmentViewModel.onToDoListClicked(toDoListId)
         }
-            , object : ToDoListInterface{
+            , object :
+                TugasKuliahToDoListInterface {
             override fun onUpdateText(id: Long, data: String) {
                 addTugasKuliahFragmentViewModel.updateToDoListName(id, data)
             }
@@ -370,7 +365,7 @@ class AddTugasKuliahFragment : Fragment() {
                 }
 
                 override fun onRemoveItem(id: Long) {
-                    if (addTugasKuliahFragmentViewModel._toDoList.value?.get(id.toInt())?.toDoListName?.isEmpty()!!)
+                    if (addTugasKuliahFragmentViewModel._toDoList.value?.get(id.toInt())?.tugasKuliahToDoListName?.isEmpty()!!)
                     {
                         addTugasKuliahFragmentViewModel.removeToDoListItem(id)
                     }
@@ -401,9 +396,9 @@ class AddTugasKuliahFragment : Fragment() {
         binding.ToDoListRecyclerView.adapter = toDoListAdapter
 
 
-        val gambarAdapter = ImageForTugasAdapter(ImageForTugasListener { imageId ->
+        val gambarAdapter = ImageForTugasKuliahAdapter(TugasKuliahImageListener { imageId ->
             addTugasKuliahFragmentViewModel.onGambarClicked(imageId)
-        } , object : ImageInterface{
+        }, object : TugasKuliahImageInterface{
             override fun onRemoveItem(id: Long) {
 
                 AlertDialog.Builder(context).apply {
@@ -455,7 +450,7 @@ class AddTugasKuliahFragment : Fragment() {
     private fun addToDoList() {
         val mToDoList =
             TugasKuliahToDoList(
-                toDoListName = "",
+                tugasKuliahToDoListName = "",
                 bindToTugasKuliahId = mTugas.tugasKuliahId,
                 isFinished = false,
                 deadline = 0L
@@ -468,7 +463,7 @@ class AddTugasKuliahFragment : Fragment() {
         var action_save = menu.findItem(R.id.actionSaveTugas)
         action_save.title = "Selanjutnya"
         action_save.setIcon(R.drawable.ic_arrow_forward_black_24dp)
-        view_utilities.menuIconColor(action_save, Color.BLACK)
+        View_utilities.menuIconColor(action_save, Color.BLACK)
 
     }
 
@@ -482,7 +477,7 @@ class AddTugasKuliahFragment : Fragment() {
             android.R.id.home -> {
                 if (!binding.editTextTugas.text.isNullOrBlank() || !binding.editTextSubject.text.isNullOrBlank() || !binding.editDeadline.text.isNullOrBlank() || !binding.editJam.text.isNullOrBlank() || !binding.editCatatan.text.isNullOrBlank() || addTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != null || addTugasKuliahFragmentViewModel.imageListKuliahImage.value != null)
                 {
-                    backAndUpButtonHandlerWhenDataIsAvailable()
+                    backAndUpButtonHandlerWhenHaveSomeData()
                 }
                 else
                 {
@@ -494,7 +489,7 @@ class AddTugasKuliahFragment : Fragment() {
         }
     }
 
-    private fun backAndUpButtonHandlerWhenDataIsAvailable() {
+    private fun backAndUpButtonHandlerWhenHaveSomeData() {
         AlertDialog.Builder(context).apply {
             setTitle(context.getString(R.string.back_confirmation_title))
             setMessage(context.getString(R.string.back_confirmation_subtitle))
@@ -532,7 +527,7 @@ class AddTugasKuliahFragment : Fragment() {
             val compare: Long = 0
             if (greeting != null) {
                 if (!greeting.equals(compare)) {
-                    subjectId = greeting
+                    subjectTugasKuliahId = greeting
                     addTugasKuliahFragmentViewModel.convertSubjectIdToSubjectName(greeting)
                 }
             }
@@ -542,7 +537,7 @@ class AddTugasKuliahFragment : Fragment() {
             if (resultCode == RESULT_OK)
                 if (data != null) {
 
-                    selectedImageUri = data.data!!
+                    var selectedImageUri = data.data!!
 //                    if (selectedImageUri == null)
 //                    context?.contentResolver?.takePersistableUriPermission(selectedImageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
@@ -570,7 +565,7 @@ class AddTugasKuliahFragment : Fragment() {
                     val mImage =
                         TugasKuliahImage(
                             bindToTugasKuliahId = mTugas.tugasKuliahId,
-                            imageName = path
+                            tugasKuliahImageName = path
                         )
                     addTugasKuliahFragmentViewModel.addImageItem(mImage)
                     addTugasKuliahFragmentViewModel.afterAddToDoListClicked()
@@ -585,29 +580,29 @@ class AddTugasKuliahFragment : Fragment() {
 
 
 
-    private fun insertInPrivateStorage(context: Context, name: String, path: String)
-    {
-        var fos: FileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE)
-
-        var file: File = File(context.filesDir, name)
-
-        var bytes: ByteArray = getBytesFromFile(file)
-
-        fos.write(bytes)
-        fos.close()
-
-        Toast.makeText(context, "File saved in :"+ context.filesDir + "/"+name, Toast.LENGTH_LONG).show()
-    }
-
-    private fun getBytesFromFile(file: File): ByteArray
-    {
-        var data: ByteArray = file.readBytes()
-        if (data == null)
-        {
-            throw IOException("No data")
-        }
-        return data
-    }
+//    private fun insertInPrivateStorage(context: Context, name: String, path: String)
+//    {
+//        var fos: FileOutputStream = context.openFileOutput(name, Context.MODE_PRIVATE)
+//
+//        var file: File = File(context.filesDir, name)
+//
+//        var bytes: ByteArray = getBytesFromFile(file)
+//
+//        fos.write(bytes)
+//        fos.close()
+//
+//        Toast.makeText(context, "File saved in :"+ context.filesDir + "/"+name, Toast.LENGTH_LONG).show()
+//    }
+//
+//    private fun getBytesFromFile(file: File): ByteArray
+//    {
+//        var data: ByteArray = file.readBytes()
+//        if (data == null)
+//        {
+//            throw IOException("No data")
+//        }
+//        return data
+//    }
 
     private fun getRealPathFromURI(context: Context, uri: Uri): String
     {
@@ -705,26 +700,5 @@ class AddTugasKuliahFragment : Fragment() {
     fun getInstance(): AddTugasKuliahFragment? {
         return this
     }
-
-//    fun getRealPathFromURI(uri: Uri): String{
-//        var cursor: Cursor? = null
-//        return try {
-//            val proj = arrayOf(MediaStore.Images.Media.DATA)
-//            cursor = context?.getContentResolver()?.query(
-//                selectedImageUri, proj, null, null,
-//                null
-//            )
-//            val column_index: Int? = cursor
-//                ?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-//            cursor?.moveToFirst()
-//            if (column_index != null) {
-//                cursor?.getString(column_index).toString()
-//            }
-//        } finally {
-//            if (cursor != null) {
-//                cursor.close()
-//            }
-//        }
-//    }
 
 }

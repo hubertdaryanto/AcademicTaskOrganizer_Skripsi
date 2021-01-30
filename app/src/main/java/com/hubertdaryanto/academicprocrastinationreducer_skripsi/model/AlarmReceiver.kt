@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 
 class AlarmReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-
         val job = Job()
         val uiScope = CoroutineScope(Dispatchers.Main + job)
         if (context != null && intent != null && intent.action != null)

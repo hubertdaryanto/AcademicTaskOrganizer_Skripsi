@@ -3,7 +3,6 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 //import androidx.recyclerview.widget.DiffUtil
 //import org.stephenbrewer.arch.recyclerview.LinearLayoutManager
 //import androidx.recyclerview.widget.ListAdapter
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
@@ -14,42 +13,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.addNewItem
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.notifyObserver
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.removeItemAt
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListAgendaHeaderBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasSelesaiBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import kotlinx.coroutines.*
-import org.stephenbrewer.arch.recyclerview.DiffUtil
 import org.stephenbrewer.arch.recyclerview.ListAdapter
 import org.stephenbrewer.arch.recyclerview.RecyclerView
 
-
-class TugasKuliahDate(d: String, c: String): TugasKuliahListItemType {
-    var date = d
-    var count = c
-    override fun getType(): Int {
-        return ITEM_VIEW_TYPE_HEADER
-    }
-}
-
-
-
-interface TugasKuliahListItemType {
-    val ITEM_VIEW_TYPE_HEADER: Int
-        get() = 0
-    val ITEM_VIEW_TYPE_ITEM: Int
-        get() = 1
-    val ITEM_VIEW_TYPE_ITEM_FINISHED: Int
-        get() = 2
-
-    fun getType(): Int
-}
 
 class TugasKuliahAdapter(val clickListener: TugasKuliahListener): ListAdapter<TugasKuliahDataItem, RecyclerView.ViewHolder>(
     TugasKuliahDiffCallback()
@@ -153,16 +125,17 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener): ListAdapter<Tu
                  }
             }
 
-            val toDoListAdapter = ToDoListAdapter(ToDoListListener { toDoListId ->
+            val toDoListAdapter = TugasKuliahToDoListAdapter(TugasKuliahToDoListListener { toDoListId ->
                 //function buat apa yang terjadi kalau di click
             }
-                , object : ToDoListInterface{
+                , object :
+                    TugasKuliahToDoListInterface {
                     override fun onUpdateText(id: Long, data: String) {
                         //function buat update data
 
                         uiScope.launch {
-                            _toDoList.value?.get(id.toInt())?.toDoListName = data
-                            _toDoList.value?.get(id.toInt())?.let { dataSource.insertToDoList(it) }
+                            _toDoList.value?.get(id.toInt())?.tugasKuliahToDoListName = data
+                            _toDoList.value?.get(id.toInt())?.let { dataSource.insertTugasKuliahToDoList(it) }
                         }
                     }
 
@@ -171,7 +144,7 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener): ListAdapter<Tu
                         uiScope.launch {
                             var allFinished: Boolean = true
                             _toDoList.value?.get(id.toInt())?.isFinished  = isFinished
-                            _toDoList.value?.get(id.toInt())?.let { dataSource.insertToDoList(it) }
+                            _toDoList.value?.get(id.toInt())?.let { dataSource.insertTugasKuliahToDoList(it) }
                             for (i in _toDoList.value!!)
                             {
                                 if (i.isFinished == false)
@@ -185,21 +158,21 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener): ListAdapter<Tu
                                 item.isFinished = true
                                 Toast.makeText(binding.root.context, "Tugas kuliah " + item.tugasKuliahName + " selesai.", Toast.LENGTH_LONG).show()
                                 uiScope.launch {
-                                    dataSource.updateTugas(item)
-                                    var mTaskCompletionHistory: TugasKuliahCompletionHistory? = dataSource.getTaskCompletionHistoryByTugasKuliahId(item.tugasKuliahId)
+                                    dataSource.updateTugasKuliah(item)
+                                    var mTaskCompletionHistory: TugasKuliahCompletionHistory? = dataSource.getTugasKuliahCompletionHistoryByTugasKuliahId(item.tugasKuliahId)
                                     if (mTaskCompletionHistory == null) {
                                         mTaskCompletionHistory =
                                             TugasKuliahCompletionHistory(
                                                 bindToTugasKuliahId = item.tugasKuliahId,
                                                 activityType = "Tugas Kuliah Selesai"
                                             )
-                                        dataSource.insertTaskCompletionHistory(mTaskCompletionHistory)
+                                        dataSource.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
                                     }
                                     else
                                     {
                                         mTaskCompletionHistory.activityType = "Tugas Kuliah Selesai"
                                         mTaskCompletionHistory.tugasKuliahCompletionHistoryId = System.currentTimeMillis()
-                                        dataSource.insertTaskCompletionHistory(mTaskCompletionHistory)
+                                        dataSource.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
                                     }
 
                                 }
@@ -210,15 +183,15 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener): ListAdapter<Tu
 
                     override fun onRemoveItem(id: Long) {
 
-                        if (_toDoList.value?.get(id.toInt())?.toDoListName?.isEmpty()!!)
+                        if (_toDoList.value?.get(id.toInt())?.tugasKuliahToDoListName?.isEmpty()!!)
                         {
                             //remove to do list langsung
-                            val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
+                            val realId: Long? = _toDoList.value?.get(id.toInt())?.tugasKuliahToDoListId
                             _toDoList.removeItemAt(id.toInt())
                             _toDoList.notifyObserver()
                             uiScope.launch {
                                 if (realId != null) {
-                                    dataSource.deleteToDoList(realId.toLong())
+                                    dataSource.deleteTugasKuliahToDoListById(realId.toLong())
                                 }
                             }
                         }
@@ -229,12 +202,12 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener): ListAdapter<Tu
                                 setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
                                 setPositiveButton(context.getString(R.string.ya)) { _, _ ->
                                     //remove to do list langsung
-                                    val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
+                                    val realId: Long? = _toDoList.value?.get(id.toInt())?.tugasKuliahToDoListId
                                     _toDoList.removeItemAt(id.toInt())
                                     _toDoList.notifyObserver()
                                     uiScope.launch {
                                         if (realId != null) {
-                                            dataSource.deleteToDoList(realId.toLong())
+                                            dataSource.deleteTugasKuliahToDoListById(realId.toLong())
                                         }
                                     }
                                 }
@@ -249,25 +222,25 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener): ListAdapter<Tu
                         uiScope.launch {
                             val mToDoList =
                                 TugasKuliahToDoList(
-                                    toDoListName = "",
+                                    tugasKuliahToDoListName = "",
                                     bindToTugasKuliahId = item.tugasKuliahId,
                                     isFinished = false,
                                     deadline = 0L
                                 )
                             _toDoList.addNewItem(mToDoList)
                             _toDoList.notifyObserver()
-                            dataSource.insertToDoList(mToDoList)
+                            dataSource.insertTugasKuliahToDoList(mToDoList)
                         }
                     }
 
                     override fun onRemoveEmptyItem(id: Long) {
                         //remove to do list langsung
-                        val realId: Long? = _toDoList.value?.get(id.toInt())?.toDoListId
+                        val realId: Long? = _toDoList.value?.get(id.toInt())?.tugasKuliahToDoListId
                         _toDoList.removeItemAt(id.toInt())
                         _toDoList.notifyObserver()
                         uiScope.launch {
                             if (realId != null) {
-                                dataSource.deleteToDoList(realId.toLong())
+                                dataSource.deleteTugasKuliahToDoListById(realId.toLong())
                             }
                         }
                     }
@@ -354,43 +327,3 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener): ListAdapter<Tu
     }
 }
 
-class TugasKuliahDiffCallback : DiffUtil.ItemCallback<TugasKuliahDataItem>() {
-    override fun areItemsTheSame(oldItem: TugasKuliahDataItem, newItem: TugasKuliahDataItem): Boolean {
-        return oldItem.id == newItem.id
-    }
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: TugasKuliahDataItem, newItem: TugasKuliahDataItem): Boolean {
-        return oldItem == newItem
-    }
-}
-
-class TugasKuliahListener(val clickListener: (TugasKuliahId: Long) -> Unit)
-{
-    fun onClick(tugas: TugasKuliah) = clickListener(tugas.tugasKuliahId)
-}
-
-sealed class TugasKuliahDataItem {
-    abstract val id: Long
-    open var count: Long = 0
-    abstract val type: Int
-    object Header: TugasKuliahDataItem(){
-        override val id = Long.MIN_VALUE
-         override val type = 0
-}
-    data class TugasKuliahList(val tugasKuliahListItemType: TugasKuliahListItemType): TugasKuliahDataItem()
-    {
-        fun getLong(): Long{
-            if (tugasKuliahListItemType is TugasKuliah)
-            {
-                return tugasKuliahListItemType.tugasKuliahId + count
-            }
-            else
-            {
-                count = count + 1
-                return count
-            }
-        }
-        override val id: Long = getLong()
-        override val type: Int = tugasKuliahListItemType.getType()
-    }
-}

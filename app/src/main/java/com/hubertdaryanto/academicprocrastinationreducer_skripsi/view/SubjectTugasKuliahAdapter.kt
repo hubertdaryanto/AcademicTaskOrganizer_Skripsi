@@ -1,30 +1,31 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemSubjectBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliahDataItem
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahDiffCallback
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-interface SubjectInterface{
-    fun onRemoveItem(id: Long)
-}
 
 val ITEM_VIEW_TYPE_HEADER: Int
     get() = 0
 val ITEM_VIEW_TYPE_ITEM: Int
     get() = 1
 
-class SubjectTugasKuliahAdapter(val clickListener: SubjectListener, val subjectInterface: SubjectInterface): ListAdapter<SubjectDataItem, RecyclerView.ViewHolder>(SubjectDiffCallback()) {
+class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliahListener, val subjectTugasKuliahInterface: SubjectTugasKuliahInterface): ListAdapter<SubjectTugasKuliahDataItem, RecyclerView.ViewHolder>(
+    SubjectTugasKuliahDiffCallback()
+) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -40,12 +41,12 @@ class SubjectTugasKuliahAdapter(val clickListener: SubjectListener, val subjectI
         when (holder) {
             is ViewHolder ->
             {
-                val item = getItem(position) as SubjectDataItem.SubjectItem
-                if (SubjectFrom.fromFragment.contains("AddTugasFragment"))
+                val item = getItem(position) as SubjectTugasKuliahDataItem.SubjectTugasKuliahItem
+                if (shared_data.fromFragment.contains("AddTugasFragment"))
                 {
                     holder.binding.subjectDeleteBtn.visibility = View.VISIBLE
                     holder.binding.subjectDeleteBtn.setOnClickListener {
-                        subjectInterface.onRemoveItem(item.subjectTugasKuliah.subjectId)
+                        subjectTugasKuliahInterface.onRemoveItem(item.subjectTugasKuliah.subjectTugasKuliahId)
                     }
                 }
                 else
@@ -53,7 +54,7 @@ class SubjectTugasKuliahAdapter(val clickListener: SubjectListener, val subjectI
                     holder.binding.subjectDeleteBtn.visibility = View.GONE
                 }
 
-                holder.bind(item.subjectTugasKuliah, clickListener)
+                holder.bind(item.subjectTugasKuliah, clickTugasKuliahListener)
             }
 
         }
@@ -63,9 +64,9 @@ class SubjectTugasKuliahAdapter(val clickListener: SubjectListener, val subjectI
     fun addHeaderAndSubmitList(list: List<SubjectTugasKuliah>?) {
         adapterScope.launch {
             val items = when (list) {
-                null -> listOf(SubjectDataItem.Header)
+                null -> listOf(SubjectTugasKuliahDataItem.Header)
                 else -> list.map {
-                    SubjectDataItem.SubjectItem(it)
+                    SubjectTugasKuliahDataItem.SubjectTugasKuliahItem(it)
                 }
             }
             withContext(Dispatchers.Main){
@@ -78,8 +79,8 @@ class SubjectTugasKuliahAdapter(val clickListener: SubjectListener, val subjectI
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is SubjectDataItem.Header -> ITEM_VIEW_TYPE_HEADER
-            is SubjectDataItem.SubjectItem -> ITEM_VIEW_TYPE_ITEM
+            is SubjectTugasKuliahDataItem.Header -> ITEM_VIEW_TYPE_HEADER
+            is SubjectTugasKuliahDataItem.SubjectTugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
         }
     }
 
@@ -96,9 +97,9 @@ class SubjectTugasKuliahAdapter(val clickListener: SubjectListener, val subjectI
 
     class ViewHolder private constructor(val binding: ListItemSubjectBinding): RecyclerView.ViewHolder(binding.root)
     {
-        fun bind(item: SubjectTugasKuliah, clickListener: SubjectListener) {
+        fun bind(item: SubjectTugasKuliah, clickTugasKuliahListener: SubjectTugasKuliahListener) {
             binding.subject = item
-            binding.subjectClickListener = clickListener
+            binding.subjectClickListener = clickTugasKuliahListener
             binding.executePendingBindings()
         }
 
@@ -110,33 +111,4 @@ class SubjectTugasKuliahAdapter(val clickListener: SubjectListener, val subjectI
             }
         }
     }
-}
-
-class SubjectDiffCallback : DiffUtil.ItemCallback<SubjectDataItem>() {
-    override fun areItemsTheSame(oldItem: SubjectDataItem, newItem: SubjectDataItem): Boolean {
-        return oldItem.id == newItem.id
-    }
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: SubjectDataItem, newItem: SubjectDataItem): Boolean {
-        return oldItem == newItem
-    }
-
-}
-
-class SubjectListener(val clickListener: (subjectId: Long) -> Unit)
-{
-    fun onClick(subjectTugasKuliah: SubjectTugasKuliah) = clickListener(subjectTugasKuliah.subjectId)
-}
-
-sealed class SubjectDataItem {
-    abstract val id: Long
-    data class SubjectItem(val subjectTugasKuliah: SubjectTugasKuliah): SubjectDataItem(){
-        override val id = subjectTugasKuliah.subjectId
-    }
-
-    object Header: SubjectDataItem(){
-        override val id = Long.MIN_VALUE
-    }
-
-
 }

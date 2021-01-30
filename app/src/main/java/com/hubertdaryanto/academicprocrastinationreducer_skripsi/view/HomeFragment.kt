@@ -15,10 +15,12 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDataba
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahListener
 import org.stephenbrewer.arch.recyclerview.GridLayoutManager
 
 
 class HomeFragment : Fragment() {
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +28,7 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true)
-        val binding: FragmentHomeBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         val application = requireNotNull(this.activity).application
 
@@ -116,14 +117,14 @@ class HomeFragment : Fragment() {
 //        var action_delete = menu.findItem(R.id.actionViewTaskCompletionHistory)
 //        action_save.setIcon(R.drawable.ic_baseline_save_24)
 //        action_delete.setIcon(R.drawable.ic_baseline_delete_forever_24)
-        view_utilities.menuIconColor(actionViewTaskCompletionHistory, Color.BLACK)
+        View_utilities.menuIconColor(actionViewTaskCompletionHistory, Color.BLACK)
 //        menuIconColor(action_delete, Color.BLACK)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId)
         {
             R.id.actionTaskCompletionHistory -> {
-                goToTaskCompletionHistory()
+                goToTugasKuliahCompletionHistory()
                 //insert the action here. Hint: Buat ke tampilan task completion history.
                 return true
             }
@@ -135,7 +136,7 @@ class HomeFragment : Fragment() {
 //        super.onDestroy()
 //    }
 
-    private fun goToTaskCompletionHistory() {
+    private fun goToTugasKuliahCompletionHistory() {
         this.findNavController()
             .navigate(HomeFragmentDirections.actionHomeFragmentToTaskCompletionHistoryFragment())
 //        homeFragmentViewModel.onTaskCompletionHistoryNavigated()

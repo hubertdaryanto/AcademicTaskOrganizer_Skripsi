@@ -48,11 +48,7 @@ class RangeTimePickerDialog(
         updateDialogTitle(view, currentHour, currentMinute)
     }
 
-    private fun updateDialogTitle(
-        timePicker: TimePicker,
-        hourOfDay: Int,
-        minute: Int
-    ) {
+    private fun updateDialogTitle(timePicker: TimePicker, hourOfDay: Int, minute: Int) {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
         calendar.set(Calendar.MINUTE, minute)
         val title: String = dateFormat.format(calendar.time)

@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import java.text.SimpleDateFormat
 
-object view_utilities {
+object View_utilities {
     fun menuIconColor(menuItem: MenuItem, color: Int)
     {
         var drawable = menuItem.icon
@@ -22,8 +22,6 @@ object view_utilities {
         val date = formatter.parse(date + " " + time)
         return date.time
     }
-
-
 }
 @BindingAdapter("strikeThrough")
 fun strikeThrough(textView: TextView, strikeThrough: Boolean) {

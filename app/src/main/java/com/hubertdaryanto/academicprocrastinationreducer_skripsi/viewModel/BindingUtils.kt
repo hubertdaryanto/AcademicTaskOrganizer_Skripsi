@@ -18,7 +18,7 @@ fun TextView.setTugasSubjectNameAndDeadline(item: TugasKuliah?)
     item?.let {
         var database = AppDatabase.getInstance(context).getSubjectTugasKuliahDao
         uiScope.launch {
-            val text1 = database.loadSubjectNameById(item.tugasSubjectId)
+            val text1 = database.loadSubjectNameById(item.tugasKuliahSubjectId)
             text =  text1 + " - " + item.deadline.let { it1 ->
                 convertDeadlineToTimeFormatted(
                     it1

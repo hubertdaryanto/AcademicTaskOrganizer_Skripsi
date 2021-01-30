@@ -17,14 +17,14 @@ class TugasKuliahAdapterViewModel(application: Application, dataSource: allQuery
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val _toDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
+    val _tugasKuliahToDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
     val tugasKuliahToDoList: LiveData<MutableList<TugasKuliahToDoList>>
-        get() = _toDoList
+        get() = _tugasKuliahToDoList
 
-    fun loadToDoList(id: Long)
+    fun loadTugasKuliahToDoList(id: Long)
     {
         uiScope.launch {
-            _toDoList.value = database.loadToDoListsByTugasKuliahId(id)
+            _tugasKuliahToDoList.value = database.loadToDoListsByTugasKuliahId(id)
         }
     }
 }

@@ -59,7 +59,7 @@
             android:cropToPadding="false"
             android:focusable="true"
             android:foregroundTint="#54000000"
-            android:onClick="@{() -> subjectDialogFragmentViewModel.onShowAddSubjectDialogClicked()}"
+            android:onClick="@{() -> subjectDialogFragmentViewModel.onShowAddSubjectTugasKuliahDialogClicked()}"
             android:paddingTop="0dp"
             android:paddingEnd="0dp"
             android:src="@drawable/ic_add"

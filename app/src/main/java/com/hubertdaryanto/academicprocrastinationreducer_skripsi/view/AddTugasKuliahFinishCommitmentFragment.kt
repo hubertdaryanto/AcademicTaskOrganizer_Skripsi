@@ -294,7 +294,7 @@ class AddTugasKuliahFinishCommitmentFragment: Fragment() {
 
                         if (binding.editDeadline.text.toString() != "")
                         {
-                            mTugas.finishCommitment = view_utilities.convertDateAndTimeToLong(
+                            mTugas.finishCommitment = View_utilities.convertDateAndTimeToLong(
                                 binding.editDeadline.text.toString(),
                                 clock
                             )
@@ -322,7 +322,7 @@ class AddTugasKuliahFinishCommitmentFragment: Fragment() {
         inflater.inflate(R.menu.addtugas_menu, menu)
         var action_save = menu.findItem(R.id.actionSaveTugas)
         action_save.setIcon(R.drawable.ic_baseline_save_24)
-        view_utilities.menuIconColor(action_save, Color.BLACK)
+        View_utilities.menuIconColor(action_save, Color.BLACK)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,6 +1,5 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 
-import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -10,31 +9,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoListDataItem
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListDiffCallback
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-interface ToDoListInterface{
-    fun onUpdateText(id: Long, name: String)
-    fun onUpdateCheckbox(id: Long, isFinished: Boolean)
-    fun onRemoveItem(id: Long)
-    fun onRemoveEmptyItem(id: Long)
-    fun onEnterPressed(id: Long)
-}
-
-class ToDoListAdapter(val clickListener: ToDoListListener
-, var toDoListInterface: ToDoListInterface
-): ListAdapter<ToDoListDataItem, RecyclerView.ViewHolder>(ToDoListDiffCallback()) {
+class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuliahToDoListListener, var tugasKuliahToDoListInterface: TugasKuliahToDoListInterface
+): ListAdapter<TugasKuliahToDoListDataItem, RecyclerView.ViewHolder>(TugasKuliahToDoListDiffCallback()) {
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent, toDoListInterface)
+        return ViewHolder.from(parent, tugasKuliahToDoListInterface)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -43,7 +36,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
        {
            is ViewHolder ->
            {
-               val item = getItem(position) as ToDoListDataItem.ToDoListItem
+               val item = getItem(position) as TugasKuliahToDoListDataItem.TugasKuliahToDoListItem
                val textWatcher = object : TextWatcher{
                    override fun beforeTextChanged(
                        s: CharSequence?,
@@ -67,7 +60,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
 //                           {
 //                               toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
 //                           }
-                           toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
+                           tugasKuliahToDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
 //                           object : View.OnKeyListener {
 //                               override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
 //                                   if (event.getAction() == KeyEvent.ACTION_DOWN
@@ -96,7 +89,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
 
                }
 
-               holder.binding.textViewToDoListNameDialog.setText(item.tugasKuliahToDoList.toDoListName)
+               holder.binding.textViewToDoListNameDialog.setText(item.tugasKuliahToDoList.tugasKuliahToDoListName)
                holder.binding.toDoListItemCheckBox.isChecked = item.tugasKuliahToDoList.isFinished
                holder.binding.textViewToDoListNameDialog.addTextChangedListener(textWatcher)
                holder.binding.textViewToDoListNameDialog.onFocusChangeListener = object: View.OnFocusChangeListener {
@@ -105,7 +98,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                            Log.e("TAG", "e1 focused")
                        } else {
                            if (TextUtils.isEmpty(holder.binding.textViewToDoListNameDialog.text.toString().trim())) {
-                               toDoListInterface.onRemoveEmptyItem(holder.adapterPosition.toLong())
+                               tugasKuliahToDoListInterface.onRemoveEmptyItem(holder.adapterPosition.toLong())
                            }
                        }
                    }
@@ -115,7 +108,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                        if (event.action == KeyEvent.ACTION_DOWN
                            && keyCode == KeyEvent.KEYCODE_ENTER
                        ) {
-                           toDoListInterface.onEnterPressed(holder.adapterPosition.toLong())
+                           tugasKuliahToDoListInterface.onEnterPressed(holder.adapterPosition.toLong())
                            holder.binding.textViewToDoListNameDialog.requestFocus()
                        }
 //                       else
@@ -128,15 +121,15 @@ class ToDoListAdapter(val clickListener: ToDoListListener
                holder.binding.toDoListItemCheckBox.setOnCheckedChangeListener(object :
                    CompoundButton.OnCheckedChangeListener {
                    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                       toDoListInterface.onUpdateCheckbox(holder.adapterPosition.toLong(), isChecked)
+                       tugasKuliahToDoListInterface.onUpdateCheckbox(holder.adapterPosition.toLong(), isChecked)
                    }
                })
 
                holder.binding.toDoListDeleteBtn.setOnClickListener {
-                   toDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
+                   tugasKuliahToDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
                }
                /// TODO: 27/01/2021 ketahuan kalau text box yang focused kosong dan menekan tombol delete, maka item akan keremove 2x. Fix this bug later. 
-               holder.bind(item.tugasKuliahToDoList, clickListener)
+               holder.bind(item.tugasKuliahToDoList, clickListenerTugasKuliahToDoList)
            }
        }
     }
@@ -148,7 +141,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
     fun updateList(listTugasKuliah: List<TugasKuliahToDoList>?) {
         adapterScope.launch {
             val items = listTugasKuliah?.map {
-                ToDoListDataItem.ToDoListItem(it)
+                TugasKuliahToDoListDataItem.TugasKuliahToDoListItem(it)
             }
 
             withContext(Dispatchers.Main){
@@ -162,7 +155,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
 
         adapterScope.launch {
             val items = listTugasKuliah?.map {
-                ToDoListDataItem.ToDoListItem(it)
+                TugasKuliahToDoListDataItem.TugasKuliahToDoListItem(it)
             }
             if (items != null) {
                 items.drop(position)
@@ -174,10 +167,10 @@ class ToDoListAdapter(val clickListener: ToDoListListener
     }
 
     class ViewHolder private constructor(val binding: ListItemToDoListBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: TugasKuliahToDoList, clickListener: ToDoListListener)
+        fun bind(item: TugasKuliahToDoList, clickListenerTugasKuliah: TugasKuliahToDoListListener)
         {
             binding.toDoList = item
-            binding.toDoListClickListener = clickListener
+            binding.toDoListClickListener = clickListenerTugasKuliah
             binding.executePendingBindings()
         }
 
@@ -185,7 +178,7 @@ class ToDoListAdapter(val clickListener: ToDoListListener
 
         companion object{
             fun from(parent: ViewGroup
-                     , TDLI: ToDoListInterface
+                     , TDLI: TugasKuliahToDoListInterface
             ): ViewHolder{
 
 //                val TDLR: ToDoListInterface? = null
@@ -198,32 +191,4 @@ class ToDoListAdapter(val clickListener: ToDoListListener
 
 }
 
-class ToDoListDiffCallback : DiffUtil.ItemCallback<ToDoListDataItem>() {
-    override fun areItemsTheSame(oldItem: ToDoListDataItem, newItem: ToDoListDataItem): Boolean {
-        return oldItem.id == newItem.id
-    }
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: ToDoListDataItem, newItem: ToDoListDataItem): Boolean {
-        return oldItem == newItem
-    }
 
-}
-
-class ToDoListListener(val clickListener: (ToDoListId: Long) -> Unit)
-{
-    fun onClick(tugasKuliahToDoList: TugasKuliahToDoList) = clickListener(tugasKuliahToDoList.toDoListId)
-}
-
-
-sealed class ToDoListDataItem {
-    abstract val id: Long
-    abstract val name: String
-    abstract val isFinished: Boolean
-    data class ToDoListItem(val tugasKuliahToDoList: TugasKuliahToDoList): ToDoListDataItem(){
-        override val id = tugasKuliahToDoList.toDoListId
-        override val name = tugasKuliahToDoList.toDoListName
-        override val isFinished = tugasKuliahToDoList.isFinished
-    }
-    //gak ada bedanya kalau name sama isfinished di comment atau gak
-
-}

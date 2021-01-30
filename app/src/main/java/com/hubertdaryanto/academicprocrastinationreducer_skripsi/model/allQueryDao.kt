@@ -19,10 +19,10 @@ interface allQueryDao{
     suspend fun getAllSortedByDeadline(): List<TugasKuliah>
 
     @Query("SELECT * FROM TugasKuliah WHERE isFinished LIKE 0 ORDER BY deadline ASC")
-    suspend fun getAllTugasKuliahSortedByDeadlineForeground(): MutableList<TugasKuliah>
+    suspend fun getAllTugasKuliahUnfinishedSortedByDeadline(): MutableList<TugasKuliah>
 
     @Query("SELECT * FROM TugasKuliahCompletionHistory ORDER BY tugasKuliahCompletionHistoryId DESC")
-    suspend fun getAllTaskCompletionHistorySortedByMostRecentForeground(): MutableList<TugasKuliahCompletionHistory>
+    suspend fun getAllTugasKuliahCompletionHistorySortedByMostRecent(): MutableList<TugasKuliahCompletionHistory>
 
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId IN (:userIds)")
     suspend fun loadAllByIds(userIds: LongArray): List<TugasKuliah>
@@ -43,49 +43,49 @@ interface allQueryDao{
     suspend fun loadImagesByTugasKuliahId(id: Long): MutableList<TugasKuliahImage>
 
     @Query("SELECT * FROM TugasKuliahCompletionHistory WHERE bindToTugasKuliahId LIKE :id")
-    suspend fun getTaskCompletionHistoryByTugasKuliahId(id: Long): TugasKuliahCompletionHistory
+    suspend fun getTugasKuliahCompletionHistoryByTugasKuliahId(id: Long): TugasKuliahCompletionHistory
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTugas(TugasKuliah: TugasKuliah): Long
+    suspend fun insertTugasKuliah(TugasKuliah: TugasKuliah): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertToDoLists(tugasKuliahToDoList: List<TugasKuliahToDoList>)
+    suspend fun insertTugasKuliahToDoLists(tugasKuliahToDoList: List<TugasKuliahToDoList>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertImages(tugasKuliahImages: List<TugasKuliahImage>)
+    suspend fun insertTugasKuliahImages(tugasKuliahImages: List<TugasKuliahImage>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertToDoList(tugasKuliahToDoList: TugasKuliahToDoList)
+    suspend fun insertTugasKuliahToDoList(tugasKuliahToDoList: TugasKuliahToDoList)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertImage(tugasKuliahImage: TugasKuliahImage)
+    suspend fun insertTugasKuliahImage(tugasKuliahImage: TugasKuliahImage)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTaskCompletionHistory(taskCompletionHistory: TugasKuliahCompletionHistory)
+    suspend fun insertTugasKuliahCompletionHistory(taskCompletionHistory: TugasKuliahCompletionHistory)
 
     @Delete
     suspend fun deleteTugas(TugasKuliah: TugasKuliah)
 
     @Delete
-    suspend fun deleteTaskCompletionHistory(taskCompletionHistory: TugasKuliahCompletionHistory)
+    suspend fun deleteTugasKuliahCompletionHistory(taskCompletionHistory: TugasKuliahCompletionHistory)
 
-    @Query("DELETE FROM TugasKuliahToDoList WHERE toDoListId LIKE :id")
-    suspend fun deleteToDoList(id: Long)
+    @Query("DELETE FROM TugasKuliahToDoList WHERE tugasKuliahToDoListId LIKE :id")
+    suspend fun deleteTugasKuliahToDoListById(id: Long)
 
-    @Query("DELETE FROM TugasKuliahImage WHERE imageId LIKE :id")
-    suspend fun deleteImage(id: Long)
-
-    @Update
-    suspend fun updateTugas(TugasKuliah: TugasKuliah)
+    @Query("DELETE FROM TugasKuliahImage WHERE tugasKuliahImageId LIKE :id")
+    suspend fun deleteTugasKuliahImageById(id: Long)
 
     @Update
-    suspend fun updateListOfToDoList(tugasKuliahToDoList: List<TugasKuliahToDoList>)
+    suspend fun updateTugasKuliah(TugasKuliah: TugasKuliah)
 
     @Update
-    suspend fun updateListOfImages(imageKuliahImages: List<TugasKuliahImage>)
+    suspend fun updateTugasKuliahToDoLists(tugasKuliahToDoList: List<TugasKuliahToDoList>)
 
     @Update
-    suspend fun updateTaskCompletionHistory(taskCompletionHistory: TugasKuliahCompletionHistory)
+    suspend fun updateTugasKuliahImages(imageKuliahImages: List<TugasKuliahImage>)
+
+    @Update
+    suspend fun updateTugasKuliahCompletionHistory(tugasKuliahCompletionHistory: TugasKuliahCompletionHistory)
 
     //one to many relationship
 //    @Transaction
@@ -97,10 +97,10 @@ interface allQueryDao{
 //    @Query("SELECT * FROM ToDoList WHERE bindToTugasKuliahId IN (SELECT DISTINCT(tugasKuliahId) FROM TugasKuliah)")
 //    fun getTugasKuliahWithToDoList(): LiveData<List<TugasKuliahWithToDoList>>
 
-    @Query("SELECT subjectName FROM Subject WHERE subjectId LIKE :id")
-    suspend fun loadSubjectName(id: Long): String
-    @Query("DELETE FROM Subject WHERE subjectId LIKE :id")
-    suspend fun deleteSubjectById(id: Long)
-    @Query("SELECT * FROM Subject ORDER BY SubjectName ASC")
-    fun getSubjectByNameForeground(): LiveData<List<SubjectTugasKuliah>>
+    @Query("SELECT subjectName FROM SubjectTugasKuliah WHERE subjectTugasKuliahId LIKE :id")
+    suspend fun loadSubjectTugasKuliahNameById(id: Long): String
+    @Query("DELETE FROM SubjectTugasKuliah WHERE subjectTugasKuliahId LIKE :id")
+    suspend fun deleteSubjectTugasKuliahById(id: Long)
+    @Query("SELECT * FROM SubjectTugasKuliah ORDER BY SubjectName ASC")
+    fun getSubjectTugasKuliahByNameForeground(): LiveData<List<SubjectTugasKuliah>>
 }

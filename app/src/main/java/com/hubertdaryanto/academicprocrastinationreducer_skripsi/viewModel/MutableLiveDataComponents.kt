@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel
 
 import androidx.lifecycle.MutableLiveData
 

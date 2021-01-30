@@ -4,18 +4,17 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahListItemType
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahListItemType
 import java.io.Serializable
 
 @Entity(tableName = "TugasKuliah"
     ,foreignKeys = [
-        ForeignKey(entity = SubjectTugasKuliah::class, parentColumns = arrayOf("subjectId"), childColumns = arrayOf("tugasSubjectId"), onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
+        ForeignKey(entity = SubjectTugasKuliah::class, parentColumns = arrayOf("subjectTugasKuliahId"), childColumns = arrayOf("tugasKuliahSubjectId"), onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
     ]
 )
 data class TugasKuliah(
-    @ColumnInfo(name = "tugasSubjectId")
-    var tugasSubjectId: Long,
+    @ColumnInfo(name = "tugasKuliahSubjectId")
+    var tugasKuliahSubjectId: Long,
     @ColumnInfo(name = "tugasKuliahName")
     var tugasKuliahName: String,
     @ColumnInfo(name = "deadline")

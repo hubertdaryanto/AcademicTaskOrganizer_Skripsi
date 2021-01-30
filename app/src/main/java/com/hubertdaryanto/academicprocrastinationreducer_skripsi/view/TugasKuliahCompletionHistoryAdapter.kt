@@ -1,39 +1,25 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTaskCompletionHistoryBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListTaskCompletionHistoryHeaderBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistoryDataItem
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistoryDate
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryDiffCallback
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryListItemType
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TugasKuliahCompletionHistoryDate(d: String, c: String): TugasKuliahCompletionHistoryListItemType {
-    var date = d
-    var count = c
-    override fun getType(): Int {
-        return ITEM_VIEW_TYPE_HEADER
-    }
-}
-
-interface TugasKuliahCompletionHistoryListItemType {
-    val ITEM_VIEW_TYPE_HEADER: Int
-        get() = 0
-    val ITEM_VIEW_TYPE_ITEM: Int
-        get() = 1
-    val ITEM_VIEW_TYPE_ITEM_FINISHED: Int
-        get() = 2
-
-    fun getType(): Int
-}
-
-class TugasKuliahCompletionHistoryAdapter(val clickListener: TugasKuliahCompletionHistoryListener): ListAdapter<TugasKuliahCompletionHistoryDataItem, RecyclerView.ViewHolder>(TugasKuliahCompletionHistoryDiffCallback()) {
+class TugasKuliahCompletionHistoryAdapter(val clickListener: TugasKuliahCompletionHistoryListener): ListAdapter<TugasKuliahCompletionHistoryDataItem, RecyclerView.ViewHolder>(
+    TugasKuliahCompletionHistoryDiffCallback()
+) {
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -113,45 +99,3 @@ class TugasKuliahCompletionHistoryAdapter(val clickListener: TugasKuliahCompleti
 
 }
 
-class TugasKuliahCompletionHistoryDiffCallback : DiffUtil.ItemCallback<TugasKuliahCompletionHistoryDataItem>() {
-    override fun areItemsTheSame(oldItem: TugasKuliahCompletionHistoryDataItem, newItem: TugasKuliahCompletionHistoryDataItem): Boolean {
-        return oldItem.id == newItem.id
-    }
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: TugasKuliahCompletionHistoryDataItem, newItem: TugasKuliahCompletionHistoryDataItem): Boolean {
-        return oldItem == newItem
-    }
-}
-
-class TugasKuliahCompletionHistoryListener(val clickListener: (TaskCompletionHistoryId: Long) -> Unit)
-{
-    fun onClick(taskCompletionHistory: TugasKuliahCompletionHistory) = clickListener(taskCompletionHistory.bindToTugasKuliahId)
-}
-
-sealed class TugasKuliahCompletionHistoryDataItem {
-    abstract val id: Long
-    open var count: Long = 0
-    open var counter: Long = 0
-    abstract val type: Int
-    object Header: TugasKuliahCompletionHistoryDataItem(){
-        override val id = Long.MIN_VALUE
-        override val type = 0
-    }
-    data class TugasKuliahCompletionHistoryList(val tugasKuliahCompletionHistoryListItemType: TugasKuliahCompletionHistoryListItemType): TugasKuliahCompletionHistoryDataItem()
-    {
-        fun getLong(): Long{
-            if (tugasKuliahCompletionHistoryListItemType is TugasKuliahCompletionHistory)
-            {
-                count = tugasKuliahCompletionHistoryListItemType.tugasKuliahCompletionHistoryId
-                return count + counter
-            }
-            else
-            {
-                counter = counter + 1
-                return counter
-            }
-        }
-        override val id: Long = getLong()
-        override val type: Int = tugasKuliahCompletionHistoryListItemType.getType()
-    }
-}

@@ -9,7 +9,7 @@
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage" />
         <variable
             name="imageClickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.ImageForTugasListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahImageListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@{image.imageName}"
+            android:text="@{image.tugasKuliahImageName}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/image_deleteBtn"
             app:layout_constraintStart_toEndOf="@+id/gambar_tugas"

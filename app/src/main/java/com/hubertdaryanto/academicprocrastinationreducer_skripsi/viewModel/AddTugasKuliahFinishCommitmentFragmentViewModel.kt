@@ -25,13 +25,13 @@ class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, 
     val tugasKuliah: LiveData<TugasKuliah>
         get() = _tugasKuliah
 
-    val _toDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
+    val _tugasKuliahToDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
     val tugasKuliahToDoList: LiveData<MutableList<TugasKuliahToDoList>>
-        get() = _toDoList
+        get() = _tugasKuliahToDoList
 
-    private val _imageList = MutableLiveData<MutableList<TugasKuliahImage>>()
-    val imageListKuliahImage: LiveData<MutableList<TugasKuliahImage>>
-        get() = _imageList
+    private val _tugasKuliahImageList = MutableLiveData<MutableList<TugasKuliahImage>>()
+    val tugasKuliahImageList: LiveData<MutableList<TugasKuliahImage>>
+        get() = _tugasKuliahImageList
 
     private val _addTugasKuliahNavigation = MutableLiveData<Boolean?>()
     val addTugasKuliahNavigation: LiveData<Boolean?>
@@ -76,15 +76,15 @@ class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, 
     {
         if (shared_data.mTugasKuliahToDoList != null)
         {
-            _toDoList.value = shared_data.mTugasKuliahToDoList
+            _tugasKuliahToDoList.value = shared_data.mTugasKuliahToDoList
         }
         if (shared_data.mTugasKuliahImages != null)
         {
-            _imageList.value = shared_data.mTugasKuliahImages
+            _tugasKuliahImageList.value = shared_data.mTugasKuliahImages
         }
         uiScope.launch {
             tugasKuliah.updatedAt = System.currentTimeMillis()
-            var tugasKuliaId = database.insertTugas(tugasKuliah)
+            var tugasKuliaId = database.insertTugasKuliah(tugasKuliah)
             //insert to do list and image in here too
             tugasKuliah.tugasKuliahId = tugasKuliaId
             AlarmScheduler.scheduleAlarmsForTugasKuliahReminder(context, tugasKuliah)
@@ -94,15 +94,15 @@ class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, 
                 tugasKuliahToDoList.value!!.toList().forEach {
 
                     it.bindToTugasKuliahId = tugasKuliaId
-                    database.insertToDoList(it)
+                    database.insertTugasKuliahToDoList(it)
                 }
             }
 
-            if (imageListKuliahImage.value != null)
+            if (tugasKuliahImageList.value != null)
             {
-                imageListKuliahImage.value!!.toList().forEach{
+                tugasKuliahImageList.value!!.toList().forEach{
                     it.bindToTugasKuliahId = tugasKuliaId
-                    database.insertImage(it)
+                    database.insertTugasKuliahImage(it)
                 }
             }
 
