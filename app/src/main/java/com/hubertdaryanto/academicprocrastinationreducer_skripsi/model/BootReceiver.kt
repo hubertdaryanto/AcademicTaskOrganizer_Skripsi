@@ -3,7 +3,6 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahUtils
 
 class BootReceiver: BroadcastReceiver()
 {

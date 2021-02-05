@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
             else
             {
                 binding.textView3.visibility = View.GONE
-                val date = homeFragmentViewModel.getTugasKuliahDate()
+                val date = homeFragmentViewModel.getTugasKuliahAndDate()
                 adapter.addHeaderAndSubmitList(date)
             }
         })

@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 
 import android.content.Context
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AlarmScheduler

@@ -59,7 +59,7 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
         _showSnackbarEvent.value = null
     }
 
-    fun getTugasKuliahDate(): List<TugasKuliahListItemType>
+    fun getTugasKuliahAndDate(): List<TugasKuliahListItemType>
     {
         var arrayList = arrayListOf<TugasKuliahListItemType>()
         var date: String = ""
