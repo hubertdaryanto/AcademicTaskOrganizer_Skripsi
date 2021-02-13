@@ -6,10 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = arrayOf(TugasKuliah::class, TugasKuliahToDoList::class, SubjectTugasKuliah::class, TugasKuliahImage::class, TugasKuliahCompletionHistory::class), version = 24, exportSchema = false)
-abstract class AppDatabase : RoomDatabase() {
-    abstract val getAllQueryListDao: allQueryDao
+abstract class
+AppDatabase : RoomDatabase() {
+//    abstract val getAllQueryListDao: allQueryDao
+    abstract val getTugasKuliahDao: tugasKuliahDao
     abstract val getTugasKuliahToDoListDao: tugasKuliahToDoListDao
+    abstract val getTugasKuliahImageDao: tugasKuliahImageDao
     abstract val getSubjectTugasKuliahDao: subjectTugasKuliahDao
+    abstract val getTugasKuliahCompletionHistoryDao: tugasKuliahCompletionHistoryDao
 
     companion object{
         @Volatile private var INSTANCE : AppDatabase? = null

@@ -5,15 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistoryDate
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.tugasKuliahCompletionHistoryDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class TugasKuliahCompletionHistoryFragmentViewModel(dataSource: allQueryDao, application: Application): ViewModel()  {
-    val database = dataSource
+class TugasKuliahCompletionHistoryFragmentViewModel(tugasKuliahCompletionHistoryDataSource: tugasKuliahCompletionHistoryDao, application: Application): ViewModel()  {
+    val tugasKuliahCompletionHistoryDatabase = tugasKuliahCompletionHistoryDataSource
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -29,7 +29,7 @@ class TugasKuliahCompletionHistoryFragmentViewModel(dataSource: allQueryDao, app
     fun loadTugasKuliahCompletionHistory()
     {
         uiScope.launch {
-            _tugasKuliahCompletionHistories.value = database.getAllTugasKuliahCompletionHistorySortedByMostRecent()
+            _tugasKuliahCompletionHistories.value = tugasKuliahCompletionHistoryDatabase.getAllTugasKuliahCompletionHistorySortedByMostRecent()
         }
     }
 

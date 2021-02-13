@@ -40,7 +40,7 @@ import kotlin.properties.Delegates
 class AddTugasKuliahFragment : Fragment() {
     private lateinit var binding: FragmentAddTugasKuliahBinding
     private lateinit var subjectTugasKuliahDataSource: subjectTugasKuliahDao
-    private lateinit var dataSource: allQueryDao
+    private lateinit var tugasKuliahDataSource: tugasKuliahDao
     private lateinit var addTugasKuliahFragmentViewModel: AddTugasKuliahFragmentViewModel
 
     private var subjectTugasKuliahId by Delegates.notNull<Long>()
@@ -94,9 +94,9 @@ class AddTugasKuliahFragment : Fragment() {
         binding.editJam.inputType = InputType.TYPE_NULL
         binding.editJam.isFocusable = false
 
-        dataSource = AppDatabase.getInstance(application).getAllQueryListDao
+        tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
         subjectTugasKuliahDataSource = AppDatabase.getInstance(application).getSubjectTugasKuliahDao
-        val viewModelFactory = AddTugasKuliahFragmentViewModelFactory(application, dataSource)
+        val viewModelFactory = AddTugasKuliahFragmentViewModelFactory(application, tugasKuliahDataSource, subjectTugasKuliahDataSource)
         addTugasKuliahFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
             AddTugasKuliahFragmentViewModel::class.java
         )

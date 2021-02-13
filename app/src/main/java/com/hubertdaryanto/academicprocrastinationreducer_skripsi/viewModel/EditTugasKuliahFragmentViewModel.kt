@@ -12,8 +12,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class EditTugasKuliahFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel()  {
-    val database = dataSource
+class EditTugasKuliahFragmentViewModel(application: Application, tugasKuliahDataSource: tugasKuliahDao, tugasKuliahToDoListDataSource: tugasKuliahToDoListDao, tugasKuliahImageDataSource: tugasKuliahImageDao, subjectTugasKuliahDataSource: subjectTugasKuliahDao, tugasKuliahCompletionHistoryDataSource: tugasKuliahCompletionHistoryDao): ViewModel()  {
+    val tugasKuliahDatabase = tugasKuliahDataSource
+    val tugasKuliahToDoListDatabase = tugasKuliahToDoListDataSource
+    val tugasKuliahImageDatabase = tugasKuliahImageDataSource
+    val subjectTugasKuliahDatabase = subjectTugasKuliahDataSource
+    val tugasKuliahCompletionHistoryDatabase = tugasKuliahCompletionHistoryDataSource
 
     var tugasKuliahToDoListIdToBeDeleted: ArrayList<Long> = arrayListOf()
     var tugasKuliahImageIdToBeDeleted: ArrayList<Long> = arrayListOf()
@@ -131,13 +135,13 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
     fun loadTugasKuliah(id: Long)
     {
         uiScope.launch {
-            _tugasKuliah.value = database.loadTugasKuliahById(id)
-            _tugasKuliahBefore.value = database.loadTugasKuliahById(id)
-            _tugasKuliahToDoList.value = database.loadToDoListsByTugasKuliahId(id)
-            _tugasKuliahImageList.value = database.loadImagesByTugasKuliahId(id)
-            _tugasKuliahToDoListBefore.value = database.loadToDoListsByTugasKuliahId(id)
-            _tugasKuliahImageListBefore.value = database.loadImagesByTugasKuliahId(id)
-            _subjectTugasKuliahTextBefore.value = tugasKuliah.value?.tugasKuliahSubjectId?.let { database.loadSubjectTugasKuliahNameById(it) }
+            _tugasKuliah.value = tugasKuliahDatabase.loadTugasKuliahById(id)
+            _tugasKuliahBefore.value = tugasKuliahDatabase.loadTugasKuliahById(id)
+            _tugasKuliahToDoList.value = tugasKuliahToDoListDatabase.loadToDoListsByTugasKuliahId(id)
+            _tugasKuliahImageList.value = tugasKuliahImageDatabase.loadImagesByTugasKuliahId(id)
+            _tugasKuliahToDoListBefore.value = tugasKuliahToDoListDatabase.loadToDoListsByTugasKuliahId(id)
+            _tugasKuliahImageListBefore.value = tugasKuliahImageDatabase.loadImagesByTugasKuliahId(id)
+            _subjectTugasKuliahTextBefore.value = tugasKuliah.value?.tugasKuliahSubjectId?.let { subjectTugasKuliahDatabase.loadSubjectTugasKuliahNameById(it) }
         }
     }
 
@@ -259,7 +263,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
     fun updateTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
         uiScope.launch {
-            var mTaskCompletionHistory = database.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
+            var mTaskCompletionHistory = tugasKuliahCompletionHistoryDatabase.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
             if (mTaskCompletionHistory == null) {
                 mTaskCompletionHistory =
                     TugasKuliahCompletionHistory(
@@ -271,20 +275,20 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
                 AlarmScheduler.removeAlarmsForTugasKuliahReminder(context, tugasKuliah)
                 tugasKuliah.updatedAt = System.currentTimeMillis()
                 AlarmScheduler.scheduleAlarmsForTugasKuliahReminder(context, tugasKuliah)
-                database.deleteTugasKuliahCompletionHistory(mTaskCompletionHistory)
+                tugasKuliahCompletionHistoryDatabase.deleteTugasKuliahCompletionHistory(mTaskCompletionHistory)
                 //is different because the id is different, maybe if it loaded first, it will be deleted
             } else {
                 AlarmScheduler.removeAlarmsForTugasKuliahReminder(context, tugasKuliah)
                 mTaskCompletionHistory.activityType = "Tugas Kuliah Selesai"
                 mTaskCompletionHistory.tugasKuliahCompletionHistoryId = System.currentTimeMillis()
-                database.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
+                tugasKuliahCompletionHistoryDatabase.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
             }
-           database.updateTugasKuliah(tugasKuliah)
+           tugasKuliahDatabase.updateTugasKuliah(tugasKuliah)
             if (tugasKuliahToDoListIdToBeDeleted.count() != 0)
             {
                 for (i in tugasKuliahToDoListIdToBeDeleted)
                 {
-                    database.deleteTugasKuliahToDoListById(i)
+                    tugasKuliahToDoListDatabase.deleteTugasKuliahToDoListById(i)
                 }
             }
 
@@ -292,7 +296,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
             {
                 for (i in tugasKuliahImageIdToBeDeleted)
                 {
-                    database.deleteTugasKuliahImageById(i)
+                    tugasKuliahImageDatabase.deleteTugasKuliahImageById(i)
                 }
             }
 
@@ -301,7 +305,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
                 tugasKuliahToDoList.value!!.toList().forEach {
 
                     it.bindToTugasKuliahId = tugasKuliah.tugasKuliahId
-                    database.insertTugasKuliahToDoList(it)
+                    tugasKuliahToDoListDatabase.insertTugasKuliahToDoList(it)
                 }
             }
 
@@ -309,7 +313,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
             {
                 tugasKuliahImageList.value!!.toList().forEach{
                     it.bindToTugasKuliahId = tugasKuliah.tugasKuliahId
-                    database.insertTugasKuliahImage(it)
+                    tugasKuliahImageDatabase.insertTugasKuliahImage(it)
                 }
             }
 
@@ -321,7 +325,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
 
         uiScope.launch {
             AlarmScheduler.removeAlarmsForTugasKuliahReminder(context, tugasKuliah.value!!)
-            database.deleteTugas(tugasKuliah.value!!)
+            tugasKuliahDatabase.deleteTugas(tugasKuliah.value!!)
             //to do list sama image yang terkait harus di remove juga
         }
 
@@ -334,7 +338,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, dataSource: all
     fun convertSubjectIdToSubjectName(id: Long)
     {
         uiScope.launch {
-            _subjectTugasKuliahText.value = database.loadSubjectTugasKuliahNameById(id)
+            _subjectTugasKuliahText.value = subjectTugasKuliahDatabase.loadSubjectTugasKuliahNameById(id)
         }
     }
 

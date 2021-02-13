@@ -36,8 +36,8 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
 
         val application = requireNotNull(this.activity).application
 
-        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
-        val viewModelFactory = TugasKuliahCompletionHistoryFragmentViewModelFactory(dataSource, application)
+        val tugasKuliahCompletionHistoryDataSource = AppDatabase.getInstance(application).getTugasKuliahCompletionHistoryDao
+        val viewModelFactory = TugasKuliahCompletionHistoryFragmentViewModelFactory(tugasKuliahCompletionHistoryDataSource, application)
 
         val tugasKuliahCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(TugasKuliahCompletionHistoryFragmentViewModel::class.java)
 

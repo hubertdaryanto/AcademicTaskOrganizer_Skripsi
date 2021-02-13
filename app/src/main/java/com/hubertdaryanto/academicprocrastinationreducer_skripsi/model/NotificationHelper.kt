@@ -97,8 +97,8 @@ object NotificationHelper{
 
 
             uiScope.launch {
-                var database = AppDatabase.getInstance(context).getAllQueryListDao
-                var mTaskCompletionHistory = database.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
+                var tugasKuliahCompletionHistoryDatabase = AppDatabase.getInstance(context).getTugasKuliahCompletionHistoryDao
+                var mTaskCompletionHistory = tugasKuliahCompletionHistoryDatabase.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
                 if (mTaskCompletionHistory == null) {
                     mTaskCompletionHistory =
                         TugasKuliahCompletionHistory(
@@ -106,7 +106,7 @@ object NotificationHelper{
                             activityType = "Tugas Kuliah Ditunda"
                         )
                 }
-                database.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
+                tugasKuliahCompletionHistoryDatabase.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
             }
 
 

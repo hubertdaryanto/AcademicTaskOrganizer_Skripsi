@@ -42,8 +42,8 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.choose_subject_tugas_kuliah_dialog, null, false)
 
-        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
-        val viewModelFactory = SubjectTugasKuliahDialogFragmentViewModelFactory(application, dataSource)
+        val subjectDataSource = AppDatabase.getInstance(application).getSubjectTugasKuliahDao
+        val viewModelFactory = SubjectTugasKuliahDialogFragmentViewModelFactory(application, subjectDataSource)
 
         val subjectDialogFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(SubjectTugasKuliahDialogFragmentViewModel::class.java)
 

@@ -13,14 +13,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBinding
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModelFactory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahListener
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import org.stephenbrewer.arch.recyclerview.GridLayoutManager
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,16 +32,28 @@ class HomeFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
-        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
-        val viewModelFactory = HomeFragmentViewModelFactory(dataSource, application)
+        val tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
+        val tugasKuliahToDoListDataSource = AppDatabase.getInstance(application).getTugasKuliahToDoListDao
+        val viewModelFactory = HomeFragmentViewModelFactory(tugasKuliahDataSource, tugasKuliahToDoListDataSource, application)
 
-        val homeFragmentViewModel =
+        homeFragmentViewModel =
             ViewModelProvider(this, viewModelFactory).get(HomeFragmentViewModel::class.java)
 
-
+//        homeFragmentViewModel.clearTugasKuliah()
         homeFragmentViewModel.loadTugasKuliah()
         val adapter = TugasKuliahAdapter(TugasKuliahListener { tugasKuliahId ->
             homeFragmentViewModel.onTugasKuliahClicked(tugasKuliahId)
+        }, object : TugasKuliahToDoListFinishedInterface
+        {
+            //todo: Bikin to do list kalau selesai semua adapter tugas kuliah nya auto update
+            override fun onFinished() {
+                if (shared_data.toDoListFinished == true)
+                {
+                    homeFragmentViewModel.loadTugasKuliah()
+                }
+            }
+
+
         })
         binding.tugasList.adapter = adapter
 
@@ -50,7 +62,7 @@ class HomeFragment : Fragment() {
 //            binding.textView3.visibility = View.VISIBLE
 //        }
 
-        homeFragmentViewModel.tugas.observe(viewLifecycleOwner, Observer{
+        homeFragmentViewModel.tugasKuliah.observe(viewLifecycleOwner, Observer{
             if (it.count() == 0)
             {
                 binding.textView3.visibility = View.VISIBLE
@@ -134,6 +146,12 @@ class HomeFragment : Fragment() {
 //
 //    override fun onDestroy() {
 //        super.onDestroy()
+//    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        homeFragmentViewModel.clearTugasKuliah()
+//        homeFragmentViewModel.loadTugasKuliah()
 //    }
 
     private fun goToTugasKuliahCompletionHistory() {

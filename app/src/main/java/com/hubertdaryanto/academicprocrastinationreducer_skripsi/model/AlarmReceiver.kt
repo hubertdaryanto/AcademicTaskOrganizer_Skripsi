@@ -20,7 +20,7 @@ class AlarmReceiver: BroadcastReceiver() {
                 if (intent.extras != null)
                 {
                     uiScope.launch {
-                        val tugasKuliah = AppDatabase.getInstance(context).getAllQueryListDao.loadTugasKuliahById(
+                        val tugasKuliah = AppDatabase.getInstance(context).getTugasKuliahDao.loadTugasKuliahById(
                             intent.extras!!.getLong(TugasKuliah.KEY_ID)
                         )
                         NotificationHelper.createNotificationForTugasKuliah(

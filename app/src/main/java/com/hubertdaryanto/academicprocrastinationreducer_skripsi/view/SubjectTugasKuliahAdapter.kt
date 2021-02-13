@@ -42,7 +42,7 @@ class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliah
             is ViewHolder ->
             {
                 val item = getItem(position) as SubjectTugasKuliahDataItem.SubjectTugasKuliahItem
-                if (shared_data.fromFragment.contains("AddTugasFragment"))
+                if (shared_data.fromFragment.contains("AddTugasKuliahFragment"))
                 {
                     holder.binding.subjectDeleteBtn.visibility = View.VISIBLE
                     holder.binding.subjectDeleteBtn.setOnClickListener {

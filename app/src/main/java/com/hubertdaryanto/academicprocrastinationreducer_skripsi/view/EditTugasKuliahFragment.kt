@@ -39,7 +39,11 @@ import java.util.*
 
 class EditTugasKuliahFragment: Fragment() {
     private lateinit var binding: FragmentEditTugasKuliahBinding
+    private lateinit var tugasKuliahDataSource: tugasKuliahDao
+    private lateinit var tugasKuliahToDoListDataSource: tugasKuliahToDoListDao
+    private lateinit var tugasKuliahImageDataSource: tugasKuliahImageDao
     private lateinit var subjectTugasKuliahDataSource: subjectTugasKuliahDao
+    private lateinit var tugasKuliahCompletionHistoryDataSource: tugasKuliahCompletionHistoryDao
     private lateinit var editTugasKuliahFragmentViewModel: EditTugasKuliahFragmentViewModel
 
     private var subjectTugasKuliahId = 0L
@@ -97,9 +101,12 @@ class EditTugasKuliahFragment: Fragment() {
 
 
 
-        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
+        tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
+        tugasKuliahToDoListDataSource = AppDatabase.getInstance(application).getTugasKuliahToDoListDao
+        tugasKuliahImageDataSource = AppDatabase.getInstance(application).getTugasKuliahImageDao
         subjectTugasKuliahDataSource = AppDatabase.getInstance(application).getSubjectTugasKuliahDao
-        val viewModelFactory = EditTugasKuliahFragmentViewModelFactory(application, dataSource)
+        tugasKuliahCompletionHistoryDataSource = AppDatabase.getInstance(application).getTugasKuliahCompletionHistoryDao
+        val viewModelFactory = EditTugasKuliahFragmentViewModelFactory(application, tugasKuliahDataSource, tugasKuliahToDoListDataSource, tugasKuliahImageDataSource, subjectTugasKuliahDataSource, tugasKuliahCompletionHistoryDataSource)
         editTugasKuliahFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
             EditTugasKuliahFragmentViewModel::class.java
         )

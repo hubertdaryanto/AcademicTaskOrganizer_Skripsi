@@ -34,11 +34,14 @@ fun TextView.loadTugasKuliahName(taskCompletionHistory: TugasKuliahCompletionHis
     val job = Job()
     val uiScope = CoroutineScope(Dispatchers.Main + job)
     taskCompletionHistory?.let {
-        var database = AppDatabase.getInstance(context).getAllQueryListDao
+        var database = AppDatabase.getInstance(context).getTugasKuliahDao
         uiScope.launch {
-            val text1 = database.loadTugasKuliahById(it.bindToTugasKuliahId)
-            text =  text1.tugasKuliahName + " - " + it.tugasKuliahCompletionHistoryId.let { it1 ->
-                convertDeadlineToTimeFormatted(it1)
+            val text1: TugasKuliah? = database.loadTugasKuliahById(it.bindToTugasKuliahId)
+            if (text1 != null)
+            {
+                text =  text1.tugasKuliahName + " - " + it.tugasKuliahCompletionHistoryId.let { it1 ->
+                    convertDeadlineToTimeFormatted(it1)
+                }
             }
         }
     }

@@ -18,7 +18,7 @@ object TugasKuliahUtils {
         uiScope.launch {
             val tugasKuliahList = AppDatabase.getInstance(
                 context
-            ).getAllQueryListDao.loadAllTugasKuliahUnfinished()
+            ).getTugasKuliahDao.loadAllTugasKuliahUnfinished()
             for (tugasKuliah in tugasKuliahList) {
                 AlarmScheduler.scheduleAlarmsForTugasKuliahReminder(
                     context,

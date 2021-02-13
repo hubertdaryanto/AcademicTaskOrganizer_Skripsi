@@ -6,17 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.subjectTugasKuliahDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SubjectTugasKuliahDialogFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel() {
-    val database = dataSource
+class SubjectTugasKuliahDialogFragmentViewModel(application: Application, subjectTugasKuliahDataSource: subjectTugasKuliahDao): ViewModel() {
+    val subjectTugasKuliahDatabase = subjectTugasKuliahDataSource
     private var viewModelJob = Job()
     private val uiScpoe = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    var subject = database.getSubjectTugasKuliahByNameForeground()
+    var subject = subjectTugasKuliahDatabase.getSubjectTugasKuliahByNameForeground()
 
     private val _showAddSubjectDialog = MutableLiveData<Boolean?>()
     val showAddSubjectDialog: LiveData<Boolean?>
@@ -67,7 +68,7 @@ class SubjectTugasKuliahDialogFragmentViewModel(application: Application, dataSo
             {
                 shared_data.mSubjectAtAddTugasFragment = null
             }
-            database.deleteSubjectTugasKuliahById(id)
+            subjectTugasKuliahDatabase.deleteSubjectTugasKuliahById(id)
         }
     }
 }

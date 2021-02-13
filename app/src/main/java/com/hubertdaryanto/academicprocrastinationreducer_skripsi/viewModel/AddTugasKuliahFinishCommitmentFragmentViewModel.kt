@@ -5,19 +5,16 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AlarmScheduler
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel() {
-    val database = dataSource
+class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, tugasKuliahDataSource: tugasKuliahDao, tugasKuliahImageDataSource: tugasKuliahImageDao, tugasKuliahToDoListDataSource: tugasKuliahToDoListDao): ViewModel() {
+    val tugasKuliahDatabase = tugasKuliahDataSource
+    val tugasKuliahImageDatabase = tugasKuliahImageDataSource
+    val tugasKuliahToDoListDatabase = tugasKuliahToDoListDataSource
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -84,7 +81,7 @@ class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, 
         }
         uiScope.launch {
             tugasKuliah.updatedAt = System.currentTimeMillis()
-            var tugasKuliaId = database.insertTugasKuliah(tugasKuliah)
+            var tugasKuliaId = tugasKuliahDatabase.insertTugasKuliah(tugasKuliah)
             //insert to do list and image in here too
             tugasKuliah.tugasKuliahId = tugasKuliaId
             AlarmScheduler.scheduleAlarmsForTugasKuliahReminder(context, tugasKuliah)
@@ -94,7 +91,7 @@ class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, 
                 tugasKuliahToDoList.value!!.toList().forEach {
 
                     it.bindToTugasKuliahId = tugasKuliaId
-                    database.insertTugasKuliahToDoList(it)
+                    tugasKuliahToDoListDatabase.insertTugasKuliahToDoList(it)
                 }
             }
 
@@ -102,7 +99,7 @@ class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, 
             {
                 tugasKuliahImageList.value!!.toList().forEach{
                     it.bindToTugasKuliahId = tugasKuliaId
-                    database.insertTugasKuliahImage(it)
+                    tugasKuliahImageDatabase.insertTugasKuliahImage(it)
                 }
             }
 

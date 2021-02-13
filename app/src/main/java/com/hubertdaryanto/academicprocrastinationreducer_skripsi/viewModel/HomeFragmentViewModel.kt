@@ -5,28 +5,25 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahDate
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): ViewModel() {
-    val database = dataSource
+class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahToDoListDataSource: tugasKuliahToDoListDao, application: Application): ViewModel() {
+    val tugasKuliahDatabase = tugasKuliahDataSource
+    val tugasKuliahToDoListDatabase = tugasKuliahToDoListDataSource
 
-    //todo : rename variable same as class diagram
-    private val _tugas = MutableLiveData<MutableList<TugasKuliah>>()
-    val tugas: LiveData<MutableList<TugasKuliah>>
-        get() = _tugas
+    private val _tugasKuliah = MutableLiveData<MutableList<TugasKuliah>>()
+    val tugasKuliah: LiveData<MutableList<TugasKuliah>>
+        get() = _tugasKuliah
 //    var tugas = database.getAllTugasKuliahSortedByDeadlineForeground()
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val _toDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
+    private val _tugasKuliahToDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
     val tugasKuliahToDoList: LiveData<MutableList<TugasKuliahToDoList>>
-        get() = _toDoList
+        get() = _tugasKuliahToDoList
 
     private val _navigateToEditTugasKuliah = MutableLiveData<Long>()
     val navigateToEditTugasKuliah: LiveData<Long>
@@ -42,15 +39,21 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
 
     fun loadTugasKuliah()
     {
+        _tugasKuliah.value = arrayListOf()
         uiScope.launch {
-            _tugas.value = database.getAllTugasKuliahUnfinishedSortedByDeadline()
+            _tugasKuliah.value = tugasKuliahDatabase.getAllTugasKuliahUnfinishedSortedByDeadline()
         }
     }
+
+//    fun clearTugasKuliah()
+//    {
+//
+//    }
 
     fun loadToDoList(id: Long)
     {
         uiScope.launch {
-            _toDoList.value = database.loadToDoListsByTugasKuliahId(id)
+            _tugasKuliahToDoList.value = tugasKuliahToDoListDatabase.loadToDoListsByTugasKuliahId(id)
         }
     }
 
@@ -66,7 +69,7 @@ class HomeFragmentViewModel(dataSource: allQueryDao, application: Application): 
         var temp = 0
         var count = 1
         var tempdate = ""
-        for (i in tugas.value!!)
+        for (i in tugasKuliah.value!!)
         {
             var dateCursor: String = convertDeadlineToDateFormatted(i.deadline)
             if (date.equals(dateCursor, true))

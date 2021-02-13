@@ -51,8 +51,10 @@ class AddTugasKuliahFinishCommitmentFragment: Fragment() {
         binding.editJam.inputType = InputType.TYPE_NULL
         binding.editJam.isFocusable = false
 
-        val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
-        val viewModelFactory = AddTugasKuliahFinishCommitmentFragmentViewModelFactory(application, dataSource)
+        val tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
+        val tugasKuliahImageDataSource = AppDatabase.getInstance(application).getTugasKuliahImageDao
+        val tugasKuliahToDoListDataSource = AppDatabase.getInstance(application).getTugasKuliahToDoListDao
+        val viewModelFactory = AddTugasKuliahFinishCommitmentFragmentViewModelFactory(application, tugasKuliahDataSource, tugasKuliahImageDataSource, tugasKuliahToDoListDataSource)
         addTugasKuliahFinishCommitmentFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
             AddTugasKuliahFinishCommitmentFragmentViewModel::class.java
         )

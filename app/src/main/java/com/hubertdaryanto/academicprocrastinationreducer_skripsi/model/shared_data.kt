@@ -11,4 +11,5 @@ object shared_data {
     var mSubjectAtAddTugasFragment: String? = null
     var mSubjectId: Long? = null
     var fromFragment = ""
+    var toDoListFinished: Boolean = false
 }

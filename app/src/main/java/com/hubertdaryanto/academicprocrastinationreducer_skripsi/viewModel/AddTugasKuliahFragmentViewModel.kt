@@ -5,15 +5,12 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
 import kotlinx.coroutines.*
 
-class AddTugasKuliahFragmentViewModel(application: Application, dataSource: allQueryDao): ViewModel() {
-    val database = dataSource
+class AddTugasKuliahFragmentViewModel(application: Application, tugasKuliahDataSource: tugasKuliahDao, subjectTugasKuliahDataSource: subjectTugasKuliahDao): ViewModel() {
+    val tugasKuliahDatabase = tugasKuliahDataSource
+    val subjectTugasKuliahDatabase = subjectTugasKuliahDataSource
 
     private val _tugasKuliah = MutableLiveData<TugasKuliah>()
     val tugasKuliah: LiveData<TugasKuliah>
@@ -205,7 +202,7 @@ class AddTugasKuliahFragmentViewModel(application: Application, dataSource: allQ
 
     private suspend fun insert(tugasKuliah: TugasKuliah) {
         withContext(Dispatchers.IO) {
-            database.insertTugasKuliah(tugasKuliah)
+            tugasKuliahDatabase.insertTugasKuliah(tugasKuliah)
         }
     }
 
@@ -216,7 +213,7 @@ class AddTugasKuliahFragmentViewModel(application: Application, dataSource: allQ
     fun convertSubjectIdToSubjectName(id: Long){
         uiScope.launch {
             shared_data.mSubjectId = id
-            shared_data.mSubjectAtAddTugasFragment = database.loadSubjectTugasKuliahNameById(id)
+            shared_data.mSubjectAtAddTugasFragment = subjectTugasKuliahDatabase.loadSubjectTugasKuliahNameById(id)
             _subjectText.value = shared_data.mSubjectAtAddTugasFragment
         }
     }
