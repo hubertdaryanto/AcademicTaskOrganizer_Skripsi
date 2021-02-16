@@ -32,7 +32,6 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        tugasKuliahToDoListFinishedInterface.onFinished()
         return when (viewType) {
             0 -> TextViewHolder.from(parent)
             1 -> ViewHolder.from(parent)
@@ -46,11 +45,12 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
         when (holder) {
             is ViewHolder -> {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
-                holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener)
+                holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener, tugasKuliahToDoListFinishedInterface)
             }
             is TextViewHolder -> {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
                 holder.bind(item.tugasKuliahListItemType as TugasKuliahDate)
+
             }
             is ViewHolder2 ->
             {
@@ -101,7 +101,8 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
         binding.root
     )
     {
-        fun bind(item: TugasKuliah, clickListener: TugasKuliahListener) {
+        //todo: make adapter after refresh no redundant adapter anymore
+        fun bind(item: TugasKuliah, clickListener: TugasKuliahListener, tugasKuliahToDoListFinishedInterface: TugasKuliahToDoListFinishedInterface) {
             binding.tugas = item
             binding.clickListener = clickListener
             binding.lifecycleOwner = this
@@ -181,6 +182,8 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
                                         tugasKuliahCompletionHistoryDataSource.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
 
                                     }
+                                    tugasKuliahToDoListFinishedInterface.onFinished()
+
 
                                 }
 

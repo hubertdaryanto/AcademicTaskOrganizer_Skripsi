@@ -45,15 +45,13 @@ class HomeFragment : Fragment() {
             homeFragmentViewModel.onTugasKuliahClicked(tugasKuliahId)
         }, object : TugasKuliahToDoListFinishedInterface
         {
-            //todo: Bikin to do list kalau selesai semua adapter tugas kuliah nya auto update
+
             override fun onFinished() {
                 if (shared_data.toDoListFinished == true)
                 {
                     homeFragmentViewModel.loadTugasKuliah()
                 }
             }
-
-
         })
         binding.tugasList.adapter = adapter
 
@@ -137,7 +135,6 @@ class HomeFragment : Fragment() {
         {
             R.id.actionTaskCompletionHistory -> {
                 goToTugasKuliahCompletionHistory()
-                //insert the action here. Hint: Buat ke tampilan task completion history.
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

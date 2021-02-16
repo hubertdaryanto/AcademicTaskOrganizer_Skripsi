@@ -6,22 +6,22 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
+import androidx.transition.Visibility
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoListDataItem
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListDiffCallback
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListFinishedInterface
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListInterface
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.view.View
 
 class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuliahToDoListListener, var tugasKuliahToDoListInterface: TugasKuliahToDoListInterface
 ): ListAdapter<TugasKuliahToDoListDataItem, RecyclerView.ViewHolder>(TugasKuliahToDoListDiffCallback()) {
@@ -37,6 +37,7 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
        {
            is ViewHolder ->
            {
+
                val item = getItem(position) as TugasKuliahToDoListDataItem.TugasKuliahToDoListItem
                val textWatcher = object : TextWatcher{
                    override fun beforeTextChanged(
@@ -85,6 +86,13 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
 //                       if (TextUtils.isEmpty(s.toString().trim())) {
 //                            toDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
 //                       }
+                       if (!TextUtils.isEmpty(holder.binding.textViewToDoListNameDialog.text.toString().trim())) {
+                           holder.binding.toDoListDeleteBtn.visibility = View.VISIBLE
+                       }
+                       else
+                       {
+                           holder.binding.toDoListDeleteBtn.visibility = View.INVISIBLE
+                       }
 
                    }
 
@@ -93,6 +101,13 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
                holder.binding.textViewToDoListNameDialog.setText(item.tugasKuliahToDoList.tugasKuliahToDoListName)
                holder.binding.toDoListItemCheckBox.isChecked = item.tugasKuliahToDoList.isFinished
                holder.binding.textViewToDoListNameDialog.addTextChangedListener(textWatcher)
+               if (!TextUtils.isEmpty(holder.binding.textViewToDoListNameDialog.text.toString().trim())) {
+                   holder.binding.toDoListDeleteBtn.visibility = View.VISIBLE
+               }
+               else
+               {
+                   holder.binding.toDoListDeleteBtn.visibility = View.INVISIBLE
+               }
                holder.binding.textViewToDoListNameDialog.onFocusChangeListener = object: View.OnFocusChangeListener {
                    override fun onFocusChange(arg0: View, hasfocus: Boolean) {
                        if (hasfocus) {
@@ -116,6 +131,9 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
 //                       {
 //                           toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
 //                       }
+
+
+
                        return false // very important
                    }
                })
@@ -127,9 +145,12 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
                })
 
                holder.binding.toDoListDeleteBtn.setOnClickListener {
-                   tugasKuliahToDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
+                   if (!TextUtils.isEmpty(holder.binding.textViewToDoListNameDialog.text.toString().trim())) {
+                       tugasKuliahToDoListInterface.onRemoveItem(holder.adapterPosition.toLong())
+                   }
+
                }
-               /// TODO: 27/01/2021 ketahuan kalau text box yang focused kosong dan menekan tombol delete, maka item akan keremove 2x. Fix this bug later. 
+
                holder.bind(item.tugasKuliahToDoList, clickListenerTugasKuliahToDoList)
            }
        }
