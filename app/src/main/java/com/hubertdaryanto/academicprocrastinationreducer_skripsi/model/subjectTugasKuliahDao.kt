@@ -2,7 +2,6 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
 
 @Dao
 interface subjectTugasKuliahDao{

@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemSubjectBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliahDataItem
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahDiffCallback
@@ -87,7 +87,7 @@ class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliah
 
     class TextViewHolder(view: View): RecyclerView.ViewHolder(view) {
         companion object{
-            fun from(parent: ViewGroup): TextViewHolder{
+            fun from(parent: ViewGroup): TextViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater.inflate(R.layout.list_subject_header, parent, false)
                 return TextViewHolder(view)

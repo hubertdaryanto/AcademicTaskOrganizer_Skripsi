@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter
 
 import android.text.Editable
 import android.text.TextUtils
@@ -6,11 +6,11 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Visibility
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoListDataItem
@@ -21,7 +21,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.view.View
 
 class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuliahToDoListListener, var tugasKuliahToDoListInterface: TugasKuliahToDoListInterface
 ): ListAdapter<TugasKuliahToDoListDataItem, RecyclerView.ViewHolder>(TugasKuliahToDoListDiffCallback()) {
@@ -32,7 +31,7 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.setIsRecyclable(false)
+        holder.setIsRecyclable(true)
        when (holder)
        {
            is ViewHolder ->
@@ -201,7 +200,7 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
         companion object{
             fun from(parent: ViewGroup
                      , TDLI: TugasKuliahToDoListInterface
-            ): ViewHolder{
+            ): ViewHolder {
 
 //                val TDLR: ToDoListInterface? = null
                 val layoutInflater = LayoutInflater.from(parent.context)

@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 
 import android.app.Activity
 import android.app.Activity.RESULT_OK
@@ -27,10 +27,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.deadline_components
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasKuliahBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.ImageForTugasKuliahAdapter
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahToDoListAdapter
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RangeTimePickerDialog
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RecyclerViewItemDecoration
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import java.text.SimpleDateFormat
 import java.util.*

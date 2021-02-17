@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 
 //import androidx.recyclerview.widget.GridLayoutManager
 import android.graphics.Color
@@ -11,10 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahAdapter
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahListener
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListFinishedInterface
 import org.stephenbrewer.arch.recyclerview.GridLayoutManager
 
 
@@ -68,9 +73,9 @@ class HomeFragment : Fragment() {
             else
             {
                 binding.textView3.visibility = View.GONE
-                val date = homeFragmentViewModel.getTugasKuliahAndDate()
-                adapter.addHeaderAndSubmitList(date)
             }
+            val date = homeFragmentViewModel.getTugasKuliahAndDate()
+            adapter.addHeaderAndSubmitList(date)
         })
 
 
@@ -99,7 +104,11 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner,
             Observer { tugas ->
                 tugas?.let {
-                    this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToEditTugasFragment(it))
+                    this.findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToEditTugasFragment(
+                            it
+                        )
+                    )
                     homeFragmentViewModel.onEditTugasKuliahNavigated()
                 }
             })

@@ -49,6 +49,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation "androidx.room:room-runtime:$room_version"
+    implementation 'androidx.wear:wear:1.0.0'
+    compileOnly 'com.google.android.wearable:wearable:2.6.0'
     kapt "androidx.room:room-compiler:$room_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
 

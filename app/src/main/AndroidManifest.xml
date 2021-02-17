@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hubertdaryanto.academicprocrastinationreducer_skripsi">
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:label="Read Image File From Your Device"
-        android:description="@string/allow_access_storage"/>
+        package="com.hubertdaryanto.academicprocrastinationreducer_skripsi">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
+            android:name="android.permission.READ_EXTERNAL_STORAGE"
+            android:description="@string/allow_access_storage"
+            android:label="Read Image File From Your Device" />
+    <uses-permission
+            android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+            android:maxSdkVersion="28" />
+
     <application
-        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.AcademicProcrastinationReducerApp"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true">
-        <activity android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.MainActivity">
+            android:name=".AcademicProcrastinationReducerApp"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:requestLegacyExternalStorage="true"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
+
+        <activity
+                android:name=".view.activity.SplashScreenActivity"
+                android:label="@string/title_activity_splash_screen"
+                android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.activity.MainActivity">
 
-        <receiver android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AlarmReceiver"/>
-        <receiver android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.BootReceiver"
-            android:label="StartNotificationServiceBootReceiver">
+        </activity>
+
+        <receiver android:name=".model.AlarmReceiver" />
+        <receiver
+                android:name=".model.BootReceiver"
+                android:label="StartNotificationServiceBootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>

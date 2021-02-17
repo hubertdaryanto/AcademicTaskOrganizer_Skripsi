@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTugasKuliahCompletionHistoryBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahCompletionHistoryAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryFragmentViewModelFactory
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryListener
@@ -25,6 +26,7 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
 //    val viewModelFactory = TaskCompletionHistoryFragmentViewModelFactory(dataSource, application)
 //
 //    val taskCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(TaskCompletionHistoryFragmentViewModel::class.java)
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +68,11 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
 
         tugasKuliahCompletionHistoryFragmentViewModel.navigateToViewTugasKuliahCompletionHistoryDetails.observe(viewLifecycleOwner, Observer {
             it?.let {
-                this.findNavController().navigate(TugasKuliahCompletionHistoryFragmentDirections.actionTaskCompletionHistoryFragmentToEditTugasFragment(it))
+                this.findNavController().navigate(
+                    TugasKuliahCompletionHistoryFragmentDirections.actionTaskCompletionHistoryFragmentToEditTugasFragment(
+                        it
+                    )
+                )
 //                this.findNavController().navigate(TaskCompletionHistoryDirections.actionTaskCompletionHistoryFragmentToTaskCompletionHistoryDetailFragment(it))
                 tugasKuliahCompletionHistoryFragmentViewModel.onTugasKuliahCompletionHistoryNavigated()
             }

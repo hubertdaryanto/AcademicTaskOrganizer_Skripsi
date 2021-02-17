@@ -1,17 +1,17 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahImageUtils
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemImageForTugasBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImageDataItem
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahImageDiffCallback
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahImageInterface
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahImageListener
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahImageUtils
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -97,7 +97,7 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
         }
 
         companion object{
-            fun from(parent: ViewGroup): ViewHolder{
+            fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemImageForTugasBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)

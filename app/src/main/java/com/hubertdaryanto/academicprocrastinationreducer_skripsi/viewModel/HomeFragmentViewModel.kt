@@ -11,6 +11,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+//high priority (saran dari dosen pembimbing)
+//todo: (high) Add Onboarding feature (this will make a new view and classes and you must update it again in visio before thesis defense) -> For explain each component of the app (karena dospem gak langsung tau nama mata kuliah yang mana, deadline yang mana, nama tugas yang mana)
+//todo: (high) Add real time clock to home page
+//todo: (high) Make tugas kuliah colored when passed finish commitment (yellow) and passed the deadline (red or gray)
+//todo: (high) Make splash screen view design meet the criteria of material design guidance for splash screen
+
+//medium priority
+//todo: (medium) Fix press enter to add to do list method
+//todo: (medium) Change app icon into proper topic instead of graduation gown
+//todo: (medium) Move add to do list and image button to bottom of each adapter, so the flow of the app is top to bottom (consistent)
+
+//low priority
+//todo: (low) Add built in image viewer
+//todo: (low) Save added image into app storage, instead of using system device storage (only access it using string)
+
 class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahToDoListDataSource: tugasKuliahToDoListDao, application: Application): ViewModel() {
     val tugasKuliahDatabase = tugasKuliahDataSource
     val tugasKuliahToDoListDatabase = tugasKuliahToDoListDataSource

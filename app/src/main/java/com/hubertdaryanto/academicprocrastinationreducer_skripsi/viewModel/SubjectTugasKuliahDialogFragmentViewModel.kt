@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.subjectTugasKuliahDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

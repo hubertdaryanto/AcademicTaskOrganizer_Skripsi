@@ -1,6 +1,7 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 
-import androidx.room.*
+import androidx.room.Embedded
+import androidx.room.Relation
 
 
 data class SubjectAndTugasKuliah(

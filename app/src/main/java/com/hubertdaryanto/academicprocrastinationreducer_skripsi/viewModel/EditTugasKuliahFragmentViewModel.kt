@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AlarmScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -263,7 +262,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, tugasKuliahData
     fun updateTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
         uiScope.launch {
-            var mTaskCompletionHistory = tugasKuliahCompletionHistoryDatabase.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
+            var mTaskCompletionHistory: TugasKuliahCompletionHistory? = tugasKuliahCompletionHistoryDatabase.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
             if (mTaskCompletionHistory == null) {
                 mTaskCompletionHistory =
                     TugasKuliahCompletionHistory(
@@ -271,11 +270,14 @@ class EditTugasKuliahFragmentViewModel(application: Application, tugasKuliahData
                         activityType = "Tugas Kuliah Selesai"
                     )
             }
+            else
+            {
+                tugasKuliahCompletionHistoryDatabase.deleteTugasKuliahCompletionHistory(mTaskCompletionHistory)
+            }
             if (!tugasKuliah.isFinished) {
                 AlarmScheduler.removeAlarmsForTugasKuliahReminder(context, tugasKuliah)
                 tugasKuliah.updatedAt = System.currentTimeMillis()
                 AlarmScheduler.scheduleAlarmsForTugasKuliahReminder(context, tugasKuliah)
-                tugasKuliahCompletionHistoryDatabase.deleteTugasKuliahCompletionHistory(mTaskCompletionHistory)
                 //is different because the id is different, maybe if it loaded first, it will be deleted
             } else {
                 AlarmScheduler.removeAlarmsForTugasKuliahReminder(context, tugasKuliah)

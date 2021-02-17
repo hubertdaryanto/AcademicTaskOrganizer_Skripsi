@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,9 +11,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectTugasKuliahDialogBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectTugasKuliahDialogBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddSubjectTugasKuliahDialogFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddSubjectTugasKuliahDialogFragmentViewModelFactory
 

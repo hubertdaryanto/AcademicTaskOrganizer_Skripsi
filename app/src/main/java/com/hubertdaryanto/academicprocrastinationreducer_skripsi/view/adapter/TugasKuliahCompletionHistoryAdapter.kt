@@ -1,12 +1,12 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTaskCompletionHistoryBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListTaskCompletionHistoryHeaderBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistoryDataItem
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistoryDate
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryDiffCallback
@@ -31,6 +31,7 @@ class TugasKuliahCompletionHistoryAdapter(val clickListener: TugasKuliahCompleti
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.setIsRecyclable(true)
         when (holder) {
             is ViewHolder -> {
                 val item = getItem(position) as TugasKuliahCompletionHistoryDataItem.TugasKuliahCompletionHistoryList
@@ -70,7 +71,7 @@ class TugasKuliahCompletionHistoryAdapter(val clickListener: TugasKuliahCompleti
         }
 
         companion object{
-            fun from(parent: ViewGroup): TextViewHolder{
+            fun from(parent: ViewGroup): TextViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListTaskCompletionHistoryHeaderBinding.inflate(layoutInflater, parent, false)
                 return TextViewHolder(binding)

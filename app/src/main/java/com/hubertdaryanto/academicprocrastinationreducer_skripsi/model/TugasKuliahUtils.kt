@@ -1,8 +1,6 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 
 import android.content.Context
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AlarmScheduler
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

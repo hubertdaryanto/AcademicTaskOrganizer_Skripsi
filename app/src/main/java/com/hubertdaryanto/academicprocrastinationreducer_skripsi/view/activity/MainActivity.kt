@@ -1,13 +1,8 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity
 
 import android.Manifest
-import android.accounts.Account
-import android.accounts.AccountManager
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -15,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import com.anggrayudi.storage.SimpleStorage
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ActivityMainBinding
 

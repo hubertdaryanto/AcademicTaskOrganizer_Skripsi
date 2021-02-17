@@ -3,7 +3,6 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.allQueryDao
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.tugasKuliahToDoListDao
 
 class TugasKuliahAdapterViewModelFactory(private val application: Application,

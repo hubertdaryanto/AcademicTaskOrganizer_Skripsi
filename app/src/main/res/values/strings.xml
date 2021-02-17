@@ -52,4 +52,10 @@
     <string name="tidak">Tidak</string>
     <string name="hapus">Hapus</string>
     <string name="task_completion_history">Riwayat Penyelesaian Tugas</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

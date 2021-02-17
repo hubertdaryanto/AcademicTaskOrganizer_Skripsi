@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter
 
 //import androidx.recyclerview.widget.DiffUtil
 //import org.stephenbrewer.arch.recyclerview.LinearLayoutManager
@@ -17,6 +17,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.Lis
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasSelesaiBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RecyclerViewItemDecoration
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import kotlinx.coroutines.*
 import org.stephenbrewer.arch.recyclerview.ListAdapter
@@ -41,11 +42,12 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.setIsRecyclable(false)
+        holder.setIsRecyclable(true)
         when (holder) {
             is ViewHolder -> {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
                 holder.bind(item.tugasKuliahListItemType as TugasKuliah, clickListener, tugasKuliahToDoListFinishedInterface)
+
             }
             is TextViewHolder -> {
                 val item = getItem(position) as TugasKuliahDataItem.TugasKuliahList
@@ -89,7 +91,7 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
         }
 
         companion object{
-            fun from(parent: ViewGroup): TextViewHolder{
+            fun from(parent: ViewGroup): TextViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListAgendaHeaderBinding.inflate(layoutInflater, parent, false)
                 return TextViewHolder(binding)
@@ -101,7 +103,7 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
         binding.root
     )
     {
-        //todo: make adapter after refresh no redundant adapter anymore
+        //todo: (medium) make to do list adapter after refresh no redundant adapter anymore
         fun bind(item: TugasKuliah, clickListener: TugasKuliahListener, tugasKuliahToDoListFinishedInterface: TugasKuliahToDoListFinishedInterface) {
             binding.tugas = item
             binding.clickListener = clickListener
@@ -109,18 +111,12 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
 
             var viewModelJob = Job()
             val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-//            val viewModelFactory = TugasAdapterViewModelFactory(application, dataSource)
-//            val tugasAdapterViewModel = ViewModelProvider(this, viewModelFactory).get(
-//                TugasAdapterViewModel::class.java
-//            )
             val tugasKuliahDataSource = AppDatabase.getInstance(binding.root.context).getTugasKuliahDao
             val tugasKuliahToDoListDataSource = AppDatabase.getInstance(binding.root.context).getTugasKuliahToDoListDao
             val tugasKuliahCompletionHistoryDataSource = AppDatabase.getInstance(binding.root.context).getTugasKuliahCompletionHistoryDao
 
             val _toDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
             val tugasKuliahToDoList: LiveData<MutableList<TugasKuliahToDoList>> = _toDoList
-
-
 
             uiScope.launch {
                 _toDoList.value = tugasKuliahToDoListDataSource.loadToDoListsByTugasKuliahId(item.tugasKuliahId)

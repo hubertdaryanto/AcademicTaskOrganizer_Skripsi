@@ -1,4 +1,4 @@
-package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view
+package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -27,10 +27,14 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.deadline_components
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.finish_commitment_components
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasKuliahBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.ImageForTugasKuliahAdapter
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahToDoListAdapter
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RangeTimePickerDialog
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RecyclerViewItemDecoration
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import java.io.File
 import java.io.IOException
@@ -569,13 +573,7 @@ class EditTugasKuliahFragment: Fragment() {
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
                         editTugasKuliahFragmentViewModel.updateTugasKuliah(requireContext(), editTugasKuliahFragmentViewModel.tugasKuliah.value!!)
-//                        context?.getString(R.string.updated_tugas_kuliah_message)?.let { it1 ->
-//                            context?.toast(
-//                                it1
-//                            )
-//                        }
                         Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " diperbarui.", Toast.LENGTH_LONG).show()
-//                        this.findNavController().popBackStack(0, true)
                         this.findNavController().popBackStack()
                         editTugasKuliahFragmentViewModel.doneNavigating()
                     }
@@ -717,7 +715,6 @@ class EditTugasKuliahFragment: Fragment() {
                         }
                     }
                 }
-
                 toDoListAdapter.updateList(it)
             }
         })

@@ -1,7 +1,6 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 
 import androidx.room.*
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
 
 @Dao
 interface tugasKuliahToDoListDao{

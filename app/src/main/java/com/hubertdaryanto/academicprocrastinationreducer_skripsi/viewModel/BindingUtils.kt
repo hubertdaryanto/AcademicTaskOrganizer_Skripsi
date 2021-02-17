@@ -3,8 +3,8 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
