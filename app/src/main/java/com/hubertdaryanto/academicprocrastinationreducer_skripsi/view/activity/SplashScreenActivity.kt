@@ -28,7 +28,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         mHandler = Handler()
 
-        mHandler.postDelayed(mRunnable, 4000)
+        mHandler.postDelayed(mRunnable, 1000)
     }
 
     override fun onStop() {

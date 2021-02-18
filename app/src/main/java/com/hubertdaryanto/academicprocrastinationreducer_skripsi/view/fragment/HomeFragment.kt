@@ -3,6 +3,7 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 //import androidx.recyclerview.widget.GridLayoutManager
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,16 +17,16 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDataba
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModelFactory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahListener
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListFinishedInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import org.stephenbrewer.arch.recyclerview.GridLayoutManager
+import java.util.*
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
+    private lateinit var mHandlerForUpdateCurrentTime: Handler
+    private lateinit var mRunnable: Runnable
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,6 +128,16 @@ class HomeFragment : Fragment() {
         }
         binding.tugasList.layoutManager = manager
 
+        mHandlerForUpdateCurrentTime = Handler()
+        mHandlerForUpdateCurrentTime.post(object : Runnable {
+            override fun run() {
+                // Keep the postDelayed before the updateTime(), so when the event ends, the handler will stop too.
+                mHandlerForUpdateCurrentTime.postDelayed(this, 1000)
+                binding.realTimeClock.text = "Waktu saat ini: " + convertLongToDateTimeFormatted(System.currentTimeMillis())
+            }
+        })
+
+
         return binding.root
     }
 
@@ -159,6 +170,11 @@ class HomeFragment : Fragment() {
 //        homeFragmentViewModel.clearTugasKuliah()
 //        homeFragmentViewModel.loadTugasKuliah()
 //    }
+
+    override fun onStop() {
+        super.onStop()
+        mHandlerForUpdateCurrentTime.removeCallbacks(mRunnable)
+    }
 
     private fun goToTugasKuliahCompletionHistory() {
         this.findNavController()

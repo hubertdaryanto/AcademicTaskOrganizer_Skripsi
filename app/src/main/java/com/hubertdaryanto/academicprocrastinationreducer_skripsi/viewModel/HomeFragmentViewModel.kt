@@ -13,9 +13,10 @@ import kotlinx.coroutines.launch
 
 //high priority (saran dari dosen pembimbing)
 //todo: (high) Add Onboarding feature (this will make a new view and classes and you must update it again in visio before thesis defense) -> For explain each component of the app (karena dospem gak langsung tau nama mata kuliah yang mana, deadline yang mana, nama tugas yang mana)
-//todo: (high) Add real time clock to home page
 //todo: (high) Make tugas kuliah colored when passed finish commitment (yellow) and passed the deadline (red or gray)
+//todo: (high) Make tutorial in app (Inspiration? Look Aura App in iOS)
 //todo: (high) Make splash screen view design meet the criteria of material design guidance for splash screen
+//todo: (high) Redesign Home Page View
 
 //medium priority
 //todo: (medium) Fix press enter to add to do list method
