@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
+import androidx.core.os.postDelayed
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -129,13 +130,11 @@ class HomeFragment : Fragment() {
         binding.tugasList.layoutManager = manager
 
         mHandlerForUpdateCurrentTime = Handler()
-        mHandlerForUpdateCurrentTime.post(object : Runnable {
-            override fun run() {
-                // Keep the postDelayed before the updateTime(), so when the event ends, the handler will stop too.
-                mHandlerForUpdateCurrentTime.postDelayed(this, 1000)
-                binding.realTimeClock.text = "Waktu saat ini: " + convertLongToDateTimeFormatted(System.currentTimeMillis())
-            }
-        })
+        mRunnable = Runnable {
+            mHandlerForUpdateCurrentTime.postDelayed(mRunnable, 1000)
+            binding.realTimeClock.text = "Waktu saat ini: " + convertLongToDateTimeFormatted(System.currentTimeMillis())
+        }
+        mHandlerForUpdateCurrentTime.post(mRunnable)
 
 
         return binding.root
@@ -165,11 +164,10 @@ class HomeFragment : Fragment() {
 //        super.onDestroy()
 //    }
 
-//    override fun onResume() {
-//        super.onResume()
-//        homeFragmentViewModel.clearTugasKuliah()
-//        homeFragmentViewModel.loadTugasKuliah()
-//    }
+    override fun onResume() {
+        super.onResume()
+        mHandlerForUpdateCurrentTime.post(mRunnable)
+    }
 
     override fun onStop() {
         super.onStop()

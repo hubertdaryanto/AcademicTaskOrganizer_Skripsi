@@ -12,9 +12,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 //high priority (saran dari dosen pembimbing)
-//todo: (high) Add Onboarding feature (this will make a new view and classes and you must update it again in visio before thesis defense) -> For explain each component of the app (karena dospem gak langsung tau nama mata kuliah yang mana, deadline yang mana, nama tugas yang mana)
-//todo: (high) Make tugas kuliah colored when passed finish commitment (yellow) and passed the deadline (red or gray)
-//todo: (high) Make tutorial in app (Inspiration? Look Aura App in iOS)
+//todo: (high) Add Onboarding feature (this will make a new view and classes and you must update it again in visio before thesis defense) -> For guide user to quick setup their list of mata kuliah, and first tugas kuliah
+//todo: (high) make dashboard view (can replace "tugas kuliah saya" view as home page) (isi: jumlah tugas yang belum selesai, tugas kuliah yang selesai jauh2 hari sebelum deadline/terlambat/hampir terlambat, etc... silahkan rancang di visio) (inspirasi? Cek binusmaya)
+//todo: (high) Make tugas kuliah colored when not passed finish commitment (can be no color or green), passed finish commitment (yellow) and passed the deadline (red or gray)
+//todo: (high) Make tutorial in app (Inspiration? Look Aura App in iOS) -> For explain each component of the app (karena dospem gak langsung tau nama mata kuliah yang mana, deadline yang mana, nama tugas yang mana)
 //todo: (high) Make splash screen view design meet the criteria of material design guidance for splash screen
 //todo: (high) Redesign Home Page View
 
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 //todo: (medium) Fix press enter to add to do list method
 //todo: (medium) Change app icon into proper topic instead of graduation gown
 //todo: (medium) Move add to do list and image button to bottom of each adapter, so the flow of the app is top to bottom (consistent)
+//todo: (medium) fix bug for add tugas kuliah commitment time (masa deadline tugas jam 15:00 max nya jam 14:59?)
 
 //low priority
 //todo: (low) Add built in image viewer
