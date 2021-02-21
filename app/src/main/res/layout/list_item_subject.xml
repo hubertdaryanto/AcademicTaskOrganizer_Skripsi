@@ -9,7 +9,7 @@
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah" />
         <variable
             name="subjectClickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.SubjectTugasKuliahListener" />
     </data>
 
     <androidx.cardview.widget.CardView

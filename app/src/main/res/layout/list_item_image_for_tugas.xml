@@ -8,7 +8,7 @@
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage" />
         <variable
             name="imageClickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahImageListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

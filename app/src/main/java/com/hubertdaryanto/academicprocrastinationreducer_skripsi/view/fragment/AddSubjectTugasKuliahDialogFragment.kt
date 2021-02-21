@@ -14,8 +14,8 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectTugasKuliahDialogBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddSubjectTugasKuliahDialogFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddSubjectTugasKuliahDialogFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.AddSubjectTugasKuliahDialogFragmentViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.AddSubjectTugasKuliahDialogFragmentViewModelFactory
 
 class AddSubjectTugasKuliahDialogFragment: DialogFragment() {
     private lateinit var binding: AddSubjectTugasKuliahDialogBinding
@@ -30,7 +30,8 @@ class AddSubjectTugasKuliahDialogFragment: DialogFragment() {
         val dataSource = AppDatabase.getInstance(application).getSubjectTugasKuliahDao
         val viewModelFactory = AddSubjectTugasKuliahDialogFragmentViewModelFactory(application, dataSource)
 
-        addSubjectTugasKuliahDialogViewModel = ViewModelProvider(this, viewModelFactory).get(AddSubjectTugasKuliahDialogFragmentViewModel::class.java)
+        addSubjectTugasKuliahDialogViewModel = ViewModelProvider(this, viewModelFactory).get(
+            AddSubjectTugasKuliahDialogFragmentViewModel::class.java)
 
         addSubjectTugasKuliahDialogViewModel.addSubjectAndDismiss.observe(viewLifecycleOwner, Observer {
             if (it == true)

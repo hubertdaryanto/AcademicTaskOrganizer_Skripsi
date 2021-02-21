@@ -6,7 +6,7 @@
     <data>
         <variable
             name="addTugasKuliahFinishCommitmentFragmentViewModel"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddTugasKuliahFinishCommitmentFragmentViewModel" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.AddTugasKuliahFinishCommitmentFragmentViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

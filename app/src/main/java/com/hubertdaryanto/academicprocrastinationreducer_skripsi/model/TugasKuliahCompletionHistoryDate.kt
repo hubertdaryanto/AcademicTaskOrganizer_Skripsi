@@ -1,6 +1,6 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryListItemType
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahCompletionHistoryListItemType
 
 class TugasKuliahCompletionHistoryDate(d: String, c: String):
     TugasKuliahCompletionHistoryListItemType {

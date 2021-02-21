@@ -8,19 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ActivityMainBinding
-
-
-// Constants
-// The authority for the sync adapter's content provider
-const val AUTHORITY = "com.example.academictaskorganizer_skripsi.provider"
-// An account type, in the form of a domain name
-const val ACCOUNT_TYPE = "com.example.academictaskorganizer_skripsi"
-// The account name
-const val ACCOUNT = "Testing Account"
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.HomeFragment
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.MataKuliahListFragment
 
 private const val STORAGE_PERMISSION_CODE = 1
 
@@ -29,6 +23,8 @@ private const val READ_STORAGE_PERMISSION = "android.permission.READ_EXTERNAL_ST
 class MainActivity : AppCompatActivity() {
     // Instance fields
     private lateinit var binding: ActivityMainBinding
+    private lateinit var homeFragment: HomeFragment
+    private lateinit var mataKuliahListFragment: MataKuliahListFragment
 
     fun checkPermission(permission: String, requestCode: Int) {
 
@@ -96,13 +92,32 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        homeFragment = HomeFragment()
+        mataKuliahListFragment = MataKuliahListFragment()
+
+        makeCurrentFragment(homeFragment)
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener {
+            when (it.itemId){
+                R.id.ic_home -> makeCurrentFragment(homeFragment)
+                R.id.ic_mata_kuliah_list -> makeCurrentFragment(mataKuliahListFragment)
+            }
+            true
+        }
+
         //to change some view to visible, use this code: "<<xml view id name>>.visibility = View.VISIBLE"
-        val navController = Navigation.findNavController(this, R.id.fragment)
+        val navController = Navigation.findNavController(this, R.id.onboardingFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
+    private fun makeCurrentFragment(fragment: Fragment) =
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fl_wrapper, fragment)
+            commit()
+        }
+
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.fragment), null)
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.onboardingFragment), null)
     }
 
 }

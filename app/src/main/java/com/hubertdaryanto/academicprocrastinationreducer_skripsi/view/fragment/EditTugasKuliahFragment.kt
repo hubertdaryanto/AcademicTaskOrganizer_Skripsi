@@ -36,6 +36,12 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RecyclerViewItemDecoration
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageListener
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListListener
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.EditTugasKuliahFragmentViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.EditTugasKuliahFragmentViewModelFactory
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -668,7 +674,7 @@ class EditTugasKuliahFragment: Fragment() {
 
         val gambarAdapter = ImageForTugasKuliahAdapter(TugasKuliahImageListener { imageId ->
             editTugasKuliahFragmentViewModel.onTugasKuliahImageClicked(imageId)
-        }, object : TugasKuliahImageInterface{
+        }, object : TugasKuliahImageInterface {
             override fun onRemoveItem(id: Long) {
                 AlertDialog.Builder(context).apply {
                     setTitle(context.getString(R.string.delete_image_confirmation_title))

@@ -18,10 +18,10 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.Cho
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.SubjectTugasKuliahAdapter
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahDialogFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahDialogFragmentViewModelFactory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahInterface
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.SubjectTugasKuliahListener
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.SubjectTugasKuliahDialogFragmentViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.SubjectTugasKuliahDialogFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.SubjectTugasKuliahInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.SubjectTugasKuliahListener
 
 class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
     val TAG: String = this::class.java.simpleName
@@ -46,7 +46,8 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
         val subjectDataSource = AppDatabase.getInstance(application).getSubjectTugasKuliahDao
         val viewModelFactory = SubjectTugasKuliahDialogFragmentViewModelFactory(application, subjectDataSource)
 
-        val subjectDialogFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(SubjectTugasKuliahDialogFragmentViewModel::class.java)
+        val subjectDialogFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
+            SubjectTugasKuliahDialogFragmentViewModel::class.java)
 
         val adapter = SubjectTugasKuliahAdapter(SubjectTugasKuliahListener { subjectId ->
             subjectDialogFragmentViewModel.onSubjectTugasKuliahClicked(subjectId)

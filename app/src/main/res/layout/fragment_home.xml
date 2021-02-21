@@ -1,70 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-
-    <data>
-        <variable
-            name="homeFragmentViewModel"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.HomeFragmentViewModel" />
-    </data>
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.fragment.HomeFragment">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".view.fragment.dashboard.HomeFragment">
 
+        <!-- TODO: Update blank fragment layout -->
         <TextView
-            android:id="@+id/textView3"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Untuk menambahkan tugas kuliah, tekan tombol + yang ada di pojok kanan bawah tampilan ini."
-            style="@style/TextAppearance.MyApp.Headline5"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/tugas_list"
-            app:layout_constraintEnd_toEndOf="@+id/tugas_list"
-            app:layout_constraintStart_toStartOf="@+id/tugas_list"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/realTimeClock"
-                app:layout_constraintBottom_toTopOf="@id/tugas_list"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp" />
-
-        <org.stephenbrewer.arch.recyclerview.RecyclerView
-                android:id="@+id/tugas_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="match_parent"
+                android:text="Home"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </org.stephenbrewer.arch.recyclerview.RecyclerView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:src="@drawable/ic_add"
-            android:tint="@android:color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="@{() -> homeFragmentViewModel.onAddTugasKuliahClicked()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-

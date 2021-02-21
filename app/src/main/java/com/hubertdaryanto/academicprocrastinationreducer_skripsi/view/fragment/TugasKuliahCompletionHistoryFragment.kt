@@ -14,9 +14,9 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTugasKuliahCompletionHistoryBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahCompletionHistoryAdapter
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryFragmentViewModelFactory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahCompletionHistoryListener
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasKuliahCompletionHistoryFragmentViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasKuliahCompletionHistoryFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahCompletionHistoryListener
 
 class TugasKuliahCompletionHistoryFragment: Fragment() {
 
@@ -41,7 +41,8 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
         val tugasKuliahCompletionHistoryDataSource = AppDatabase.getInstance(application).getTugasKuliahCompletionHistoryDao
         val viewModelFactory = TugasKuliahCompletionHistoryFragmentViewModelFactory(tugasKuliahCompletionHistoryDataSource, application)
 
-        val tugasKuliahCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(TugasKuliahCompletionHistoryFragmentViewModel::class.java)
+        val tugasKuliahCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
+            TugasKuliahCompletionHistoryFragmentViewModel::class.java)
 
         tugasKuliahCompletionHistoryFragmentViewModel.loadTugasKuliahCompletionHistory()
         val adapter = TugasKuliahCompletionHistoryAdapter(TugasKuliahCompletionHistoryListener { tugasKuliahId ->

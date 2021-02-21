@@ -10,7 +10,7 @@
     <data>
         <variable
             name="editTugasKuliahFragmentViewModel"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.EditTugasKuliahFragmentViewModel" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.EditTugasKuliahFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

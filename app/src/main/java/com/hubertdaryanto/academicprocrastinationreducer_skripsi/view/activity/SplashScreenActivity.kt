@@ -1,6 +1,8 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +12,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var mHandler: Handler
     private lateinit var mRunnable: Runnable
-
+    private lateinit var mSharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,10 +21,17 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-
-
+        mSharedPreferences = getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE)
         mRunnable = Runnable {
-            startActivity(Intent(this, MainActivity::class.java))
+            if (mSharedPreferences.getBoolean("onboardingFinished",false))
+            {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            else
+            {
+                startActivity(Intent(this, OnboardingActivity::class.java))
+            }
+
             finish()
         }
 

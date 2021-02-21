@@ -8,7 +8,7 @@
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList" />
         <variable
             name="toDoListClickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahToDoListListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListListener" />
     </data>
 
 

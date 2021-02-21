@@ -60,4 +60,6 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="selanjutnya">selanjutnya</string>
     <string name="mulai">mulai</string>
+    <string name="kembali">kembali</string>
+    <string name="title_activity_onboarding">OnboardingActivity</string>
 </resources>

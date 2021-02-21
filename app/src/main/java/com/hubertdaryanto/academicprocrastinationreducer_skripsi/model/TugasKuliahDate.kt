@@ -1,6 +1,6 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahListItemType
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahListItemType
 
 class TugasKuliahDate(d: String, c: String):
     TugasKuliahListItemType {

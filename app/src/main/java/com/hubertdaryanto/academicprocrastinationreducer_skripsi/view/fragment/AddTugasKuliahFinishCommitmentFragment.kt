@@ -20,8 +20,8 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.Fra
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RangeTimePickerDialog
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddTugasKuliahFinishCommitmentFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.AddTugasKuliahFinishCommitmentFragmentViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.AddTugasKuliahFinishCommitmentFragmentViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.AddTugasKuliahFinishCommitmentFragmentViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -307,7 +307,7 @@ class AddTugasKuliahFinishCommitmentFragment: Fragment() {
 
                         addTugasKuliahFinishCommitmentFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
                         Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " disimpan.", Toast.LENGTH_LONG).show()
-                        this.findNavController().popBackStack(R.id.homeFragment, false)//cari cara buat langusng ke home fragment
+                        this.findNavController().popBackStack(R.id.tugasMataKuliahList, false)//cari cara buat langusng ke home fragment
                         addTugasKuliahFinishCommitmentFragmentViewModel.doneNavigating()
                     }
                 }

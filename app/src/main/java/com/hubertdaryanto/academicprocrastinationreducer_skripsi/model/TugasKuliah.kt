@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.TugasKuliahListItemType
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahListItemType
 import java.io.Serializable
 
 @Entity(tableName = "TugasKuliah"
