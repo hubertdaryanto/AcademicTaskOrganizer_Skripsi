@@ -3,7 +3,6 @@
         package="com.hubertdaryanto.academicprocrastinationreducer_skripsi">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission
             android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -23,11 +22,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".view.activity.EditTugasKuliahActivity"></activity>
+        <activity android:name=".view.activity.AddTugasKuliahActivity" />
         <activity
                 android:name=".view.activity.OnboardingActivity"
                 android:label="@string/title_activity_onboarding"
-                android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
+                android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
                 android:name=".view.activity.SplashScreenActivity"
                 android:label="@string/title_activity_splash_screen"
@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.MainActivity"></activity>
+        <activity android:name=".view.activity.MainActivity" />
 
         <receiver android:name=".model.AlarmReceiver" />
         <receiver

@@ -9,8 +9,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,8 +23,16 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ActivityMainBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.TugasMataKuliahListFragmentDirections
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.TugasMataKuliahListFragmentDirections.actionHomeFragmentToAddTugasFragment
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.HomeFragment
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.HomeFragmentDirections
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.MataKuliahListFragment
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.MainActivityViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.MainActivityViewModelFactory
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasMataKuliahListFragmentViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasMataKuliahListFragmentViewModelFactory
 
 private const val STORAGE_PERMISSION_CODE = 1
 
@@ -29,8 +41,7 @@ private const val READ_STORAGE_PERMISSION = "android.permission.READ_EXTERNAL_ST
 class MainActivity : AppCompatActivity() {
     // Instance fields
     private lateinit var binding: ActivityMainBinding
-    private lateinit var homeFragment: HomeFragment
-    private lateinit var mataKuliahListFragment: MataKuliahListFragment
+    private lateinit var mainActivityViewModel: MainActivityViewModel
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -100,6 +111,15 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        val application = requireNotNull(this).application
+
+        val tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
+        val tugasKuliahToDoListDataSource = AppDatabase.getInstance(application).getTugasKuliahToDoListDao
+        val viewModelFactory = MainActivityViewModelFactory(tugasKuliahDataSource, tugasKuliahToDoListDataSource, application)
+
+        mainActivityViewModel =
+            ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
+
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
@@ -108,12 +128,22 @@ class MainActivity : AppCompatActivity() {
         )
         navController = navHostFragment.findNavController()
 
+//        this.binding.lifecycleOwner?.let {
+//            mainActivityViewModel.navigateToAddTugasKuliah.observe(it, Observer {
+//                if (it) {
+//                    navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddTugasFragment2())
+//                    mainActivityViewModel.onAddTugasKuliahNavigated()
+//                }
+//            })
+//        }
+
+        binding.floatingActionButton.setOnClickListener {
+            navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddTugasFragment2())
+        }
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-//        binding.bottomNavigation.get(1).isEnabled = false
+        binding.bottomNavigation.menu.getItem(1).isEnabled = false
         binding.bottomNavigation.setupWithNavController(navController)
-
-
     }
 
 //    private fun makeCurrentFragment(fragment: Fragment) =

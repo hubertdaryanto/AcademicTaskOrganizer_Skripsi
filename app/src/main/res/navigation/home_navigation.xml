@@ -60,6 +60,9 @@
         <action
                 android:id="@+id/action_homeFragment_to_taskCompletionHistoryFragment"
                 app:destination="@id/taskCompletionHistoryFragment" />
+        <action
+                android:id="@+id/action_homeFragment_to_addTugasFragment2"
+                app:destination="@id/addTugasFragment" />
     </fragment>
     <fragment
             android:id="@+id/mataKuliahListFragment"
