@@ -2,15 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/ic_home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Home"/>
     <item
-            android:id="@+id/ic_add"
-            android:icon="@drawable/ic_add"
-            android:title="Tambah Tugas"/>
-    <item
-            android:id="@+id/ic_mata_kuliah_list"
+            android:id="@+id/mataKuliahListFragment"
             android:icon="@drawable/ic_baseline_list_alt_24"
             android:title="Mata Kuliah"/>
 

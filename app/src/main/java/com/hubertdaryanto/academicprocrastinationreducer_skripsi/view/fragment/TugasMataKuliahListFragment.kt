@@ -177,8 +177,8 @@ class TugasMataKuliahListFragment : Fragment() {
     }
 
     private fun goToTugasKuliahCompletionHistory() {
-        this.findNavController()
-            .navigate(TugasMataKuliahListFragmentDirections.actionHomeFragmentToTaskCompletionHistoryFragment())
+//        this.findNavController()
+//            .navigate(TugasMataKuliahListFragmentDirections.actionHomeFragmentToTaskCompletionHistoryFragment())
 //        homeFragmentViewModel.onTaskCompletionHistoryNavigated()
     }
 }

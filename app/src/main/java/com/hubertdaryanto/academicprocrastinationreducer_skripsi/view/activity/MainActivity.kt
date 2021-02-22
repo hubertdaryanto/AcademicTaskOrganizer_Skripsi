@@ -8,9 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ActivityMainBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.HomeFragment
@@ -25,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var homeFragment: HomeFragment
     private lateinit var mataKuliahListFragment: MataKuliahListFragment
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     fun checkPermission(permission: String, requestCode: Int) {
 
@@ -92,29 +99,48 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        homeFragment = HomeFragment()
-        mataKuliahListFragment = MataKuliahListFragment()
+//        homeFragment = HomeFragment()
+//        mataKuliahListFragment = MataKuliahListFragment()
 
-        makeCurrentFragment(homeFragment)
-
-        binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            when (it.itemId){
-                R.id.ic_home -> makeCurrentFragment(homeFragment)
-                R.id.ic_mata_kuliah_list -> makeCurrentFragment(mataKuliahListFragment)
-            }
-            true
-        }
+//        makeCurrentFragment(homeFragment)
+//
+//        binding.bottomNavigation.setOnNavigationItemSelectedListener {
+//            when (it.itemId){
+//                R.id.ic_home -> makeCurrentFragment(homeFragment)
+//                R.id.ic_mata_kuliah_list -> makeCurrentFragment(mataKuliahListFragment)
+//            }
+//            true
+//        }
 
         //to change some view to visible, use this code: "<<xml view id name>>.visibility = View.VISIBLE"
-        val navController = Navigation.findNavController(this, R.id.onboardingFragment)
-        NavigationUI.setupActionBarWithNavController(this, navController)
+
+
+//        val navController = this.findNavController(R.id.fragment)
+//        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.addTugasFragment, R.id.mataKuliahListFragment))
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+//
+//        binding.bottomNavigation.setupWithNavController(navController)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.homeFragment, R.id.mataKuliahListFragment)
+        )
+        navController = navHostFragment.findNavController()
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        binding.bottomNavigation.setupWithNavController(navController)
+
+//        NavigationUI.setupActionBarWithNavController(this, navController)
+
     }
 
-    private fun makeCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl_wrapper, fragment)
-            commit()
-        }
+//    private fun makeCurrentFragment(fragment: Fragment) =
+//        supportFragmentManager.beginTransaction().apply {
+//            replace(R.id.fl_wrapper, fragment)
+//            commit()
+//        }
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.onboardingFragment), null)

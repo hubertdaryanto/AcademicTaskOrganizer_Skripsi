@@ -32,13 +32,13 @@
             app:argType="long" />
     </fragment>
     <fragment
-        android:id="@+id/addTugasFragment"
-        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.AddTugasKuliahFragment"
-        android:label="Tambah Tugas Kuliah"
-        tools:layout="@layout/fragment_add_tugas_kuliah">
+            android:id="@+id/addTugasFragment"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.AddTugasKuliahFragment"
+            android:label="Tambah Tugas"
+            tools:layout="@layout/fragment_add_tugas_kuliah">
         <action
-            android:id="@+id/action_addTugasFragment_to_addTugasCommitmentFragment"
-            app:destination="@id/addTugasCommitmentFragment" />
+                android:id="@+id/action_addTugasFragment_to_addTugasCommitmentFragment"
+                app:destination="@id/addTugasCommitmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/taskCompletionHistoryFragment"
@@ -56,7 +56,7 @@
     <fragment
             android:id="@+id/homeFragment"
             android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.HomeFragment"
-            android:label="HomeFragment" >
+            android:label="Home">
         <action
                 android:id="@+id/action_homeFragment_to_taskCompletionHistoryFragment"
                 app:destination="@id/taskCompletionHistoryFragment" />
@@ -64,8 +64,8 @@
     <fragment
             android:id="@+id/mataKuliahListFragment"
             android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.MataKuliahListFragment"
-            android:label="fragment_mata_kuliah_list"
-            tools:layout="@layout/fragment_mata_kuliah_list" >
+            android:label="Mata Kuliah"
+            tools:layout="@layout/fragment_mata_kuliah_list">
         <action
                 android:id="@+id/action_mataKuliahListFragment_to_tugasMataKuliahList"
                 app:destination="@id/tugasMataKuliahList" />

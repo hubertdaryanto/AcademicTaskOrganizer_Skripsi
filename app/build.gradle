@@ -34,6 +34,15 @@ android {
 //        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
 //        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
 //    }
+
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions{
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 repositories {
