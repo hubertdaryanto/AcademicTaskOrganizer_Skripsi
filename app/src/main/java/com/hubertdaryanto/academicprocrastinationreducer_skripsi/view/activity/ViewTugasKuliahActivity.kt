@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 
-class AddTugasKuliahActivity : AppCompatActivity() {
+class ViewTugasKuliahActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_tugas_kuliah)
+        setContentView(R.layout.activity_view_tugas_kuliah)
     }
 }

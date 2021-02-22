@@ -14,9 +14,9 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTugasKuliahCompletionHistoryBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahCompletionHistoryAdapter
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahCompletionHistoryListener
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasKuliahCompletionHistoryFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasKuliahCompletionHistoryFragmentViewModelFactory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahCompletionHistoryListener
 
 class TugasKuliahCompletionHistoryFragment: Fragment() {
 
@@ -69,11 +69,11 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
 
         tugasKuliahCompletionHistoryFragmentViewModel.navigateToViewTugasKuliahCompletionHistoryDetails.observe(viewLifecycleOwner, Observer {
             it?.let {
-                this.findNavController().navigate(
-                    TugasKuliahCompletionHistoryFragmentDirections.actionTaskCompletionHistoryFragmentToEditTugasFragment(
-                        it
-                    )
-                )
+//                this.findNavController().navigate(
+//                    TugasKuliahCompletionHistoryFragmentDirections.actionTaskCompletionHistoryFragmentToEditTugasFragment(
+//                        it
+//                    )
+//                )
 //                this.findNavController().navigate(TaskCompletionHistoryDirections.actionTaskCompletionHistoryFragmentToTaskCompletionHistoryDetailFragment(it))
                 tugasKuliahCompletionHistoryFragmentViewModel.onTugasKuliahCompletionHistoryNavigated()
             }

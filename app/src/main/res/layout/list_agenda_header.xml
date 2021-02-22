@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@{tugasDate.date + ` (` + tugasDate.count + `)`}"
+        android:text="@{tugasDate.date + tugasDate.count }"
         android:textColor="#000000"
         tools:text="Test"/>
 </layout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/view_tugas_kuliah_navigation"
+        app:startDestination="@id/tugasMataKuliahList">
+
+    <fragment
+            android:id="@+id/tugasMataKuliahList"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.TugasMataKuliahListFragment"
+            android:label="Tugas Kuliah Saya"
+            android:color="@android:color/black"
+            tools:layout="@layout/fragment_tugas_mata_kuliah_list"/>
+</navigation>

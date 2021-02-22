@@ -504,7 +504,8 @@ class AddTugasKuliahFragment : Fragment() {
             setTitle(context.getString(R.string.back_confirmation_title))
             setMessage(context.getString(R.string.back_confirmation_subtitle))
             setPositiveButton(context.getString(R.string.ya)) { _, _ ->
-                this@AddTugasKuliahFragment.findNavController().popBackStack()
+//                this@AddTugasKuliahFragment.findNavController().popBackStack()
+                requireActivity().finish()
             }
             setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
             }

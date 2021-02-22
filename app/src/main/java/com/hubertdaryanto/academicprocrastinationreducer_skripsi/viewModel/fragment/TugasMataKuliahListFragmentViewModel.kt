@@ -99,7 +99,7 @@ class TugasMataKuliahListFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao
                 arrayList[temp] =
                     TugasKuliahDate(
                         tempdate,
-                        count.toString()
+                        " (" + count.toString() + ")"
                     )
             }
             else
@@ -118,7 +118,7 @@ class TugasMataKuliahListFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao
                 arrayList[temp] =
                     TugasKuliahDate(
                         tempdate,
-                        count.toString()
+                        " (" + count.toString() + ")"
                     )
                 //kalau misalkan i++ disini, maka jumlah nya belum ketahuan ada berapa pas munculin header nya
                 //bisa sih pakai query load data from deadline xxxx ke xxxx pakai modulus per hari buat nentuin parameter query nya

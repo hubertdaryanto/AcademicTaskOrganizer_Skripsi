@@ -18,8 +18,10 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.Lis
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasSelesaiBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RecyclerViewItemDecoration
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.addNewItem
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.notifyObserver
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.removeItemAt
 import kotlinx.coroutines.*
 import org.stephenbrewer.arch.recyclerview.ListAdapter
 import org.stephenbrewer.arch.recyclerview.RecyclerView

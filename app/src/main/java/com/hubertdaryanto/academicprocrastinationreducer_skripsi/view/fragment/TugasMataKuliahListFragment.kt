@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTugasMataKuliahListBinding
@@ -17,9 +16,9 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDataba
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahListener
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListFinishedInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.convertLongToDateTimeFormatted
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasMataKuliahListFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasMataKuliahListFragmentViewModelFactory
 import org.stephenbrewer.arch.recyclerview.GridLayoutManager
@@ -99,7 +98,7 @@ class TugasMataKuliahListFragment : Fragment() {
         tugasMataKuliahListFragmentViewModel.navigateToAddTugasKuliah.observe(viewLifecycleOwner, Observer {
             if (it)
             {
-                this.findNavController().navigate(TugasMataKuliahListFragmentDirections.actionHomeFragmentToAddTugasFragment())
+//                this.findNavController().navigate(TugasMataKuliahListFragmentDirections.actionHomeFragmentToAddTugasFragment())
                 tugasMataKuliahListFragmentViewModel.onAddTugasKuliahNavigated()
             }
         })
@@ -108,11 +107,11 @@ class TugasMataKuliahListFragment : Fragment() {
             viewLifecycleOwner,
             Observer { tugas ->
                 tugas?.let {
-                    this.findNavController().navigate(
-                        TugasMataKuliahListFragmentDirections.actionHomeFragmentToEditTugasFragment(
-                            it
-                        )
-                    )
+//                    this.findNavController().navigate(
+//                        TugasMataKuliahListFragmentDirections.actionHomeFragmentToEditTugasFragment(
+//                            it
+//                        )
+//                    )
                     tugasMataKuliahListFragmentViewModel.onEditTugasKuliahNavigated()
                 }
             })

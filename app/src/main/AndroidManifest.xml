@@ -22,7 +22,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".view.activity.EditTugasKuliahActivity"></activity>
+        <activity android:name=".view.activity.ViewTugasKuliahActivity"></activity>
+        <activity android:name=".view.activity.EditTugasKuliahActivity" />
         <activity android:name=".view.activity.AddTugasKuliahActivity" />
         <activity
                 android:name=".view.activity.OnboardingActivity"

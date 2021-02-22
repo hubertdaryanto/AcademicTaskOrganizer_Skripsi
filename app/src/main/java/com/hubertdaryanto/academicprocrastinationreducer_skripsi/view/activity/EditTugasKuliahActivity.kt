@@ -1,7 +1,7 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 
 class EditTugasKuliahActivity : AppCompatActivity() {

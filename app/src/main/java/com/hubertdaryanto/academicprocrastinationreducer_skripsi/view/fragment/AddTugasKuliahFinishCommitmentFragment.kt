@@ -307,7 +307,8 @@ class AddTugasKuliahFinishCommitmentFragment: Fragment() {
 
                         addTugasKuliahFinishCommitmentFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
                         Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " disimpan.", Toast.LENGTH_LONG).show()
-                        this.findNavController().popBackStack(R.id.tugasMataKuliahList, false)//cari cara buat langusng ke home fragment
+//                        this.findNavController().popBackStack(R.id.tugasMataKuliahList, false)//cari cara buat langusng ke home fragment
+                        requireActivity().finish()
                         addTugasKuliahFinishCommitmentFragmentViewModel.doneNavigating()
                     }
                 }

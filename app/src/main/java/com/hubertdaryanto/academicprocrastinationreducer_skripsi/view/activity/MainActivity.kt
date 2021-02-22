@@ -1,20 +1,17 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,15 +21,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ActivityMainBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.TugasMataKuliahListFragmentDirections
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.TugasMataKuliahListFragmentDirections.actionHomeFragmentToAddTugasFragment
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.HomeFragment
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.HomeFragmentDirections
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.MataKuliahListFragment
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.MainActivityViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.MainActivityViewModelFactory
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasMataKuliahListFragmentViewModel
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasMataKuliahListFragmentViewModelFactory
 
 private const val STORAGE_PERMISSION_CODE = 1
 
@@ -138,7 +128,9 @@ class MainActivity : AppCompatActivity() {
 //        }
 
         binding.floatingActionButton.setOnClickListener {
-            navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddTugasFragment2())
+//            navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddTugasFragment2())
+            val intent = Intent(this, AddTugasKuliahActivity::class.java)
+            this.startActivity(intent)
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
 
@@ -153,7 +145,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.onboardingFragment), null)
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.onboarding_nav_host_fragment), null)
     }
 
 }
