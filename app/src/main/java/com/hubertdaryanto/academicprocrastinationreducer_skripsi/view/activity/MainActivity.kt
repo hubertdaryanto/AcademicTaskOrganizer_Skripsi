@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -99,27 +100,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-//        homeFragment = HomeFragment()
-//        mataKuliahListFragment = MataKuliahListFragment()
-
-//        makeCurrentFragment(homeFragment)
-//
-//        binding.bottomNavigation.setOnNavigationItemSelectedListener {
-//            when (it.itemId){
-//                R.id.ic_home -> makeCurrentFragment(homeFragment)
-//                R.id.ic_mata_kuliah_list -> makeCurrentFragment(mataKuliahListFragment)
-//            }
-//            true
-//        }
-
-        //to change some view to visible, use this code: "<<xml view id name>>.visibility = View.VISIBLE"
-
-
-//        val navController = this.findNavController(R.id.fragment)
-//        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.addTugasFragment, R.id.mataKuliahListFragment))
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-//
-//        binding.bottomNavigation.setupWithNavController(navController)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
@@ -130,9 +110,9 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+//        binding.bottomNavigation.get(1).isEnabled = false
         binding.bottomNavigation.setupWithNavController(navController)
 
-//        NavigationUI.setupActionBarWithNavController(this, navController)
 
     }
 

@@ -5,6 +5,10 @@
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Home"/>
+
+    <item
+        android:id="@+id/placeholder"
+        android:title=""/>
     <item
             android:id="@+id/mataKuliahListFragment"
             android:icon="@drawable/ic_baseline_list_alt_24"

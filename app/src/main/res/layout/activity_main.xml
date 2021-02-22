@@ -8,18 +8,45 @@
 android:layout_width="match_parent"
 tools:context=".view.activity.MainActivity">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_height="wrap_content"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:background="@color/colorPrimary"
-            app:itemBackground="@color/colorPrimary"
-            app:itemIconTint="#000"
-            app:itemTextColor="#000"
-            app:menu="@menu/nav_menu"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/coordinator">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottom_app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:fabCradleMargin="0dp"
+                app:fabCradleVerticalOffset="0dp"
+                app:fabCradleRoundedCornerRadius="0dp"
+                android:layout_gravity="bottom">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottom_navigation"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:background="@color/colorPrimary"
+                    app:itemIconTint="#000"
+                    app:itemTextColor="#000"
+                    app:menu="@menu/nav_menu" />
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_add"
+                android:tint="@android:color/black"
+                app:layout_anchor="@id/bottom_app_bar"
+                android:contentDescription="TODO" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
     <fragment
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -31,7 +58,7 @@ tools:context=".view.activity.MainActivity">
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation" />
+            app:layout_constraintBottom_toTopOf="@+id/coordinator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
