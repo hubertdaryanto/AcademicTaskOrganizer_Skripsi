@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.home_nav_host_fragment) as NavHostFragment
 
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.homeFragment, R.id.mataKuliahListFragment)

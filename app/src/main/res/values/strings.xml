@@ -62,4 +62,6 @@
     <string name="mulai">mulai</string>
     <string name="kembali">kembali</string>
     <string name="title_activity_onboarding">OnboardingActivity</string>
+    <string name="ubah">Ubah</string>
+    <string name="ubah_mata_kuliah">Ubah Mata Kuliah</string>
 </resources>

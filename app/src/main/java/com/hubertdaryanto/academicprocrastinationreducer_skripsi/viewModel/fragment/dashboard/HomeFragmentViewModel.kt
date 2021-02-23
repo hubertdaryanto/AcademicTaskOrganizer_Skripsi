@@ -35,8 +35,8 @@ class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahTo
     val tugasKuliahDatabase = tugasKuliahDataSource
     val tugasKuliahToDoListDatabase = tugasKuliahToDoListDataSource
 
-    private val _tugasKuliah = MutableLiveData<MutableList<TugasKuliah>>()
-    val tugasKuliah: LiveData<MutableList<TugasKuliah>>
+    private val _tugasKuliah = MutableLiveData<TugasKuliah>()
+    val tugasKuliah: LiveData<TugasKuliah>
         get() = _tugasKuliah
 //    var tugas = database.getAllTugasKuliahSortedByDeadlineForeground()
     private var viewModelJob = Job()
@@ -59,9 +59,8 @@ class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahTo
 
     fun loadTugasKuliah()
     {
-        _tugasKuliah.value = arrayListOf()
         uiScope.launch {
-            _tugasKuliah.value = tugasKuliahDatabase.getAllTugasKuliahUnfinishedSortedByDeadline()
+            _tugasKuliah.value = tugasKuliahDatabase.getOneTugasKuliahUnfinishedSortedByDeadline()
         }
     }
 
@@ -89,12 +88,12 @@ class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahTo
         var temp = 0
         var count = 1
         var tempdate = ""
-        for (i in tugasKuliah.value!!)
-        {
-            var dateCursor: String = convertDeadlineToDateFormatted(i.deadline)
+//        for (i in tugasKuliah.value!!)
+//        {
+            var dateCursor: String = convertDeadlineToDateFormatted(tugasKuliah.value!!.deadline)
             if (date.equals(dateCursor, true))
             {
-                arrayList.add(i)
+                arrayList.add(tugasKuliah.value!!)
                 count++
                 arrayList[temp] =
                     TugasKuliahDate(
@@ -113,7 +112,7 @@ class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahTo
                     )
                 arrayList.add(tugasKuliahDate)
                 temp = arrayList.count() - 1
-                arrayList.add(i)
+                arrayList.add(tugasKuliah.value!!)
                 count = 1
                 arrayList[temp] =
                     TugasKuliahDate(
@@ -122,7 +121,7 @@ class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahTo
                     )
                 //kalau misalkan i++ disini, maka jumlah nya belum ketahuan ada berapa pas munculin header nya
                 //bisa sih pakai query load data from deadline xxxx ke xxxx pakai modulus per hari buat nentuin parameter query nya
-            }
+//            }
         }
         return arrayList
     }

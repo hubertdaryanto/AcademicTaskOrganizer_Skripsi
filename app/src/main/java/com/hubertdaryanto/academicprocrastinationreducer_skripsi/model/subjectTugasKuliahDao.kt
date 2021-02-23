@@ -1,6 +1,5 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.model
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -26,5 +25,8 @@ interface subjectTugasKuliahDao{
     @Query("DELETE FROM SubjectTugasKuliah WHERE subjectTugasKuliahId LIKE :id")
     suspend fun deleteSubjectTugasKuliahById(id: Long)
     @Query("SELECT * FROM SubjectTugasKuliah ORDER BY SubjectName ASC")
-    fun getSubjectTugasKuliahByNameForeground(): LiveData<List<SubjectTugasKuliah>>
+    suspend fun getSubjectTugasKuliahByName(): MutableList<SubjectTugasKuliah>
+
+    @Query("SELECT * FROM SubjectTugasKuliah WHERE subjectTugasKuliahId LIKE :id")
+    suspend fun getSubjectTugasKuliahById(id: Long): SubjectTugasKuliah
 }

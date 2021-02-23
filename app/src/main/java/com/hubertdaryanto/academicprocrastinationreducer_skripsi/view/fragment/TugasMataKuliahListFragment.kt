@@ -1,6 +1,7 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 
 //import androidx.recyclerview.widget.GridLayoutManager
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +15,8 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTugasMataKuliahListBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.AddTugasKuliahActivity
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.EditTugasKuliahActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahListener
@@ -38,6 +41,14 @@ class TugasMataKuliahListFragment : Fragment() {
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tugas_mata_kuliah_list, container, false)
 
+
+        val subjectId: Long = arguments?.get("subjectId") as Long
+
+//        binding.floatingActionButton.setOnClickListener {
+//            val intent = Intent(requireActivity(), AddTugasKuliahActivity::class.java)
+//            intent.putExtra("subjectTugasKuliahId", subjectId)
+//            this.startActivity(intent)
+//        }
         val application = requireNotNull(this.activity).application
 
         val tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
@@ -48,7 +59,7 @@ class TugasMataKuliahListFragment : Fragment() {
             ViewModelProvider(this, viewModelFactory).get(TugasMataKuliahListFragmentViewModel::class.java)
 
 //        homeFragmentViewModel.clearTugasKuliah()
-        tugasMataKuliahListFragmentViewModel.loadTugasKuliah()
+        tugasMataKuliahListFragmentViewModel.loadTugasKuliah(subjectId)
         val adapter = TugasKuliahAdapter(TugasKuliahListener { tugasKuliahId ->
             tugasMataKuliahListFragmentViewModel.onTugasKuliahClicked(tugasKuliahId)
         }, object : TugasKuliahToDoListFinishedInterface
@@ -57,7 +68,7 @@ class TugasMataKuliahListFragment : Fragment() {
             override fun onFinished() {
                 if (shared_data.toDoListFinished == true)
                 {
-                    tugasMataKuliahListFragmentViewModel.loadTugasKuliah()
+                    tugasMataKuliahListFragmentViewModel.loadTugasKuliah(subjectId)
                 }
             }
         })
@@ -98,7 +109,9 @@ class TugasMataKuliahListFragment : Fragment() {
         tugasMataKuliahListFragmentViewModel.navigateToAddTugasKuliah.observe(viewLifecycleOwner, Observer {
             if (it)
             {
-//                this.findNavController().navigate(TugasMataKuliahListFragmentDirections.actionHomeFragmentToAddTugasFragment())
+                val intent = Intent(requireActivity(), AddTugasKuliahActivity::class.java)
+                intent.putExtra("subjectTugasKuliahId", subjectId)
+                this.startActivity(intent)
                 tugasMataKuliahListFragmentViewModel.onAddTugasKuliahNavigated()
             }
         })
@@ -112,11 +125,15 @@ class TugasMataKuliahListFragment : Fragment() {
 //                            it
 //                        )
 //                    )
+
+                    val intent = Intent(requireActivity(), EditTugasKuliahActivity::class.java)
+                    intent.putExtra("tugasKuliahId", it)
+                    this.startActivity(intent)
                     tugasMataKuliahListFragmentViewModel.onEditTugasKuliahNavigated()
                 }
             })
 
-        binding.homeFragmentViewModel = tugasMataKuliahListFragmentViewModel
+        binding.tugasMataKuliahListFragmentViewModel = tugasMataKuliahListFragmentViewModel
         binding.lifecycleOwner = this
 
         val manager = GridLayoutManager(activity, 1)
@@ -133,7 +150,7 @@ class TugasMataKuliahListFragment : Fragment() {
         mHandlerForUpdateCurrentTime = Handler()
         mRunnable = Runnable {
             mHandlerForUpdateCurrentTime.postDelayed(mRunnable, 1000)
-            binding.realTimeClock.text = "Waktu saat ini: " + convertLongToDateTimeFormatted(System.currentTimeMillis())
+            binding.realTimeClockinTugasMataKuliahList.text = "Waktu saat ini: " + convertLongToDateTimeFormatted(System.currentTimeMillis())
         }
         mHandlerForUpdateCurrentTime.post(mRunnable)
 

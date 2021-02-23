@@ -4,6 +4,7 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter
 //import org.stephenbrewer.arch.recyclerview.LinearLayoutManager
 //import androidx.recyclerview.widget.ListAdapter
 import android.app.AlertDialog
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -111,6 +112,18 @@ class TugasKuliahAdapter(val clickListener: TugasKuliahListener, var tugasKuliah
             binding.tugas = item
             binding.clickListener = clickListener
             binding.lifecycleOwner = this
+
+            val realtime = System.currentTimeMillis()
+
+            if (item.finishCommitment < realtime && item.deadline > realtime)
+            {
+                binding.tugasCardView.setBackgroundColor(Color.YELLOW)
+            }
+            else if (item.deadline < realtime)
+            {
+                binding.tugasCardView.setBackgroundColor(Color.RED)
+            }
+
 
             var viewModelJob = Job()
             val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)

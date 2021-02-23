@@ -57,11 +57,11 @@ class TugasMataKuliahListFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao
     val showSnackbarEvent: LiveData<Boolean?>
         get() = _showSnackbarEvent
 
-    fun loadTugasKuliah()
+    fun loadTugasKuliah(subjectId: Long)
     {
         _tugasKuliah.value = arrayListOf()
         uiScope.launch {
-            _tugasKuliah.value = tugasKuliahDatabase.getAllTugasKuliahUnfinishedSortedByDeadline()
+            _tugasKuliah.value = tugasKuliahDatabase.getAllTugasKuliahUnfinishedBySubjectIdSortedByDeadline(subjectId)
         }
     }
 

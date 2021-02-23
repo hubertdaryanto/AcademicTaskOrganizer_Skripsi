@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="editSubjectDialogFragmentViewModel"
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.EditSubjectTugasKuliahDialogFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputTextAddSubjectName"
+            style="@style/input_text_view"
+            android:layout_width="248dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/nama_subject"
+            app:layout_constraintBottom_toTopOf="@+id/dismiss_subject_dialog_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_subject_name"
+                style="@style/edit_text_view" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            style="@style/alert_buttons"
+            android:id="@+id/dismiss_subject_dialog_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="@{() -> editSubjectDialogFragmentViewModel.dismiss()}"
+            android:text="@string/batal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/add_subject_button" />
+
+        <Button
+                style="@style/alert_buttons"
+                android:id="@+id/add_subject_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:onClick="@{() -> editSubjectDialogFragmentViewModel.onAddSubjectClicked()}"
+                android:text="@android:string/ok"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tambahSubjectTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/roboto"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/ubah_mata_kuliah"
+            android:textColor="@color/title_color"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/inputTextAddSubjectName"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

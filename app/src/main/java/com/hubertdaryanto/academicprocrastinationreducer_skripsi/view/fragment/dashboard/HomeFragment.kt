@@ -1,6 +1,8 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +14,12 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.EditTugasKuliahActivity
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.ViewTugasKuliahCompletionHistoryActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahListener
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListFinishedInterface
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.convertLongToDateTimeFormatted
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.dashboard.HomeFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.dashboard.HomeFragmentViewModelFactory
 import org.stephenbrewer.arch.recyclerview.GridLayoutManager
@@ -23,6 +28,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
+    private lateinit var mHandlerForUpdateCurrentTime: Handler
+    private lateinit var mRunnable: Runnable
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +37,10 @@ class HomeFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+
+        binding.cardView.setOnClickListener {
+            goToTugasKuliahCompletionHistory()
+        }
 
         val application = requireNotNull(this.activity).application
 
@@ -73,14 +84,15 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner,
             Observer { tugas ->
                 tugas?.let {
-//                    this.findNavController().navigate(
-//                        TugasMataKuliahListFragmentDirections.actionHomeFragmentToEditTugasFragment(
-//                            it
-//                        )
-//                    )
+                    val intent = Intent(requireActivity(), EditTugasKuliahActivity::class.java)
+                    intent.putExtra("tugasKuliahId", it)
+                    this.startActivity(intent)
+
                     homeFragmentViewModel.onEditTugasKuliahNavigated()
                 }
             })
+
+
 
         binding.homeFragmentViewModel = homeFragmentViewModel
         // Inflate the layout for this fragment
@@ -98,6 +110,29 @@ class HomeFragment : Fragment() {
         }
         binding.tugasKuliahNearDeadlineRecyclerView.layoutManager = manager
 
+        mHandlerForUpdateCurrentTime = Handler()
+        mRunnable = Runnable {
+            mHandlerForUpdateCurrentTime.postDelayed(mRunnable, 1000)
+            binding.realTimeClockinHome.text = "Waktu saat ini: " + convertLongToDateTimeFormatted(System.currentTimeMillis())
+        }
+        mHandlerForUpdateCurrentTime.post(mRunnable)
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mHandlerForUpdateCurrentTime.post(mRunnable)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mHandlerForUpdateCurrentTime.removeCallbacks(mRunnable)
+    }
+
+    private fun goToTugasKuliahCompletionHistory() {
+        val intent = Intent(requireActivity(), ViewTugasKuliahCompletionHistoryActivity::class.java)
+        this.startActivity(intent)
+//        homeFragmentViewModel.onTaskCompletionHistoryNavigated()
     }
 }

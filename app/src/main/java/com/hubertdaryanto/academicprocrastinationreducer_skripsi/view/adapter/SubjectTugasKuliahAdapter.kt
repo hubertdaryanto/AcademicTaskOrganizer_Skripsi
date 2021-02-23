@@ -42,16 +42,21 @@ class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliah
             is ViewHolder ->
             {
                 val item = getItem(position) as SubjectTugasKuliahDataItem.SubjectTugasKuliahItem
-                if (shared_data.fromFragment.contains("AddTugasKuliahFragment"))
+                if (shared_data.fromFragment.contains("MataKuliahListFragment"))
                 {
                     holder.binding.subjectDeleteBtn.visibility = View.VISIBLE
+                    holder.binding.subjectEditBtn.visibility = View.VISIBLE
                     holder.binding.subjectDeleteBtn.setOnClickListener {
                         subjectTugasKuliahInterface.onRemoveItem(item.subjectTugasKuliah.subjectTugasKuliahId)
+                    }
+                    holder.binding.subjectEditBtn.setOnClickListener {
+                        subjectTugasKuliahInterface.onEditItem(item.subjectTugasKuliah.subjectTugasKuliahId)
                     }
                 }
                 else
                 {
                     holder.binding.subjectDeleteBtn.visibility = View.GONE
+                    holder.binding.subjectEditBtn.visibility = View.GONE
                 }
 
                 holder.bind(item.subjectTugasKuliah, clickTugasKuliahListener)

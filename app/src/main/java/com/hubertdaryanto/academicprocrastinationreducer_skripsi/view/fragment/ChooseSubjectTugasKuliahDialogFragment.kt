@@ -49,6 +49,8 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
         val subjectDialogFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
             SubjectTugasKuliahDialogFragmentViewModel::class.java)
 
+        subjectDialogFragmentViewModel.loadSubjectTugasKuliah()
+
         val adapter = SubjectTugasKuliahAdapter(SubjectTugasKuliahListener { subjectId ->
             subjectDialogFragmentViewModel.onSubjectTugasKuliahClicked(subjectId)
         }, object :
@@ -67,10 +69,14 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
                 }.create().show()
 
             }
+
+            override fun onEditItem(id: Long) {
+
+            }
         })
         binding.subjectList.adapter = adapter
 
-        subjectDialogFragmentViewModel.subject.observe(viewLifecycleOwner, Observer {
+        subjectDialogFragmentViewModel.subjectTugasKuliah.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.addHeaderAndSubmitList(it)
             }

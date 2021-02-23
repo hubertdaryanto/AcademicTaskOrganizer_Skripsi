@@ -22,6 +22,12 @@ interface tugasKuliahDao {
     @Query("SELECT * FROM TugasKuliah WHERE isFinished LIKE 0 ORDER BY deadline ASC")
     suspend fun getAllTugasKuliahUnfinishedSortedByDeadline(): MutableList<TugasKuliah>
 
+    @Query("SELECT * FROM TugasKuliah WHERE isFinished LIKE 0 AND tugasKuliahSubjectId LIKE :id ORDER BY deadline ASC")
+    suspend fun getAllTugasKuliahUnfinishedBySubjectIdSortedByDeadline(id: Long): MutableList<TugasKuliah>
+
+    @Query("SELECT * FROM TugasKuliah WHERE isFinished LIKE 0 ORDER BY deadline ASC LIMIT 1")
+    suspend fun getOneTugasKuliahUnfinishedSortedByDeadline(): TugasKuliah
+
     @Query("SELECT * FROM TugasKuliah WHERE TugasKuliahId LIKE :id")
     suspend fun loadTugasKuliahById(id: Long): TugasKuliah
 

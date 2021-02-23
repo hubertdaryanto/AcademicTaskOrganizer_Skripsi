@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.subjectTugasKuliahDao
 import kotlinx.coroutines.CoroutineScope
@@ -14,13 +15,20 @@ import kotlinx.coroutines.launch
 class MataKuliahListFragmentViewModel(application: Application, subjectTugasKuliahDataSource: subjectTugasKuliahDao): ViewModel() {
     val subjectTugasKuliahDatabase = subjectTugasKuliahDataSource
     private var viewModelJob = Job()
-    private val uiScpoe = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    var subject = subjectTugasKuliahDatabase.getSubjectTugasKuliahByNameForeground()
+
+    private val _subjectTugasKuliah = MutableLiveData<MutableList<SubjectTugasKuliah>>()
+    val subjectTugasKuliah: LiveData<MutableList<SubjectTugasKuliah>>
+            get() = _subjectTugasKuliah
 
     private val _showAddSubjectDialog = MutableLiveData<Boolean?>()
     val showAddSubjectDialog: LiveData<Boolean?>
         get() = _showAddSubjectDialog
+
+    private val _editSubjectTugasKuliahMode = MutableLiveData<Boolean?>()
+    val editSubjectTugasKuliahMode: LiveData<Boolean?>
+        get() = _editSubjectTugasKuliahMode
 
     private val _dismiss = MutableLiveData<Boolean?>()
     val dismiss: LiveData<Boolean?>
@@ -29,6 +37,14 @@ class MataKuliahListFragmentViewModel(application: Application, subjectTugasKuli
     private val _selectSubject = MutableLiveData<Long?>()
     val selectSubject: LiveData<Long?>
         get() = _selectSubject
+
+    fun loadSubjectTugasKuliah()
+    {
+        _subjectTugasKuliah.value = arrayListOf()
+        uiScope.launch {
+            _subjectTugasKuliah.value = subjectTugasKuliahDatabase.getSubjectTugasKuliahByName()
+        }
+    }
 
     fun onShowAddSubjectTugasKuliahDialogClicked()
     {
@@ -50,6 +66,16 @@ class MataKuliahListFragmentViewModel(application: Application, subjectTugasKuli
         _selectSubject.value = null
     }
 
+    fun onEditSubjectTugasKuliahClicked()
+    {
+        _editSubjectTugasKuliahMode.value = true
+    }
+
+    fun onFinishEditSubjectTugasKuliahClicked()
+    {
+        _editSubjectTugasKuliahMode.value = false
+    }
+
     fun dismiss()
     {
         _dismiss.value = true
@@ -62,7 +88,7 @@ class MataKuliahListFragmentViewModel(application: Application, subjectTugasKuli
 
     fun removeSubjectTugasKuliah(id: Long)
     {
-        uiScpoe.launch {
+        uiScope.launch {
             if (shared_data.mSubjectId == id)
             {
                 shared_data.mSubjectAtAddTugasFragment = null

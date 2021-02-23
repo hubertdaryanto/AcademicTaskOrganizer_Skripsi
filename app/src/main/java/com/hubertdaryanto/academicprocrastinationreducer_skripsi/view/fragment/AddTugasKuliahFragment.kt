@@ -29,13 +29,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasKuliahBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.ImageForTugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahToDoListAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RangeTimePickerDialog
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RecyclerViewItemDecoration
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageInterface
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageListener
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListInterface
@@ -79,6 +77,8 @@ class AddTugasKuliahFragment : Fragment() {
     ): View? {
         setHasOptionsMenu(true)
 
+        val subjectId: Long? = arguments?.get("subjectTugasKuliahId") as Long?
+
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (!binding.editTextTugas.text.isNullOrBlank() || !binding.editTextSubject.text.isNullOrBlank() || !binding.editDeadline.text.isNullOrBlank() || !binding.editJam.text.isNullOrBlank() || !binding.editCatatan.text.isNullOrBlank() || addTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != null || addTugasKuliahFragmentViewModel.imageListKuliahImage.value != null)
             {
@@ -110,6 +110,13 @@ class AddTugasKuliahFragment : Fragment() {
         addTugasKuliahFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
             AddTugasKuliahFragmentViewModel::class.java
         )
+
+        if (subjectId != null)
+        {
+            addTugasKuliahFragmentViewModel.convertSubjectIdToSubjectName(subjectId)
+            subjectTugasKuliahId = subjectId
+
+        }
 
 
         addTugasKuliahFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {

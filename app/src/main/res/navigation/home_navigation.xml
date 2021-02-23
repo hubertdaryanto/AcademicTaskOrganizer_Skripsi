@@ -6,18 +6,9 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/taskCompletionHistoryFragment"
-        android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.TugasKuliahCompletionHistoryFragment"
-        android:label="Riwayat Penyelesaian Tugas"
-        tools:layout="@layout/fragment_tugas_kuliah_completion_history"/>
-    <fragment
             android:id="@+id/homeFragment"
             android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.HomeFragment"
-            android:label="Home">
-        <action
-                android:id="@+id/action_homeFragment_to_taskCompletionHistoryFragment"
-                app:destination="@id/taskCompletionHistoryFragment" />
-    </fragment>
+            android:label="Home"/>
     <fragment
             android:id="@+id/mataKuliahListFragment"
             android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.dashboard.MataKuliahListFragment"

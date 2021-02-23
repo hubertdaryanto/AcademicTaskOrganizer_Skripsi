@@ -23,19 +23,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasKuliahBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.ImageForTugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahToDoListAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RangeTimePickerDialog
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RecyclerViewItemDecoration
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.*
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageInterface
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageListener
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListInterface
@@ -72,6 +69,7 @@ class EditTugasKuliahFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (!binding.editTextTugas.text?.toString()
                     .equals(editTugasKuliahFragmentViewModel.tugasKuliahBefore.value?.tugasKuliahName) || !binding.editTextSubject.text?.toString()
@@ -122,8 +120,8 @@ class EditTugasKuliahFragment: Fragment() {
         )
 
         arguments?.let {
-            val tugasId = EditTugasKuliahFragmentArgs.fromBundle(it).tugasKuliahKey
-            editTugasKuliahFragmentViewModel.loadTugasKuliah(tugasId)
+            val tugasKuliahId: Long = it.get("tugasKuliahId") as Long
+            editTugasKuliahFragmentViewModel.loadTugasKuliah(tugasKuliahId)
         }
 
 
@@ -831,7 +829,7 @@ class EditTugasKuliahFragment: Fragment() {
             setTitle(context.getString(R.string.back_confirmation_title))
             setMessage(context.getString(R.string.back_confirmation_subtitle))
             setPositiveButton(context.getString(R.string.ya)) { _, _ ->
-                this@EditTugasKuliahFragment.findNavController().popBackStack()
+                activity?.finish()
             }
             setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
             }
@@ -995,7 +993,7 @@ class EditTugasKuliahFragment: Fragment() {
 
                 Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " dihapus.", Toast.LENGTH_LONG).show()
                 editTugasKuliahFragmentViewModel.deleteTugasKuliah(context)
-                Navigation.findNavController(requireView()).popBackStack()
+                activity?.finish()
             }
             setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
 

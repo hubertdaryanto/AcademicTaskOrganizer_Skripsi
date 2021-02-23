@@ -48,6 +48,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 
+            <ImageButton
+                    android:id="@+id/subject_editBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/subject_deleteBtn"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_edit_24"
+                    android:layout_marginEnd="16dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
