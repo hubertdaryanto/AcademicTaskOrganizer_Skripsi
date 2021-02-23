@@ -31,12 +31,13 @@ import kotlinx.coroutines.launch
 //todo: (low) Add built in image viewer
 //todo: (low) Save added image into app storage, instead of using system device storage (only access it using string)
 
-class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahToDoListDataSource: tugasKuliahToDoListDao, application: Application): ViewModel() {
+class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahToDoListDataSource: tugasKuliahToDoListDao, tugasKuliahCompletionHistoryDataSource: tugasKuliahCompletionHistoryDao, application: Application): ViewModel() {
     val tugasKuliahDatabase = tugasKuliahDataSource
     val tugasKuliahToDoListDatabase = tugasKuliahToDoListDataSource
+    val tugasKuliahCompletionHistoryDatabase = tugasKuliahCompletionHistoryDataSource
 
-    private val _tugasKuliah = MutableLiveData<TugasKuliah>()
-    val tugasKuliah: LiveData<TugasKuliah>
+    private val _tugasKuliah = MutableLiveData<TugasKuliah?>()
+    val tugasKuliah: LiveData<TugasKuliah?>
         get() = _tugasKuliah
 //    var tugas = database.getAllTugasKuliahSortedByDeadlineForeground()
     private var viewModelJob = Job()
@@ -57,10 +58,38 @@ class HomeFragmentViewModel(tugasKuliahDataSource: tugasKuliahDao, tugasKuliahTo
     val showSnackbarEvent: LiveData<Boolean?>
         get() = _showSnackbarEvent
 
+    private val _tugasKuliahCompletionHistory_total = MutableLiveData<Int>()
+    val tugasKuliahCompletionHistory_total: LiveData<Int>
+        get() = _tugasKuliahCompletionHistory_total
+
+    private val _tugasKuliahCompletionHistory_beforeTarget = MutableLiveData<Int>()
+    val tugasKuliahCompletionHistory_beforeTarget: LiveData<Int>
+        get() = _tugasKuliahCompletionHistory_beforeTarget
+
+    private val _tugasKuliahCompletionHistory_afterTarget = MutableLiveData<Int>()
+    val tugasKuliahCompletionHistory_afterTarget: LiveData<Int>
+        get() = _tugasKuliahCompletionHistory_afterTarget
+
+    private val _tugasKuliahCompletionHistory_afterDeadline = MutableLiveData<Int>()
+    val tugasKuliahCompletionHistory_afterDeadline: LiveData<Int>
+        get() = _tugasKuliahCompletionHistory_afterDeadline
+
     fun loadTugasKuliah()
     {
         uiScope.launch {
             _tugasKuliah.value = tugasKuliahDatabase.getOneTugasKuliahUnfinishedSortedByDeadline()
+        }
+    }
+
+    fun countTugasKuliahCompletedHistoryData()
+    {
+        uiScope.launch {
+            val realTimeClock = System.currentTimeMillis()
+            val sevenDaysBefore = realTimeClock - 604800000
+            _tugasKuliahCompletionHistory_total.value = tugasKuliahCompletionHistoryDatabase.getAllDataCount(sevenDaysBefore, realTimeClock)
+            _tugasKuliahCompletionHistory_beforeTarget.value = tugasKuliahCompletionHistoryDatabase.getAllFinishedByTypeDataCount("Selesai Tepat Waktu Sebelum Target", sevenDaysBefore, realTimeClock)
+            _tugasKuliahCompletionHistory_afterTarget.value = tugasKuliahCompletionHistoryDatabase.getAllFinishedByTypeDataCount("Selesai Tepat Waktu Melewati Target", sevenDaysBefore, realTimeClock)
+            _tugasKuliahCompletionHistory_afterDeadline.value = tugasKuliahCompletionHistoryDatabase.getAllFinishedByTypeDataCount("Selesai Terlambat", sevenDaysBefore, realTimeClock)
         }
     }
 

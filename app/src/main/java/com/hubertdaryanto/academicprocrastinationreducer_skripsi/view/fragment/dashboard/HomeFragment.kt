@@ -46,13 +46,15 @@ class HomeFragment : Fragment() {
 
         val tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
         val tugasKuliahToDoListDataSource = AppDatabase.getInstance(application).getTugasKuliahToDoListDao
-        val viewModelFactory = HomeFragmentViewModelFactory(tugasKuliahDataSource, tugasKuliahToDoListDataSource, application)
+        val tugasKuliahCompletionHistoryDataSource = AppDatabase.getInstance(application).getTugasKuliahCompletionHistoryDao
+        val viewModelFactory = HomeFragmentViewModelFactory(tugasKuliahDataSource, tugasKuliahToDoListDataSource, tugasKuliahCompletionHistoryDataSource, application)
 
         homeFragmentViewModel =
             ViewModelProvider(this, viewModelFactory).get(HomeFragmentViewModel::class.java)
 
 
         homeFragmentViewModel.loadTugasKuliah()
+        homeFragmentViewModel.countTugasKuliahCompletedHistoryData()
         val adapter = TugasKuliahAdapter(TugasKuliahListener { tugasKuliahId ->
             homeFragmentViewModel.onTugasKuliahClicked(tugasKuliahId)
         }, object : TugasKuliahToDoListFinishedInterface
@@ -68,16 +70,11 @@ class HomeFragment : Fragment() {
         binding.tugasKuliahNearDeadlineRecyclerView.adapter = adapter
 
         homeFragmentViewModel.tugasKuliah.observe(viewLifecycleOwner, Observer{
-//            if (it.count() == 0)
-//            {
-//                binding.textView3.visibility = View.VISIBLE
-//            }
-//            else
-//            {
-//                binding.textView3.visibility = View.GONE
-//            }
-            val date = homeFragmentViewModel.getTugasKuliahAndDate()
-            adapter.addHeaderAndSubmitList(date)
+            if (it != null)
+            {
+                val date = homeFragmentViewModel.getTugasKuliahAndDate()
+                adapter.addHeaderAndSubmitList(date)
+            }
         })
 
         homeFragmentViewModel.navigateToEditTugasKuliah.observe(
@@ -93,6 +90,33 @@ class HomeFragment : Fragment() {
             })
 
 
+        homeFragmentViewModel.tugasKuliahCompletionHistory_total.observe(viewLifecycleOwner, Observer {
+            if (it != null)
+            {
+                binding.textView14.setText(it.toString())
+            }
+        })
+
+        homeFragmentViewModel.tugasKuliahCompletionHistory_beforeTarget.observe(viewLifecycleOwner, Observer {
+            if (it != null)
+            {
+                binding.textView15.setText(it.toString())
+            }
+        })
+
+        homeFragmentViewModel.tugasKuliahCompletionHistory_afterTarget.observe(viewLifecycleOwner, Observer {
+            if (it != null)
+            {
+                binding.textView16.setText(it.toString())
+            }
+        })
+
+        homeFragmentViewModel.tugasKuliahCompletionHistory_afterDeadline.observe(viewLifecycleOwner, Observer {
+            if (it != null)
+            {
+                binding.textView17.setText(it.toString())
+            }
+        })
 
         binding.homeFragmentViewModel = homeFragmentViewModel
         // Inflate the layout for this fragment

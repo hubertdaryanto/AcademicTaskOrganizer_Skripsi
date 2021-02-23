@@ -96,18 +96,18 @@ object NotificationHelper{
 
 
 
-            uiScope.launch {
-                var tugasKuliahCompletionHistoryDatabase = AppDatabase.getInstance(context).getTugasKuliahCompletionHistoryDao
-                var mTaskCompletionHistory = tugasKuliahCompletionHistoryDatabase.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
-                if (mTaskCompletionHistory == null) {
-                    mTaskCompletionHistory =
-                        TugasKuliahCompletionHistory(
-                            bindToTugasKuliahId = tugasKuliah.tugasKuliahId,
-                            activityType = "Tugas Kuliah Ditunda"
-                        )
-                }
-                tugasKuliahCompletionHistoryDatabase.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
-            }
+//            uiScope.launch {
+//                var tugasKuliahCompletionHistoryDatabase = AppDatabase.getInstance(context).getTugasKuliahCompletionHistoryDao
+//                var mTaskCompletionHistory = tugasKuliahCompletionHistoryDatabase.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
+//                if (mTaskCompletionHistory == null) {
+//                    mTaskCompletionHistory =
+//                        TugasKuliahCompletionHistory(
+//                            bindToTugasKuliahId = tugasKuliah.tugasKuliahId,
+//                            activityType = "Tugas Kuliah Ditunda"
+//                        )
+//                }
+//                tugasKuliahCompletionHistoryDatabase.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
+//            }
 
 
             // Launches the app to open the reminder edit screen when tapping the whole notification

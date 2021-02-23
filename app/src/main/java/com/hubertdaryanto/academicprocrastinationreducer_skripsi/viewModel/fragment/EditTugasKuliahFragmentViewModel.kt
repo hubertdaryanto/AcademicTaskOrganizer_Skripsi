@@ -266,11 +266,25 @@ class EditTugasKuliahFragmentViewModel(application: Application, tugasKuliahData
     {
         uiScope.launch {
             var mTaskCompletionHistory: TugasKuliahCompletionHistory? = tugasKuliahCompletionHistoryDatabase.getTugasKuliahCompletionHistoryByTugasKuliahId(tugasKuliah.tugasKuliahId)
+            var tugasKuliahCompletionHistoryType: String = ""
+            val realTimeClock = System.currentTimeMillis()
+            if (tugasKuliah.finishCommitment < realTimeClock && tugasKuliah.deadline > realTimeClock)
+            {
+                tugasKuliahCompletionHistoryType = "Selesai Tepat Waktu Melewati Target"
+            }
+            else if (tugasKuliah.deadline < realTimeClock)
+            {
+                tugasKuliahCompletionHistoryType = "Selesai Terlambat"
+            }
+            else
+            {
+                tugasKuliahCompletionHistoryType = "Selesai Tepat Waktu Sebelum Target"
+            }
             if (mTaskCompletionHistory == null) {
                 mTaskCompletionHistory =
                     TugasKuliahCompletionHistory(
                         bindToTugasKuliahId = tugasKuliah.tugasKuliahId,
-                        activityType = "Tugas Kuliah Selesai"
+                        activityType = tugasKuliahCompletionHistoryType
                     )
             }
             else
@@ -284,7 +298,7 @@ class EditTugasKuliahFragmentViewModel(application: Application, tugasKuliahData
                 //is different because the id is different, maybe if it loaded first, it will be deleted
             } else {
                 AlarmScheduler.removeAlarmsForTugasKuliahReminder(context, tugasKuliah)
-                mTaskCompletionHistory.activityType = "Tugas Kuliah Selesai"
+                mTaskCompletionHistory.activityType = tugasKuliahCompletionHistoryType
                 mTaskCompletionHistory.tugasKuliahCompletionHistoryId = System.currentTimeMillis()
                 tugasKuliahCompletionHistoryDatabase.insertTugasKuliahCompletionHistory(mTaskCompletionHistory)
             }
