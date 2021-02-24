@@ -10,5 +10,10 @@ sealed class SubjectTugasKuliahDataItem {
         override val id = Long.MIN_VALUE
     }
 
+    object AddSubject: SubjectTugasKuliahDataItem() {
+        override val id: Long
+            get() = Long.MIN_VALUE
+    }
+
 
 }

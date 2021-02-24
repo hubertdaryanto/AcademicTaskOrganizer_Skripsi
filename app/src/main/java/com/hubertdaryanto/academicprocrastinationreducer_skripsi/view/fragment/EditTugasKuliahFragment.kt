@@ -28,6 +28,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasKuliahBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.AddTugasKuliahActivity
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.EditTugasKuliahActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.ImageForTugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahToDoListAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RangeTimePickerDialog
@@ -88,6 +90,7 @@ class EditTugasKuliahFragment: Fragment() {
                 requireActivity().onBackPressed()
             }
         }
+        val parentActivity = activity as EditTugasKuliahActivity
         val application = requireNotNull(this.activity).application
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_edit_tugas_kuliah, container, false)
@@ -578,7 +581,8 @@ class EditTugasKuliahFragment: Fragment() {
 
                         editTugasKuliahFragmentViewModel.updateTugasKuliah(requireContext(), editTugasKuliahFragmentViewModel.tugasKuliah.value!!)
                         Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " diperbarui.", Toast.LENGTH_LONG).show()
-                        this.findNavController().popBackStack()
+                        parentActivity.finish()
+//                        this.findNavController().popBackStack()
                         editTugasKuliahFragmentViewModel.doneNavigating()
                     }
                 }
@@ -725,6 +729,7 @@ class EditTugasKuliahFragment: Fragment() {
 
         editTugasKuliahFragmentViewModel.tugasKuliahImageList.observe(viewLifecycleOwner, Observer {
             it?.let {
+                parentActivity.showPermissionDialog()
                 gambarAdapter.updateList(it)
             }
         })

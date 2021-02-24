@@ -4,7 +4,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            tools:context=".view.activity.OnboardingActivity">
+            tools:context=".view.activity.OnboardingActivity"
+            >
 
         <fragment
                 android:id="@+id/onboarding_nav_host_fragment"

@@ -9,12 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentSixthOnboardingScreenBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.MainActivity
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.OnboardingActivityViewModel
 
 class SixthOnboardingScreen : Fragment() {
     private lateinit var binding: FragmentSixthOnboardingScreenBinding
+    private val sharedVM: OnboardingActivityViewModel by activityViewModels()
+
     private lateinit var mSharedPreferences: SharedPreferences
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +38,7 @@ class SixthOnboardingScreen : Fragment() {
             val intent = Intent (getActivity(), MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
             getActivity()?.startActivity(intent)
+            getActivity()?.finish()
 
         }
 

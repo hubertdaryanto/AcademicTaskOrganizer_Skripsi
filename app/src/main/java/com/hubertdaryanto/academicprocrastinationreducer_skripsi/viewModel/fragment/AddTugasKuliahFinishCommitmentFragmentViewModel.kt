@@ -82,10 +82,8 @@ class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, 
         uiScope.launch {
             tugasKuliah.updatedAt = System.currentTimeMillis()
             var tugasKuliaId = tugasKuliahDatabase.insertTugasKuliah(tugasKuliah)
-            //insert to do list and image in here too
             tugasKuliah.tugasKuliahId = tugasKuliaId
             AlarmScheduler.scheduleAlarmsForTugasKuliahReminder(context, tugasKuliah)
-            //to do list id masih 0 meskipun data ada 2, harusnya data pertama 0, data kedua 1
             if (tugasKuliahToDoList.value != null)
             {
                 tugasKuliahToDoList.value!!.toList().forEach {
@@ -102,11 +100,45 @@ class AddTugasKuliahFinishCommitmentFragmentViewModel(application: Application, 
                     tugasKuliahImageDatabase.insertTugasKuliahImage(it)
                 }
             }
+        }
+    }
 
-            //how to insert multiple data to database in one time?
-//            database.insertToDoLists(Collections.unmodifiableList(toDoList.value))
-//            database.insertImages(Collections.unmodifiableList(imageList.value))
+    fun addSubjectAndTugasKuliah(context: Context, tugasKuliah: TugasKuliah, subjectName: String)
+    {
+        val subjectTugasKuliahDatabase = AppDatabase.getInstance(context).getSubjectTugasKuliahDao
 
+        val mSubject = SubjectTugasKuliah(subjectName)
+
+        if (onboarding_data.mTugasKuliahToDoList != null)
+        {
+            _tugasKuliahToDoList.value = onboarding_data.mTugasKuliahToDoList
+        }
+        if (onboarding_data.mTugasKuliahImages != null)
+        {
+            _tugasKuliahImageList.value = onboarding_data.mTugasKuliahImages
+        }
+        uiScope.launch {
+            subjectTugasKuliahDatabase.insertSubject(mSubject)
+            tugasKuliah.updatedAt = System.currentTimeMillis()
+            var tugasKuliaId = tugasKuliahDatabase.insertTugasKuliah(tugasKuliah)
+            tugasKuliah.tugasKuliahId = tugasKuliaId
+            AlarmScheduler.scheduleAlarmsForTugasKuliahReminder(context, tugasKuliah)
+            if (tugasKuliahToDoList.value != null)
+            {
+                tugasKuliahToDoList.value!!.toList().forEach {
+
+                    it.bindToTugasKuliahId = tugasKuliaId
+                    tugasKuliahToDoListDatabase.insertTugasKuliahToDoList(it)
+                }
+            }
+
+            if (tugasKuliahImageList.value != null)
+            {
+                tugasKuliahImageList.value!!.toList().forEach{
+                    it.bindToTugasKuliahId = tugasKuliaId
+                    tugasKuliahImageDatabase.insertTugasKuliahImage(it)
+                }
+            }
         }
     }
 }

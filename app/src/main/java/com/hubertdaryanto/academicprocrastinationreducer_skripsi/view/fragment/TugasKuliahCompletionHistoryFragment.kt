@@ -1,9 +1,8 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,6 +12,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTugasKuliahCompletionHistoryBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahCompletionHistoryAdapter
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahCompletionHistoryListener
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasKuliahCompletionHistoryFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasKuliahCompletionHistoryFragmentViewModelFactory
@@ -93,6 +93,24 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
         binding.taskCompletionHistoryList.layoutManager = manager
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.tugas_kuliah_completion_history_menu, menu)
+        var action_filter = menu.findItem(R.id.action_filter_tugas_kuliah_completion_history)
+        View_utilities.menuIconColor(action_filter, Color.BLACK)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId)
+        {
+            R.id.action_filter_tugas_kuliah_completion_history -> {
+                //todo: filter 7 / 30 / kapan saja
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
 }

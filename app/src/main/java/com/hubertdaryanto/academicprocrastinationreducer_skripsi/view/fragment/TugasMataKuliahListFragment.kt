@@ -17,6 +17,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDataba
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.AddTugasKuliahActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.EditTugasKuliahActivity
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.ViewTugasKuliahActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahListener
@@ -24,6 +25,10 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapt
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.convertLongToDateTimeFormatted
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasMataKuliahListFragmentViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasMataKuliahListFragmentViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.stephenbrewer.arch.recyclerview.GridLayoutManager
 
 
@@ -38,7 +43,7 @@ class TugasMataKuliahListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        setHasOptionsMenu(true)
+        setHasOptionsMenu(false)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tugas_mata_kuliah_list, container, false)
 
 
@@ -49,11 +54,17 @@ class TugasMataKuliahListFragment : Fragment() {
 //            intent.putExtra("subjectTugasKuliahId", subjectId)
 //            this.startActivity(intent)
 //        }
+        val parentActivity = activity as ViewTugasKuliahActivity
+
         val application = requireNotNull(this.activity).application
 
         val tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
         val tugasKuliahToDoListDataSource = AppDatabase.getInstance(application).getTugasKuliahToDoListDao
+        val subjectTugasKuliahDataSource = AppDatabase.getInstance(application).getSubjectTugasKuliahDao
         val viewModelFactory = TugasMataKuliahListFragmentViewModelFactory(tugasKuliahDataSource, tugasKuliahToDoListDataSource, application)
+
+        var job = Job()
+        val uiScope = CoroutineScope(Dispatchers.Main + job)
 
         tugasMataKuliahListFragmentViewModel =
             ViewModelProvider(this, viewModelFactory).get(TugasMataKuliahListFragmentViewModel::class.java)
@@ -153,6 +164,13 @@ class TugasMataKuliahListFragment : Fragment() {
             binding.realTimeClockinTugasMataKuliahList.text = "Waktu saat ini: " + convertLongToDateTimeFormatted(System.currentTimeMillis())
         }
         mHandlerForUpdateCurrentTime.post(mRunnable)
+
+
+
+        uiScope.launch {
+            val title: String = "Tugas " + subjectTugasKuliahDataSource.loadSubjectTugasKuliahNameById(subjectId) + " Saya"
+            parentActivity.setTitle(title)
+        }
 
 
         return binding.root

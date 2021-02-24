@@ -42,7 +42,7 @@ class MataKuliahListFragmentViewModel(application: Application, subjectTugasKuli
     {
         _subjectTugasKuliah.value = arrayListOf()
         uiScope.launch {
-            _subjectTugasKuliah.value = subjectTugasKuliahDatabase.getSubjectTugasKuliahByName()
+            _subjectTugasKuliah.value = subjectTugasKuliahDatabase.getAllSubjectTugasKuliahSortedByName()
         }
     }
 

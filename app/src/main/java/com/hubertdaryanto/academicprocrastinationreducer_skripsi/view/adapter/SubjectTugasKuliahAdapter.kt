@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemSubjectBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemSubjectEmptyBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliah
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliahDataItem
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
@@ -22,8 +23,10 @@ val ITEM_VIEW_TYPE_HEADER: Int
     get() = 0
 val ITEM_VIEW_TYPE_ITEM: Int
     get() = 1
+val ITEM_VIEW_TYPE_EMPTY_ITEM: Int
+    get() = 2
 
-class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliahListener, val subjectTugasKuliahInterface: SubjectTugasKuliahInterface): ListAdapter<SubjectTugasKuliahDataItem, RecyclerView.ViewHolder>(
+class  SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliahListener, val subjectTugasKuliahInterface: SubjectTugasKuliahInterface): ListAdapter<SubjectTugasKuliahDataItem, RecyclerView.ViewHolder>(
     SubjectTugasKuliahDiffCallback()
 ) {
 
@@ -33,6 +36,7 @@ class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliah
         return when (viewType) {
             ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
             ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
+            ITEM_VIEW_TYPE_EMPTY_ITEM -> ViewHolder2.from(parent)
             else -> throw ClassCastException("Unknown viewType ${viewType}")
         }
     }
@@ -61,6 +65,11 @@ class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliah
 
                 holder.bind(item.subjectTugasKuliah, clickTugasKuliahListener)
             }
+            is ViewHolder2 ->
+            {
+                val item = getItem(position) as SubjectTugasKuliahDataItem.AddSubject
+                holder.bind(clickTugasKuliahListener)
+            }
 
         }
 
@@ -72,7 +81,7 @@ class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliah
                 null -> listOf(SubjectTugasKuliahDataItem.Header)
                 else -> list.map {
                     SubjectTugasKuliahDataItem.SubjectTugasKuliahItem(it)
-                }
+                } + listOf(SubjectTugasKuliahDataItem.AddSubject)
             }
             withContext(Dispatchers.Main){
                 submitList(items)
@@ -86,6 +95,7 @@ class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliah
         return when (getItem(position)) {
             is SubjectTugasKuliahDataItem.Header -> ITEM_VIEW_TYPE_HEADER
             is SubjectTugasKuliahDataItem.SubjectTugasKuliahItem -> ITEM_VIEW_TYPE_ITEM
+            is SubjectTugasKuliahDataItem.AddSubject -> ITEM_VIEW_TYPE_EMPTY_ITEM
         }
     }
 
@@ -113,6 +123,23 @@ class SubjectTugasKuliahAdapter(val clickTugasKuliahListener: SubjectTugasKuliah
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemSubjectBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
+            }
+        }
+    }
+
+    class ViewHolder2 private constructor(val binding: ListItemSubjectEmptyBinding): RecyclerView.ViewHolder(binding.root)
+    {
+        fun bind(clickTugasKuliahListener: SubjectTugasKuliahListener) {
+            binding.subject = SubjectTugasKuliah("Tambah")
+            binding.subjectClickListener = clickTugasKuliahListener
+            binding.executePendingBindings()
+        }
+
+        companion object{
+            fun from(parent: ViewGroup): ViewHolder2 {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ListItemSubjectEmptyBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder2(binding)
             }
         }
     }

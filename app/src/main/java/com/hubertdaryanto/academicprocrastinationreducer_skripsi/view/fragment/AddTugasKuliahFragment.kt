@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasKuliahBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.*
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.AddTugasKuliahActivity
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.OnboardingActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.ImageForTugasKuliahAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahToDoListAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.RangeTimePickerDialog
@@ -49,7 +51,8 @@ class AddTugasKuliahFragment : Fragment() {
     private lateinit var binding: FragmentAddTugasKuliahBinding
     private lateinit var subjectTugasKuliahDataSource: subjectTugasKuliahDao
     private lateinit var tugasKuliahDataSource: tugasKuliahDao
-    private lateinit var addTugasKuliahFragmentViewModel: AddTugasKuliahFragmentViewModel
+    lateinit var addTugasKuliahFragmentViewModel: AddTugasKuliahFragmentViewModel
+//    private lateinit var mThirdOnboardingScreenListener: ThirdOnboardingScreenListener
 
     private var subjectTugasKuliahId by Delegates.notNull<Long>()
 
@@ -69,6 +72,11 @@ class AddTugasKuliahFragment : Fragment() {
     private val YOUR_IMAGE_CODE = 2
     private val EXTRA_GREETING_MESSAGE: String = "message"
 
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        parentFragment?.let { onAttachToParentFragment(it) }
+//    }
 
 
     override fun onCreateView(
@@ -90,9 +98,16 @@ class AddTugasKuliahFragment : Fragment() {
                 requireActivity().onBackPressed()
             }
         }
+
+        val parentActivity = activity as AddTugasKuliahActivity
         val application = requireNotNull(this.activity).application
         // Inflate the layout for this fragment
-        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_add_tugas_kuliah, container, false)
+        binding= DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_add_tugas_kuliah,
+            container,
+            false
+        )
 
 
         binding.editTextSubject.inputType = InputType.TYPE_NULL
@@ -106,7 +121,11 @@ class AddTugasKuliahFragment : Fragment() {
 
         tugasKuliahDataSource = AppDatabase.getInstance(application).getTugasKuliahDao
         subjectTugasKuliahDataSource = AppDatabase.getInstance(application).getSubjectTugasKuliahDao
-        val viewModelFactory = AddTugasKuliahFragmentViewModelFactory(application, tugasKuliahDataSource, subjectTugasKuliahDataSource)
+        val viewModelFactory = AddTugasKuliahFragmentViewModelFactory(
+            application,
+            tugasKuliahDataSource,
+            subjectTugasKuliahDataSource
+        )
         addTugasKuliahFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
             AddTugasKuliahFragmentViewModel::class.java
         )
@@ -138,15 +157,18 @@ class AddTugasKuliahFragment : Fragment() {
                         ), true
                     )
 
-                if (deadline_components.day < 1)
-                {
+                if (deadline_components.day < 1) {
 
-                    timePickerDialog.updateTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                    timePickerDialog.updateTime(
+                        cal.get(Calendar.HOUR_OF_DAY),
+                        cal.get(Calendar.MINUTE)
+                    )
                     timePickerDialog.setMin(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
-                }
-                else
-                {
-                    timePickerDialog.updateTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))
+                } else {
+                    timePickerDialog.updateTime(
+                        cal.get(Calendar.HOUR_OF_DAY),
+                        cal.get(Calendar.MINUTE)
+                    )
                     timePickerDialog.setMin(0, 0)
                 }
                 timePickerDialog.show()
@@ -171,42 +193,44 @@ class AddTugasKuliahFragment : Fragment() {
                         val cal2 = Calendar.getInstance()
                         cal2.set(Calendar.HOUR_OF_DAY, 0)
                         cal2.set(Calendar.MINUTE, 0)
-                        deadline_components.day = (deadline_components.TimeSelected - cal2.timeInMillis) / 86400000
-                        deadline_components.hour = ((deadline_components.TimeSelected - cal2.timeInMillis) / 3600000) % 24
-                        deadline_components.minute = ((deadline_components.TimeSelected - cal2.timeInMillis) / (60000)) % 60
-                        if (deadline_components.day < 1)
-                        {
+                        deadline_components.day =
+                            (deadline_components.TimeSelected - cal2.timeInMillis) / 86400000
+                        deadline_components.hour =
+                            ((deadline_components.TimeSelected - cal2.timeInMillis) / 3600000) % 24
+                        deadline_components.minute =
+                            ((deadline_components.TimeSelected - cal2.timeInMillis) / (60000)) % 60
+                        if (deadline_components.day < 1) {
                             val cal3 = Calendar.getInstance()
                             binding.editJam.text = null
                             deadline_components.hour = cal3.get(Calendar.HOUR_OF_DAY).toLong()
                             deadline_components.minute = cal3.get(Calendar.MINUTE).toLong()
-                            if (cal3.get(Calendar.HOUR_OF_DAY) >= 9)
-                            {
-                                if (cal3.get(Calendar.MINUTE) < 10)
-                                {
-                                    binding.inputJam.hint = "Jam Tenggat Waktu (" + cal3.get(Calendar.HOUR_OF_DAY) + ":0" + cal3.get(Calendar.MINUTE) + ", Min " + cal3.get(Calendar.HOUR_OF_DAY) + ":0" + cal3.get(Calendar.MINUTE) + ")"
-                                }
-                                else
-                                {
-                                    binding.inputJam.hint = "Jam Tenggat Waktu (" + cal3.get(Calendar.HOUR_OF_DAY) + ":" + cal3.get(Calendar.MINUTE) + ", Min " + cal3.get(Calendar.HOUR_OF_DAY) + ":" + cal3.get(Calendar.MINUTE) + ")"
+                            if (cal3.get(Calendar.HOUR_OF_DAY) >= 9) {
+                                if (cal3.get(Calendar.MINUTE) < 10) {
+                                    binding.inputJam.hint = "Jam Tenggat Waktu (" + cal3.get(
+                                        Calendar.HOUR_OF_DAY
+                                    ) + ":0" + cal3.get(Calendar.MINUTE) + ", Min " + cal3.get(
+                                        Calendar.HOUR_OF_DAY
+                                    ) + ":0" + cal3.get(Calendar.MINUTE) + ")"
+                                } else {
+                                    binding.inputJam.hint = "Jam Tenggat Waktu (" + cal3.get(
+                                        Calendar.HOUR_OF_DAY
+                                    ) + ":" + cal3.get(Calendar.MINUTE) + ", Min " + cal3.get(
+                                        Calendar.HOUR_OF_DAY
+                                    ) + ":" + cal3.get(Calendar.MINUTE) + ")"
                                 }
 
-                            }
-                            else
-                            {
-                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_editJam)
+                            } else {
+                                binding.inputJam.hint =
+                                    context?.getString(R.string.tugaskuliah_hint_editJam)
                             }
 
-                        }
-                        else
-                        {
-                            if (binding.editJam.text.isNullOrBlank())
-                            {
-                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_editJam)
-                            }
-                            else
-                            {
-                                binding.inputJam.hint = context?.getString(R.string.tugaskuliah_hint_jam)
+                        } else {
+                            if (binding.editJam.text.isNullOrBlank()) {
+                                binding.inputJam.hint =
+                                    context?.getString(R.string.tugaskuliah_hint_editJam)
+                            } else {
+                                binding.inputJam.hint =
+                                    context?.getString(R.string.tugaskuliah_hint_jam)
                             }
 
                         }
@@ -230,69 +254,67 @@ class AddTugasKuliahFragment : Fragment() {
             }
         })
 
-        addTugasKuliahFragmentViewModel.showSubjectTugasKuliahDialog.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                val dialog = ChooseSubjectTugasKuliahDialogFragment()
-                dialog.setTargetFragment(this, TARGET_FRAGMENT_REQUEST_CODE)
-                dialog.show(parentFragmentManager, dialog.TAG)
-                addTugasKuliahFragmentViewModel.doneLoadSubjectDialog()
-            }
-        })
+        addTugasKuliahFragmentViewModel.showSubjectTugasKuliahDialog.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it == true) {
+                    val dialog = ChooseSubjectTugasKuliahDialogFragment()
+                    dialog.setTargetFragment(this, TARGET_FRAGMENT_REQUEST_CODE)
+                    dialog.show(parentFragmentManager, dialog.TAG)
+                    addTugasKuliahFragmentViewModel.doneLoadSubjectDialog()
+                }
+            })
 
         addTugasKuliahFragmentViewModel.addTugasKuliahNavigation.observe(viewLifecycleOwner,
             Observer {
                 if (it == true) {
-                    if (TextUtils.isEmpty(binding.editTextSubject.text))
-                    {
+//                    mThirdOnboardingScreenListener.onNextClicked()
+                    if (TextUtils.isEmpty(binding.editTextSubject.text)) {
                         binding.editTextSubject.error = context?.getString(R.string.subject_error)
-                        Toast.makeText(context,binding.editTextSubject.error, Toast.LENGTH_LONG).show()
-                    }
-                    else if (TextUtils.isEmpty(binding.editTextTugas.text))
-                    {
+                        Toast.makeText(context, binding.editTextSubject.error, Toast.LENGTH_LONG)
+                            .show()
+                    } else if (TextUtils.isEmpty(binding.editTextTugas.text)) {
                         binding.editTextTugas.error = context?.getString(R.string.tugas_error)
-                        Toast.makeText(context,binding.editTextTugas.error, Toast.LENGTH_LONG).show()
-                    }
-                    else if (TextUtils.isEmpty(binding.editDeadline.text))
-                    {
+                        Toast.makeText(context, binding.editTextTugas.error, Toast.LENGTH_LONG)
+                            .show()
+                    } else if (TextUtils.isEmpty(binding.editDeadline.text)) {
                         binding.editDeadline.error = context?.getString(R.string.deadline_error)
-                        Toast.makeText(context,binding.editDeadline.error, Toast.LENGTH_LONG).show()
-                    }
-                    else
-                    {
+                        Toast.makeText(context, binding.editDeadline.error, Toast.LENGTH_LONG)
+                            .show()
+                    } else {
                         mTugas.tugasKuliahName = binding.editTextTugas.text.toString().trim()
-                        mTugas.tugasKuliahSubjectId = subjectTugasKuliahId
-                        // Convert Long to Date atau sebaliknya di https://currentmillis.com/
-                        var clock = "9:00"
-                        if (deadline_components.day < 1)
-                        {
-                            if (deadline_components.hour < 9)
-                            {
-                                clock = "9:00"
-                            }
-                            else
-                            {
-                                if (deadline_components.minute < 10)
-                                {
-                                    clock = "" + deadline_components.hour + ":0" + deadline_components.minute
-                                }
-                                else
-                                {
-                                    clock = "" + deadline_components.hour + ":" + deadline_components.minute
-                                }
-                            }
 
+                        if (shared_data.isFromOnboarding)
+                        {
+                            mTugas.tugasKuliahSubjectId = 1
                         }
                         else
                         {
+                            mTugas.tugasKuliahSubjectId = subjectTugasKuliahId
+                        }
+                        // Convert Long to Date atau sebaliknya di https://currentmillis.com/
+                        var clock = "9:00"
+                        if (deadline_components.day < 1) {
+                            if (deadline_components.hour < 9) {
+                                clock = "9:00"
+                            } else {
+                                if (deadline_components.minute < 10) {
+                                    clock =
+                                        "" + deadline_components.hour + ":0" + deadline_components.minute
+                                } else {
+                                    clock =
+                                        "" + deadline_components.hour + ":" + deadline_components.minute
+                                }
+                            }
+
+                        } else {
                             clock = "9:00"
                         }
-                        if (binding.editJam.text.toString() != "")
-                        {
+                        if (binding.editJam.text.toString() != "") {
                             clock = binding.editJam.text.toString()
                         }
 
-                        if (binding.editDeadline.text.toString() != "")
-                        {
+                        if (binding.editDeadline.text.toString() != "") {
                             mTugas.deadline = convertDateAndTimeToLong(
                                 binding.editDeadline.text.toString(),
                                 clock
@@ -306,15 +328,20 @@ class AddTugasKuliahFragment : Fragment() {
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
                         addTugasKuliahFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
-//                        context?.getString(R.string.inserted_tugas_kuliah_message)?.let { it1 ->
-//                            context?.toast(
-//                                it1
-//                            )
-//                        }
 
-                        shared_data.mTugas = mTugas
+                        if (shared_data.isFromOnboarding)
+                        {
+                            onboarding_data.mTugas = mTugas
+                            onboarding_data.approvalForGoToFourthScreen = true
+                        }
+                        else
+                        {
+                            shared_data.mTugas = mTugas
+                            this.findNavController()
+                                .navigate(AddTugasKuliahFragmentDirections.actionAddTugasFragmentToAddTugasCommitmentFragment())
+                        }
 
-                        this.findNavController().navigate(AddTugasKuliahFragmentDirections.actionAddTugasFragmentToAddTugasCommitmentFragment())
+
                         addTugasKuliahFragmentViewModel.doneNavigating()
                     }
 
@@ -324,7 +351,7 @@ class AddTugasKuliahFragment : Fragment() {
 
             })
 
-        addTugasKuliahFragmentViewModel.SubjectText.observe(viewLifecycleOwner, Observer {
+        addTugasKuliahFragmentViewModel.subjectText.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.editTextSubject.setText(it)
                 addTugasKuliahFragmentViewModel.onSubjectNameChanged()
@@ -346,12 +373,14 @@ class AddTugasKuliahFragment : Fragment() {
             }
         })
 
-        addTugasKuliahFragmentViewModel.addTugasKuliahToDoList.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                addToDoList()
-                addTugasKuliahFragmentViewModel.afterAddToDoListClicked()
-            }
-        })
+        addTugasKuliahFragmentViewModel.addTugasKuliahToDoList.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it == true) {
+                    addToDoList()
+                    addTugasKuliahFragmentViewModel.afterAddToDoListClicked()
+                }
+            })
 
         addTugasKuliahFragmentViewModel.addTugasKuliahImage.observe(viewLifecycleOwner, Observer {
             if (it == true) {
@@ -370,45 +399,41 @@ class AddTugasKuliahFragment : Fragment() {
 
         val toDoListAdapter = TugasKuliahToDoListAdapter(TugasKuliahToDoListListener { toDoListId ->
             addTugasKuliahFragmentViewModel.onToDoListClicked(toDoListId)
-        }
-            , object :
-                TugasKuliahToDoListInterface {
+        }, object :
+            TugasKuliahToDoListInterface {
             override fun onUpdateText(id: Long, data: String) {
                 addTugasKuliahFragmentViewModel.updateToDoListName(id, data)
             }
 
-                override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
-                    addTugasKuliahFragmentViewModel.updateToDoListIsFinished(id, isFinished)
-                }
-
-                override fun onRemoveItem(id: Long) {
-                    if (addTugasKuliahFragmentViewModel._toDoList.value?.get(id.toInt())?.tugasKuliahToDoListName?.isEmpty()!!)
-                    {
-                        addTugasKuliahFragmentViewModel.removeToDoListItem(id)
-                    }
-                    else
-                    {
-                        AlertDialog.Builder(context).apply {
-                            setTitle(context.getString(R.string.delete_todolist_confirmation_title))
-                            setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
-                            setPositiveButton(context.getString(R.string.ya)) { _, _ ->
-                                addTugasKuliahFragmentViewModel.removeToDoListItem(id)
-                            }
-                            setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
-                            }
-                        }.create().show()
-                    }
-
-                }
-
-                override fun onEnterPressed(id: Long) {
-                    addToDoList()
-                }
-
-                override fun onRemoveEmptyItem(id: Long) {
-                    addTugasKuliahFragmentViewModel.removeToDoListItem(id)
-                }
+            override fun onUpdateCheckbox(id: Long, isFinished: Boolean) {
+                addTugasKuliahFragmentViewModel.updateToDoListIsFinished(id, isFinished)
             }
+
+            override fun onRemoveItem(id: Long) {
+                if (addTugasKuliahFragmentViewModel._tugasKuliahToDoList.value?.get(id.toInt())?.tugasKuliahToDoListName?.isEmpty()!!) {
+                    addTugasKuliahFragmentViewModel.removeToDoListItem(id)
+                } else {
+                    AlertDialog.Builder(context).apply {
+                        setTitle(context.getString(R.string.delete_todolist_confirmation_title))
+                        setMessage(context.getString(R.string.delete_todolist_confirmation_subtitle))
+                        setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+                            addTugasKuliahFragmentViewModel.removeToDoListItem(id)
+                        }
+                        setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+                        }
+                    }.create().show()
+                }
+
+            }
+
+            override fun onEnterPressed(id: Long) {
+                addToDoList()
+            }
+
+            override fun onRemoveEmptyItem(id: Long) {
+                addTugasKuliahFragmentViewModel.removeToDoListItem(id)
+            }
+        }
         )
         binding.ToDoListRecyclerView.adapter = toDoListAdapter
 
@@ -442,6 +467,7 @@ class AddTugasKuliahFragment : Fragment() {
 
         addTugasKuliahFragmentViewModel.imageListKuliahImage.observe(viewLifecycleOwner, Observer {
             it?.let {
+                parentActivity.showPermissionDialog()
                 gambarAdapter.updateList(it)
             }
         })
@@ -492,12 +518,9 @@ class AddTugasKuliahFragment : Fragment() {
                 return true
             }
             android.R.id.home -> {
-                if (!binding.editTextTugas.text.isNullOrBlank() || !binding.editTextSubject.text.isNullOrBlank() || !binding.editDeadline.text.isNullOrBlank() || !binding.editJam.text.isNullOrBlank() || !binding.editCatatan.text.isNullOrBlank() || addTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != null || addTugasKuliahFragmentViewModel.imageListKuliahImage.value != null)
-                {
+                if (!binding.editTextTugas.text.isNullOrBlank() || !binding.editTextSubject.text.isNullOrBlank() || !binding.editDeadline.text.isNullOrBlank() || !binding.editJam.text.isNullOrBlank() || !binding.editCatatan.text.isNullOrBlank() || addTugasKuliahFragmentViewModel.tugasKuliahToDoList.value != null || addTugasKuliahFragmentViewModel.imageListKuliahImage.value != null) {
                     backAndUpButtonHandlerWhenHaveSomeData()
-                }
-                else
-                {
+                } else {
                     requireActivity().onBackPressed()
                 }
                 return true
@@ -507,16 +530,19 @@ class AddTugasKuliahFragment : Fragment() {
     }
 
     private fun backAndUpButtonHandlerWhenHaveSomeData() {
-        AlertDialog.Builder(context).apply {
-            setTitle(context.getString(R.string.back_confirmation_title))
-            setMessage(context.getString(R.string.back_confirmation_subtitle))
-            setPositiveButton(context.getString(R.string.ya)) { _, _ ->
+        if (!shared_data.isFromOnboarding)
+        {
+            AlertDialog.Builder(context).apply {
+                setTitle(context.getString(R.string.back_confirmation_title))
+                setMessage(context.getString(R.string.back_confirmation_subtitle))
+                setPositiveButton(context.getString(R.string.ya)) { _, _ ->
 //                this@AddTugasKuliahFragment.findNavController().popBackStack()
-                requireActivity().finish()
-            }
-            setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
-            }
-        }.create().show()
+                    requireActivity().finish()
+                }
+                setNegativeButton(context.getString(R.string.tidak)) { _, _ ->
+                }
+            }.create().show()
+        }
     }
 
 
@@ -718,5 +744,21 @@ class AddTugasKuliahFragment : Fragment() {
     fun getInstance(): AddTugasKuliahFragment? {
         return this
     }
+
+    fun setupFromOnboarding(s: String)
+    {
+        addTugasKuliahFragmentViewModel.setSubjectName(s)
+        binding.inputTextSubject.isEnabled = false
+    }
+
+//    fun onAttachToParentFragment(fragment: Fragment) {
+//        try {
+//            mThirdOnboardingScreenListener = fragment as ThirdOnboardingScreenListener
+//        } catch (e: ClassCastException) {
+//            throw ClassCastException(
+//                "$fragment must implement ThirdOnboardingScreenListener"
+//            )
+//        }
+//    }
 
 }

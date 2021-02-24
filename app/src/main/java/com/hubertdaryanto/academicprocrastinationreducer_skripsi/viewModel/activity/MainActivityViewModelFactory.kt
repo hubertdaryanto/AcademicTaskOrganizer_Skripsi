@@ -7,8 +7,8 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.tugasKuli
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.tugasKuliahToDoListDao
 
 class MainActivityViewModelFactory(private val tugasKuliahDataSource: tugasKuliahDao,
-                                                  private val tugasKuliahToDoListDataSource: tugasKuliahToDoListDao,
-                                                  private val application: Application) : ViewModelProvider.Factory {
+                                   private val tugasKuliahToDoListDataSource: tugasKuliahToDoListDao,
+                                   private val application: Application) : ViewModelProvider.Factory {
     @Suppress("unckecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainActivityViewModel::class.java))

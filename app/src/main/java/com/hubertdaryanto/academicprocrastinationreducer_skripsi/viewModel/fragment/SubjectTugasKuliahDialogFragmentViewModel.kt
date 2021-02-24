@@ -37,7 +37,7 @@ class SubjectTugasKuliahDialogFragmentViewModel(application: Application, subjec
     {
         _subjectTugasKuliah.value = arrayListOf()
         uiScope.launch {
-            _subjectTugasKuliah.value = subjectTugasKuliahDatabase.getSubjectTugasKuliahByName()
+            _subjectTugasKuliah.value = subjectTugasKuliahDatabase.getAllSubjectTugasKuliahSortedByName()
         }
     }
 

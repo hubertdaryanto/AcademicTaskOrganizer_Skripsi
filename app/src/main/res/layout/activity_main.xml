@@ -7,7 +7,7 @@
     <data>
         <variable
                 name="mainActivityViewModel"
-                type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.MainActivityViewModel" />
+                type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.OnboardingActivityViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"

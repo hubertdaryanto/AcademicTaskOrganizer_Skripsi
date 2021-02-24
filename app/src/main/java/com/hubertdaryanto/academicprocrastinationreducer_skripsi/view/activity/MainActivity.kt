@@ -24,10 +24,6 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDataba
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.MainActivityViewModel
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.activity.MainActivityViewModelFactory
 
-private const val STORAGE_PERMISSION_CODE = 1
-
-private const val READ_STORAGE_PERMISSION = "android.permission.READ_EXTERNAL_STORAGE"
-
 class MainActivity : AppCompatActivity() {
     // Instance fields
     private lateinit var binding: ActivityMainBinding
@@ -82,22 +78,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED)
-        {
-            // Permission is not granted
-            android.app.AlertDialog.Builder(this).apply {
-                setTitle(context.getString(R.string.allow_access_storage_title))
-                setMessage(context.getString(R.string.allow_access_storage))
-
-                setPositiveButton("OK") { _, _ ->
-                    checkPermission(READ_STORAGE_PERMISSION, STORAGE_PERMISSION_CODE)
-                }
-            }.create().show()
-        }
+//        if(ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.READ_EXTERNAL_STORAGE)
+//            != PackageManager.PERMISSION_GRANTED)
+//        {
+//            // Permission is not granted
+//            android.app.AlertDialog.Builder(this).apply {
+//                setTitle(context.getString(R.string.allow_access_storage_title))
+//                setMessage(context.getString(R.string.allow_access_storage))
+//
+//                setPositiveButton("OK") { _, _ ->
+//                    checkPermission(READ_STORAGE_PERMISSION, STORAGE_PERMISSION_CODE)
+//                }
+//            }.create().show()
+//        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -118,14 +115,6 @@ class MainActivity : AppCompatActivity() {
         )
         navController = navHostFragment.findNavController()
 
-//        this.binding.lifecycleOwner?.let {
-//            mainActivityViewModel.navigateToAddTugasKuliah.observe(it, Observer {
-//                if (it) {
-//                    navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddTugasFragment2())
-//                    mainActivityViewModel.onAddTugasKuliahNavigated()
-//                }
-//            })
-//        }
 
         binding.floatingActionButton.setOnClickListener {
 //            navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddTugasFragment2())
@@ -138,14 +127,9 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
     }
 
-//    private fun makeCurrentFragment(fragment: Fragment) =
-//        supportFragmentManager.beginTransaction().apply {
-//            replace(R.id.fl_wrapper, fragment)
-//            commit()
-//        }
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.onboarding_nav_host_fragment), null)
+        return NavigationUI.navigateUp(Navigation.findNavController(this, R.id.home_nav_host_fragment), null)
     }
 
 }

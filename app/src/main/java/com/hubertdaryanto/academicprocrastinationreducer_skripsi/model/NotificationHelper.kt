@@ -15,7 +15,6 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.M
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 object NotificationHelper{
     private val job = Job()

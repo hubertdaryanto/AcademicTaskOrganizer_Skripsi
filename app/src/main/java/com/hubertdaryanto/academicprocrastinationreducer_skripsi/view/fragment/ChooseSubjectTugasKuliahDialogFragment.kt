@@ -84,8 +84,17 @@ class ChooseSubjectTugasKuliahDialogFragment : DialogFragment() {
 
         subjectDialogFragmentViewModel.selectSubject.observe(viewLifecycleOwner, Observer {
             it?.let{
-                sendSubject(it)
-                subjectDialogFragmentViewModel.afterSubjectTugasKuliahClicked()
+                if (it == 0L)
+                {
+                    val dialog = AddSubjectTugasKuliahDialogFragment()
+                    dialog.show(parentFragmentManager, "AddSubjectDialogFragment")
+                }
+                else
+                {
+                    sendSubject(it)
+                    subjectDialogFragmentViewModel.afterSubjectTugasKuliahClicked()
+                }
+
             }
         })
 

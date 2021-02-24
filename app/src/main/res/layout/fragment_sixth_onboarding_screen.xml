@@ -10,8 +10,8 @@
             tools:context=".view.fragment.onboarding.screens.SixthOnboardingScreen">
 
         <TextView
-                android:text="Sixth"
-                android:layout_width="wrap_content"
+                android:text="Proses Persiapan Academic Procrastination Reducer Selesai"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView6"
                 app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
 
 
         <Button
-                android:text="@string/selanjutnya"
+                android:text="@android:string/ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/button"
@@ -35,15 +35,5 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp" />
 
-        <Button
-                android:text="@string/kembali"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button2"
-                style="@style/alert_buttons"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

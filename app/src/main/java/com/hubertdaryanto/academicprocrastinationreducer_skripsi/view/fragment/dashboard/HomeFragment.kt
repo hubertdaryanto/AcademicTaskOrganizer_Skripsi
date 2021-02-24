@@ -72,8 +72,13 @@ class HomeFragment : Fragment() {
         homeFragmentViewModel.tugasKuliah.observe(viewLifecycleOwner, Observer{
             if (it != null)
             {
+                binding.tugasKuliahNearDeadlineEmptyText.visibility = View.GONE
                 val date = homeFragmentViewModel.getTugasKuliahAndDate()
                 adapter.addHeaderAndSubmitList(date)
+            }
+            else
+            {
+                binding.tugasKuliahNearDeadlineEmptyText.visibility = View.VISIBLE
             }
         })
 

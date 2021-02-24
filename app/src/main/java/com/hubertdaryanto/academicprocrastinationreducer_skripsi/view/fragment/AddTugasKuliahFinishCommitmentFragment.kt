@@ -26,14 +26,22 @@ import java.util.*
 
 class AddTugasKuliahFinishCommitmentFragment: Fragment() {
     private lateinit var binding: FragmentAddTugasKuliahFinishCommitmentBinding
-    private lateinit var addTugasKuliahFinishCommitmentFragmentViewModel: AddTugasKuliahFinishCommitmentFragmentViewModel
-    private var mTugas: TugasKuliah = shared_data.mTugas
+    lateinit var addTugasKuliahFinishCommitmentFragmentViewModel: AddTugasKuliahFinishCommitmentFragmentViewModel
+    private lateinit var mTugas: TugasKuliah
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if (shared_data.isFromOnboarding)
+        {
+            mTugas = onboarding_data.mTugas
+        }
+        else
+        {
+            mTugas = shared_data.mTugas
+        }
         setHasOptionsMenu(true)
         val application = requireNotNull(this.activity).application
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_add_tugas_kuliah_finish_commitment, container, false)
@@ -304,10 +312,23 @@ class AddTugasKuliahFinishCommitmentFragment: Fragment() {
                             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
-                        addTugasKuliahFinishCommitmentFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
+                        if (shared_data.isFromOnboarding)
+                        {
+                            onboarding_data.mSubjectName?.let { it1 ->
+                                addTugasKuliahFinishCommitmentFragmentViewModel.addSubjectAndTugasKuliah(requireContext(), mTugas,
+                                    it1
+                                )
+                            }
+                            onboarding_data.approvalForGoToFifthScreen = true
+                        }
+                        else
+                        {
+                            addTugasKuliahFinishCommitmentFragmentViewModel.addTugasKuliah(requireContext(), mTugas)
+                            requireActivity().finish()
+                        }
+
                         Toast.makeText(context,"Tugas Kuliah " + mTugas.tugasKuliahName + " disimpan.", Toast.LENGTH_LONG).show()
-//                        this.findNavController().popBackStack(R.id.tugasMataKuliahList, false)//cari cara buat langusng ke home fragment
-                        requireActivity().finish()
+
                         addTugasKuliahFinishCommitmentFragmentViewModel.doneNavigating()
                     }
                 }

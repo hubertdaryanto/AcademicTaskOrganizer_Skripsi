@@ -42,6 +42,8 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
         {
             is ViewHolder -> {
                 val item = getItem(position) as TugasKuliahImageDataItem.TugasKuliahImageItem
+
+
                 picasso = Picasso.Builder(holder.binding.root.context).build()
                 picasso.isLoggingEnabled = true
 
@@ -84,6 +86,8 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
             }
         }
     }
+
+
 
 
     class ViewHolder private constructor(val binding: ListItemImageForTugasBinding): RecyclerView.ViewHolder(

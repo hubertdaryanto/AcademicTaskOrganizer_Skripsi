@@ -19,9 +19,9 @@ class AddTugasKuliahFragmentViewModel(application: Application, tugasKuliahDataS
     val tugasKuliah: LiveData<TugasKuliah>
         get() = _tugasKuliah
 
-    val _toDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
+    val _tugasKuliahToDoList = MutableLiveData<MutableList<TugasKuliahToDoList>>()
     val tugasKuliahToDoList: LiveData<MutableList<TugasKuliahToDoList>>
-        get() = _toDoList
+        get() = _tugasKuliahToDoList
 
     private val _imageList = MutableLiveData<MutableList<TugasKuliahImage>>()
     val imageListKuliahImage: LiveData<MutableList<TugasKuliahImage>>
@@ -34,7 +34,7 @@ class AddTugasKuliahFragmentViewModel(application: Application, tugasKuliahDataS
     private var viewModelJob = Job()
 
     private val _subjectText = MutableLiveData<String>()
-    val SubjectText: LiveData<String>
+    val subjectText: LiveData<String>
         get() = _subjectText
 
     /**
@@ -117,14 +117,14 @@ class AddTugasKuliahFragmentViewModel(application: Application, tugasKuliahDataS
 
     fun addToDoListItem(tugasKuliahToDoList: TugasKuliahToDoList)
     {
-        _toDoList.addNewItem(tugasKuliahToDoList)
-        _toDoList.notifyObserver()
+        _tugasKuliahToDoList.addNewItem(tugasKuliahToDoList)
+        _tugasKuliahToDoList.notifyObserver()
     }
 
     fun removeToDoListItem(id: Long)
     {
-        _toDoList.removeItemAt(id.toInt())
-        _toDoList.notifyObserver()
+        _tugasKuliahToDoList.removeItemAt(id.toInt())
+        _tugasKuliahToDoList.notifyObserver()
     }
 
     fun removeImageItem(id: Long)
@@ -164,14 +164,30 @@ class AddTugasKuliahFragmentViewModel(application: Application, tugasKuliahDataS
 
     fun addTugasKuliah(context: Context, tugasKuliah: TugasKuliah)
     {
-        if (tugasKuliahToDoList.value != null)
+
+        if (shared_data.isFromOnboarding)
         {
-            shared_data.mTugasKuliahToDoList = tugasKuliahToDoList.value!!
+            if (tugasKuliahToDoList.value != null)
+            {
+                onboarding_data.mTugasKuliahToDoList = tugasKuliahToDoList.value!!
+            }
+            if (imageListKuliahImage.value != null)
+            {
+                onboarding_data.mTugasKuliahImages = imageListKuliahImage.value!!
+            }
         }
-        if (imageListKuliahImage.value != null)
+        else
         {
-            shared_data.mTugasKuliahImages = imageListKuliahImage.value!!
+            if (tugasKuliahToDoList.value != null)
+            {
+                shared_data.mTugasKuliahToDoList = tugasKuliahToDoList.value!!
+            }
+            if (imageListKuliahImage.value != null)
+            {
+                shared_data.mTugasKuliahImages = imageListKuliahImage.value!!
+            }
         }
+
 //        uiScope.launch {
 //            tugasKuliah.updatedAt = System.currentTimeMillis()
 //            var tugasKuliaId = database.insertTugas(tugasKuliah)
@@ -260,6 +276,11 @@ class AddTugasKuliahFragmentViewModel(application: Application, tugasKuliahDataS
     {
 //        toDoList.value?.get(id.toInt())?.toDoListName = data
         tugasKuliahToDoList.value?.get(id.toInt())?.isFinished = isFinished
+    }
+
+    fun setSubjectName(s: String)
+    {
+        _subjectText.value = s
     }
 
 }

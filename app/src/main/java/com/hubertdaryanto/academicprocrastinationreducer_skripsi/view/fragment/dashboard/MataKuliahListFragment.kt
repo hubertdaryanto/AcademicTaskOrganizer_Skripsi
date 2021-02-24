@@ -19,6 +19,7 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDataba
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.shared_data
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.activity.ViewTugasKuliahActivity
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.SubjectTugasKuliahAdapter
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.AddSubjectTugasKuliahDialogFragment
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.EditSubjectTugasKuliahDialogFragment
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.SubjectTugasKuliahInterface
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.SubjectTugasKuliahListener
@@ -84,9 +85,18 @@ class MataKuliahListFragment : Fragment() {
 
         mataKuliahListFragmentViewModel.selectSubject.observe(viewLifecycleOwner, Observer {
             it?.let{
-                val intent = Intent(this.activity, ViewTugasKuliahActivity::class.java)
-                intent.putExtra("subjectId", it)
-                this.startActivity(intent)
+                if (it == 0L)
+                {
+                    val dialog = AddSubjectTugasKuliahDialogFragment()
+                    dialog.show(parentFragmentManager, "AddSubjectDialogFragment")
+                }
+                else
+                {
+                    val intent = Intent(this.activity, ViewTugasKuliahActivity::class.java)
+                    intent.putExtra("subjectId", it)
+                    this.startActivity(intent)
+                }
+
                 mataKuliahListFragmentViewModel.afterSubjectTugasKuliahClicked()
             }
         })

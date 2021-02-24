@@ -25,7 +25,7 @@ interface subjectTugasKuliahDao{
     @Query("DELETE FROM SubjectTugasKuliah WHERE subjectTugasKuliahId LIKE :id")
     suspend fun deleteSubjectTugasKuliahById(id: Long)
     @Query("SELECT * FROM SubjectTugasKuliah ORDER BY SubjectName ASC")
-    suspend fun getSubjectTugasKuliahByName(): MutableList<SubjectTugasKuliah>
+    suspend fun getAllSubjectTugasKuliahSortedByName(): MutableList<SubjectTugasKuliah>
 
     @Query("SELECT * FROM SubjectTugasKuliah WHERE subjectTugasKuliahId LIKE :id")
     suspend fun getSubjectTugasKuliahById(id: Long): SubjectTugasKuliah
