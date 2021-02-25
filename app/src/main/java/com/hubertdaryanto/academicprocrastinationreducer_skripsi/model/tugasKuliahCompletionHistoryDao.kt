@@ -7,6 +7,9 @@ interface tugasKuliahCompletionHistoryDao {
     @Query("SELECT * FROM TugasKuliahCompletionHistory ORDER BY tugasKuliahCompletionHistoryId DESC")
     suspend fun getAllTugasKuliahCompletionHistorySortedByMostRecent(): MutableList<TugasKuliahCompletionHistory>
 
+    @Query("SELECT * FROM TugasKuliahCompletionHistory WHERE tugasKuliahCompletionHistoryId BETWEEN :from AND :to ORDER BY tugasKuliahCompletionHistoryId DESC")
+    suspend fun getAllTugasKuliahCompletionHistorySortedByMostRecentFilterByTime(from: Long, to: Long): MutableList<TugasKuliahCompletionHistory>
+
     @Query("SELECT * FROM TugasKuliahCompletionHistory WHERE bindToTugasKuliahId LIKE :id")
     suspend fun getTugasKuliahCompletionHistoryByTugasKuliahId(id: Long): TugasKuliahCompletionHistory
 

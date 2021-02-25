@@ -9,6 +9,15 @@ sealed class TugasKuliahToDoListDataItem {
         override val name = tugasKuliahToDoList.tugasKuliahToDoListName
         override val isFinished = tugasKuliahToDoList.isFinished
     }
+
+    object AddToDoList: TugasKuliahToDoListDataItem() {
+        override val id: Long
+            get() = Long.MIN_VALUE
+        override val name: String
+            get() = ""
+        override val isFinished: Boolean
+            get() = false
+    }
     //gak ada bedanya kalau name sama isfinished di comment atau gak
 
 }

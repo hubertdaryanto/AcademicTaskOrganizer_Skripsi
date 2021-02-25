@@ -28,10 +28,26 @@ class TugasKuliahCompletionHistoryFragmentViewModel(tugasKuliahCompletionHistory
     val navigateToViewTugasKuliahCompletionHistoryDetails: LiveData<Long?>
         get() = _navigateToViewTugasKuliahCompletionHistoryDetails
 
-    fun loadTugasKuliahCompletionHistory()
+    fun loadTugasKuliahCompletionHistory(method: Int)
     {
         uiScope.launch {
-            _tugasKuliahCompletionHistories.value = tugasKuliahCompletionHistoryDatabase.getAllTugasKuliahCompletionHistorySortedByMostRecent()
+            if (method == 0)
+            {
+                val realTimeClock = System.currentTimeMillis()
+                val sevenDaysBefore = realTimeClock - 604800000
+                _tugasKuliahCompletionHistories.value = tugasKuliahCompletionHistoryDatabase.getAllTugasKuliahCompletionHistorySortedByMostRecentFilterByTime(sevenDaysBefore, realTimeClock)
+            }
+            else if (method == 1)
+            {
+                val realTimeClock = System.currentTimeMillis()
+                val thirtyDaysBefore = realTimeClock - 2592000000
+                _tugasKuliahCompletionHistories.value = tugasKuliahCompletionHistoryDatabase.getAllTugasKuliahCompletionHistorySortedByMostRecentFilterByTime(thirtyDaysBefore, realTimeClock)
+            }
+            else
+            {
+                _tugasKuliahCompletionHistories.value = tugasKuliahCompletionHistoryDatabase.getAllTugasKuliahCompletionHistorySortedByMostRecent()
+            }
+
         }
     }
 

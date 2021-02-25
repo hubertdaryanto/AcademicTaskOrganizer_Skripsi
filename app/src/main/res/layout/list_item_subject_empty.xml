@@ -40,7 +40,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tambah"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@style/Base.CardView"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

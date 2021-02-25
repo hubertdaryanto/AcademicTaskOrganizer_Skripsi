@@ -28,11 +28,11 @@
         <activity
                 android:name=".view.activity.OnboardingActivity"
                 android:label="@string/title_activity_onboarding"
-                android:theme="@style/Theme.AppCompat.NoActionBar" />
+                android:theme="@style/AppThemeNoActionBar"/>
         <activity
                 android:name=".view.activity.SplashScreenActivity"
                 android:label="@string/title_activity_splash_screen"
-                android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+                android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

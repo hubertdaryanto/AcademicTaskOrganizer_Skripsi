@@ -31,18 +31,18 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/text_view_tugas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="1dp"
-                android:text="@{tugas.tugasKuliahName}"
-                android:textAppearance="@style/Base.CardView"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@id/text_view_subject_and_deadline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Nama Tugas Kuliah" />
+                    android:id="@+id/text_view_tugas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="@{tugas.tugasKuliahName}"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@id/text_view_subject_and_deadline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Nama Tugas Kuliah"
+                    android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_view_subject_and_deadline"

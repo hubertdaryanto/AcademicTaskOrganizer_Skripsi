@@ -274,24 +274,25 @@
                         app:layout_constraintVertical_bias="1.0" />
 
                     <ImageButton
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:contentDescription="@string/tugas"
-                        android:cropToPadding="false"
-                        android:focusable="true"
-                        android:foregroundTint="#54000000"
-                        android:id="@+id/add_to_do_list_button"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_height="24dp"
-                        android:layout_width="24dp"
-                        android:src="@drawable/ic_add"
-                        android:tint="#8A000000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:onClick="@{() -> editTugasKuliahFragmentViewModel.onAddTugasKuliahToDoListClicked()}"/>
+                            android:adjustViewBounds="true"
+                            android:background="@android:color/transparent"
+                            android:clickable="true"
+                            android:contentDescription="@string/tugas"
+                            android:cropToPadding="false"
+                            android:focusable="true"
+                            android:foregroundTint="#54000000"
+                            android:id="@+id/add_to_do_list_button"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:layout_height="24dp"
+                            android:layout_width="24dp"
+                            android:src="@drawable/ic_add"
+                            android:tint="#8A000000"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:onClick="@{() -> editTugasKuliahFragmentViewModel.onAddTugasKuliahToDoListClicked()}"
+                            android:visibility="gone" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -337,24 +338,25 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:contentDescription="@string/tugas"
-                        android:cropToPadding="false"
-                        android:focusable="true"
-                        android:foregroundTint="#54000000"
-                        android:id="@+id/addGambarButton"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_height="24dp"
-                        android:layout_width="24dp"
-                        android:src="@drawable/ic_add"
-                        android:tint="#8A000000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/GambarTextView"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:onClick="@{() -> editTugasKuliahFragmentViewModel.onAddTugasKuliahImageClicked()}"/>
+                            android:adjustViewBounds="true"
+                            android:background="@android:color/transparent"
+                            android:clickable="true"
+                            android:contentDescription="@string/tugas"
+                            android:cropToPadding="false"
+                            android:focusable="true"
+                            android:foregroundTint="#54000000"
+                            android:id="@+id/addGambarButton"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:layout_height="24dp"
+                            android:layout_width="24dp"
+                            android:src="@drawable/ic_add"
+                            android:tint="#8A000000"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/GambarTextView"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:onClick="@{() -> editTugasKuliahFragmentViewModel.onAddTugasKuliahImageClicked()}"
+                            android:visibility="gone" />
 
                     <!--                untuk memberikan jarak konsisten antar gambar yang diinput, bisa gunakan layout_constraintHorizontal_chainStyle or the layout_constraintVertical_chainStyle-->
                 </androidx.constraintlayout.widget.ConstraintLayout>

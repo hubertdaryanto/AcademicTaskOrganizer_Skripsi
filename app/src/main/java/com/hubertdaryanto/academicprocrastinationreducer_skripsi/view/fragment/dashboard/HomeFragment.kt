@@ -151,6 +151,8 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        homeFragmentViewModel.loadTugasKuliah()
+        homeFragmentViewModel.countTugasKuliahCompletedHistoryData()
         mHandlerForUpdateCurrentTime.post(mRunnable)
     }
 

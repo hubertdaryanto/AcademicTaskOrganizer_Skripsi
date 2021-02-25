@@ -61,7 +61,6 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:textColor="@android:color/black"
                             android:textStyle="bold"
                             android:id="@+id/tugas_kuliah_near_deadline_text" />
 
@@ -205,8 +204,7 @@
                             style="@style/TextAppearance.MyApp.Headline5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textStyle="bold" />
 
                     <TextView
                             android:text="Lebih Detail"

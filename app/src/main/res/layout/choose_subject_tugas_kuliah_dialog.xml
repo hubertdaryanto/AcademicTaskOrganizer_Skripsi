@@ -16,20 +16,19 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/pilihSubjectTextView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/roboto"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="@string/pilih_subject"
-            android:textAlignment="center"
-            android:textColor="@color/title_color"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/subject_list"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/pilihSubjectTextView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/pilih_subject"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/subject_list"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/dismiss_subject_dialog_button"

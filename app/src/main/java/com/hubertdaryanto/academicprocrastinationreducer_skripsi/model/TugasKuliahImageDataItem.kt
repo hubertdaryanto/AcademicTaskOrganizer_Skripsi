@@ -8,4 +8,11 @@ sealed class TugasKuliahImageDataItem {
         override val name = TugasKuliahImage.tugasKuliahImageName
     }
 
+    object AddImage: TugasKuliahImageDataItem() {
+        override val id: Long
+            get() = Long.MIN_VALUE
+        override val name: String
+            get() = ""
+    }
+
 }

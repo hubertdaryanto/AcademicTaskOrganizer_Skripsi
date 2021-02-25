@@ -597,12 +597,29 @@ class EditTugasKuliahFragment: Fragment() {
 
         editTugasKuliahFragmentViewModel.tugasKuliahToDoListId.observe(viewLifecycleOwner, Observer {
             it?.let {
+                if (it == 0L)
+                {
+                    addToDoList()
+                    editTugasKuliahFragmentViewModel.afterAddTugasKuliahToDoListClicked()
+                }
+
                 editTugasKuliahFragmentViewModel.afterClickTugasKuliahToDoList()
             }
         })
 
         editTugasKuliahFragmentViewModel.tugasKuliahImageId.observe(viewLifecycleOwner, Observer {
             it?.let {
+                if (it == 0L)
+                {
+                    val intent = Intent()
+                    intent.type = "image/*"
+                    intent.action = Intent.ACTION_PICK
+                    startActivityForResult(
+                        Intent.createChooser(intent, "Pilih Gambar"),
+                        YOUR_IMAGE_CODE
+                    )
+                    editTugasKuliahFragmentViewModel.afterAddTugasKuliahImageClicked()
+                }
                 editTugasKuliahFragmentViewModel.afterClickTugasKuliahImage()
             }
         })
@@ -624,7 +641,7 @@ class EditTugasKuliahFragment: Fragment() {
                     YOUR_IMAGE_CODE
                 )
 
-
+                editTugasKuliahFragmentViewModel.afterAddTugasKuliahImageClicked()
             }
         })
 

@@ -113,6 +113,11 @@ class AddTugasKuliahFragmentViewModel(application: Application, tugasKuliahDataS
         _addTugasKuliahImage.value = null
     }
 
+    fun setup()
+    {
+        _tugasKuliahToDoList.value = arrayListOf()
+        _imageList.value = arrayListOf()
+    }
 
 
     fun addToDoListItem(tugasKuliahToDoList: TugasKuliahToDoList)

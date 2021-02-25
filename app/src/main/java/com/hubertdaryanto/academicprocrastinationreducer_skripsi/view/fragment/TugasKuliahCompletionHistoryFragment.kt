@@ -1,5 +1,7 @@
 package com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.R
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTugasKuliahCompletionHistoryBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.AppDatabase
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.tugasKuliahCompletionHistoryDao
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.adapter.TugasKuliahCompletionHistoryAdapter
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.components.View_utilities
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahCompletionHistoryListener
@@ -18,37 +21,36 @@ import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragm
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.fragment.TugasKuliahCompletionHistoryFragmentViewModelFactory
 
 class TugasKuliahCompletionHistoryFragment: Fragment() {
-
-//    val application = requireNotNull(this.activity).application
-//
-//    val dataSource = AppDatabase.getInstance(application).getAllQueryListDao
-//    val viewModelFactory = TaskCompletionHistoryFragmentViewModelFactory(dataSource, application)
-//
-//    val taskCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(TaskCompletionHistoryFragmentViewModel::class.java)
-
+    private lateinit var binding: FragmentTugasKuliahCompletionHistoryBinding
+    private lateinit var tugasKuliahCompletionHistoryDataSource: tugasKuliahCompletionHistoryDao
+    private lateinit var tugasKuliahCompletionHistoryFragmentViewModel: TugasKuliahCompletionHistoryFragmentViewModel
+    val filterList = arrayOf("7 Hari", "30 Hari", "Kapan saja")
+    var filterSelected = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val binding: FragmentTugasKuliahCompletionHistoryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_tugas_kuliah_completion_history, container, false)
+        setHasOptionsMenu(true)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tugas_kuliah_completion_history, container, false)
 
         val application = requireNotNull(this.activity).application
 
-        val tugasKuliahCompletionHistoryDataSource = AppDatabase.getInstance(application).getTugasKuliahCompletionHistoryDao
+        tugasKuliahCompletionHistoryDataSource = AppDatabase.getInstance(application).getTugasKuliahCompletionHistoryDao
         val viewModelFactory = TugasKuliahCompletionHistoryFragmentViewModelFactory(tugasKuliahCompletionHistoryDataSource, application)
 
-        val tugasKuliahCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
+        tugasKuliahCompletionHistoryFragmentViewModel = ViewModelProvider(this, viewModelFactory).get(
             TugasKuliahCompletionHistoryFragmentViewModel::class.java)
 
-        tugasKuliahCompletionHistoryFragmentViewModel.loadTugasKuliahCompletionHistory()
+        tugasKuliahCompletionHistoryFragmentViewModel.loadTugasKuliahCompletionHistory(filterSelected)
         val adapter = TugasKuliahCompletionHistoryAdapter(TugasKuliahCompletionHistoryListener { tugasKuliahId ->
             tugasKuliahCompletionHistoryFragmentViewModel.onTugasKuliahCompletionHistoryClicked(
                 tugasKuliahId
             )
         })
+
+
         binding.taskCompletionHistoryList.adapter = adapter
 
         tugasKuliahCompletionHistoryFragmentViewModel.tugasKuliahCompletionHistories.observe(viewLifecycleOwner, Observer {
@@ -107,10 +109,32 @@ class TugasKuliahCompletionHistoryFragment: Fragment() {
         {
             R.id.action_filter_tugas_kuliah_completion_history -> {
                 //todo: filter 7 / 30 / kapan saja
+                showFilterOptionsDialog()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    fun showFilterOptionsDialog()
+    {
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle("Filter")
+
+        builder.setSingleChoiceItems(filterList, filterSelected)
+        {
+            dialog, which ->
+            filterSelected = which
+            tugasKuliahCompletionHistoryFragmentViewModel.loadTugasKuliahCompletionHistory(which)
+            dialog.dismiss()
+        }
+
+        builder.setPositiveButton("Batal", DialogInterface.OnClickListener { dialog, which ->
+            dialog.dismiss()
+        })
+
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 
 }

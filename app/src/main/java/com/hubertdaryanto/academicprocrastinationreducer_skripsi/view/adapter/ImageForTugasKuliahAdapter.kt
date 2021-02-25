@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemImageForTugasBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemImageForTugasEmptyBinding
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImage
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahImageDataItem
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoListDataItem
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageDiffCallback
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageInterface
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahImageListener
@@ -33,8 +35,12 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
     private lateinit var picasso: Picasso
     private lateinit var binding: ListItemImageForTugasBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
+            ITEM_VIEW_TYPE_EMPTY_ITEM -> ViewHolder2.from(parent)
+            else -> throw ClassCastException("Unknown viewType ${viewType}")
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -72,6 +78,10 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
                 }
                 holder.bind(item.TugasKuliahImage, clickKuliahImageListener)
             }
+            is ViewHolder2 ->
+            {
+                holder.bind(clickKuliahImageListener)
+            }
         }
     }
 
@@ -79,7 +89,7 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
         adapterScope.launch {
             val items = list?.map {
                 TugasKuliahImageDataItem.TugasKuliahImageItem(it)
-            }
+            }?.plus(TugasKuliahImageDataItem.AddImage)
 
             withContext(Dispatchers.Main){
                 submitList(items)
@@ -88,6 +98,12 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
     }
 
 
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is TugasKuliahImageDataItem.TugasKuliahImageItem -> ITEM_VIEW_TYPE_ITEM
+            is TugasKuliahImageDataItem.AddImage -> ITEM_VIEW_TYPE_EMPTY_ITEM
+        }
+    }
 
 
     class ViewHolder private constructor(val binding: ListItemImageForTugasBinding): RecyclerView.ViewHolder(
@@ -105,6 +121,25 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemImageForTugasBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
+            }
+        }
+    }
+
+    class ViewHolder2 private constructor(val binding: ListItemImageForTugasEmptyBinding): RecyclerView.ViewHolder(
+        binding.root
+    ) {
+        fun bind(clickKuliahImageListener: TugasKuliahImageListener)
+        {
+            binding.image = TugasKuliahImage(0,"")
+            binding.imageClickListener = clickKuliahImageListener
+            binding.executePendingBindings()
+        }
+
+        companion object{
+            fun from(parent: ViewGroup): ViewHolder2 {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ListItemImageForTugasEmptyBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder2(binding)
             }
         }
     }

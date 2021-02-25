@@ -12,6 +12,8 @@ import android.widget.CompoundButton
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListEmptyBinding
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.SubjectTugasKuliahDataItem
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoListDataItem
 import com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListDiffCallback
@@ -26,8 +28,12 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
 ): ListAdapter<TugasKuliahToDoListDataItem, RecyclerView.ViewHolder>(TugasKuliahToDoListDiffCallback()) {
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent, tugasKuliahToDoListInterface)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent, tugasKuliahToDoListInterface)
+            ITEM_VIEW_TYPE_EMPTY_ITEM -> ViewHolder2.from(parent, tugasKuliahToDoListInterface)
+            else -> throw ClassCastException("Unknown viewType ${viewType}")
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -36,7 +42,6 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
        {
            is ViewHolder ->
            {
-
                val item = getItem(position) as TugasKuliahToDoListDataItem.TugasKuliahToDoListItem
                val textWatcher = object : TextWatcher{
                    override fun beforeTextChanged(
@@ -92,9 +97,7 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
                        {
                            holder.binding.toDoListDeleteBtn.visibility = View.INVISIBLE
                        }
-
                    }
-
                }
 
                holder.binding.textViewToDoListNameDialog.setText(item.tugasKuliahToDoList.tugasKuliahToDoListName)
@@ -130,9 +133,6 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
 //                       {
 //                           toDoListInterface.onUpdateText(holder.adapterPosition.toLong(), s.toString())
 //                       }
-
-
-
                        return false // very important
                    }
                })
@@ -152,18 +152,26 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
 
                holder.bind(item.tugasKuliahToDoList, clickListenerTugasKuliahToDoList)
            }
+           is ViewHolder2 ->
+           {
+               val item = getItem(position) as TugasKuliahToDoListDataItem.AddToDoList
+               holder.bind(clickListenerTugasKuliahToDoList)
+           }
        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return 1
+        return when (getItem(position)) {
+            is TugasKuliahToDoListDataItem.TugasKuliahToDoListItem -> ITEM_VIEW_TYPE_ITEM
+            is TugasKuliahToDoListDataItem.AddToDoList -> ITEM_VIEW_TYPE_EMPTY_ITEM
+        }
     }
 
     fun updateList(listTugasKuliah: List<TugasKuliahToDoList>?) {
         adapterScope.launch {
             val items = listTugasKuliah?.map {
                 TugasKuliahToDoListDataItem.TugasKuliahToDoListItem(it)
-            }
+            }?.plus(listOf(TugasKuliahToDoListDataItem.AddToDoList))
 
             withContext(Dispatchers.Main){
                 submitList(items)
@@ -195,17 +203,32 @@ class TugasKuliahToDoListAdapter(val clickListenerTugasKuliahToDoList: TugasKuli
             binding.executePendingBindings()
         }
 
-
-
         companion object{
             fun from(parent: ViewGroup
                      , TDLI: TugasKuliahToDoListInterface
             ): ViewHolder {
-
-//                val TDLR: ToDoListInterface? = null
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemToDoListBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
+            }
+        }
+    }
+
+    class ViewHolder2 private constructor(val binding: ListItemToDoListEmptyBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(clickListenerTugasKuliah: TugasKuliahToDoListListener)
+        {
+            binding.toDoList = TugasKuliahToDoList(0, "", 0, false)
+            binding.toDoListClickListener = clickListenerTugasKuliah
+            binding.executePendingBindings()
+        }
+
+        companion object{
+            fun from(parent: ViewGroup
+                     , TDLI: TugasKuliahToDoListInterface
+            ): ViewHolder2 {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ListItemToDoListEmptyBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder2(binding)
             }
         }
     }

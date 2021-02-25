@@ -52,6 +52,7 @@ class AddTugasKuliahFragment : Fragment() {
     private lateinit var subjectTugasKuliahDataSource: subjectTugasKuliahDao
     private lateinit var tugasKuliahDataSource: tugasKuliahDao
     lateinit var addTugasKuliahFragmentViewModel: AddTugasKuliahFragmentViewModel
+    private lateinit var parentActivity: AddTugasKuliahActivity
 //    private lateinit var mThirdOnboardingScreenListener: ThirdOnboardingScreenListener
 
     private var subjectTugasKuliahId by Delegates.notNull<Long>()
@@ -99,7 +100,11 @@ class AddTugasKuliahFragment : Fragment() {
             }
         }
 
-        val parentActivity = activity as AddTugasKuliahActivity
+
+        if (!shared_data.isFromOnboarding)
+        {
+            parentActivity = activity as AddTugasKuliahActivity
+        }
         val application = requireNotNull(this.activity).application
         // Inflate the layout for this fragment
         binding= DataBindingUtil.inflate(
@@ -136,6 +141,8 @@ class AddTugasKuliahFragment : Fragment() {
             subjectTugasKuliahId = subjectId
 
         }
+
+        addTugasKuliahFragmentViewModel.setup()
 
 
         addTugasKuliahFragmentViewModel.showTimePicker.observe(viewLifecycleOwner, Observer {
@@ -361,14 +368,28 @@ class AddTugasKuliahFragment : Fragment() {
         addTugasKuliahFragmentViewModel.tugasKuliahToDoListId.observe(viewLifecycleOwner, Observer {
             it?.let {
                 //ini buat nge update to do list ya kalau di click, gakjadi kyknya wkwkwkkw
+                if (it == 0L)
+                {
+                    addToDoList()
+                    addTugasKuliahFragmentViewModel.afterAddToDoListClicked()
+                }
                 addTugasKuliahFragmentViewModel.afterClickToDoList()
             }
         })
 
         addTugasKuliahFragmentViewModel.tugasKuliahImageId.observe(viewLifecycleOwner, Observer {
             it?.let {
-                //action not defined
-
+                if (it == 0L)
+                {
+                    val intent = Intent()
+                    intent.type = "image/*"
+                    intent.action = Intent.ACTION_PICK
+                    startActivityForResult(
+                        Intent.createChooser(intent, "Pilih Gambar"),
+                        YOUR_IMAGE_CODE
+                    )
+                    addTugasKuliahFragmentViewModel.afterAddImageClicked()
+                }
                 addTugasKuliahFragmentViewModel.afterClickGambar()
             }
         })
@@ -378,6 +399,7 @@ class AddTugasKuliahFragment : Fragment() {
             Observer {
                 if (it == true) {
                     addToDoList()
+                    binding.addToDoListButton.visibility = View.GONE
                     addTugasKuliahFragmentViewModel.afterAddToDoListClicked()
                 }
             })
@@ -432,9 +454,19 @@ class AddTugasKuliahFragment : Fragment() {
 
             override fun onRemoveEmptyItem(id: Long) {
                 addTugasKuliahFragmentViewModel.removeToDoListItem(id)
+                if (addTugasKuliahFragmentViewModel.tugasKuliahToDoList.value == null)
+                {
+                    binding.addToDoListButton.visibility = View.VISIBLE
+                }
             }
         }
         )
+
+        addTugasKuliahFragmentViewModel.tugasKuliahToDoList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                toDoListAdapter.updateList(it)
+            }
+        })
         binding.ToDoListRecyclerView.adapter = toDoListAdapter
 
 
@@ -467,7 +499,10 @@ class AddTugasKuliahFragment : Fragment() {
 
         addTugasKuliahFragmentViewModel.imageListKuliahImage.observe(viewLifecycleOwner, Observer {
             it?.let {
-                parentActivity.showPermissionDialog()
+                if (!shared_data.isFromOnboarding)
+                {
+                    parentActivity.showPermissionDialog()
+                }
                 gambarAdapter.updateList(it)
             }
         })

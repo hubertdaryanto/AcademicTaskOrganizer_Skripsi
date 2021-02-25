@@ -8,12 +8,12 @@
             name="taskCompletionHistoryDate"
             type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistoryDate" />
     </data>
+
     <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@{taskCompletionHistoryDate.date+ ` (` + taskCompletionHistoryDate.count + `)`}"
-        android:textColor="#000000"
-        tools:text="Test"/>
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@{taskCompletionHistoryDate.date+ ` (` + taskCompletionHistoryDate.count + `)`}"
+            tools:text="Test" />
 </layout>
