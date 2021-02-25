@@ -46,7 +46,7 @@ class AddTugasKuliahFinishCommitmentFragment: Fragment() {
         val application = requireNotNull(this.activity).application
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_add_tugas_kuliah_finish_commitment, container, false)
         binding.textView.text = "Kapan Anda akan menyelesaikan " +  mTugas.tugasKuliahName + " (Maksimal 75% dari waktu saat ini sebelum tenggat waktu)"
-        binding.textView2.text = "Anda akan diperingatkan dan dicatat bahwa anda menunda menyelesaikan " +  mTugas.tugasKuliahName + " apabila sudah melewati waktu yang sudah ditentukan dibawah."
+        binding.textView2.text = "Anda akan diperingatkan bahwa anda menunda menyelesaikan " +  mTugas.tugasKuliahName + " apabila sudah melewati waktu yang sudah ditentukan dibawah."
 
 
 

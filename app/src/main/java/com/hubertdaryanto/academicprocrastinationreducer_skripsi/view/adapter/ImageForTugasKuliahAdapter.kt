@@ -53,17 +53,6 @@ class ImageForTugasKuliahAdapter(val clickKuliahImageListener: TugasKuliahImageL
                 picasso = Picasso.Builder(holder.binding.root.context).build()
                 picasso.isLoggingEnabled = true
 
-//                if (binding.image?.imageName != null)
-//                {
-//                    var string = binding.image.imageName
-//                    val uri = Uri.parse(string)
-//                    picasso.load(File(uri.path)).into(binding.gambarTugas)
-//                }
-
-
-
-
-                //binding.image null!!!
                 val string = item.TugasKuliahImage.tugasKuliahImageName
                 val uri = Uri.parse(string)
 
