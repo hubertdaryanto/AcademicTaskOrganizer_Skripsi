@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/add_tugas_kuliah_navigation"
+        app:startDestination="@id/addTugasFragment">
+
+    <fragment
+            android:id="@+id/addTugasFragment"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.AddTugasKuliahFragment"
+            android:label="Tambah Tugas"
+            tools:layout="@layout/fragment_add_tugas_kuliah">
+        <action
+                android:id="@+id/action_addTugasFragment_to_addTugasCommitmentFragment"
+                app:destination="@id/addTugasCommitmentFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/addTugasCommitmentFragment"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.AddTugasKuliahFinishCommitmentFragment"
+            android:label="Tambah Tugas Kuliah" />
+</navigation>

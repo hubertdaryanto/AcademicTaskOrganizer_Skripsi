@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/edit_tugas_kuliah_navigation"
+        app:startDestination="@id/editTugasFragment">
+
+    <fragment
+            android:id="@+id/editTugasFragment"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.EditTugasKuliahFragment"
+            android:label="Ubah Tugas Kuliah"
+            tools:layout="@layout/fragment_edit_tugas_kuliah">
+    </fragment>
+</navigation>

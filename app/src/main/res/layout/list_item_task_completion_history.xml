@@ -6,10 +6,10 @@
     <data>
         <variable
             name="taskCompletionHistory"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TaskCompletionHistory" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistory" />
         <variable
             name="clickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahCompletionHistoryListener" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -31,18 +31,18 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/text_view_task_completion_list_activity_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="1dp"
-                android:text="@{taskCompletionHistory.activityType}"
-                android:textAppearance="@style/Base.CardView"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/text_view_subject"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Activity Type" />
+                    android:id="@+id/text_view_task_completion_list_activity_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="@{taskCompletionHistory.activityType}"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/text_view_subject"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Activity Type"
+                    android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_view_subject"

@@ -6,10 +6,10 @@
     <data>
         <variable
             name="tugas"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.TugasKuliah" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliah" />
         <variable
             name="clickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TugasKuliahListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahListener" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/view_tugas_kuliah_completion_history_navigation"
+        app:startDestination="@id/tugasKuliahCompletionHistoryFragment">
+    <fragment
+            android:id="@+id/tugasKuliahCompletionHistoryFragment"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.TugasKuliahCompletionHistoryFragment"
+            android:label="TugasKuliahCompletionHistoryFragment" />
+</navigation>

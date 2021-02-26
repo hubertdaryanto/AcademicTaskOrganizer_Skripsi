@@ -12,7 +12,7 @@
     <string name="tugaskuliah_hint_ToDoList">Daftar Sub Tugas</string>
     <string name="deadline_button">deadline button</string>
     <string name="tugas">tugas</string>
-    <string name="tambah">tambah</string>
+    <string name="tambah">Tambah</string>
     <string name="gambar">Gambar</string>
     <string name="time_icon">Jam</string>
     <string name="list_agenda_header_text">Tanggal Deadline Tugas Kuliah</string>
@@ -30,6 +30,8 @@
     <string name="pilih_subject">Pilih Mata Kuliah</string>
     <string name="allow_access_storage">Untuk mengizinkan aplikasi agar dapat menampilkan gambar pada editor Tugas Kuliah. Tekan OK untuk melanjutkan.</string>
     <string name="allow_access_storage_title">Izin membaca penyimpanan dibutuhkan</string>
+    <string name="back_confirmation_title">Apakah Anda yakin untuk meninggalkan halaman ini?</string>
+    <string name="back_confirmation_subtitle">Data yang telah Anda masukkan akan hilang.</string>
     <string name="delete_todolist_confirmation_title">Apakah Anda yakin untuk menghapus Sub Tugas ini?</string>
     <string name="delete_todolist_confirmation_subtitle">Anda tidak dapat mengembalikan aksi ini.</string>
     <string name="delete_image_confirmation_title">Apakah Anda yakin untuk menghapus Gambar ini?</string>
@@ -50,4 +52,17 @@
     <string name="tidak">Tidak</string>
     <string name="hapus">Hapus</string>
     <string name="task_completion_history">Riwayat Penyelesaian Tugas</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="selanjutnya">selanjutnya</string>
+    <string name="mulai">mulai</string>
+    <string name="kembali">kembali</string>
+    <string name="title_activity_onboarding">OnboardingActivity</string>
+    <string name="ubah">Ubah</string>
+    <string name="ubah_mata_kuliah">Ubah Mata Kuliah</string>
+    <string name="filter">Filter</string>
 </resources>

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
             name="taskCompletionHistoryDate"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryDate" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahCompletionHistoryDate" />
     </data>
+
     <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@{taskCompletionHistoryDate.date}"
-        android:textColor="#000000"
-        tools:text="Test"/>
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@{taskCompletionHistoryDate.date+ ` (` + taskCompletionHistoryDate.count + `)`}"
+            tools:text="Test" />
 </layout>

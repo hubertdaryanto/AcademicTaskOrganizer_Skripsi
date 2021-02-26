@@ -2,7 +2,7 @@ package com.hubertdaryanto.academicprocrastinationreducer_skripsi
 
 import android.app.Application
 import android.app.NotificationManager
-import com.hubertdaryanto.academicprocrastinationreducer_skripsi.services.NotificationHelper
+import com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.NotificationHelper
 
 class AcademicProcrastinationReducerApp: Application() {
     companion object {

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
             name="toDoList"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.ToDoList" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.model.TugasKuliahToDoList" />
         <variable
             name="toDoListClickListener"
-            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.ToDoListListener" />
+            type="com.hubertdaryanto.academicprocrastinationreducer_skripsi.viewModel.adapter.TugasKuliahToDoListListener" />
     </data>
 
 
@@ -46,7 +45,7 @@
                     android:layout_marginEnd="8dp"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="@{toDoList.toDoListName}"
+                    android:text="@{toDoList.tugasKuliahToDoListName}"
                     android:textAppearance="@style/TextAppearance.MyApp.Body1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/toDoListItem_checkBox"
@@ -54,13 +53,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:id="@+id/toDoList_deleteBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+                        android:id="@+id/toDoList_deleteBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_baseline_delete_forever_24"
+                        android:visibility="invisible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

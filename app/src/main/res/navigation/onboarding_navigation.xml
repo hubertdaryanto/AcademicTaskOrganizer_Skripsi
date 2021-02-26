@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/onboarding_navigation"
+        app:startDestination="@id/firstScreen">
+
+    <fragment
+            android:id="@+id/firstScreen"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.onboarding.screens.FirstOnboardingScreen"
+            android:label="fragment_first_screen"
+            tools:layout="@layout/fragment_first_onboarding_screen" >
+        <action
+                android:id="@+id/action_firstScreen_to_secondScreen"
+                app:destination="@id/secondScreen" />
+    </fragment>
+    <fragment
+            android:id="@+id/secondScreen"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.onboarding.screens.SecondOnboardingScreen"
+            android:label="fragment_second_screen"
+            tools:layout="@layout/fragment_second_onboarding_screen" >
+        <action
+                android:id="@+id/action_secondScreen_to_thirdScreen"
+                app:destination="@id/thirdScreen" />
+    </fragment>
+    <fragment
+            android:id="@+id/thirdScreen"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.onboarding.screens.ThirdOnboardingScreen"
+            android:label="fragment_third_screen"
+            tools:layout="@layout/fragment_third_onboarding_screen" >
+        <action
+                android:id="@+id/action_thirdScreen_to_fourthOnboardingScreen"
+                app:destination="@id/fourthOnboardingScreen" />
+    </fragment>
+    <fragment
+            android:id="@+id/fourthOnboardingScreen"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.onboarding.screens.FourthOnboardingScreen"
+            android:label="FourthOnboardingScreen" >
+        <action
+                android:id="@+id/action_fourthOnboardingScreen_to_fifthOnboardingScreen"
+                app:destination="@id/fifthOnboardingScreen" />
+    </fragment>
+    <fragment
+            android:id="@+id/fifthOnboardingScreen"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.onboarding.screens.FifthOnboardingScreen"
+            android:label="FifthOnboardingScreen" >
+        <action
+                android:id="@+id/action_fifthOnboardingScreen_to_sixthOnboardingScreen"
+                app:destination="@id/sixthOnboardingScreen" />
+    </fragment>
+    <fragment
+            android:id="@+id/sixthOnboardingScreen"
+            android:name="com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.fragment.onboarding.screens.SixthOnboardingScreen"
+            android:label="SixthOnboardingScreen" />
+</navigation>
