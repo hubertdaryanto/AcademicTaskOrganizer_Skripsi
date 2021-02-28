@@ -1,0 +1,309 @@
+@startuml
+
+title __ACADEMICPROCRASTINATIONREDUCER_SKRIPSI.APP's Class Diagram__\n
+
+  namespace androidx.databinding {
+    class androidx.databinding.DataBinderMapperImpl {
+    }
+  }
+  
+
+  namespace androidx.databinding {
+    interface androidx.databinding.DataBindingComponent {
+    }
+  }
+  
+
+  namespace androidx.databinding {
+    namespace library.baseAdapters {
+      class androidx.databinding.library.baseAdapters.BR {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    class com.hubertdaryanto.academicprocrastinationreducer_skripsi.BR {
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    class com.hubertdaryanto.academicprocrastinationreducer_skripsi.BuildConfig {
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    class com.hubertdaryanto.academicprocrastinationreducer_skripsi.DataBinderMapperImpl {
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace database {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase_Impl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace database {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.allQueryDao_Impl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace database {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.subjectDao_Impl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace database {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.toDoListDao_Impl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ActivityMainBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectDialogBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.BinusmayaLoginActivityBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasCommitmentBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTaskCompletionHistoryBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListAgendaHeaderBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemImageForTugasBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemSubjectBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTaskCompletionHistoryBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasSelesaiBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListTaskCompletionHistoryHeaderBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace databinding {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.SubjectDialogBindingImpl {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace generated.callback {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace view {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.AddTugasFragmentDirections {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace view {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.EditTugasFragmentArgs {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace view {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.EditTugasFragmentDirections {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace view {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.HomeFragmentDirections {
+      }
+    }
+  }
+  
+
+  namespace com.hubertdaryanto.academicprocrastinationreducer_skripsi {
+    namespace view {
+      class com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.TaskCompletionHistoryFragmentDirections {
+      }
+    }
+  }
+  
+
+  androidx.databinding.DataBinderMapperImpl -up-|> androidx.databinding.MergedDataBinderMapper
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.DataBinderMapperImpl -up-|> androidx.databinding.DataBinderMapper
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase_Impl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase_Impl o-- com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.allQueryDao : _allQueryDao
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase_Impl o-- com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.subjectDao : _subjectDao
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.AppDatabase_Impl o-- com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.toDoListDao : _toDoListDao
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.allQueryDao_Impl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.allQueryDao
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.subjectDao_Impl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.subjectDao
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.toDoListDao_Impl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.database.toDoListDao
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ActivityMainBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ActivityMainBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectDialogBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectDialogBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.AddSubjectDialogBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.BinusmayaLoginActivityBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.BinusmayaLoginActivityBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasCommitmentBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasCommitmentBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentAddTugasCommitmentBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentEditTugasBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentHomeBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTaskCompletionHistoryBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.FragmentTaskCompletionHistoryBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListAgendaHeaderBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListAgendaHeaderBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemImageForTugasBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemImageForTugasBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemImageForTugasBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemSubjectBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemSubjectBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemSubjectBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTaskCompletionHistoryBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTaskCompletionHistoryBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTaskCompletionHistoryBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemToDoListBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasSelesaiBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasSelesaiBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListItemTugasSelesaiBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListTaskCompletionHistoryHeaderBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.ListTaskCompletionHistoryHeaderBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.SubjectDialogBindingImpl .up.|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.SubjectDialogBindingImpl -up-|> com.hubertdaryanto.academicprocrastinationreducer_skripsi.databinding.SubjectDialogBinding
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener .up.|> android.view.View.OnClickListener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener o-- com.hubertdaryanto.academicprocrastinationreducer_skripsi.generated.callback.OnClickListener.Listener : mListener
+  com.hubertdaryanto.academicprocrastinationreducer_skripsi.view.EditTugasFragmentArgs .up.|> androidx.navigation.NavArgs
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
